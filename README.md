@@ -1,2 +1,2 @@
-# me0wberry.blog
+# me0wberry-blog
 personal blog
