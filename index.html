@@ -402,8 +402,9 @@
       font-family: 'Press Start 2P', monospace;
       font-size: 8px;
       color: var(--pixel-label2);
-      min-width: 72px;
+      min-width: 90px;
       padding-top: 2px;
+      padding-right: 8px;
       flex-shrink: 0;
     }
 
@@ -579,8 +580,9 @@
     }
     .marquee-wrap.scrolling { animation: marquee 9s linear infinite; }
     #player-title {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 7px;
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 12px;
       color: var(--pixel-label);
       display: inline-block;
     }
@@ -695,55 +697,72 @@
       body.mobile-panel #mobile-back { display: flex; }
     }
     @media (min-width: 769px) { #mobile-back { display: none !important; } }
+
+    /* ── Custom heart cursor ── */
+    body {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 17 C10 17 2 11 2 6 C2 3 4 1 7 1 C8.5 1 9.5 2 10 3 C10.5 2 11.5 1 13 1 C16 1 18 3 18 6 C18 11 10 17 10 17Z' fill='white' stroke='%23e07090' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, auto;
+    }
+    a, button, [onclick], .nav-item, .tab-btn, .panel-close, .panel-resize {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 17 C10 17 2 11 2 6 C2 3 4 1 7 1 C8.5 1 9.5 2 10 3 C10.5 2 11.5 1 13 1 C16 1 18 3 18 6 C18 11 10 17 10 17Z' fill='white' stroke='%23e07090' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, pointer;
+    }
+
+    /* ── ilmbf trigger ── */
+    .ilmbf-trigger {
+      text-decoration: none;
+      color: inherit;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 17 C10 17 2 11 2 6 C2 3 4 1 7 1 C8.5 1 9.5 2 10 3 C10.5 2 11.5 1 13 1 C16 1 18 3 18 6 C18 11 10 17 10 17Z' fill='white' stroke='%23e07090' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, pointer;
+      transition: color 0.15s;
+    }
+    .ilmbf-trigger:hover { color: var(--pink); text-decoration: none; }
   </style>
 </head>
 <body>
 
   <!-- ── Background Scatter (25 elements) ── -->
-  <span class="bg-deco" style="left:4%;top:8%;font-size:17px;opacity:0.35;color:#e07090;transform:rotate(12deg)">✦</span>
-  <span class="bg-deco" style="left:15%;top:22%;font-size:10px;opacity:0.30;color:#8b3a5a">✧</span>
-  <span class="bg-deco" style="left:28%;top:5%;font-size:13px;opacity:0.30;color:#e07090;transform:rotate(-8deg)">♡</span>
-  <span class="bg-deco" style="left:43%;top:14%;font-size:20px;opacity:0.25;color:#5aaa6a;transform:rotate(5deg)">✦</span>
-  <span class="bg-deco" style="left:59%;top:7%;font-size:10px;opacity:0.28;color:#e07090">✿</span>
-  <span class="bg-deco" style="left:71%;top:19%;font-size:14px;opacity:0.27;color:#8b3a5a;transform:rotate(-15deg)">✧</span>
-  <span class="bg-deco" style="left:86%;top:11%;font-size:15px;opacity:0.30;color:#e07090;transform:rotate(22deg)">♡</span>
-  <span class="bg-deco" style="left:7%;top:42%;font-size:9px;opacity:0.25;color:#5aaa6a">˚</span>
-  <span class="bg-deco" style="left:21%;top:57%;font-size:18px;opacity:0.27;color:#e07090;transform:rotate(-10deg)">✿</span>
-  <span class="bg-deco" style="left:36%;top:73%;font-size:11px;opacity:0.28;color:#8b3a5a">✦</span>
-  <span class="bg-deco" style="left:51%;top:63%;font-size:8px;opacity:0.24;color:#e07090">˚</span>
-  <span class="bg-deco" style="left:66%;top:81%;font-size:14px;opacity:0.28;color:#5aaa6a;transform:rotate(8deg)">✧</span>
-  <span class="bg-deco" style="left:79%;top:47%;font-size:12px;opacity:0.26;color:#e07090">♡</span>
-  <span class="bg-deco" style="left:91%;top:69%;font-size:19px;opacity:0.24;color:#8b3a5a;transform:rotate(-5deg)">✦</span>
-  <span class="bg-deco" style="left:3%;top:65%;font-size:11px;opacity:0.27;color:#e07090;transform:rotate(18deg)">✿</span>
-  <span class="bg-deco" style="left:38%;top:42%;font-size:16px;opacity:0.24;color:#5aaa6a">✦</span>
-  <span class="bg-deco" style="left:62%;top:52%;font-size:13px;opacity:0.26;color:#e07090;transform:rotate(-6deg)">♡</span>
+  <span class="bg-deco" style="left:4%;top:8%;font-size:17px;opacity:0.40;color:white;transform:rotate(12deg)">✦</span>
+  <span class="bg-deco" style="left:15%;top:22%;font-size:10px;opacity:0.35;color:white">✧</span>
+  <span class="bg-deco" style="left:28%;top:5%;font-size:13px;opacity:0.38;color:white;transform:rotate(-8deg)">♡</span>
+  <span class="bg-deco" style="left:43%;top:14%;font-size:20px;opacity:0.35;color:white;transform:rotate(5deg)">✦</span>
+  <span class="bg-deco" style="left:59%;top:7%;font-size:10px;opacity:0.38;color:white">✿</span>
+  <span class="bg-deco" style="left:71%;top:19%;font-size:14px;opacity:0.36;color:white;transform:rotate(-15deg)">✧</span>
+  <span class="bg-deco" style="left:86%;top:11%;font-size:15px;opacity:0.40;color:white;transform:rotate(22deg)">♡</span>
+  <span class="bg-deco" style="left:7%;top:42%;font-size:9px;opacity:0.35;color:white">˚</span>
+  <span class="bg-deco" style="left:21%;top:57%;font-size:18px;opacity:0.37;color:white;transform:rotate(-10deg)">✿</span>
+  <span class="bg-deco" style="left:36%;top:73%;font-size:11px;opacity:0.38;color:white">✦</span>
+  <span class="bg-deco" style="left:51%;top:63%;font-size:8px;opacity:0.35;color:white">˚</span>
+  <span class="bg-deco" style="left:66%;top:81%;font-size:14px;opacity:0.38;color:white;transform:rotate(8deg)">✧</span>
+  <span class="bg-deco" style="left:79%;top:47%;font-size:12px;opacity:0.40;color:white">♡</span>
+  <span class="bg-deco" style="left:91%;top:69%;font-size:19px;opacity:0.35;color:white;transform:rotate(-5deg)">✦</span>
+  <span class="bg-deco" style="left:3%;top:65%;font-size:11px;opacity:0.37;color:white;transform:rotate(18deg)">✿</span>
+  <span class="bg-deco" style="left:38%;top:42%;font-size:16px;opacity:0.35;color:white">✦</span>
+  <span class="bg-deco" style="left:62%;top:52%;font-size:13px;opacity:0.40;color:white;transform:rotate(-6deg)">♡</span>
   <!-- kaomoji cats -->
-  <span class="bg-deco" style="left:11%;top:79%;font-size:8px;opacity:0.25;font-family:'Press Start 2P',monospace;color:#4a3a42">=^･ω･^=</span>
-  <span class="bg-deco" style="left:56%;top:36%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3a42">(=^･^=)</span>
-  <span class="bg-deco" style="left:81%;top:29%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3a42">=^･ω･^=</span>
-  <span class="bg-deco" style="left:33%;top:88%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3a42">(=^･^=)</span>
-  <span class="bg-deco" style="left:68%;top:15%;font-size:8px;opacity:0.20;font-family:'Press Start 2P',monospace;color:#4a3a42">=^･ω･^=</span>
+  <span class="bg-deco" style="left:11%;top:79%;font-size:8px;opacity:0.25;font-family:'Press Start 2P',monospace;color:white">=^･ω･^=</span>
+  <span class="bg-deco" style="left:56%;top:36%;font-size:8px;opacity:0.25;font-family:'Press Start 2P',monospace;color:white">(=^･^=)</span>
+  <span class="bg-deco" style="left:81%;top:29%;font-size:8px;opacity:0.25;font-family:'Press Start 2P',monospace;color:white">=^･ω･^=</span>
+  <span class="bg-deco" style="left:33%;top:88%;font-size:8px;opacity:0.25;font-family:'Press Start 2P',monospace;color:white">(=^･^=)</span>
+  <span class="bg-deco" style="left:68%;top:15%;font-size:8px;opacity:0.25;font-family:'Press Start 2P',monospace;color:white">=^･ω･^=</span>
   <!-- pixel bow SVGs (rect-only) -->
-  <svg class="bg-deco" style="left:47%;top:89%;width:22px;height:14px;opacity:0.28" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="3" width="2" height="6" fill="#e07090"/><rect x="2" y="1" width="2" height="10" fill="#e07090"/>
-    <rect x="4" y="0" width="2" height="12" fill="#e07090"/><rect x="6" y="1" width="2" height="10" fill="#e07090"/>
-    <rect x="10" y="1" width="2" height="10" fill="#e07090"/><rect x="12" y="0" width="2" height="12" fill="#e07090"/>
-    <rect x="14" y="1" width="2" height="10" fill="#e07090"/><rect x="16" y="3" width="2" height="6" fill="#e07090"/>
-    <rect x="8" y="4" width="2" height="4" fill="#e07090"/>
+  <svg class="bg-deco" style="left:47%;top:89%;width:22px;height:14px;opacity:0.38" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="3" width="2" height="6" fill="white"/><rect x="2" y="1" width="2" height="10" fill="white"/>
+    <rect x="4" y="0" width="2" height="12" fill="white"/><rect x="6" y="1" width="2" height="10" fill="white"/>
+    <rect x="10" y="1" width="2" height="10" fill="white"/><rect x="12" y="0" width="2" height="12" fill="white"/>
+    <rect x="14" y="1" width="2" height="10" fill="white"/><rect x="16" y="3" width="2" height="6" fill="white"/>
+    <rect x="8" y="4" width="2" height="4" fill="white"/>
   </svg>
-  <svg class="bg-deco" style="left:23%;top:31%;width:22px;height:14px;opacity:0.24;transform:rotate(-12deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="3" width="2" height="6" fill="#e07090"/><rect x="2" y="1" width="2" height="10" fill="#e07090"/>
-    <rect x="4" y="0" width="2" height="12" fill="#e07090"/><rect x="6" y="1" width="2" height="10" fill="#e07090"/>
-    <rect x="10" y="1" width="2" height="10" fill="#e07090"/><rect x="12" y="0" width="2" height="12" fill="#e07090"/>
-    <rect x="14" y="1" width="2" height="10" fill="#e07090"/><rect x="16" y="3" width="2" height="6" fill="#e07090"/>
-    <rect x="8" y="4" width="2" height="4" fill="#e07090"/>
+  <svg class="bg-deco" style="left:23%;top:31%;width:22px;height:14px;opacity:0.35;transform:rotate(-12deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="3" width="2" height="6" fill="white"/><rect x="2" y="1" width="2" height="10" fill="white"/>
+    <rect x="4" y="0" width="2" height="12" fill="white"/><rect x="6" y="1" width="2" height="10" fill="white"/>
+    <rect x="10" y="1" width="2" height="10" fill="white"/><rect x="12" y="0" width="2" height="12" fill="white"/>
+    <rect x="14" y="1" width="2" height="10" fill="white"/><rect x="16" y="3" width="2" height="6" fill="white"/>
+    <rect x="8" y="4" width="2" height="4" fill="white"/>
   </svg>
-  <svg class="bg-deco" style="left:73%;top:56%;width:22px;height:14px;opacity:0.26;transform:rotate(16deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="3" width="2" height="6" fill="#e07090"/><rect x="2" y="1" width="2" height="10" fill="#e07090"/>
-    <rect x="4" y="0" width="2" height="12" fill="#e07090"/><rect x="6" y="1" width="2" height="10" fill="#e07090"/>
-    <rect x="10" y="1" width="2" height="10" fill="#e07090"/><rect x="12" y="0" width="2" height="12" fill="#e07090"/>
-    <rect x="14" y="1" width="2" height="10" fill="#e07090"/><rect x="16" y="3" width="2" height="6" fill="#e07090"/>
-    <rect x="8" y="4" width="2" height="4" fill="#e07090"/>
+  <svg class="bg-deco" style="left:73%;top:56%;width:22px;height:14px;opacity:0.36;transform:rotate(16deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="3" width="2" height="6" fill="white"/><rect x="2" y="1" width="2" height="10" fill="white"/>
+    <rect x="4" y="0" width="2" height="12" fill="white"/><rect x="6" y="1" width="2" height="10" fill="white"/>
+    <rect x="10" y="1" width="2" height="10" fill="white"/><rect x="12" y="0" width="2" height="12" fill="white"/>
+    <rect x="14" y="1" width="2" height="10" fill="white"/><rect x="16" y="3" width="2" height="6" fill="white"/>
+    <rect x="8" y="4" width="2" height="4" fill="white"/>
   </svg>
 
   <!-- ── Top Bar ── -->
@@ -767,7 +786,7 @@
     <div id="sidebar">
       <div id="sidebar-header">
         <div id="sidebar-name">me0wberry</div>
-        <div id="sidebar-sub">₍ᐢ. .ᐢ₎ · toronto-ish · she/her</div>
+        <div id="sidebar-sub">₍ᐢ. .ᐢ₎ · toronto-ish · she/her · <span class="ilmbf-trigger" onclick="openPanel('panel-cactus')">ilmbf ♡</span></div>
       </div>
 
       <div id="sidebar-nav">
@@ -1134,17 +1153,13 @@
           <div class="panel-lora-heading">games</div>
           <div class="embed-container">
             <iframe
-              src="https://steam-card.vercel.app/api?steamid=berrymeowy&theme=light"
-              width="100%" height="130" frameBorder="0" scrolling="no"
-              style="border:1px solid var(--frosted-border);border-radius:3px;display:block;">
+              src="https://gamer2810.github.io/steam-miniprofile/?accountId=76561198848752958&appId=230410&interactive=true&vanityId=berrymeowy"
+              width="100%"
+              height="200"
+              frameBorder="0"
+              scrolling="no"
+              style="border:none; display:block; margin-bottom:10px;">
             </iframe>
-            <div class="steam-fallback-card" style="margin-top:4px;">
-              <div>
-                <div class="panel-px-label" style="margin:0 0 3px">steam</div>
-                <div style="font-size:13px;color:var(--body)">berrymeowy</div>
-              </div>
-              <a class="pixel-btn" href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener" style="padding:5px 8px;font-size:7px;">view ↗</a>
-            </div>
           </div>
           <hr class="plain-divider"/>
           <div class="panel-px-label">posts:</div>
@@ -1278,6 +1293,11 @@
 
           <div class="favs-section-header">★ fav foods &amp; drinks:</div>
           <div class="favs-entry">homestyle shanghainese food / dim sum / katsu / musubi / grapes / mangoes</div>
+
+          <hr class="dashed-divider"/>
+          <div class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')" style="text-align:center; padding:8px 0; font-size:13px; color:var(--muted);">
+            ♡ him
+          </div>
         </div>
         <div class="panel-resize">···</div>
       </div>
@@ -1329,6 +1349,66 @@
         <!-- no resize handle for player -->
       </div><!-- /panel-player -->
 
+      <!-- ──────────────────────────────
+           Secret Cactus Panel
+      ────────────────────────────── -->
+      <div class="panel" id="panel-cactus" style="width:220px;">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
+        <div class="panel-titlebar">
+          <span class="panel-title">🌵</span>
+          <div class="panel-close" onclick="closePanel('panel-cactus')">✕</div>
+        </div>
+        <div class="panel-body" style="padding:18px 14px 20px; text-align:center; position:relative;">
+
+          <!-- scattered hearts + cactus + scattered hearts -->
+          <div style="position:relative; display:inline-block; width:120px; height:130px; margin:0 auto;">
+            <!-- scattered hearts around cactus -->
+            <span style="position:absolute;top:2px;left:5px;font-size:14px;color:#e07090;transform:rotate(-15deg);line-height:1">♡</span>
+            <span style="position:absolute;top:8px;right:4px;font-size:10px;color:#f4a8b8;transform:rotate(10deg);line-height:1">♡</span>
+            <span style="position:absolute;top:40px;left:0px;font-size:12px;color:#ffd0de;transform:rotate(-8deg);line-height:1">♡</span>
+            <span style="position:absolute;bottom:20px;right:2px;font-size:16px;color:#e07090;transform:rotate(12deg);line-height:1">♡</span>
+            <span style="position:absolute;bottom:35px;left:2px;font-size:10px;color:#f4a8b8;transform:rotate(-20deg);line-height:1">♡</span>
+            <span style="position:absolute;top:60px;right:6px;font-size:13px;color:#ffd0de;transform:rotate(5deg);line-height:1">♡</span>
+            <span style="position:absolute;bottom:5px;left:15px;font-size:11px;color:#e07090;transform:rotate(-10deg);line-height:1">♡</span>
+
+            <!-- pixel cactus SVG, 80×100, rect-only -->
+            <svg width="80" height="100" viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;">
+              <!-- main body -->
+              <rect x="30" y="10" width="20" height="65" fill="#5aaa6a"/>
+              <!-- left arm -->
+              <rect x="14" y="28" width="16" height="10" fill="#5aaa6a"/>
+              <rect x="14" y="20" width="10" height="18" fill="#5aaa6a"/>
+              <!-- right arm -->
+              <rect x="50" y="32" width="16" height="10" fill="#5aaa6a"/>
+              <rect x="56" y="24" width="10" height="18" fill="#5aaa6a"/>
+              <!-- spines on body -->
+              <rect x="28" y="18" width="2" height="5" fill="white"/>
+              <rect x="50" y="22" width="2" height="5" fill="white"/>
+              <rect x="28" y="38" width="2" height="5" fill="white"/>
+              <rect x="50" y="42" width="2" height="5" fill="white"/>
+              <rect x="28" y="55" width="2" height="5" fill="white"/>
+              <rect x="50" y="58" width="2" height="5" fill="white"/>
+              <!-- spines on left arm -->
+              <rect x="14" y="26" width="5" height="2" fill="white"/>
+              <rect x="14" y="34" width="5" height="2" fill="white"/>
+              <!-- spines on right arm -->
+              <rect x="61" y="30" width="5" height="2" fill="white"/>
+              <rect x="61" y="38" width="5" height="2" fill="white"/>
+              <!-- pot -->
+              <rect x="26" y="75" width="28" height="16" fill="#c07090"/>
+              <rect x="28" y="73" width="24" height="4"  fill="#d4896a"/>
+              <rect x="24" y="89" width="32" height="4"  fill="#c07090"/>
+            </svg>
+          </div>
+
+          <!-- label -->
+          <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:var(--pixel-label);margin-top:12px;letter-spacing:0.3px;">
+            ilmbf ♡ j
+          </div>
+        </div>
+        <!-- no resize handle -->
+      </div><!-- /panel-cactus -->
+
     </div><!-- /#main -->
   </div><!-- /#layout -->
 
@@ -1356,13 +1436,14 @@
     // ── Panel widths ──
     const panelWidths = {
       'panel-bio':    '420px',
-      'panel-lately': '340px',
+      'panel-lately': '360px',
       'panel-games':  '380px',
       'panel-music':  '380px',
       'panel-food':   '380px',
       'panel-stubby': '380px',
       'panel-beauty': '380px',
-      'panel-favs':   '380px',
+      'panel-favs':   '400px',
+      'panel-cactus': '220px',
     };
 
     // ── Open / Close ──
@@ -1378,11 +1459,15 @@
         return;
       }
 
-      // Desktop: reset position (not for player — it keeps its position)
-      if (id !== 'panel-player') {
+      // Desktop: reset position (not for player/cactus — they keep their position)
+      if (id !== 'panel-player' && id !== 'panel-cactus') {
         panel.style.top   = '12px';
         panel.style.left  = '12px';
         panel.style.width = panelWidths[id] || '380px';
+      } else if (id === 'panel-cactus' && !panel.classList.contains('open')) {
+        panel.style.width = '220px';
+        panel.style.top   = '60px';
+        panel.style.left  = '60px';
       }
       panel.classList.add('open');
       bringToFront(panel);
