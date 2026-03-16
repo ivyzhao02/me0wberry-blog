@@ -1448,18 +1448,6 @@
     }
 
     // ── Panel widths ──
-    const panelWidths = {
-      'panel-bio':    '420px',
-      'panel-lately': '360px',
-      'panel-games':  '380px',
-      'panel-music':  '380px',
-      'panel-food':   '380px',
-      'panel-stubby': '380px',
-      'panel-beauty': '380px',
-      'panel-favs':   '400px',
-      'panel-cactus': '220px',
-    };
-
     // ── Open / Close ──
     function openPanel(id) {
       const panel = document.getElementById(id);
@@ -1475,13 +1463,11 @@
 
       // Desktop: reset position (not for player/cactus — they keep their position)
       if (id !== 'panel-player' && id !== 'panel-cactus') {
-        panel.style.top   = '20px';
-        panel.style.left  = '18px';
-        panel.style.width = panelWidths[id] || '380px';
+        panel.style.top  = '20px';
+        panel.style.left = '18px';
       } else if (id === 'panel-cactus' && !panel.classList.contains('open')) {
-        panel.style.width = '220px';
-        panel.style.top   = '60px';
-        panel.style.left  = '60px';
+        panel.style.top  = '60px';
+        panel.style.left = '60px';
       }
       panel.classList.add('open');
       bringToFront(panel);
