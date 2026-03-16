@@ -6,43 +6,44 @@
   <title>me0wberry ♡</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <style>
     /* ── CSS Variables ── */
     :root {
-      --pink:           #e05878;
-      --pink-light:     #f4a0b8;
-      --pink-pale:      #fdd8e0;
-      --green:          #5ab86a;
+      --pink:           #e07090;
+      --pink-light:     #f4a8b8;
+      --pink-pale:      #ffd0de;
+      --green:          #5aaa6a;
       --green-light:    #a8d8a0;
       --cream:          #fdf6f0;
-      --heading:        #8b2a4a;
-      --body:           #4a3040;
-      --muted:          #a08090;
-      --pixel-label:    #b04060;
-      --pixel-label2:   #c05878;
-      --frosted-bg:     rgba(253, 246, 240, 0.45);
-      --frosted-border: rgba(255, 255, 255, 0.70);
-      --bow-pink:       #e8708a;
-      --stem-green:     #6ab870;
+      --heading:        #8b3a5a;
+      --body:           #4a3a42;
+      --muted:          #a09098;
+      --pixel-label:    #b05a7a;
+      --pixel-label2:   #c07090;
+      --frosted-bg:     rgba(255, 255, 255, 0.42);
+      --frosted-border: rgba(255, 255, 255, 0.68);
+      --bow-pink:       #e07090;
+      --stem-green:     #5aaa6a;
     }
 
-    /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       height: 100%;
-      font-family: 'Lora', Georgia, serif;
-      font-size: 13px;
-      color: var(--body);
       overflow: hidden;
+      font-family: 'Lora', Georgia, serif;
+      font-size: 14px;
+      color: var(--body);
+      line-height: 1.7;
     }
 
     body {
       background: linear-gradient(135deg,
-        #9ad898 0%, #c8e8b8 20%, #f0e0d0 45%, #f5c0cc 70%, #f090a8 100%
+        #a8e6a3 0%, #c9e8c5 25%, #e8ddd5 50%, #f2c4ce 75%, #f4a8b8 100%
       );
-      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
     }
 
     /* ── Background Scatter ── */
@@ -56,54 +57,54 @@
 
     /* ── Top Bar ── */
     #topbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+      position: relative;
+      z-index: 100;
+      width: 100%;
       height: 34px;
-      z-index: 1000;
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid rgba(255,255,255,0.7);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 14px;
-      background: rgba(253, 246, 240, 0.65);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--frosted-border);
+      padding: 0 12px;
+      flex-shrink: 0;
     }
-
-    .topbar-left {
+    #topbar-title {
       font-family: 'Press Start 2P', monospace;
-      font-size: 8px;
+      font-size: 9px;
       color: var(--pixel-label);
+      letter-spacing: 0.5px;
     }
-
-    .topbar-center {
+    #topbar-tag {
       font-family: 'Press Start 2P', monospace;
-      font-size: 8px;
-      color: var(--pixel-label);
-      background: rgba(255, 255, 255, 0.55);
-      border: 1px solid var(--frosted-border);
+      font-size: 9px;
+      color: var(--muted);
+      border: 1px solid rgba(160,144,152,0.35);
+      padding: 3px 10px;
       border-radius: 20px;
-      padding: 4px 13px;
+      letter-spacing: 0.3px;
     }
-
-    .topbar-right { display: flex; gap: 6px; align-items: center; }
-
-    .win-btn {
-      width: 13px; height: 13px;
-      border-radius: 50%;
-      border: 1px solid rgba(0,0,0,0.15);
+    #topbar-btns { display: flex; gap: 4px; }
+    .tb-btn {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(160,144,152,0.5);
+      background: rgba(255,255,255,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6px;
+      color: var(--muted);
       cursor: default;
-      display: inline-block;
+      user-select: none;
+      flex-shrink: 0;
     }
-    .win-btn.minimize { background: #ffd64d; }
-    .win-btn.maximize { background: #5ab86a; }
-    .win-btn.close    { background: #e05878; }
 
     /* ── Layout ── */
     #layout {
       display: flex;
-      height: calc(100vh - 34px);
-      margin-top: 34px;
+      flex: 1;
+      overflow: hidden;
       position: relative;
       z-index: 1;
     }
@@ -111,215 +112,297 @@
     /* ── Sidebar ── */
     #sidebar {
       width: 270px;
-      min-width: 270px;
-      height: 100%;
-      background: rgba(253, 246, 240, 0.60);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border-right: 1px solid var(--frosted-border);
-      overflow-y: auto;
-      overflow-x: hidden;
-      z-index: 10;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.42);
+      backdrop-filter: blur(12px);
+      border-right: 2px solid rgba(255,255,255,0.6);
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
     }
-
-    .sidebar-header {
-      padding: 18px 16px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.55);
+    #sidebar-header {
+      padding: 16px 14px 14px;
+      border-bottom: 2px solid rgba(255,255,255,0.55);
+      flex-shrink: 0;
     }
-
-    .sidebar-name {
+    #sidebar-name {
       font-family: 'Press Start 2P', monospace;
-      font-size: 9px;
+      font-size: 10px;
       color: var(--pixel-label);
+      line-height: 1.7;
       margin-bottom: 7px;
-      letter-spacing: 0.5px;
     }
-
-    .sidebar-sub {
+    #sidebar-sub {
       font-family: 'Lora', Georgia, serif;
       font-style: italic;
       font-size: 12px;
-      color: var(--muted);
+      color: #7a6b72;
+      line-height: 1.5;
     }
-
-    .sidebar-nav { padding: 8px 0; flex: 1; }
+    #sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 0 12px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(224,112,144,0.4) transparent;
+    }
+    #sidebar-nav::-webkit-scrollbar { width: 4px; }
+    #sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+    #sidebar-nav::-webkit-scrollbar-thumb { background: rgba(224,112,144,0.35); border-radius: 2px; }
 
     .nav-section-label {
       font-family: 'Press Start 2P', monospace;
-      font-size: 8px;
+      font-size: 9px;
       color: var(--pixel-label2);
-      padding: 10px 16px 4px;
+      padding: 12px 14px 5px;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
-
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 7px 14px 7px 20px;
-      cursor: pointer;
-      font-size: 12px;
-      color: var(--body);
-      text-decoration: none;
-      transition: background 0.12s;
+      gap: 10px;
+      padding: 9px 12px;
+      font-size: 14px;
+      color: #5a4a52;
       border-left: 3px solid transparent;
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+      transition: background 0.12s, border-color 0.12s, color 0.12s;
+      position: relative;
     }
-
     .nav-item:hover, .nav-item.active {
-      background: rgba(253, 246, 240, 0.70);
+      background: rgba(255,255,255,0.5);
       border-left-color: var(--pink);
+      color: #3a2a32;
     }
-
-    .nav-icon { width: 18px; height: 18px; flex-shrink: 0; }
-
-    .nav-item.elsewhere { font-size: 11px; color: var(--muted); }
-    .nav-item.elsewhere:hover { color: var(--body); }
+    .nav-item svg { flex-shrink: 0; width: 20px; height: 20px; }
+    .nav-item-label { flex: 1; }
+    .nav-item.elsewhere { font-size: 13px; color: var(--muted); }
+    .nav-item.elsewhere:hover { color: #5a4a52; }
 
     /* ── Main ── */
     #main {
       flex: 1;
       position: relative;
       overflow: hidden;
+      padding: 12px;
     }
 
     /* ── Panels ── */
     .panel {
-      position: absolute;
-      min-width: 260px;
       display: none;
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: calc(100% - 24px);
+      height: 480px;
+      background: var(--frosted-bg);
+      backdrop-filter: blur(10px);
+      border: 2px solid var(--frosted-border);
       flex-direction: column;
-      background: rgba(253, 246, 240, 0.58);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--frosted-border);
-      box-shadow: 0 8px 32px rgba(139, 42, 74, 0.13), 0 2px 8px rgba(0,0,0,0.07);
-      outline: 1px solid rgba(255,255,255,0.28);
-      outline-offset: 2px;
+      user-select: none;
     }
+    .panel.open { display: flex; }
 
-    .panel.visible { display: flex; }
+    /* pixel corners */
+    .panel::before, .panel::after,
+    .panel .pixel-corner-bl, .panel .pixel-corner-br {
+      content: '';
+      position: absolute;
+      width: 5px; height: 5px;
+      background: white;
+      z-index: 2;
+    }
+    .panel::before { top: -2px; left: -2px; }
+    .panel::after  { top: -2px; right: -2px; }
+    .panel .pixel-corner-bl { bottom: -2px; left: -2px; }
+    .panel .pixel-corner-br { bottom: -2px; right: -2px; }
 
     .panel-titlebar {
+      height: 26px;
+      background: rgba(255,255,255,0.55);
+      border-bottom: 2px solid rgba(255,255,255,0.6);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 6px 10px;
-      background: linear-gradient(90deg, var(--pink-pale) 0%, rgba(253,246,240,0.85) 100%);
-      border-bottom: 1px solid var(--frosted-border);
+      padding: 0 8px;
       cursor: grab;
-      user-select: none;
       flex-shrink: 0;
+      z-index: 1;
     }
     .panel-titlebar:active { cursor: grabbing; }
-
     .panel-title {
       font-family: 'Press Start 2P', monospace;
-      font-size: 8px;
-      color: var(--pixel-label);
-    }
-
-    .panel-close {
-      width: 16px; height: 16px;
-      background: var(--pink);
-      border: 1px solid var(--heading);
-      cursor: pointer;
-      color: white;
       font-size: 9px;
-      line-height: 16px;
-      text-align: center;
-      padding: 0;
-      flex-shrink: 0;
+      color: var(--pixel-label);
+      letter-spacing: 0.4px;
     }
-    .panel-close:hover { background: var(--heading); }
+    .panel-close {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(200,150,170,0.6);
+      background: rgba(255,255,255,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7px;
+      color: var(--muted);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.1s, border-color 0.1s;
+    }
+    .panel-close:hover { background: rgba(255,200,210,0.7); border-color: var(--pink); color: var(--heading); }
 
     .panel-body {
-      padding: 14px 16px;
-      overflow-y: auto;
       flex: 1;
-      max-height: 65vh;
+      overflow-y: auto;
+      padding: 14px 16px 10px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(224,112,144,0.3) transparent;
     }
+    .panel-body::-webkit-scrollbar { width: 4px; }
+    .panel-body::-webkit-scrollbar-thumb { background: rgba(224,112,144,0.3); border-radius: 2px; }
 
     .panel-resize {
-      position: absolute;
-      bottom: 0; right: 0;
-      width: 16px; height: 16px;
-      cursor: se-resize;
+      height: 10px;
+      flex-shrink: 0;
       display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-      padding: 3px;
+      align-items: center;
+      justify-content: center;
+      cursor: ns-resize;
+      color: var(--muted);
+      font-size: 8px;
+      letter-spacing: 3px;
+      border-top: 1px dashed rgba(160,144,152,0.35);
+      user-select: none;
     }
+
+    /* ── Panel content typography ── */
+    .panel-lora-heading {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 20px;
+      color: var(--heading);
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .panel-updated {
+      font-style: italic;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      opacity: 0.85;
+    }
+    .panel-px-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--pixel-label2);
+      margin: 14px 0 7px;
+      letter-spacing: 0.5px;
+    }
+    .panel-section-body { font-size: 14px; line-height: 1.7; }
+    .panel-section-body ul { list-style: none; padding-left: 2px; }
+    .panel-section-body li::before { content: '– '; color: var(--pink); }
+
+    .dashed-divider {
+      border: none;
+      border-top: 1px dashed rgba(160,144,152,0.45);
+      margin: 14px 0;
+    }
+    .hearts-divider {
+      text-align: center;
+      color: var(--pink-light);
+      margin: 14px 0;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+    .plain-divider {
+      border: none;
+      border-top: 1px solid rgba(200,160,170,0.35);
+      margin: 12px 0;
+    }
+
+    .pixel-tag {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--pixel-label2);
+      background: rgba(255,255,255,0.5);
+      border: 1px solid rgba(192,112,144,0.4);
+      padding: 3px 7px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .posts-list { list-style: none; padding: 0; }
+    .posts-list li { font-size: 13px; padding: 3px 0; }
+    .posts-list a { color: var(--pink); text-decoration: none; }
+    .posts-list a:hover { text-decoration: underline; }
+    .posts-list .post-date { color: var(--muted); font-size: 11px; margin-left: 5px; }
+    .posts-empty { font-style: italic; color: var(--muted); font-size: 12px; }
+
+    .embed-container { margin: 10px 0; }
 
     /* ── Bio Tabs (Windows-style) ── */
     .tab-bar {
       display: flex;
       border-bottom: 2px solid var(--pink-light);
-      background: rgba(253, 246, 240, 0.45);
+      background: rgba(255,255,255,0.35);
       padding: 4px 8px 0;
       flex-shrink: 0;
     }
-
     .tab-btn {
       font-family: 'Press Start 2P', monospace;
-      font-size: 7px;
+      font-size: 8px;
       color: var(--muted);
       padding: 5px 8px 4px;
       cursor: pointer;
-      background: rgba(235, 215, 220, 0.55);
+      background: rgba(235,215,222,0.55);
       border: 1px solid rgba(255,255,255,0.55);
       border-bottom: none;
       margin-right: 3px;
       margin-bottom: -2px;
-      position: relative;
       border-radius: 3px 3px 0 0;
       white-space: nowrap;
+      position: relative;
     }
-    .tab-btn:hover { background: rgba(255,255,255,0.70); color: var(--pixel-label); }
+    .tab-btn:hover { background: rgba(255,255,255,0.75); color: var(--pixel-label); }
     .tab-btn.active {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255,255,255,0.92);
       color: var(--pixel-label);
       border-color: var(--pink-light);
       border-bottom: 2px solid rgba(255,255,255,0.92);
       z-index: 1;
     }
-
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
     /* ── Bio: About ── */
-    .stat-block { font-size: 13px; line-height: 1.9; color: var(--body); }
-
-    .dashed-divider {
-      border: none;
-      border-top: 2px dashed var(--pink-light);
-      margin: 12px 0;
-    }
+    .stat-block { font-size: 14px; line-height: 1.9; color: var(--body); }
+    .stat-flags { font-size: 18px; line-height: 1.6; margin: 2px 0; }
 
     .currently-header {
       font-family: 'Press Start 2P', monospace;
-      font-size: 7px;
+      font-size: 8px;
       color: var(--pixel-label2);
       margin-bottom: 8px;
     }
-
     .currently-row {
       display: flex;
-      gap: 0;
-      font-size: 11px;
+      font-size: 13px;
       margin-bottom: 5px;
       line-height: 1.5;
       color: var(--body);
     }
-
     .currently-label {
       font-family: 'Press Start 2P', monospace;
-      font-size: 7px;
+      font-size: 8px;
       color: var(--pixel-label2);
-      min-width: 68px;
+      min-width: 72px;
       padding-top: 2px;
       flex-shrink: 0;
     }
@@ -329,9 +412,8 @@
       margin: 0 0 8px 12px;
       text-align: center;
     }
-
     .kitten-kaomoji {
-      font-size: 9px;
+      font-size: 10px;
       color: var(--muted);
       display: block;
       margin-top: 4px;
@@ -339,11 +421,11 @@
     }
 
     /* ── Bio: Likes ── */
-    .likes-cols { display: flex; gap: 0; font-size: 12px; }
+    .likes-cols { display: flex; font-size: 13px; }
     .likes-col { flex: 1; }
     .likes-col-title {
       font-family: 'Press Start 2P', monospace;
-      font-size: 7px;
+      font-size: 8px;
       color: var(--pixel-label2);
       margin-bottom: 7px;
     }
@@ -352,59 +434,40 @@
     .likes-divider {
       width: 1px;
       background: repeating-linear-gradient(
-        to bottom,
-        var(--pink-light) 0, var(--pink-light) 4px,
+        to bottom, var(--pink-light) 0, var(--pink-light) 4px,
         transparent 4px, transparent 8px
       );
       margin: 0 10px;
     }
     .fit-right-in {
       font-style: italic;
-      font-size: 11px;
+      font-size: 12px;
       color: var(--muted);
       line-height: 1.55;
     }
 
     /* ── Bio: DNI ── */
-    .pixel-tag {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 7px;
-      color: white;
-      background: var(--pink);
-      display: inline-block;
-      padding: 3px 8px;
-      margin-bottom: 10px;
-    }
-
-    .dni-list { list-style: none; font-size: 11px; line-height: 1.85; }
+    .dni-list { list-style: none; font-size: 12px; line-height: 1.85; }
     .dni-list li::before { content: '– '; color: var(--pink); }
-    .dni-soft { font-size: 10px; color: var(--muted); }
+    .dni-soft { font-size: 11px; color: var(--muted); }
     .dni-soft li::before { content: '– '; color: var(--muted); }
 
-    /* ── Bio: Find Me ── */
+    /* ── Bio: Find Me / pixel-btn (reference style) ── */
     .pixel-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      margin: 3px 3px 0 0;
       font-family: 'Press Start 2P', monospace;
-      font-size: 7px;
-      color: white;
-      background: var(--pink);
-      border: 2px solid var(--heading);
-      padding: 8px 10px;
+      font-size: 8px;
+      color: #7a3a5a;
+      background: rgba(255,255,255,0.6);
+      border: 2px solid rgba(200,150,170,0.6);
       cursor: pointer;
+      border-radius: 0;
       text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      box-shadow: 2px 2px 0 var(--heading);
-      transition: background 0.1s, box-shadow 0.05s, transform 0.05s;
-      white-space: nowrap;
+      transition: background 0.12s, border-color 0.12s;
     }
-    .pixel-btn:hover {
-      background: var(--heading);
-      transform: translate(1px, 1px);
-      box-shadow: 1px 1px 0 var(--heading);
-    }
-    .pixel-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+    .pixel-btn:hover { background: rgba(255,255,255,0.88); border-color: var(--pink); }
 
     .find-me-grid {
       display: grid;
@@ -412,10 +475,10 @@
       gap: 8px;
       margin-bottom: 10px;
     }
-
+    .find-me-grid .pixel-btn { margin: 0; text-align: center; }
     .find-me-note {
       font-style: italic;
-      font-size: 11px;
+      font-size: 12px;
       color: var(--muted);
       margin-top: 6px;
       line-height: 1.55;
@@ -426,20 +489,19 @@
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 190px;
+      width: 200px;
       background: var(--cream);
       border: 2px solid var(--body);
-      box-shadow: 4px 4px 0 var(--body);
+      box-shadow: 4px 4px 0 rgba(74,58,66,0.4);
       z-index: 9999;
       display: none;
     }
-    #discord-popup.visible { display: block; }
-
+    #discord-popup.open { display: block; }
     .discord-titlebar {
       background: var(--pink);
       color: white;
       font-family: 'Press Start 2P', monospace;
-      font-size: 7px;
+      font-size: 8px;
       padding: 5px 8px;
       display: flex;
       align-items: center;
@@ -448,391 +510,450 @@
       user-select: none;
     }
     .discord-titlebar:active { cursor: grabbing; }
-
     .discord-titlebar .panel-close {
-      width: 14px; height: 14px; font-size: 8px; line-height: 14px;
+      width: 14px; height: 14px;
+      background: rgba(255,255,255,0.4);
+      border-color: rgba(255,255,255,0.6);
+      color: white;
     }
-
-    .discord-body { padding: 16px 14px 14px; text-align: center; }
-    .discord-body p {
-      font-size: 13px;
-      color: var(--body);
-      margin-bottom: 14px;
-      line-height: 1.4;
-    }
-
+    .discord-titlebar .panel-close:hover { background: rgba(255,255,255,0.65); }
+    .discord-body { padding: 18px 14px 16px; text-align: center; }
+    .discord-body p { font-size: 14px; color: var(--body); margin-bottom: 14px; }
     .discord-ok {
       font-family: 'Press Start 2P', monospace;
       font-size: 7px;
-      background: var(--cream);
-      border: 2px solid var(--body);
-      box-shadow: 2px 2px 0 var(--body);
-      padding: 6px 18px;
+      background: rgba(255,255,255,0.6);
+      border: 2px solid rgba(200,150,170,0.6);
+      padding: 6px 20px;
       cursor: pointer;
+      color: #7a3a5a;
     }
-    .discord-ok:hover { background: var(--pink-pale); }
-    .discord-ok:active { transform: translate(2px,2px); box-shadow: none; }
+    .discord-ok:hover { background: rgba(255,255,255,0.88); border-color: var(--pink); }
 
-    /* ── Panel content helpers ── */
-    .panel-lora-heading {
-      font-family: 'Lora', Georgia, serif;
-      font-style: italic;
-      font-size: 18px;
-      color: var(--heading);
-      margin-bottom: 4px;
-    }
-
-    .panel-updated {
-      font-style: italic;
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .panel-px-label {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 7px;
-      color: var(--pixel-label2);
-      margin-bottom: 7px;
-    }
-
-    .panel-section-body { font-size: 12px; line-height: 1.7; }
-    .panel-section-body ul { list-style: none; padding-left: 2px; }
-    .panel-section-body li::before { content: '– '; color: var(--pink); }
-
-    .hearts-divider {
-      text-align: center;
-      color: var(--pink-light);
-      margin: 14px 0;
-      font-size: 13px;
-      letter-spacing: 2px;
-    }
-
-    .plain-divider {
-      border: none;
-      border-top: 1px solid var(--pink-light);
-      margin: 12px 0;
-    }
-
-    .embed-container { margin: 10px 0; }
-
-    .posts-list { list-style: none; padding: 0; }
-    .posts-list li { font-size: 12px; padding: 3px 0; }
-    .posts-list a { color: var(--pink); text-decoration: none; }
-    .posts-list a:hover { text-decoration: underline; }
-    .posts-list .post-date { color: var(--muted); font-size: 10px; margin-left: 5px; }
-    .posts-empty { font-style: italic; color: var(--muted); font-size: 11px; }
-
+    /* ── Steam fallback ── */
     .steam-fallback-card {
-      background: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.4);
       border: 1px solid var(--frosted-border);
-      padding: 12px 14px;
+      padding: 10px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: 6px;
+    }
+
+    /* ── Favs panel ── */
+    .favs-section-header {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--pixel-label2);
+      margin: 14px 0 6px;
+      letter-spacing: 0.5px;
+    }
+    .favs-entry {
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 3px;
+      color: var(--body);
+    }
+    .favs-subnote {
+      font-style: italic;
+      font-size: 11px;
+      color: var(--muted);
+      padding-left: 12px;
+    }
+
+    /* ── Music Player Panel ── */
+    #panel-player { height: auto; min-height: 0; }
+
+    .player-track-title {
+      overflow: hidden;
+      white-space: nowrap;
+      margin-bottom: 10px;
+      padding-bottom: 2px;
+      border-bottom: 1px dashed rgba(160,144,152,0.3);
+    }
+    .marquee-wrap { display: inline-block; }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-wrap.scrolling { animation: marquee 9s linear infinite; }
+    #player-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--pixel-label);
+      display: inline-block;
+    }
+
+    .player-time-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--muted);
+    }
+    .player-range {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: rgba(224,112,144,0.2);
+      cursor: pointer;
+      outline: none;
+      border-radius: 0;
+    }
+    .player-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px; height: 10px;
+      background: var(--pink);
+      cursor: pointer;
+      border-radius: 0;
+    }
+    .player-range::-moz-range-thumb {
+      width: 10px; height: 10px;
+      background: var(--pink);
+      cursor: pointer;
+      border-radius: 0;
+      border: none;
+    }
+
+    .player-controls {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .player-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--pixel-label);
+      background: rgba(255,255,255,0.55);
+      border: 2px solid rgba(200,150,170,0.55);
+      width: 32px; height: 28px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.1s;
+      user-select: none;
+    }
+    .player-btn:hover { background: rgba(255,255,255,0.85); border-color: var(--pink); }
+    .player-btn-main { width: 40px; }
+
+    .player-volume-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .player-vol-icon { font-size: 13px; line-height: 1; }
+
+    .player-track-counter {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--muted);
+      text-align: right;
     }
 
     /* ── Mobile ── */
     @media (max-width: 768px) {
       html, body { overflow: auto; }
-      #layout { flex-direction: column; height: auto; min-height: calc(100vh - 34px); }
-      #sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--frosted-border); }
-      #main { flex: 1; min-height: 50vh; overflow-y: auto; padding: 10px; }
+      #layout { flex-direction: column; overflow: visible; }
+      #main { display: none; overflow: visible; padding: 0; height: auto; }
+      #sidebar { width: 100%; border-right: none; border-bottom: 2px solid rgba(255,255,255,0.6); overflow: visible; }
+      #sidebar-nav { overflow: visible; }
+      body.mobile-panel #sidebar { display: none; }
+      body.mobile-panel #main { display: block; }
+      body.mobile-panel #topbar-tag { display: none; }
       .panel {
-        position: relative !important;
-        left: auto !important; top: auto !important;
-        width: 100% !important; height: auto !important;
-        margin-bottom: 10px;
+        position: static !important;
         display: none;
-        flex-direction: column;
+        width: 100% !important;
+        height: auto !important;
+        border-left: none; border-right: none; border-bottom: none;
       }
-      .panel.visible { display: flex; }
-      .panel-body { max-height: none; }
+      .panel.open { display: flex; }
       .panel-titlebar { cursor: default; }
+      .panel-resize { display: none; }
+      .panel .pixel-corner-bl, .panel .pixel-corner-br { display: none; }
       .find-me-grid { grid-template-columns: 1fr; }
-      #discord-popup { width: 90vw; max-width: 280px; }
+      #mobile-back {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 6px;
+        color: var(--pixel-label);
+        background: rgba(255,255,255,0.5);
+        border-bottom: 2px solid rgba(255,255,255,0.6);
+        cursor: pointer;
+        letter-spacing: 0.4px;
+      }
+      body.mobile-panel #mobile-back { display: flex; }
     }
+    @media (min-width: 769px) { #mobile-back { display: none !important; } }
   </style>
 </head>
 <body>
 
-  <!-- ── Background Scatter (20 elements) ── -->
-  <span class="bg-deco" style="left:4%;top:8%;font-size:17px;opacity:0.38;color:#e05878;transform:rotate(12deg)">✦</span>
-  <span class="bg-deco" style="left:15%;top:22%;font-size:10px;opacity:0.30;color:#8b2a4a">✧</span>
-  <span class="bg-deco" style="left:28%;top:5%;font-size:13px;opacity:0.32;color:#e05878;transform:rotate(-8deg)">♡</span>
-  <span class="bg-deco" style="left:43%;top:14%;font-size:20px;opacity:0.25;color:#5ab86a;transform:rotate(5deg)">✦</span>
-  <span class="bg-deco" style="left:59%;top:7%;font-size:10px;opacity:0.30;color:#e05878">✿</span>
-  <span class="bg-deco" style="left:71%;top:19%;font-size:14px;opacity:0.28;color:#8b2a4a;transform:rotate(-15deg)">✧</span>
-  <span class="bg-deco" style="left:86%;top:11%;font-size:16px;opacity:0.33;color:#e05878;transform:rotate(22deg)">♡</span>
-  <span class="bg-deco" style="left:7%;top:42%;font-size:9px;opacity:0.26;color:#5ab86a">˚</span>
-  <span class="bg-deco" style="left:21%;top:57%;font-size:18px;opacity:0.28;color:#e05878;transform:rotate(-10deg)">✿</span>
-  <span class="bg-deco" style="left:36%;top:73%;font-size:11px;opacity:0.30;color:#8b2a4a">✦</span>
-  <span class="bg-deco" style="left:51%;top:63%;font-size:8px;opacity:0.26;color:#e05878">˚</span>
-  <span class="bg-deco" style="left:66%;top:81%;font-size:14px;opacity:0.30;color:#5ab86a;transform:rotate(8deg)">✧</span>
-  <span class="bg-deco" style="left:79%;top:47%;font-size:12px;opacity:0.28;color:#e05878">♡</span>
-  <span class="bg-deco" style="left:91%;top:69%;font-size:19px;opacity:0.25;color:#8b2a4a;transform:rotate(-5deg)">✦</span>
+  <!-- ── Background Scatter (25 elements) ── -->
+  <span class="bg-deco" style="left:4%;top:8%;font-size:17px;opacity:0.35;color:#e07090;transform:rotate(12deg)">✦</span>
+  <span class="bg-deco" style="left:15%;top:22%;font-size:10px;opacity:0.30;color:#8b3a5a">✧</span>
+  <span class="bg-deco" style="left:28%;top:5%;font-size:13px;opacity:0.30;color:#e07090;transform:rotate(-8deg)">♡</span>
+  <span class="bg-deco" style="left:43%;top:14%;font-size:20px;opacity:0.25;color:#5aaa6a;transform:rotate(5deg)">✦</span>
+  <span class="bg-deco" style="left:59%;top:7%;font-size:10px;opacity:0.28;color:#e07090">✿</span>
+  <span class="bg-deco" style="left:71%;top:19%;font-size:14px;opacity:0.27;color:#8b3a5a;transform:rotate(-15deg)">✧</span>
+  <span class="bg-deco" style="left:86%;top:11%;font-size:15px;opacity:0.30;color:#e07090;transform:rotate(22deg)">♡</span>
+  <span class="bg-deco" style="left:7%;top:42%;font-size:9px;opacity:0.25;color:#5aaa6a">˚</span>
+  <span class="bg-deco" style="left:21%;top:57%;font-size:18px;opacity:0.27;color:#e07090;transform:rotate(-10deg)">✿</span>
+  <span class="bg-deco" style="left:36%;top:73%;font-size:11px;opacity:0.28;color:#8b3a5a">✦</span>
+  <span class="bg-deco" style="left:51%;top:63%;font-size:8px;opacity:0.24;color:#e07090">˚</span>
+  <span class="bg-deco" style="left:66%;top:81%;font-size:14px;opacity:0.28;color:#5aaa6a;transform:rotate(8deg)">✧</span>
+  <span class="bg-deco" style="left:79%;top:47%;font-size:12px;opacity:0.26;color:#e07090">♡</span>
+  <span class="bg-deco" style="left:91%;top:69%;font-size:19px;opacity:0.24;color:#8b3a5a;transform:rotate(-5deg)">✦</span>
+  <span class="bg-deco" style="left:3%;top:65%;font-size:11px;opacity:0.27;color:#e07090;transform:rotate(18deg)">✿</span>
+  <span class="bg-deco" style="left:38%;top:42%;font-size:16px;opacity:0.24;color:#5aaa6a">✦</span>
+  <span class="bg-deco" style="left:62%;top:52%;font-size:13px;opacity:0.26;color:#e07090;transform:rotate(-6deg)">♡</span>
   <!-- kaomoji cats -->
-  <span class="bg-deco" style="left:11%;top:79%;font-size:8px;opacity:0.25;font-family:'Press Start 2P',monospace;color:#4a3040">=^･ω･^=</span>
-  <span class="bg-deco" style="left:56%;top:36%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3040">(=^･^=)</span>
-  <span class="bg-deco" style="left:81%;top:29%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3040">=^･ω･^=</span>
-  <!-- pixel bow SVGs (rect-only, 18×12 viewBox) -->
-  <svg class="bg-deco" style="left:47%;top:89%;width:22px;height:14px;opacity:0.30" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="3" width="2" height="6" fill="#e8708a"/>
-    <rect x="2" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="4" y="0" width="2" height="12" fill="#e8708a"/>
-    <rect x="6" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="10" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="12" y="0" width="2" height="12" fill="#e8708a"/>
-    <rect x="14" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="16" y="3" width="2" height="6" fill="#e8708a"/>
-    <rect x="8" y="4" width="2" height="4" fill="#e8708a"/>
+  <span class="bg-deco" style="left:11%;top:79%;font-size:8px;opacity:0.25;font-family:'Press Start 2P',monospace;color:#4a3a42">=^･ω･^=</span>
+  <span class="bg-deco" style="left:56%;top:36%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3a42">(=^･^=)</span>
+  <span class="bg-deco" style="left:81%;top:29%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3a42">=^･ω･^=</span>
+  <span class="bg-deco" style="left:33%;top:88%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3a42">(=^･^=)</span>
+  <span class="bg-deco" style="left:68%;top:15%;font-size:8px;opacity:0.20;font-family:'Press Start 2P',monospace;color:#4a3a42">=^･ω･^=</span>
+  <!-- pixel bow SVGs (rect-only) -->
+  <svg class="bg-deco" style="left:47%;top:89%;width:22px;height:14px;opacity:0.28" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="3" width="2" height="6" fill="#e07090"/><rect x="2" y="1" width="2" height="10" fill="#e07090"/>
+    <rect x="4" y="0" width="2" height="12" fill="#e07090"/><rect x="6" y="1" width="2" height="10" fill="#e07090"/>
+    <rect x="10" y="1" width="2" height="10" fill="#e07090"/><rect x="12" y="0" width="2" height="12" fill="#e07090"/>
+    <rect x="14" y="1" width="2" height="10" fill="#e07090"/><rect x="16" y="3" width="2" height="6" fill="#e07090"/>
+    <rect x="8" y="4" width="2" height="4" fill="#e07090"/>
   </svg>
-  <svg class="bg-deco" style="left:23%;top:31%;width:22px;height:14px;opacity:0.26;transform:rotate(-12deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="3" width="2" height="6" fill="#e8708a"/>
-    <rect x="2" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="4" y="0" width="2" height="12" fill="#e8708a"/>
-    <rect x="6" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="10" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="12" y="0" width="2" height="12" fill="#e8708a"/>
-    <rect x="14" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="16" y="3" width="2" height="6" fill="#e8708a"/>
-    <rect x="8" y="4" width="2" height="4" fill="#e8708a"/>
+  <svg class="bg-deco" style="left:23%;top:31%;width:22px;height:14px;opacity:0.24;transform:rotate(-12deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="3" width="2" height="6" fill="#e07090"/><rect x="2" y="1" width="2" height="10" fill="#e07090"/>
+    <rect x="4" y="0" width="2" height="12" fill="#e07090"/><rect x="6" y="1" width="2" height="10" fill="#e07090"/>
+    <rect x="10" y="1" width="2" height="10" fill="#e07090"/><rect x="12" y="0" width="2" height="12" fill="#e07090"/>
+    <rect x="14" y="1" width="2" height="10" fill="#e07090"/><rect x="16" y="3" width="2" height="6" fill="#e07090"/>
+    <rect x="8" y="4" width="2" height="4" fill="#e07090"/>
   </svg>
-  <svg class="bg-deco" style="left:73%;top:56%;width:22px;height:14px;opacity:0.28;transform:rotate(16deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="3" width="2" height="6" fill="#e8708a"/>
-    <rect x="2" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="4" y="0" width="2" height="12" fill="#e8708a"/>
-    <rect x="6" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="10" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="12" y="0" width="2" height="12" fill="#e8708a"/>
-    <rect x="14" y="1" width="2" height="10" fill="#e8708a"/>
-    <rect x="16" y="3" width="2" height="6" fill="#e8708a"/>
-    <rect x="8" y="4" width="2" height="4" fill="#e8708a"/>
+  <svg class="bg-deco" style="left:73%;top:56%;width:22px;height:14px;opacity:0.26;transform:rotate(16deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="3" width="2" height="6" fill="#e07090"/><rect x="2" y="1" width="2" height="10" fill="#e07090"/>
+    <rect x="4" y="0" width="2" height="12" fill="#e07090"/><rect x="6" y="1" width="2" height="10" fill="#e07090"/>
+    <rect x="10" y="1" width="2" height="10" fill="#e07090"/><rect x="12" y="0" width="2" height="12" fill="#e07090"/>
+    <rect x="14" y="1" width="2" height="10" fill="#e07090"/><rect x="16" y="3" width="2" height="6" fill="#e07090"/>
+    <rect x="8" y="4" width="2" height="4" fill="#e07090"/>
   </svg>
 
   <!-- ── Top Bar ── -->
   <div id="topbar">
-    <div class="topbar-left">© me0wberry 2026</div>
-    <div class="topbar-center">(=^･^=) · me0wberry.com</div>
-    <div class="topbar-right">
-      <span class="win-btn minimize"></span>
-      <span class="win-btn maximize"></span>
-      <span class="win-btn close"></span>
+    <span id="topbar-title">© me0wberry 2026</span>
+    <span id="topbar-tag">(=^･^=) · me0wberry.com</span>
+    <div id="topbar-btns">
+      <div class="tb-btn">_</div>
+      <div class="tb-btn">□</div>
+      <div class="tb-btn">✕</div>
     </div>
   </div>
+
+  <!-- mobile back -->
+  <div id="mobile-back" onclick="mobileBack()">← back</div>
 
   <!-- ── Layout ── -->
   <div id="layout">
 
     <!-- ── Sidebar ── -->
-    <nav id="sidebar">
-      <div class="sidebar-header">
-        <div class="sidebar-name">me0wberry</div>
-        <div class="sidebar-sub">₍ᐢ. .ᐢ₎ · toronto-ish · she/her</div>
+    <div id="sidebar">
+      <div id="sidebar-header">
+        <div id="sidebar-name">me0wberry</div>
+        <div id="sidebar-sub">₍ᐢ. .ᐢ₎ · toronto-ish · she/her</div>
       </div>
 
-      <div class="sidebar-nav">
+      <div id="sidebar-nav">
 
-        <!-- pinned -->
-        <div class="nav-section-label">
-          <!-- pixel ✦ 8×8 -->
-          <svg width="8" height="8" viewBox="0 0 8 8">
-            <rect x="3" y="0" width="2" height="8" fill="#c05878"/>
-            <rect x="0" y="3" width="8" height="2" fill="#c05878"/>
-            <rect x="1" y="1" width="2" height="2" fill="#c05878"/>
-            <rect x="5" y="1" width="2" height="2" fill="#c05878"/>
-            <rect x="1" y="5" width="2" height="2" fill="#c05878"/>
-            <rect x="5" y="5" width="2" height="2" fill="#c05878"/>
-          </svg>
-          pinned
-        </div>
+        <!-- ✿ about -->
+        <span class="nav-section-label">
+          <svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>
+          about
+        </span>
 
-        <!-- hello / bio -->
-        <a class="nav-item active" data-opens="panel-bio" href="#" onclick="openPanel('panel-bio');return false;">
-          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-            <!-- face body -->
-            <rect x="3" y="6"  width="12" height="9"  fill="#fdd8e0"/>
-            <rect x="2" y="7"  width="14" height="7"  fill="#fdd8e0"/>
-            <!-- left ear outer -->
+        <!-- hello -->
+        <div class="nav-item active" data-opens="panel-bio" onclick="openPanel('panel-bio')">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="6"  width="12" height="9"  fill="#ffd0de"/>
+            <rect x="2" y="7"  width="14" height="7"  fill="#ffd0de"/>
             <rect x="2" y="2"  width="5"  height="5"  fill="#a8d8a0"/>
             <rect x="3" y="1"  width="3"  height="2"  fill="#a8d8a0"/>
-            <!-- left ear inner -->
-            <rect x="3" y="3"  width="3"  height="4"  fill="#f4a0b8"/>
-            <!-- right ear outer -->
+            <rect x="3" y="3"  width="3"  height="4"  fill="#f4a8b8"/>
             <rect x="11" y="2" width="5"  height="5"  fill="#a8d8a0"/>
             <rect x="12" y="1" width="3"  height="2"  fill="#a8d8a0"/>
-            <!-- right ear inner -->
-            <rect x="12" y="3" width="3"  height="4"  fill="#f4a0b8"/>
-            <!-- eyes -->
-            <rect x="5"  y="9"  width="3"  height="3"  fill="#4a3040"/>
-            <rect x="10" y="9"  width="3"  height="3"  fill="#4a3040"/>
-            <!-- eye shine -->
+            <rect x="12" y="3" width="3"  height="4"  fill="#f4a8b8"/>
+            <rect x="5"  y="9"  width="3"  height="3"  fill="#4a3a42"/>
+            <rect x="10" y="9"  width="3"  height="3"  fill="#4a3a42"/>
             <rect x="5"  y="9"  width="1"  height="1"  fill="#fdf6f0"/>
             <rect x="10" y="9"  width="1"  height="1"  fill="#fdf6f0"/>
-            <!-- nose -->
-            <rect x="8"  y="12" width="2"  height="1"  fill="#e05878"/>
-            <!-- whiskers -->
-            <rect x="0"  y="11" width="4"  height="1"  fill="#a08090"/>
-            <rect x="14" y="11" width="4"  height="1"  fill="#a08090"/>
+            <rect x="8"  y="12" width="2"  height="1"  fill="#e07090"/>
+            <rect x="0"  y="11" width="4"  height="1"  fill="#a09098"/>
+            <rect x="14" y="11" width="4"  height="1"  fill="#a09098"/>
           </svg>
-          <span>hello!</span>
-        </a>
-
-        <!-- lately -->
-        <a class="nav-item" data-opens="panel-lately" href="#" onclick="openPanel('panel-lately');return false;">
-          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-            <!-- sparkle ✦ -->
-            <rect x="8"  y="1"  width="2"  height="16" fill="#e05878"/>
-            <rect x="1"  y="8"  width="16" height="2"  fill="#e05878"/>
-            <rect x="5"  y="5"  width="2"  height="2"  fill="#e05878"/>
-            <rect x="11" y="5"  width="2"  height="2"  fill="#e05878"/>
-            <rect x="5"  y="11" width="2"  height="2"  fill="#e05878"/>
-            <rect x="11" y="11" width="2"  height="2"  fill="#e05878"/>
-          </svg>
-          <span>lately</span>
-        </a>
-
-        <!-- the blog -->
-        <div class="nav-section-label" style="margin-top:4px">
-          <svg width="8" height="8" viewBox="0 0 8 8">
-            <rect x="3" y="0" width="2" height="8" fill="#c05878"/>
-            <rect x="0" y="3" width="8" height="2" fill="#c05878"/>
-            <rect x="1" y="1" width="2" height="2" fill="#c05878"/>
-            <rect x="5" y="1" width="2" height="2" fill="#c05878"/>
-            <rect x="1" y="5" width="2" height="2" fill="#c05878"/>
-            <rect x="5" y="5" width="2" height="2" fill="#c05878"/>
-          </svg>
-          the blog
+          <span class="nav-item-label">♡ hello!</span>
         </div>
 
-        <!-- games -->
-        <a class="nav-item" data-opens="panel-games" href="#" onclick="openPanel('panel-games');return false;">
-          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-            <!-- controller body -->
-            <rect x="1"  y="5"  width="16" height="8"  fill="#f4a0b8"/>
-            <rect x="2"  y="4"  width="14" height="10" fill="#f4a0b8"/>
-            <!-- shoulder bumps -->
-            <rect x="2"  y="3"  width="4"  height="2"  fill="#f4a0b8"/>
-            <rect x="12" y="3"  width="4"  height="2"  fill="#f4a0b8"/>
-            <!-- dpad h -->
-            <rect x="3"  y="8"  width="6"  height="2"  fill="#e05878"/>
-            <!-- dpad v -->
-            <rect x="5"  y="6"  width="2"  height="6"  fill="#e05878"/>
-            <!-- btn a -->
-            <rect x="11" y="7"  width="3"  height="2"  fill="#5ab86a"/>
-            <!-- btn b -->
-            <rect x="11" y="10" width="3"  height="2"  fill="#5ab86a"/>
+        <!-- lately -->
+        <div class="nav-item" data-opens="panel-lately" onclick="openPanel('panel-lately')">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8"  y="1"  width="2"  height="16" fill="#e07090"/>
+            <rect x="1"  y="8"  width="16" height="2"  fill="#e07090"/>
+            <rect x="5"  y="5"  width="2"  height="2"  fill="#e07090"/>
+            <rect x="11" y="5"  width="2"  height="2"  fill="#e07090"/>
+            <rect x="5"  y="11" width="2"  height="2"  fill="#e07090"/>
+            <rect x="11" y="11" width="2"  height="2"  fill="#e07090"/>
           </svg>
-          <span>games</span>
-        </a>
+          <span class="nav-item-label">✦ lately</span>
+        </div>
+
+        <!-- favs -->
+        <div class="nav-item" data-opens="panel-favs" onclick="openPanel('panel-favs')">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <!-- star shape: center + 4 arms + diagonal accents -->
+            <rect x="7"  y="7"  width="4"  height="4"  fill="#e07090"/>
+            <rect x="8"  y="2"  width="2"  height="14" fill="#e07090"/>
+            <rect x="2"  y="8"  width="14" height="2"  fill="#e07090"/>
+            <rect x="4"  y="4"  width="3"  height="3"  fill="#e07090"/>
+            <rect x="11" y="4"  width="3"  height="3"  fill="#e07090"/>
+            <rect x="4"  y="11" width="3"  height="3"  fill="#e07090"/>
+            <rect x="11" y="11" width="3"  height="3"  fill="#e07090"/>
+          </svg>
+          <span class="nav-item-label">★ favs</span>
+        </div>
+
+        <!-- ✿ the blog -->
+        <span class="nav-section-label" style="margin-top:4px">
+          <svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>
+          the blog
+        </span>
+
+        <!-- games -->
+        <div class="nav-item" data-opens="panel-games" onclick="openPanel('panel-games')">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1"  y="5"  width="16" height="8"  fill="#f4a8b8"/>
+            <rect x="2"  y="4"  width="14" height="10" fill="#f4a8b8"/>
+            <rect x="2"  y="3"  width="4"  height="2"  fill="#f4a8b8"/>
+            <rect x="12" y="3"  width="4"  height="2"  fill="#f4a8b8"/>
+            <rect x="3"  y="8"  width="6"  height="2"  fill="#e07090"/>
+            <rect x="5"  y="6"  width="2"  height="6"  fill="#e07090"/>
+            <rect x="11" y="7"  width="3"  height="2"  fill="#5aaa6a"/>
+            <rect x="11" y="10" width="3"  height="2"  fill="#5aaa6a"/>
+          </svg>
+          <span class="nav-item-label">games</span>
+        </div>
 
         <!-- music -->
-        <a class="nav-item" data-opens="panel-music" href="#" onclick="openPanel('panel-music');return false;">
-          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-            <!-- stem -->
-            <rect x="10" y="3"  width="2"  height="9"  fill="#e05878"/>
-            <!-- beam -->
-            <rect x="10" y="3"  width="5"  height="2"  fill="#e05878"/>
-            <rect x="13" y="5"  width="2"  height="3"  fill="#e05878"/>
-            <!-- note head -->
-            <rect x="6"  y="11" width="6"  height="4"  fill="#e05878"/>
-            <rect x="5"  y="12" width="8"  height="2"  fill="#e05878"/>
+        <div class="nav-item" data-opens="panel-music" onclick="openPanel('panel-music')">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="3"  width="2"  height="9"  fill="#e07090"/>
+            <rect x="10" y="3"  width="5"  height="2"  fill="#e07090"/>
+            <rect x="13" y="5"  width="2"  height="3"  fill="#e07090"/>
+            <rect x="6"  y="11" width="6"  height="4"  fill="#e07090"/>
+            <rect x="5"  y="12" width="8"  height="2"  fill="#e07090"/>
           </svg>
-          <span>music</span>
-        </a>
+          <span class="nav-item-label">music</span>
+        </div>
 
         <!-- food -->
-        <a class="nav-item" data-opens="panel-food" href="#" onclick="openPanel('panel-food');return false;">
-          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-            <!-- bowl rim -->
-            <rect x="2"  y="8"  width="14" height="2"  fill="#e05878"/>
-            <!-- bowl body -->
-            <rect x="3"  y="10" width="12" height="2"  fill="#f4a0b8"/>
-            <rect x="5"  y="12" width="8"  height="2"  fill="#f4a0b8"/>
-            <rect x="6"  y="14" width="6"  height="1"  fill="#f4a0b8"/>
-            <!-- rice fill -->
+        <div class="nav-item" data-opens="panel-food" onclick="openPanel('panel-food')">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2"  y="8"  width="14" height="2"  fill="#e07090"/>
+            <rect x="3"  y="10" width="12" height="2"  fill="#f4a8b8"/>
+            <rect x="5"  y="12" width="8"  height="2"  fill="#f4a8b8"/>
+            <rect x="6"  y="14" width="6"  height="1"  fill="#f4a8b8"/>
             <rect x="3"  y="5"  width="12" height="4"  fill="#fdf6f0"/>
             <rect x="4"  y="4"  width="10" height="2"  fill="#fdf6f0"/>
-            <!-- steam -->
             <rect x="6"  y="1"  width="1"  height="3"  fill="#a8d8a0"/>
             <rect x="9"  y="2"  width="1"  height="2"  fill="#a8d8a0"/>
             <rect x="12" y="1"  width="1"  height="3"  fill="#a8d8a0"/>
           </svg>
-          <span>food</span>
-        </a>
-
-        <!-- stubby -->
-        <a class="nav-item" data-opens="panel-stubby" href="#" onclick="openPanel('panel-stubby');return false;">
-          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-            <!-- body -->
-            <rect x="4"  y="9"  width="10" height="7"  fill="#4a3040"/>
-            <rect x="3"  y="10" width="12" height="5"  fill="#4a3040"/>
-            <!-- head -->
-            <rect x="5"  y="4"  width="8"  height="6"  fill="#4a3040"/>
-            <rect x="4"  y="5"  width="10" height="4"  fill="#4a3040"/>
-            <!-- ears -->
-            <rect x="4"  y="2"  width="3"  height="3"  fill="#4a3040"/>
-            <rect x="11" y="2"  width="3"  height="3"  fill="#4a3040"/>
-            <!-- eye highlights -->
-            <rect x="6"  y="6"  width="2"  height="2"  fill="#fdf6f0"/>
-            <rect x="10" y="6"  width="2"  height="2"  fill="#fdf6f0"/>
-            <!-- tail stub -->
-            <rect x="13" y="13" width="3"  height="2"  fill="#4a3040"/>
-          </svg>
-          <span>stubby</span>
-        </a>
-
-        <!-- beauty -->
-        <a class="nav-item" data-opens="panel-beauty" href="#" onclick="openPanel('panel-beauty');return false;">
-          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-            <!-- tube -->
-            <rect x="7"  y="10" width="4"  height="5"  fill="#e05878"/>
-            <!-- cap band -->
-            <rect x="7"  y="9"  width="4"  height="1"  fill="#8b2a4a"/>
-            <!-- bullet body -->
-            <rect x="7"  y="6"  width="4"  height="4"  fill="#c05878"/>
-            <!-- bullet tip stepped -->
-            <rect x="8"  y="4"  width="3"  height="3"  fill="#c05878"/>
-            <rect x="9"  y="2"  width="2"  height="3"  fill="#c05878"/>
-            <rect x="10" y="2"  width="1"  height="2"  fill="#c05878"/>
-            <!-- base cap -->
-            <rect x="6"  y="14" width="6"  height="2"  fill="#8b2a4a"/>
-          </svg>
-          <span>beauty</span>
-        </a>
-
-        <!-- elsewhere -->
-        <div class="nav-section-label" style="margin-top:4px">
-          <svg width="8" height="8" viewBox="0 0 8 8">
-            <rect x="3" y="0" width="2" height="8" fill="#c05878"/>
-            <rect x="0" y="3" width="8" height="2" fill="#c05878"/>
-            <rect x="1" y="1" width="2" height="2" fill="#c05878"/>
-            <rect x="5" y="1" width="2" height="2" fill="#c05878"/>
-            <rect x="1" y="5" width="2" height="2" fill="#c05878"/>
-            <rect x="5" y="5" width="2" height="2" fill="#c05878"/>
-          </svg>
-          elsewhere
+          <span class="nav-item-label">food</span>
         </div>
 
-        <a class="nav-item elsewhere" href="https://www.twitch.tv/me0wberry_" target="_blank" rel="noopener"><span>twitch ↗</span></a>
-        <a class="nav-item elsewhere" href="#" onclick="showDiscordPopup();return false;"><span>discord</span></a>
-        <a class="nav-item elsewhere" href="https://www.instagram.com/z._ivy/" target="_blank" rel="noopener"><span>instagram ↗</span></a>
-        <a class="nav-item elsewhere" href="https://open.spotify.com/user/_no_need_for_names_?si=b15417a7b9884f96" target="_blank" rel="noopener"><span>spotify ↗</span></a>
-        <a class="nav-item elsewhere" href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener"><span>steam ↗</span></a>
+        <!-- stubby -->
+        <div class="nav-item" data-opens="panel-stubby" onclick="openPanel('panel-stubby')">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4"  y="9"  width="10" height="7"  fill="#4a3a42"/>
+            <rect x="3"  y="10" width="12" height="5"  fill="#4a3a42"/>
+            <rect x="5"  y="4"  width="8"  height="6"  fill="#4a3a42"/>
+            <rect x="4"  y="5"  width="10" height="4"  fill="#4a3a42"/>
+            <rect x="4"  y="2"  width="3"  height="3"  fill="#4a3a42"/>
+            <rect x="11" y="2"  width="3"  height="3"  fill="#4a3a42"/>
+            <rect x="6"  y="6"  width="2"  height="2"  fill="#fdf6f0"/>
+            <rect x="10" y="6"  width="2"  height="2"  fill="#fdf6f0"/>
+            <rect x="13" y="13" width="3"  height="2"  fill="#4a3a42"/>
+          </svg>
+          <span class="nav-item-label">stubby</span>
+        </div>
+
+        <!-- beauty -->
+        <div class="nav-item" data-opens="panel-beauty" onclick="openPanel('panel-beauty')">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <rect x="7"  y="10" width="4"  height="5"  fill="#e07090"/>
+            <rect x="7"  y="9"  width="4"  height="1"  fill="#8b3a5a"/>
+            <rect x="7"  y="6"  width="4"  height="4"  fill="#c07090"/>
+            <rect x="8"  y="4"  width="3"  height="3"  fill="#c07090"/>
+            <rect x="9"  y="2"  width="2"  height="3"  fill="#c07090"/>
+            <rect x="10" y="2"  width="1"  height="2"  fill="#c07090"/>
+            <rect x="6"  y="14" width="6"  height="2"  fill="#8b3a5a"/>
+          </svg>
+          <span class="nav-item-label">beauty</span>
+        </div>
+
+        <!-- ✿ extras -->
+        <span class="nav-section-label" style="margin-top:4px">
+          <svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>
+          extras
+        </span>
+
+        <!-- player -->
+        <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <!-- double music note -->
+            <rect x="8"  y="3"  width="2"  height="8"  fill="#e07090"/>
+            <rect x="8"  y="3"  width="7"  height="2"  fill="#e07090"/>
+            <rect x="13" y="5"  width="2"  height="3"  fill="#e07090"/>
+            <rect x="4"  y="10" width="6"  height="4"  fill="#e07090"/>
+            <rect x="3"  y="11" width="7"  height="2"  fill="#e07090"/>
+            <rect x="13" y="7"  width="4"  height="4"  fill="#e07090"/>
+            <rect x="12" y="8"  width="5"  height="2"  fill="#e07090"/>
+          </svg>
+          <span class="nav-item-label">♪ player</span>
+        </div>
+
+        <!-- ✿ elsewhere -->
+        <span class="nav-section-label" style="margin-top:4px">
+          <svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>
+          elsewhere
+        </span>
+
+        <div class="nav-item elsewhere" onclick="window.open('https://www.twitch.tv/me0wberry_','_blank')"><span class="nav-item-label">twitch ↗</span></div>
+        <div class="nav-item elsewhere" onclick="showDiscordPopup()"><span class="nav-item-label">discord</span></div>
+        <div class="nav-item elsewhere" onclick="window.open('https://www.instagram.com/z._ivy/','_blank')"><span class="nav-item-label">instagram ↗</span></div>
+        <div class="nav-item elsewhere" onclick="window.open('https://open.spotify.com/user/_no_need_for_names_?si=b15417a7b9884f96','_blank')"><span class="nav-item-label">spotify ↗</span></div>
+        <div class="nav-item elsewhere" onclick="window.open('https://steamcommunity.com/id/berrymeowy/','_blank')"><span class="nav-item-label">steam ↗</span></div>
 
       </div>
-    </nav>
+    </div><!-- /#sidebar -->
 
     <!-- ── Main ── -->
-    <main id="main">
+    <div id="main">
 
-      <!-- ────────────────────────────
+      <!-- ──────────────────────────────
            Bio Panel
-      ──────────────────────────── -->
-      <div class="panel visible" id="panel-bio" style="top:20px;left:18px;width:370px;">
+      ────────────────────────────── -->
+      <div class="panel" id="panel-bio">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">hello! (=^･^=)</span>
-          <button class="panel-close" onclick="closePanel('panel-bio')">✕</button>
+          <div class="panel-close" onclick="closePanel('panel-bio')">✕</div>
         </div>
 
         <!-- Windows-style tab bar -->
@@ -845,50 +966,37 @@
 
         <div class="panel-body">
 
-          <!-- ── Tab 1: about ── -->
+          <!-- Tab 1: about -->
           <div class="tab-content active" id="bio-about">
-
             <!-- pixel kitten 60×60, rect-only -->
             <div class="kitten-corner">
               <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                <!-- left ear outer (green-light) -->
                 <rect x="6"  y="4"  width="12" height="12" fill="#a8d8a0"/>
                 <rect x="8"  y="2"  width="8"  height="4"  fill="#a8d8a0"/>
                 <rect x="10" y="0"  width="4"  height="4"  fill="#a8d8a0"/>
-                <!-- left ear inner (pink) -->
-                <rect x="9"  y="6"  width="6"  height="8"  fill="#f4a0b8"/>
-                <rect x="11" y="4"  width="3"  height="4"  fill="#f4a0b8"/>
-                <!-- right ear outer (green-light) -->
+                <rect x="9"  y="6"  width="6"  height="8"  fill="#f4a8b8"/>
+                <rect x="11" y="4"  width="3"  height="4"  fill="#f4a8b8"/>
                 <rect x="42" y="4"  width="12" height="12" fill="#a8d8a0"/>
                 <rect x="44" y="2"  width="8"  height="4"  fill="#a8d8a0"/>
                 <rect x="46" y="0"  width="4"  height="4"  fill="#a8d8a0"/>
-                <!-- right ear inner (pink) -->
-                <rect x="45" y="6"  width="6"  height="8"  fill="#f4a0b8"/>
-                <rect x="46" y="4"  width="3"  height="4"  fill="#f4a0b8"/>
-                <!-- face body (pink-pale) -->
-                <rect x="8"  y="12" width="44" height="2"  fill="#fdd8e0"/>
-                <rect x="6"  y="14" width="48" height="36" fill="#fdd8e0"/>
-                <!-- blush cheeks -->
-                <rect x="8"  y="30" width="10" height="5"  fill="#f4a0b8" opacity="0.45"/>
-                <rect x="42" y="30" width="10" height="5"  fill="#f4a0b8" opacity="0.45"/>
-                <!-- eyes -->
-                <rect x="14" y="23" width="9"  height="8"  fill="#4a3040"/>
-                <rect x="37" y="23" width="9"  height="8"  fill="#4a3040"/>
-                <!-- eye shine -->
+                <rect x="45" y="6"  width="6"  height="8"  fill="#f4a8b8"/>
+                <rect x="46" y="4"  width="3"  height="4"  fill="#f4a8b8"/>
+                <rect x="8"  y="12" width="44" height="2"  fill="#ffd0de"/>
+                <rect x="6"  y="14" width="48" height="36" fill="#ffd0de"/>
+                <rect x="8"  y="30" width="10" height="5"  fill="#f4a8b8" opacity="0.45"/>
+                <rect x="42" y="30" width="10" height="5"  fill="#f4a8b8" opacity="0.45"/>
+                <rect x="14" y="23" width="9"  height="8"  fill="#4a3a42"/>
+                <rect x="37" y="23" width="9"  height="8"  fill="#4a3a42"/>
                 <rect x="15" y="24" width="3"  height="3"  fill="#fdf6f0"/>
                 <rect x="38" y="24" width="3"  height="3"  fill="#fdf6f0"/>
-                <!-- nose -->
-                <rect x="27" y="33" width="6"  height="4"  fill="#e05878"/>
-                <rect x="28" y="31" width="4"  height="3"  fill="#e05878"/>
-                <!-- mouth -->
-                <rect x="22" y="38" width="6"  height="2"  fill="#8b2a4a"/>
-                <rect x="32" y="38" width="6"  height="2"  fill="#8b2a4a"/>
-                <!-- whiskers left -->
-                <rect x="0"  y="30" width="13" height="1"  fill="#a08090"/>
-                <rect x="0"  y="34" width="13" height="1"  fill="#a08090"/>
-                <!-- whiskers right -->
-                <rect x="47" y="30" width="13" height="1"  fill="#a08090"/>
-                <rect x="47" y="34" width="13" height="1"  fill="#a08090"/>
+                <rect x="27" y="33" width="6"  height="4"  fill="#e07090"/>
+                <rect x="28" y="31" width="4"  height="3"  fill="#e07090"/>
+                <rect x="22" y="38" width="6"  height="2"  fill="#8b3a5a"/>
+                <rect x="32" y="38" width="6"  height="2"  fill="#8b3a5a"/>
+                <rect x="0"  y="30" width="13" height="1"  fill="#a09098"/>
+                <rect x="0"  y="34" width="13" height="1"  fill="#a09098"/>
+                <rect x="47" y="30" width="13" height="1"  fill="#a09098"/>
+                <rect x="47" y="34" width="13" height="1"  fill="#a09098"/>
               </svg>
               <span class="kitten-kaomoji">ฅ^•ﻌ•^ฅ</span>
             </div>
@@ -896,7 +1004,8 @@
             <div class="stat-block">
               <div>she/her</div>
               <div>23 · aries · 🐴</div>
-              <div>🇨🇦🇨🇳 eng / 中文</div>
+              <div class="stat-flags">🇨🇦 🇨🇳</div>
+              <div>eng / 中文</div>
               <div>INFP-T</div>
             </div>
 
@@ -915,10 +1024,9 @@
               <span class="currently-label">reading</span>
               <span>marathon lore</span>
             </div>
-
           </div><!-- /bio-about -->
 
-          <!-- ── Tab 2: likes ── -->
+          <!-- Tab 2: likes -->
           <div class="tab-content" id="bio-likes">
             <div class="likes-cols">
               <div class="likes-col">
@@ -926,10 +1034,8 @@
                 <ul>
                   <li>cats</li>
                   <li>pink &amp; green</li>
-                  <li>cheese</li>
-                  <li>boba</li>
                   <li>gaming</li>
-                  <li>salmon</li>
+                  <li>plushies / stuffies</li>
                   <li>dreaming &amp; planning</li>
                 </ul>
               </div>
@@ -952,7 +1058,7 @@
             </div>
           </div><!-- /bio-likes -->
 
-          <!-- ── Tab 3: dni ── -->
+          <!-- Tab 3: dni -->
           <div class="tab-content" id="bio-dni">
             <div class="pixel-tag">/ dni</div>
             <ul class="dni-list">
@@ -966,205 +1072,271 @@
               <li>people who can't handle differing opinions on games/media</li>
             </ul>
             <hr class="dashed-divider"/>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:6px">also please don't:</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:6px">also please don't:</div>
             <ul class="dni-list dni-soft">
               <li>be weird about me being in a relationship</li>
               <li>only interact to argue</li>
             </ul>
           </div><!-- /bio-dni -->
 
-          <!-- ── Tab 4: find me ── -->
+          <!-- Tab 4: find me -->
           <div class="tab-content" id="bio-findme">
             <div class="find-me-grid">
               <a class="pixel-btn" href="https://www.twitch.tv/me0wberry_" target="_blank" rel="noopener">twitch ↗</a>
               <a class="pixel-btn" href="https://www.instagram.com/z._ivy/" target="_blank" rel="noopener">instagram ↗</a>
               <a class="pixel-btn" href="https://open.spotify.com/user/_no_need_for_names_?si=b15417a7b9884f96" target="_blank" rel="noopener">spotify ↗</a>
               <a class="pixel-btn" href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener">steam ↗</a>
-              <button class="pixel-btn" onclick="showDiscordPopup()" style="grid-column:1/-1;justify-self:start;">discord</button>
+              <button class="pixel-btn" onclick="showDiscordPopup()">discord</button>
             </div>
             <p class="find-me-note">i don't give out my discord right away — say hi somewhere else first (˶ᵔ ᵕ ᵔ˶)</p>
           </div><!-- /bio-findme -->
 
         </div><!-- /panel-body -->
-        <div class="panel-resize">
-          <svg width="10" height="10" viewBox="0 0 10 10">
-            <rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/>
-            <rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/>
-            <rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/>
-          </svg>
-        </div>
+        <div class="panel-resize">···</div>
       </div><!-- /panel-bio -->
 
-      <!-- ────────────────────────────
+      <!-- ──────────────────────────────
            Lately Panel
-      ──────────────────────────── -->
-      <div class="panel" id="panel-lately" style="top:20px;left:408px;width:310px;">
+      ────────────────────────────── -->
+      <div class="panel" id="panel-lately">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ lately</span>
-          <button class="panel-close" onclick="closePanel('panel-lately')">✕</button>
+          <div class="panel-close" onclick="closePanel('panel-lately')">✕</div>
         </div>
         <div class="panel-body">
           <div class="pixel-tag">/ lately</div>
           <div class="panel-lora-heading">in the lately...</div>
           <div class="panel-updated">last updated [month year]</div>
-
           <div class="panel-px-label">where i'm at (ᐢ. .ᐢ):</div>
-          <div class="panel-section-body">
-            <ul><li>[ivy fills in]</li></ul>
-          </div>
-
+          <div class="panel-section-body"><ul><li>[ivy fills in]</li></ul></div>
           <div class="hearts-divider">────── ♡ · ♡ · ♡ ──────</div>
-
           <div class="panel-px-label">what i'm into:</div>
-          <div class="panel-section-body">
-            <ul><li>[ivy fills in]</li></ul>
-          </div>
-
+          <div class="panel-section-body"><ul><li>[ivy fills in]</li></ul></div>
           <hr class="plain-divider"/>
-          <div style="font-size:12px;color:var(--heading);margin-bottom:6px">♡ a note:</div>
+          <div style="font-size:13px;color:var(--heading);margin-bottom:6px">♡ a note:</div>
           <div class="panel-section-body" style="font-style:italic;color:var(--muted)">[ivy fills in — freeform short paragraph]</div>
         </div>
-        <div class="panel-resize">
-          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
-        </div>
+        <div class="panel-resize">···</div>
       </div>
 
-      <!-- ────────────────────────────
+      <!-- ──────────────────────────────
            Games Panel
-      ──────────────────────────── -->
-      <div class="panel" id="panel-games" style="top:30px;left:440px;width:340px;">
+      ────────────────────────────── -->
+      <div class="panel" id="panel-games">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ games</span>
-          <button class="panel-close" onclick="closePanel('panel-games')">✕</button>
+          <div class="panel-close" onclick="closePanel('panel-games')">✕</div>
         </div>
         <div class="panel-body">
           <div class="pixel-tag">/ games</div>
           <div class="panel-lora-heading">games</div>
           <div class="embed-container">
-            <div class="steam-fallback-card">
+            <iframe
+              src="https://steam-card.vercel.app/api?steamid=berrymeowy&theme=light"
+              width="100%" height="130" frameBorder="0" scrolling="no"
+              style="border:1px solid var(--frosted-border);border-radius:3px;display:block;">
+            </iframe>
+            <div class="steam-fallback-card" style="margin-top:4px;">
               <div>
-                <div class="panel-px-label" style="margin-bottom:4px">steam profile</div>
-                <div style="font-size:12px;color:var(--body)">berrymeowy</div>
+                <div class="panel-px-label" style="margin:0 0 3px">steam</div>
+                <div style="font-size:13px;color:var(--body)">berrymeowy</div>
               </div>
-              <a class="pixel-btn" href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener" style="font-size:6px;padding:6px 8px">view ↗</a>
+              <a class="pixel-btn" href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener" style="padding:5px 8px;font-size:7px;">view ↗</a>
             </div>
           </div>
           <hr class="plain-divider"/>
           <div class="panel-px-label">posts:</div>
-          <ul class="posts-list">
-            <li class="posts-empty">no posts yet ♡</li>
-          </ul>
+          <ul class="posts-list"><li class="posts-empty">no posts yet ♡</li></ul>
         </div>
-        <div class="panel-resize">
-          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
-        </div>
+        <div class="panel-resize">···</div>
       </div>
 
-      <!-- ────────────────────────────
+      <!-- ──────────────────────────────
            Music Panel
-      ──────────────────────────── -->
-      <div class="panel" id="panel-music" style="top:35px;left:450px;width:340px;">
+      ────────────────────────────── -->
+      <div class="panel" id="panel-music">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ music</span>
-          <button class="panel-close" onclick="closePanel('panel-music')">✕</button>
+          <div class="panel-close" onclick="closePanel('panel-music')">✕</div>
         </div>
         <div class="panel-body">
           <div class="pixel-tag">/ music</div>
           <div class="panel-lora-heading">music</div>
           <div class="embed-container">
             <iframe
-              style="border-radius:3px;border:1px solid var(--frosted-border);display:block"
-              src="https://open.spotify.com/embed/user/_no_need_for_names_?utm_source=generator&theme=0"
-              width="100%" height="152" frameBorder="0"
+              style="border-radius:3px;border:1px solid var(--frosted-border);display:block;"
+              src="https://open.spotify.com/embed/playlist/3KhEMQN1OT78s1M8m3MeAj?utm_source=generator&theme=0"
+              width="100%" height="352" frameBorder="0" allowfullscreen=""
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy">
             </iframe>
           </div>
           <hr class="plain-divider"/>
           <div class="panel-px-label">posts:</div>
-          <ul class="posts-list">
-            <li class="posts-empty">no posts yet ♡</li>
-          </ul>
+          <ul class="posts-list"><li class="posts-empty">no posts yet ♡</li></ul>
         </div>
-        <div class="panel-resize">
-          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
-        </div>
+        <div class="panel-resize">···</div>
       </div>
 
-      <!-- ────────────────────────────
+      <!-- ──────────────────────────────
            Food Panel
-      ──────────────────────────── -->
-      <div class="panel" id="panel-food" style="top:40px;left:460px;width:310px;">
+      ────────────────────────────── -->
+      <div class="panel" id="panel-food">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ food</span>
-          <button class="panel-close" onclick="closePanel('panel-food')">✕</button>
+          <div class="panel-close" onclick="closePanel('panel-food')">✕</div>
         </div>
         <div class="panel-body">
           <div class="pixel-tag">/ food</div>
           <div class="panel-lora-heading">food</div>
           <hr class="plain-divider"/>
           <div class="panel-px-label">posts:</div>
-          <ul class="posts-list">
-            <li class="posts-empty">no posts yet ♡</li>
-          </ul>
+          <ul class="posts-list"><li class="posts-empty">no posts yet ♡</li></ul>
         </div>
-        <div class="panel-resize">
-          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
-        </div>
+        <div class="panel-resize">···</div>
       </div>
 
-      <!-- ────────────────────────────
+      <!-- ──────────────────────────────
            Stubby Panel
-      ──────────────────────────── -->
-      <div class="panel" id="panel-stubby" style="top:40px;left:460px;width:310px;">
+      ────────────────────────────── -->
+      <div class="panel" id="panel-stubby">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ stubby 🐾</span>
-          <button class="panel-close" onclick="closePanel('panel-stubby')">✕</button>
+          <div class="panel-close" onclick="closePanel('panel-stubby')">✕</div>
         </div>
         <div class="panel-body">
           <div class="pixel-tag">/ stubby</div>
           <div class="panel-lora-heading">stubby 🐾</div>
           <hr class="plain-divider"/>
           <div class="panel-px-label">posts:</div>
-          <ul class="posts-list">
-            <li class="posts-empty">no posts yet ♡</li>
-          </ul>
+          <ul class="posts-list"><li class="posts-empty">no posts yet ♡</li></ul>
         </div>
-        <div class="panel-resize">
-          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
-        </div>
+        <div class="panel-resize">···</div>
       </div>
 
-      <!-- ────────────────────────────
+      <!-- ──────────────────────────────
            Beauty Panel
-      ──────────────────────────── -->
-      <div class="panel" id="panel-beauty" style="top:40px;left:460px;width:310px;">
+      ────────────────────────────── -->
+      <div class="panel" id="panel-beauty">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ beauty</span>
-          <button class="panel-close" onclick="closePanel('panel-beauty')">✕</button>
+          <div class="panel-close" onclick="closePanel('panel-beauty')">✕</div>
         </div>
         <div class="panel-body">
           <div class="pixel-tag">/ beauty</div>
           <div class="panel-lora-heading">beauty</div>
           <hr class="plain-divider"/>
           <div class="panel-px-label">posts:</div>
-          <ul class="posts-list">
-            <li class="posts-empty">no posts yet ♡</li>
-          </ul>
+          <ul class="posts-list"><li class="posts-empty">no posts yet ♡</li></ul>
         </div>
-        <div class="panel-resize">
-          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
-        </div>
+        <div class="panel-resize">···</div>
       </div>
 
-    </main>
-  </div>
+      <!-- ──────────────────────────────
+           Favs Panel
+      ────────────────────────────── -->
+      <div class="panel" id="panel-favs">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
+        <div class="panel-titlebar">
+          <span class="panel-title">✦ favs</span>
+          <div class="panel-close" onclick="closePanel('panel-favs')">✕</div>
+        </div>
+        <div class="panel-body">
+          <div class="pixel-tag">/ favs</div>
+          <div class="panel-lora-heading">favourites</div>
 
-  <!-- ── Discord Mini Popup (Windows error dialog style) ── -->
+          <div class="favs-section-header">★ game mains:</div>
+          <div class="favs-entry">league of legends: sona, nami</div>
+          <div class="favs-entry">apex legends: lifeline, conduit</div>
+          <div class="favs-entry">warframe: mag, khora, yareli, harrow</div>
+          <div class="favs-subnote">yes mostly healers/supports (=^･^=)</div>
+
+          <div class="hearts-divider">♡ · ♡ · ♡</div>
+
+          <div class="favs-section-header">★ fav games:</div>
+          <div class="favs-entry">warframe / league of legends / lord of the rings online / the sims 4</div>
+
+          <div class="hearts-divider">♡ · ♡ · ♡</div>
+
+          <div class="favs-section-header">★ sanrio &amp; plushies ♡:</div>
+          <div class="favs-entry">pochacco / cinnamoroll</div>
+          <div class="favs-subnote">always looking for more (˶ᵔ ᵕ ᵔ˶)</div>
+
+          <div class="hearts-divider">♡ · ♡ · ♡</div>
+
+          <div class="favs-section-header">★ fav media:</div>
+          <div class="favs-entry">lord of the rings (full stop)</div>
+          <div class="favs-entry" style="color:var(--muted);font-style:italic">[comfort shows/movies — ivy fills in]</div>
+
+          <div class="hearts-divider">♡ · ♡ · ♡</div>
+
+          <div class="favs-section-header">★ fav foods &amp; drinks:</div>
+          <div class="favs-entry">homestyle shanghainese food / dim sum / katsu / musubi / grapes / mangoes</div>
+        </div>
+        <div class="panel-resize">···</div>
+      </div>
+
+      <!-- ──────────────────────────────
+           Music Player Panel
+      ────────────────────────────── -->
+      <div class="panel" id="panel-player" style="width:280px;">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
+        <div class="panel-titlebar">
+          <span class="panel-title">♪ now playing</span>
+          <div class="panel-close" onclick="closePanel('panel-player')">✕</div>
+        </div>
+        <div class="panel-body" style="padding:12px 14px 10px;">
+
+          <!-- track title (marquee) -->
+          <div class="player-track-title">
+            <div class="marquee-wrap" id="player-marquee">
+              <span id="player-title">please don't stop being sweet to me · lace</span>
+            </div>
+          </div>
+
+          <!-- progress bar -->
+          <div class="player-time-row">
+            <span id="player-current-time">0:00</span>
+            <input type="range" id="player-progress" class="player-range" min="0" max="100" value="0" step="0.1">
+            <span id="player-total-time">0:00</span>
+          </div>
+
+          <!-- transport buttons -->
+          <div class="player-controls">
+            <button class="player-btn" onclick="playerPrev()" title="prev">◀</button>
+            <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" title="play/pause">▶</button>
+            <button class="player-btn" onclick="playerNext()" title="next">▶|</button>
+          </div>
+
+          <!-- volume -->
+          <div class="player-volume-row">
+            <span class="player-vol-icon">🔊</span>
+            <input type="range" id="player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01">
+          </div>
+
+          <!-- track counter -->
+          <div class="player-track-counter" id="player-counter">track 1 / 3</div>
+
+          <!-- hidden audio element -->
+          <audio id="player-audio" preload="none"></audio>
+        </div>
+        <!-- no resize handle for player -->
+      </div><!-- /panel-player -->
+
+    </div><!-- /#main -->
+  </div><!-- /#layout -->
+
+  <!-- ── Discord Mini Popup ── -->
   <div id="discord-popup">
     <div class="discord-titlebar" id="discord-titlebar">
       <span>discord</span>
-      <button class="panel-close" onclick="hideDiscordPopup()">✕</button>
+      <div class="panel-close" onclick="hideDiscordPopup()">✕</div>
     </div>
     <div class="discord-body">
       <p>ask! (=^･^=)</p>
@@ -1174,16 +1346,48 @@
 
   <script>
     // ── Z-index ──
-    let zTop = 200;
+    let zTop = 10;
 
-    function bringToFront(el) { el.style.zIndex = ++zTop; }
+    function bringToFront(panel) {
+      zTop++;
+      panel.style.zIndex = zTop;
+    }
 
-    // ── Panel open / close ──
+    // ── Panel widths ──
+    const panelWidths = {
+      'panel-bio':    '420px',
+      'panel-lately': '340px',
+      'panel-games':  '380px',
+      'panel-music':  '380px',
+      'panel-food':   '380px',
+      'panel-stubby': '380px',
+      'panel-beauty': '380px',
+      'panel-favs':   '380px',
+    };
+
+    // ── Open / Close ──
     function openPanel(id) {
       const panel = document.getElementById(id);
       if (!panel) return;
-      panel.classList.add('visible');
+
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+        panel.classList.add('open');
+        document.body.classList.add('mobile-panel');
+        return;
+      }
+
+      // Desktop: reset position (not for player — it keeps its position)
+      if (id !== 'panel-player') {
+        panel.style.top   = '12px';
+        panel.style.left  = '12px';
+        panel.style.width = panelWidths[id] || '380px';
+      }
+      panel.classList.add('open');
       bringToFront(panel);
+
+      // sync nav highlight
       document.querySelectorAll('.nav-item[data-opens]').forEach(el => {
         el.classList.toggle('active', el.dataset.opens === id);
       });
@@ -1192,62 +1396,91 @@
     function closePanel(id) {
       const panel = document.getElementById(id);
       if (!panel) return;
-      panel.classList.remove('visible');
-      // restore bio highlight if closed panel was active
-      const match = document.querySelector(`.nav-item[data-opens="${id}"].active`);
-      if (match) {
-        match.classList.remove('active');
+      panel.classList.remove('open');
+      // restore bio highlight if needed
+      const wasActive = document.querySelector(`.nav-item[data-opens="${id}"].active`);
+      if (wasActive) {
+        wasActive.classList.remove('active');
         const bio = document.querySelector('.nav-item[data-opens="panel-bio"]');
         if (bio) bio.classList.add('active');
       }
     }
 
-    // click panel → front
-    document.querySelectorAll('.panel').forEach(p =>
-      p.addEventListener('mousedown', () => bringToFront(p), true)
-    );
-
-    // ── Drag ──
-    function makeDraggable(handle, panel) {
-      let on = false, ox, oy, pl, pt;
-      handle.addEventListener('mousedown', e => {
-        if (e.target.classList.contains('panel-close')) return;
-        on = true;
-        ox = e.clientX; oy = e.clientY;
-        pl = parseInt(panel.style.left) || 0;
-        pt = parseInt(panel.style.top)  || 0;
-        bringToFront(panel);
-        e.preventDefault();
-      });
-      document.addEventListener('mousemove', e => {
-        if (!on) return;
-        panel.style.left = (pl + e.clientX - ox) + 'px';
-        panel.style.top  = (pt + e.clientY - oy) + 'px';
-      });
-      document.addEventListener('mouseup', () => { on = false; });
+    function mobileBack() {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+      document.body.classList.remove('mobile-panel');
     }
 
-    document.querySelectorAll('.panel-titlebar').forEach(tb =>
-      makeDraggable(tb, tb.parentElement)
-    );
-
-    // ── Resize ──
-    document.querySelectorAll('.panel-resize').forEach(handle => {
-      const panel = handle.parentElement;
-      let on = false, ox, oy, sw, sh;
-      handle.addEventListener('mousedown', e => {
-        on = true;
-        ox = e.clientX; oy = e.clientY;
-        sw = panel.offsetWidth; sh = panel.offsetHeight;
-        e.preventDefault(); e.stopPropagation();
-      });
-      document.addEventListener('mousemove', e => {
-        if (!on) return;
-        panel.style.width  = Math.max(260, sw + e.clientX - ox) + 'px';
-        panel.style.height = Math.max(180, sh + e.clientY - oy) + 'px';
-      });
-      document.addEventListener('mouseup', () => { on = false; });
+    // click panel → bring to front
+    document.addEventListener('mousedown', function(e) {
+      const panel = e.target.closest('.panel');
+      if (panel) bringToFront(panel);
     });
+
+    // ── Drag (from reference) ──
+    (function() {
+      let dragging = null, ox = 0, oy = 0;
+
+      document.addEventListener('mousedown', function(e) {
+        const tb = e.target.closest('.panel-titlebar');
+        if (!tb || e.target.closest('.panel-close')) return;
+        if (window.innerWidth <= 768) return;
+
+        const panel = tb.closest('.panel');
+        bringToFront(panel);
+        dragging = panel;
+
+        const rect = panel.getBoundingClientRect();
+        const mainRect = document.getElementById('main').getBoundingClientRect();
+        ox = e.clientX - rect.left;
+        oy = e.clientY - rect.top;
+
+        panel.style.left  = (rect.left - mainRect.left) + 'px';
+        panel.style.top   = (rect.top  - mainRect.top)  + 'px';
+        panel.style.width = rect.width + 'px';
+        panel.style.right  = '';
+        panel.style.bottom = '';
+
+        e.preventDefault();
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        const mainRect = document.getElementById('main').getBoundingClientRect();
+        let x = e.clientX - mainRect.left - ox;
+        let y = e.clientY - mainRect.top  - oy;
+        x = Math.max(-dragging.offsetWidth + 60, x);
+        y = Math.max(0, y);
+        dragging.style.left = x + 'px';
+        dragging.style.top  = y + 'px';
+      });
+
+      document.addEventListener('mouseup', function() { dragging = null; });
+    })();
+
+    // ── Resize — vertical only (from reference) ──
+    (function() {
+      let resizing = null, startY = 0, startH = 0;
+
+      document.addEventListener('mousedown', function(e) {
+        const handle = e.target.closest('.panel-resize');
+        if (!handle) return;
+        if (window.innerWidth <= 768) return;
+        const panel = handle.closest('.panel');
+        resizing = panel;
+        startY = e.clientY;
+        startH = panel.offsetHeight;
+        e.preventDefault();
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        if (!resizing) return;
+        const newH = Math.max(160, startH + (e.clientY - startY));
+        resizing.style.height = newH + 'px';
+      });
+
+      document.addEventListener('mouseup', function() { resizing = null; });
+    })();
 
     // ── Tab switching ──
     function switchTab(btn, targetId, tabbarId) {
@@ -1262,21 +1495,164 @@
     // ── Discord popup ──
     function showDiscordPopup() {
       const popup = document.getElementById('discord-popup');
-      popup.classList.add('visible');
-      bringToFront(popup);
+      popup.classList.add('open');
+      popup.style.zIndex = ++zTop;
     }
     function hideDiscordPopup() {
-      document.getElementById('discord-popup').classList.remove('visible');
+      document.getElementById('discord-popup').classList.remove('open');
     }
 
     // discord popup draggable
-    makeDraggable(
-      document.getElementById('discord-titlebar'),
-      document.getElementById('discord-popup')
-    );
+    (function() {
+      let dragging = null, ox = 0, oy = 0;
+      const handle = document.getElementById('discord-titlebar');
+      const popup  = document.getElementById('discord-popup');
 
-    // ── Init ──
-    bringToFront(document.getElementById('panel-bio'));
+      handle.addEventListener('mousedown', function(e) {
+        if (e.target.closest('.panel-close')) return;
+        dragging = true;
+        const rect = popup.getBoundingClientRect();
+        ox = e.clientX - rect.left;
+        oy = e.clientY - rect.top;
+        popup.style.transform = 'none';
+        popup.style.left = rect.left + 'px';
+        popup.style.top  = rect.top  + 'px';
+        e.preventDefault();
+      });
+      document.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        popup.style.left = (e.clientX - ox) + 'px';
+        popup.style.top  = (e.clientY - oy) + 'px';
+      });
+      document.addEventListener('mouseup', function() { dragging = false; });
+    })();
+
+    // ── Mobile resize handler ──
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) document.body.classList.remove('mobile-panel');
+    });
+
+    // ── Audio Player ──
+    const tracks = [
+      { src: 'audio/please-dont-stop.mp3',    title: "please don't stop being sweet to me · lace" },
+      { src: 'audio/forever-and.mp3',          title: 'forever & · EJEAN' },
+      { src: 'audio/huayuan-meteor-rain.mp3',  title: '花园裡的流星雨 · Karencici' },
+    ];
+    let currentTrack = 0;
+    const audio       = document.getElementById('player-audio');
+    const progressEl  = document.getElementById('player-progress');
+    const titleSpan   = document.getElementById('player-title');
+    const marqueeWrap = document.getElementById('player-marquee');
+    const counterEl   = document.getElementById('player-counter');
+    const playPauseBtn = document.getElementById('player-playpause');
+    const currentTimeEl = document.getElementById('player-current-time');
+    const totalTimeEl   = document.getElementById('player-total-time');
+    const volumeEl      = document.getElementById('player-volume');
+
+    function fmtTime(s) {
+      if (!s || isNaN(s)) return '0:00';
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    function checkMarquee() {
+      const container = marqueeWrap.parentElement;
+      // duplicate text for seamless loop if overflowing
+      if (titleSpan.offsetWidth > container.offsetWidth) {
+        if (!titleSpan.dataset.doubled) {
+          titleSpan.textContent = titleSpan.textContent + '\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0' + titleSpan.textContent;
+          titleSpan.dataset.doubled = '1';
+        }
+        marqueeWrap.classList.add('scrolling');
+      } else {
+        marqueeWrap.classList.remove('scrolling');
+      }
+    }
+
+    function loadTrack(idx) {
+      currentTrack = idx;
+      const t = tracks[idx];
+      // reset title
+      titleSpan.dataset.doubled = '';
+      titleSpan.textContent = t.title;
+      marqueeWrap.classList.remove('scrolling');
+      audio.src = t.src;
+      counterEl.textContent = 'track ' + (idx + 1) + ' / ' + tracks.length;
+      progressEl.value = 0;
+      currentTimeEl.textContent = '0:00';
+      totalTimeEl.textContent = '0:00';
+      playPauseBtn.textContent = '▶';
+      // check marquee after paint
+      requestAnimationFrame(checkMarquee);
+    }
+
+    function playerToggle() {
+      if (audio.paused) {
+        audio.play().catch(function() {}); // handle missing file gracefully
+        playPauseBtn.textContent = '❚❚';
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = '▶';
+      }
+    }
+
+    function playerNext() {
+      const wasPlaying = !audio.paused;
+      loadTrack((currentTrack + 1) % tracks.length);
+      if (wasPlaying) { audio.play().catch(function(){}); playPauseBtn.textContent = '❚❚'; }
+    }
+
+    function playerPrev() {
+      if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+      const wasPlaying = !audio.paused;
+      loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
+      if (wasPlaying) { audio.play().catch(function(){}); playPauseBtn.textContent = '❚❚'; }
+    }
+
+    audio.addEventListener('timeupdate', function() {
+      if (!audio.duration) return;
+      progressEl.value = (audio.currentTime / audio.duration) * 100;
+      currentTimeEl.textContent = fmtTime(audio.currentTime);
+    });
+
+    audio.addEventListener('loadedmetadata', function() {
+      totalTimeEl.textContent = fmtTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', playerNext);
+
+    progressEl.addEventListener('input', function() {
+      if (audio.duration) audio.currentTime = (progressEl.value / 100) * audio.duration;
+    });
+
+    volumeEl.addEventListener('input', function() {
+      audio.volume = parseFloat(volumeEl.value);
+    });
+
+    audio.volume = 0.75;
+    loadTrack(0);
+
+    // ── Init: open default panels ──
+    if (window.innerWidth > 768) {
+      // bio opens at top-left
+      openPanel('panel-bio');
+
+      // player opens at bottom-right of #main
+      (function() {
+        const player  = document.getElementById('panel-player');
+        const mainEl  = document.getElementById('main');
+        const playerW = 280;
+        player.style.width = playerW + 'px';
+        player.classList.add('open');
+        bringToFront(player);
+        // measure rendered height then position
+        const playerH  = player.offsetHeight;
+        const mainRect = mainEl.getBoundingClientRect();
+        player.style.left = Math.max(12, mainRect.width  - playerW - 20) + 'px';
+        player.style.top  = Math.max(12, mainRect.height - playerH - 20) + 'px';
+      })();
+    }
   </script>
 </body>
 </html>
