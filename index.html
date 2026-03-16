@@ -715,6 +715,68 @@
       transition: color 0.15s;
     }
     .ilmbf-trigger:hover { color: var(--pink); text-decoration: none; }
+
+    /* ── him-trigger (likes list) ── */
+    .him-trigger { color: var(--pink); cursor: inherit !important; }
+    .him-trigger:hover { color: #c0506a; }
+
+    /* ── Stubby Slideshow ── */
+    .stubby-slideshow {
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .slide-track-wrapper {
+      overflow: hidden;
+      width: 100%;
+      border: 1px solid var(--frosted-border);
+    }
+    .slide-track {
+      display: flex;
+      transition: transform 0.4s ease;
+    }
+    .slide-img {
+      min-width: 100%;
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .slide-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid var(--frosted-border);
+      color: var(--pixel-label);
+      font-size: 10px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: inherit;
+      backdrop-filter: blur(4px);
+    }
+    .slide-prev { left: 4px; }
+    .slide-next { right: 4px; }
+    .slide-dots {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 6px;
+    }
+    .slide-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--pink-pale);
+      border: 1px solid var(--pink);
+      cursor: inherit;
+    }
+    .slide-dot.active {
+      background: var(--pink);
+    }
   </style>
 </head>
 <body>
@@ -803,12 +865,16 @@
           <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="6"  width="12" height="9"  fill="#ffd0de"/>
             <rect x="2" y="7"  width="14" height="7"  fill="#ffd0de"/>
-            <rect x="2" y="2"  width="5"  height="5"  fill="#a8d8a0"/>
-            <rect x="3" y="1"  width="3"  height="2"  fill="#a8d8a0"/>
-            <rect x="3" y="3"  width="3"  height="4"  fill="#f4a8b8"/>
-            <rect x="11" y="2" width="5"  height="5"  fill="#a8d8a0"/>
-            <rect x="12" y="1" width="3"  height="2"  fill="#a8d8a0"/>
-            <rect x="12" y="3" width="3"  height="4"  fill="#f4a8b8"/>
+            <rect x="2" y="3"  width="5"  height="4"  fill="#a8d8a0"/>
+            <rect x="3" y="1"  width="3"  height="4"  fill="#a8d8a0"/>
+            <rect x="4" y="0"  width="1"  height="2"  fill="#a8d8a0"/>
+            <rect x="3" y="4"  width="3"  height="3"  fill="#f4a8b8"/>
+            <rect x="4" y="2"  width="1"  height="3"  fill="#f4a8b8"/>
+            <rect x="11" y="3" width="5"  height="4"  fill="#a8d8a0"/>
+            <rect x="12" y="1" width="3"  height="4"  fill="#a8d8a0"/>
+            <rect x="13" y="0" width="1"  height="2"  fill="#a8d8a0"/>
+            <rect x="12" y="4" width="3"  height="3"  fill="#f4a8b8"/>
+            <rect x="13" y="2" width="1"  height="3"  fill="#f4a8b8"/>
             <rect x="5"  y="9"  width="3"  height="3"  fill="#4a3a42"/>
             <rect x="10" y="9"  width="3"  height="3"  fill="#4a3a42"/>
             <rect x="5"  y="9"  width="1"  height="1"  fill="#fdf6f0"/>
@@ -991,16 +1057,20 @@
             <!-- pixel kitten 60×60, rect-only -->
             <div class="kitten-corner">
               <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                <rect x="6"  y="4"  width="12" height="12" fill="#a8d8a0"/>
-                <rect x="8"  y="2"  width="8"  height="4"  fill="#a8d8a0"/>
-                <rect x="10" y="0"  width="4"  height="4"  fill="#a8d8a0"/>
-                <rect x="9"  y="6"  width="6"  height="8"  fill="#f4a8b8"/>
-                <rect x="11" y="4"  width="3"  height="4"  fill="#f4a8b8"/>
-                <rect x="42" y="4"  width="12" height="12" fill="#a8d8a0"/>
-                <rect x="44" y="2"  width="8"  height="4"  fill="#a8d8a0"/>
-                <rect x="46" y="0"  width="4"  height="4"  fill="#a8d8a0"/>
-                <rect x="45" y="6"  width="6"  height="8"  fill="#f4a8b8"/>
-                <rect x="46" y="4"  width="3"  height="4"  fill="#f4a8b8"/>
+                <rect x="6"  y="6"  width="12" height="10" fill="#a8d8a0"/>
+                <rect x="7"  y="4"  width="10" height="4"  fill="#a8d8a0"/>
+                <rect x="9"  y="2"  width="6"  height="4"  fill="#a8d8a0"/>
+                <rect x="11" y="0"  width="2"  height="4"  fill="#a8d8a0"/>
+                <rect x="9"  y="7"  width="6"  height="9"  fill="#f4a8b8"/>
+                <rect x="10" y="5"  width="4"  height="4"  fill="#f4a8b8"/>
+                <rect x="11" y="3"  width="2"  height="4"  fill="#f4a8b8"/>
+                <rect x="42" y="6"  width="12" height="10" fill="#a8d8a0"/>
+                <rect x="43" y="4"  width="10" height="4"  fill="#a8d8a0"/>
+                <rect x="45" y="2"  width="6"  height="4"  fill="#a8d8a0"/>
+                <rect x="47" y="0"  width="2"  height="4"  fill="#a8d8a0"/>
+                <rect x="45" y="7"  width="6"  height="9"  fill="#f4a8b8"/>
+                <rect x="46" y="5"  width="4"  height="4"  fill="#f4a8b8"/>
+                <rect x="47" y="3"  width="2"  height="4"  fill="#f4a8b8"/>
                 <rect x="8"  y="12" width="44" height="2"  fill="#ffd0de"/>
                 <rect x="6"  y="14" width="48" height="36" fill="#ffd0de"/>
                 <rect x="8"  y="30" width="10" height="5"  fill="#f4a8b8" opacity="0.45"/>
@@ -1057,6 +1127,7 @@
                   <li>gaming</li>
                   <li>plushies / stuffies</li>
                   <li>dreaming &amp; planning</li>
+                  <li class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')">♡ him</li>
                 </ul>
               </div>
               <div class="likes-divider"></div>
@@ -1108,7 +1179,7 @@
               <a class="pixel-btn" href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener">steam ↗</a>
               <button class="pixel-btn" onclick="showDiscordPopup()">discord</button>
             </div>
-            <p class="find-me-note">i don't give out my discord right away — say hi somewhere else first (˶ᵔ ᵕ ᵔ˶)</p>
+            <p class="find-me-note">i don't give out my discord right away — say hi somewhere else first<br>(˶ᵔ ᵕ ᵔ˶)</p>
           </div><!-- /bio-findme -->
 
         </div><!-- /panel-body -->
@@ -1228,6 +1299,18 @@
         <div class="panel-body">
           <div class="pixel-tag">/ stubby</div>
           <div class="panel-lora-heading">stubby 🐾</div>
+          <div class="stubby-slideshow">
+            <button class="slide-btn slide-prev" onclick="stubbyPrev()">◀</button>
+            <div class="slide-track-wrapper">
+              <div class="slide-track" id="stubby-track">
+                <img src="images/stubby/IMG_5499.JPG" alt="stubby" class="slide-img"/>
+                <img src="images/stubby/IMG_5535.JPG" alt="stubby" class="slide-img"/>
+                <img src="images/stubby/IMG_5725.JPG" alt="stubby" class="slide-img"/>
+              </div>
+            </div>
+            <button class="slide-btn slide-next" onclick="stubbyNext()">▶</button>
+            <div class="slide-dots" id="stubby-dots"></div>
+          </div>
           <hr class="plain-divider"/>
           <div class="panel-px-label">posts:</div>
           <ul class="posts-list"><li class="posts-empty">no posts yet ♡</li></ul>
@@ -1462,6 +1545,14 @@
         document.body.classList.add('mobile-panel');
         return;
       }
+
+      // Close all open panels before opening the new one
+      // Exception: panel-player and panel-cactus stay open regardless
+      document.querySelectorAll('.panel.open').forEach(p => {
+        if (p.id !== 'panel-player' && p.id !== 'panel-cactus') {
+          p.classList.remove('open');
+        }
+      });
 
       // Desktop: reset position (not for player/cactus — they keep their position)
       if (id !== 'panel-player' && id !== 'panel-cactus') {
@@ -1720,6 +1811,44 @@
 
     audio.volume = 0.75;
     loadTrack(0);
+
+    // ── Stubby Slideshow ──
+    (function() {
+      const total = 3;
+      let current = 0;
+      let timer = null;
+
+      function goTo(n) {
+        current = (n + total) % total;
+        const track = document.getElementById('stubby-track');
+        if (track) track.style.transform = `translateX(-${current * 100}%)`;
+        const dots = document.querySelectorAll('.slide-dot');
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      }
+
+      function startTimer() {
+        if (timer) clearInterval(timer);
+        timer = setInterval(() => goTo(current + 1), 8000);
+      }
+
+      window.stubbyNext = function() { goTo(current + 1); startTimer(); };
+      window.stubbyPrev = function() { goTo(current - 1); startTimer(); };
+
+      // Init dots
+      document.addEventListener('DOMContentLoaded', function() {
+        const dotsEl = document.getElementById('stubby-dots');
+        if (dotsEl) {
+          for (let i = 0; i < total; i++) {
+            const d = document.createElement('div');
+            d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+            d.onclick = () => { goTo(i); startTimer(); };
+            dotsEl.appendChild(d);
+          }
+        }
+        goTo(0);
+        startTimer();
+      });
+    })();
 
     // ── Init: open default panels ──
     if (window.innerWidth > 768) {
