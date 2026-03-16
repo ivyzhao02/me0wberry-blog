@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>me0wberry ♡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── CSS Variables ── */
+    :root {
+      --pink:           #e05878;
+      --pink-light:     #f4a0b8;
+      --pink-pale:      #fdd8e0;
+      --green:          #5ab86a;
+      --green-light:    #a8d8a0;
+      --cream:          #fdf6f0;
+      --heading:        #8b2a4a;
+      --body:           #4a3040;
+      --muted:          #a08090;
+      --pixel-label:    #b04060;
+      --pixel-label2:   #c05878;
+      --frosted-bg:     rgba(253, 246, 240, 0.45);
+      --frosted-border: rgba(255, 255, 255, 0.70);
+      --bow-pink:       #e8708a;
+      --stem-green:     #6ab870;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Lora', Georgia, serif;
+      font-size: 13px;
+      color: var(--body);
+      overflow: hidden;
+    }
+
+    body {
+      background: linear-gradient(135deg,
+        #9ad898 0%, #c8e8b8 20%, #f0e0d0 45%, #f5c0cc 70%, #f090a8 100%
+      );
+      background-attachment: fixed;
+    }
+
+    /* ── Background Scatter ── */
+    .bg-deco {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+      line-height: 1;
+    }
+
+    /* ── Top Bar ── */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 34px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      background: rgba(253, 246, 240, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--frosted-border);
+    }
+
+    .topbar-left {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--pixel-label);
+    }
+
+    .topbar-center {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--pixel-label);
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid var(--frosted-border);
+      border-radius: 20px;
+      padding: 4px 13px;
+    }
+
+    .topbar-right { display: flex; gap: 6px; align-items: center; }
+
+    .win-btn {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.15);
+      cursor: default;
+      display: inline-block;
+    }
+    .win-btn.minimize { background: #ffd64d; }
+    .win-btn.maximize { background: #5ab86a; }
+    .win-btn.close    { background: #e05878; }
+
+    /* ── Layout ── */
+    #layout {
+      display: flex;
+      height: calc(100vh - 34px);
+      margin-top: 34px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: 270px;
+      min-width: 270px;
+      height: 100%;
+      background: rgba(253, 246, 240, 0.60);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-right: 1px solid var(--frosted-border);
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 18px 16px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.55);
+    }
+
+    .sidebar-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--pixel-label);
+      margin-bottom: 7px;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-sub {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .sidebar-nav { padding: 8px 0; flex: 1; }
+
+    .nav-section-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--pixel-label2);
+      padding: 10px 16px 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px 7px 20px;
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--body);
+      text-decoration: none;
+      transition: background 0.12s;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background: rgba(253, 246, 240, 0.70);
+      border-left-color: var(--pink);
+    }
+
+    .nav-icon { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .nav-item.elsewhere { font-size: 11px; color: var(--muted); }
+    .nav-item.elsewhere:hover { color: var(--body); }
+
+    /* ── Main ── */
+    #main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Panels ── */
+    .panel {
+      position: absolute;
+      min-width: 260px;
+      display: none;
+      flex-direction: column;
+      background: rgba(253, 246, 240, 0.58);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--frosted-border);
+      box-shadow: 0 8px 32px rgba(139, 42, 74, 0.13), 0 2px 8px rgba(0,0,0,0.07);
+      outline: 1px solid rgba(255,255,255,0.28);
+      outline-offset: 2px;
+    }
+
+    .panel.visible { display: flex; }
+
+    .panel-titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      background: linear-gradient(90deg, var(--pink-pale) 0%, rgba(253,246,240,0.85) 100%);
+      border-bottom: 1px solid var(--frosted-border);
+      cursor: grab;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .panel-titlebar:active { cursor: grabbing; }
+
+    .panel-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--pixel-label);
+    }
+
+    .panel-close {
+      width: 16px; height: 16px;
+      background: var(--pink);
+      border: 1px solid var(--heading);
+      cursor: pointer;
+      color: white;
+      font-size: 9px;
+      line-height: 16px;
+      text-align: center;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .panel-close:hover { background: var(--heading); }
+
+    .panel-body {
+      padding: 14px 16px;
+      overflow-y: auto;
+      flex: 1;
+      max-height: 65vh;
+    }
+
+    .panel-resize {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 16px; height: 16px;
+      cursor: se-resize;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: 3px;
+    }
+
+    /* ── Bio Tabs (Windows-style) ── */
+    .tab-bar {
+      display: flex;
+      border-bottom: 2px solid var(--pink-light);
+      background: rgba(253, 246, 240, 0.45);
+      padding: 4px 8px 0;
+      flex-shrink: 0;
+    }
+
+    .tab-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--muted);
+      padding: 5px 8px 4px;
+      cursor: pointer;
+      background: rgba(235, 215, 220, 0.55);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-bottom: none;
+      margin-right: 3px;
+      margin-bottom: -2px;
+      position: relative;
+      border-radius: 3px 3px 0 0;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { background: rgba(255,255,255,0.70); color: var(--pixel-label); }
+    .tab-btn.active {
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--pixel-label);
+      border-color: var(--pink-light);
+      border-bottom: 2px solid rgba(255,255,255,0.92);
+      z-index: 1;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── Bio: About ── */
+    .stat-block { font-size: 13px; line-height: 1.9; color: var(--body); }
+
+    .dashed-divider {
+      border: none;
+      border-top: 2px dashed var(--pink-light);
+      margin: 12px 0;
+    }
+
+    .currently-header {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--pixel-label2);
+      margin-bottom: 8px;
+    }
+
+    .currently-row {
+      display: flex;
+      gap: 0;
+      font-size: 11px;
+      margin-bottom: 5px;
+      line-height: 1.5;
+      color: var(--body);
+    }
+
+    .currently-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--pixel-label2);
+      min-width: 68px;
+      padding-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .kitten-corner {
+      float: right;
+      margin: 0 0 8px 12px;
+      text-align: center;
+    }
+
+    .kitten-kaomoji {
+      font-size: 9px;
+      color: var(--muted);
+      display: block;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    /* ── Bio: Likes ── */
+    .likes-cols { display: flex; gap: 0; font-size: 12px; }
+    .likes-col { flex: 1; }
+    .likes-col-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--pixel-label2);
+      margin-bottom: 7px;
+    }
+    .likes-col ul { list-style: none; }
+    .likes-col li { padding: 2px 0; line-height: 1.55; }
+    .likes-divider {
+      width: 1px;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--pink-light) 0, var(--pink-light) 4px,
+        transparent 4px, transparent 8px
+      );
+      margin: 0 10px;
+    }
+    .fit-right-in {
+      font-style: italic;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── Bio: DNI ── */
+    .pixel-tag {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: white;
+      background: var(--pink);
+      display: inline-block;
+      padding: 3px 8px;
+      margin-bottom: 10px;
+    }
+
+    .dni-list { list-style: none; font-size: 11px; line-height: 1.85; }
+    .dni-list li::before { content: '– '; color: var(--pink); }
+    .dni-soft { font-size: 10px; color: var(--muted); }
+    .dni-soft li::before { content: '– '; color: var(--muted); }
+
+    /* ── Bio: Find Me ── */
+    .pixel-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: white;
+      background: var(--pink);
+      border: 2px solid var(--heading);
+      padding: 8px 10px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      box-shadow: 2px 2px 0 var(--heading);
+      transition: background 0.1s, box-shadow 0.05s, transform 0.05s;
+      white-space: nowrap;
+    }
+    .pixel-btn:hover {
+      background: var(--heading);
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 var(--heading);
+    }
+    .pixel-btn:active { transform: translate(2px, 2px); box-shadow: none; }
+
+    .find-me-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .find-me-note {
+      font-style: italic;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.55;
+    }
+
+    /* ── Discord Popup ── */
+    #discord-popup {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 190px;
+      background: var(--cream);
+      border: 2px solid var(--body);
+      box-shadow: 4px 4px 0 var(--body);
+      z-index: 9999;
+      display: none;
+    }
+    #discord-popup.visible { display: block; }
+
+    .discord-titlebar {
+      background: var(--pink);
+      color: white;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: grab;
+      user-select: none;
+    }
+    .discord-titlebar:active { cursor: grabbing; }
+
+    .discord-titlebar .panel-close {
+      width: 14px; height: 14px; font-size: 8px; line-height: 14px;
+    }
+
+    .discord-body { padding: 16px 14px 14px; text-align: center; }
+    .discord-body p {
+      font-size: 13px;
+      color: var(--body);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .discord-ok {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      background: var(--cream);
+      border: 2px solid var(--body);
+      box-shadow: 2px 2px 0 var(--body);
+      padding: 6px 18px;
+      cursor: pointer;
+    }
+    .discord-ok:hover { background: var(--pink-pale); }
+    .discord-ok:active { transform: translate(2px,2px); box-shadow: none; }
+
+    /* ── Panel content helpers ── */
+    .panel-lora-heading {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 18px;
+      color: var(--heading);
+      margin-bottom: 4px;
+    }
+
+    .panel-updated {
+      font-style: italic;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .panel-px-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--pixel-label2);
+      margin-bottom: 7px;
+    }
+
+    .panel-section-body { font-size: 12px; line-height: 1.7; }
+    .panel-section-body ul { list-style: none; padding-left: 2px; }
+    .panel-section-body li::before { content: '– '; color: var(--pink); }
+
+    .hearts-divider {
+      text-align: center;
+      color: var(--pink-light);
+      margin: 14px 0;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .plain-divider {
+      border: none;
+      border-top: 1px solid var(--pink-light);
+      margin: 12px 0;
+    }
+
+    .embed-container { margin: 10px 0; }
+
+    .posts-list { list-style: none; padding: 0; }
+    .posts-list li { font-size: 12px; padding: 3px 0; }
+    .posts-list a { color: var(--pink); text-decoration: none; }
+    .posts-list a:hover { text-decoration: underline; }
+    .posts-list .post-date { color: var(--muted); font-size: 10px; margin-left: 5px; }
+    .posts-empty { font-style: italic; color: var(--muted); font-size: 11px; }
+
+    .steam-fallback-card {
+      background: rgba(255,255,255,0.45);
+      border: 1px solid var(--frosted-border);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      html, body { overflow: auto; }
+      #layout { flex-direction: column; height: auto; min-height: calc(100vh - 34px); }
+      #sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--frosted-border); }
+      #main { flex: 1; min-height: 50vh; overflow-y: auto; padding: 10px; }
+      .panel {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        margin-bottom: 10px;
+        display: none;
+        flex-direction: column;
+      }
+      .panel.visible { display: flex; }
+      .panel-body { max-height: none; }
+      .panel-titlebar { cursor: default; }
+      .find-me-grid { grid-template-columns: 1fr; }
+      #discord-popup { width: 90vw; max-width: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Background Scatter (20 elements) ── -->
+  <span class="bg-deco" style="left:4%;top:8%;font-size:17px;opacity:0.38;color:#e05878;transform:rotate(12deg)">✦</span>
+  <span class="bg-deco" style="left:15%;top:22%;font-size:10px;opacity:0.30;color:#8b2a4a">✧</span>
+  <span class="bg-deco" style="left:28%;top:5%;font-size:13px;opacity:0.32;color:#e05878;transform:rotate(-8deg)">♡</span>
+  <span class="bg-deco" style="left:43%;top:14%;font-size:20px;opacity:0.25;color:#5ab86a;transform:rotate(5deg)">✦</span>
+  <span class="bg-deco" style="left:59%;top:7%;font-size:10px;opacity:0.30;color:#e05878">✿</span>
+  <span class="bg-deco" style="left:71%;top:19%;font-size:14px;opacity:0.28;color:#8b2a4a;transform:rotate(-15deg)">✧</span>
+  <span class="bg-deco" style="left:86%;top:11%;font-size:16px;opacity:0.33;color:#e05878;transform:rotate(22deg)">♡</span>
+  <span class="bg-deco" style="left:7%;top:42%;font-size:9px;opacity:0.26;color:#5ab86a">˚</span>
+  <span class="bg-deco" style="left:21%;top:57%;font-size:18px;opacity:0.28;color:#e05878;transform:rotate(-10deg)">✿</span>
+  <span class="bg-deco" style="left:36%;top:73%;font-size:11px;opacity:0.30;color:#8b2a4a">✦</span>
+  <span class="bg-deco" style="left:51%;top:63%;font-size:8px;opacity:0.26;color:#e05878">˚</span>
+  <span class="bg-deco" style="left:66%;top:81%;font-size:14px;opacity:0.30;color:#5ab86a;transform:rotate(8deg)">✧</span>
+  <span class="bg-deco" style="left:79%;top:47%;font-size:12px;opacity:0.28;color:#e05878">♡</span>
+  <span class="bg-deco" style="left:91%;top:69%;font-size:19px;opacity:0.25;color:#8b2a4a;transform:rotate(-5deg)">✦</span>
+  <!-- kaomoji cats -->
+  <span class="bg-deco" style="left:11%;top:79%;font-size:8px;opacity:0.25;font-family:'Press Start 2P',monospace;color:#4a3040">=^･ω･^=</span>
+  <span class="bg-deco" style="left:56%;top:36%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3040">(=^･^=)</span>
+  <span class="bg-deco" style="left:81%;top:29%;font-size:8px;opacity:0.22;font-family:'Press Start 2P',monospace;color:#4a3040">=^･ω･^=</span>
+  <!-- pixel bow SVGs (rect-only, 18×12 viewBox) -->
+  <svg class="bg-deco" style="left:47%;top:89%;width:22px;height:14px;opacity:0.30" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="3" width="2" height="6" fill="#e8708a"/>
+    <rect x="2" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="4" y="0" width="2" height="12" fill="#e8708a"/>
+    <rect x="6" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="10" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="12" y="0" width="2" height="12" fill="#e8708a"/>
+    <rect x="14" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="16" y="3" width="2" height="6" fill="#e8708a"/>
+    <rect x="8" y="4" width="2" height="4" fill="#e8708a"/>
+  </svg>
+  <svg class="bg-deco" style="left:23%;top:31%;width:22px;height:14px;opacity:0.26;transform:rotate(-12deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="3" width="2" height="6" fill="#e8708a"/>
+    <rect x="2" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="4" y="0" width="2" height="12" fill="#e8708a"/>
+    <rect x="6" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="10" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="12" y="0" width="2" height="12" fill="#e8708a"/>
+    <rect x="14" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="16" y="3" width="2" height="6" fill="#e8708a"/>
+    <rect x="8" y="4" width="2" height="4" fill="#e8708a"/>
+  </svg>
+  <svg class="bg-deco" style="left:73%;top:56%;width:22px;height:14px;opacity:0.28;transform:rotate(16deg)" viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="3" width="2" height="6" fill="#e8708a"/>
+    <rect x="2" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="4" y="0" width="2" height="12" fill="#e8708a"/>
+    <rect x="6" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="10" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="12" y="0" width="2" height="12" fill="#e8708a"/>
+    <rect x="14" y="1" width="2" height="10" fill="#e8708a"/>
+    <rect x="16" y="3" width="2" height="6" fill="#e8708a"/>
+    <rect x="8" y="4" width="2" height="4" fill="#e8708a"/>
+  </svg>
+
+  <!-- ── Top Bar ── -->
+  <div id="topbar">
+    <div class="topbar-left">© me0wberry 2026</div>
+    <div class="topbar-center">(=^･^=) · me0wberry.com</div>
+    <div class="topbar-right">
+      <span class="win-btn minimize"></span>
+      <span class="win-btn maximize"></span>
+      <span class="win-btn close"></span>
+    </div>
+  </div>
+
+  <!-- ── Layout ── -->
+  <div id="layout">
+
+    <!-- ── Sidebar ── -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-name">me0wberry</div>
+        <div class="sidebar-sub">₍ᐢ. .ᐢ₎ · toronto-ish · she/her</div>
+      </div>
+
+      <div class="sidebar-nav">
+
+        <!-- pinned -->
+        <div class="nav-section-label">
+          <!-- pixel ✦ 8×8 -->
+          <svg width="8" height="8" viewBox="0 0 8 8">
+            <rect x="3" y="0" width="2" height="8" fill="#c05878"/>
+            <rect x="0" y="3" width="8" height="2" fill="#c05878"/>
+            <rect x="1" y="1" width="2" height="2" fill="#c05878"/>
+            <rect x="5" y="1" width="2" height="2" fill="#c05878"/>
+            <rect x="1" y="5" width="2" height="2" fill="#c05878"/>
+            <rect x="5" y="5" width="2" height="2" fill="#c05878"/>
+          </svg>
+          pinned
+        </div>
+
+        <!-- hello / bio -->
+        <a class="nav-item active" data-opens="panel-bio" href="#" onclick="openPanel('panel-bio');return false;">
+          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <!-- face body -->
+            <rect x="3" y="6"  width="12" height="9"  fill="#fdd8e0"/>
+            <rect x="2" y="7"  width="14" height="7"  fill="#fdd8e0"/>
+            <!-- left ear outer -->
+            <rect x="2" y="2"  width="5"  height="5"  fill="#a8d8a0"/>
+            <rect x="3" y="1"  width="3"  height="2"  fill="#a8d8a0"/>
+            <!-- left ear inner -->
+            <rect x="3" y="3"  width="3"  height="4"  fill="#f4a0b8"/>
+            <!-- right ear outer -->
+            <rect x="11" y="2" width="5"  height="5"  fill="#a8d8a0"/>
+            <rect x="12" y="1" width="3"  height="2"  fill="#a8d8a0"/>
+            <!-- right ear inner -->
+            <rect x="12" y="3" width="3"  height="4"  fill="#f4a0b8"/>
+            <!-- eyes -->
+            <rect x="5"  y="9"  width="3"  height="3"  fill="#4a3040"/>
+            <rect x="10" y="9"  width="3"  height="3"  fill="#4a3040"/>
+            <!-- eye shine -->
+            <rect x="5"  y="9"  width="1"  height="1"  fill="#fdf6f0"/>
+            <rect x="10" y="9"  width="1"  height="1"  fill="#fdf6f0"/>
+            <!-- nose -->
+            <rect x="8"  y="12" width="2"  height="1"  fill="#e05878"/>
+            <!-- whiskers -->
+            <rect x="0"  y="11" width="4"  height="1"  fill="#a08090"/>
+            <rect x="14" y="11" width="4"  height="1"  fill="#a08090"/>
+          </svg>
+          <span>hello!</span>
+        </a>
+
+        <!-- lately -->
+        <a class="nav-item" data-opens="panel-lately" href="#" onclick="openPanel('panel-lately');return false;">
+          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <!-- sparkle ✦ -->
+            <rect x="8"  y="1"  width="2"  height="16" fill="#e05878"/>
+            <rect x="1"  y="8"  width="16" height="2"  fill="#e05878"/>
+            <rect x="5"  y="5"  width="2"  height="2"  fill="#e05878"/>
+            <rect x="11" y="5"  width="2"  height="2"  fill="#e05878"/>
+            <rect x="5"  y="11" width="2"  height="2"  fill="#e05878"/>
+            <rect x="11" y="11" width="2"  height="2"  fill="#e05878"/>
+          </svg>
+          <span>lately</span>
+        </a>
+
+        <!-- the blog -->
+        <div class="nav-section-label" style="margin-top:4px">
+          <svg width="8" height="8" viewBox="0 0 8 8">
+            <rect x="3" y="0" width="2" height="8" fill="#c05878"/>
+            <rect x="0" y="3" width="8" height="2" fill="#c05878"/>
+            <rect x="1" y="1" width="2" height="2" fill="#c05878"/>
+            <rect x="5" y="1" width="2" height="2" fill="#c05878"/>
+            <rect x="1" y="5" width="2" height="2" fill="#c05878"/>
+            <rect x="5" y="5" width="2" height="2" fill="#c05878"/>
+          </svg>
+          the blog
+        </div>
+
+        <!-- games -->
+        <a class="nav-item" data-opens="panel-games" href="#" onclick="openPanel('panel-games');return false;">
+          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <!-- controller body -->
+            <rect x="1"  y="5"  width="16" height="8"  fill="#f4a0b8"/>
+            <rect x="2"  y="4"  width="14" height="10" fill="#f4a0b8"/>
+            <!-- shoulder bumps -->
+            <rect x="2"  y="3"  width="4"  height="2"  fill="#f4a0b8"/>
+            <rect x="12" y="3"  width="4"  height="2"  fill="#f4a0b8"/>
+            <!-- dpad h -->
+            <rect x="3"  y="8"  width="6"  height="2"  fill="#e05878"/>
+            <!-- dpad v -->
+            <rect x="5"  y="6"  width="2"  height="6"  fill="#e05878"/>
+            <!-- btn a -->
+            <rect x="11" y="7"  width="3"  height="2"  fill="#5ab86a"/>
+            <!-- btn b -->
+            <rect x="11" y="10" width="3"  height="2"  fill="#5ab86a"/>
+          </svg>
+          <span>games</span>
+        </a>
+
+        <!-- music -->
+        <a class="nav-item" data-opens="panel-music" href="#" onclick="openPanel('panel-music');return false;">
+          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <!-- stem -->
+            <rect x="10" y="3"  width="2"  height="9"  fill="#e05878"/>
+            <!-- beam -->
+            <rect x="10" y="3"  width="5"  height="2"  fill="#e05878"/>
+            <rect x="13" y="5"  width="2"  height="3"  fill="#e05878"/>
+            <!-- note head -->
+            <rect x="6"  y="11" width="6"  height="4"  fill="#e05878"/>
+            <rect x="5"  y="12" width="8"  height="2"  fill="#e05878"/>
+          </svg>
+          <span>music</span>
+        </a>
+
+        <!-- food -->
+        <a class="nav-item" data-opens="panel-food" href="#" onclick="openPanel('panel-food');return false;">
+          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <!-- bowl rim -->
+            <rect x="2"  y="8"  width="14" height="2"  fill="#e05878"/>
+            <!-- bowl body -->
+            <rect x="3"  y="10" width="12" height="2"  fill="#f4a0b8"/>
+            <rect x="5"  y="12" width="8"  height="2"  fill="#f4a0b8"/>
+            <rect x="6"  y="14" width="6"  height="1"  fill="#f4a0b8"/>
+            <!-- rice fill -->
+            <rect x="3"  y="5"  width="12" height="4"  fill="#fdf6f0"/>
+            <rect x="4"  y="4"  width="10" height="2"  fill="#fdf6f0"/>
+            <!-- steam -->
+            <rect x="6"  y="1"  width="1"  height="3"  fill="#a8d8a0"/>
+            <rect x="9"  y="2"  width="1"  height="2"  fill="#a8d8a0"/>
+            <rect x="12" y="1"  width="1"  height="3"  fill="#a8d8a0"/>
+          </svg>
+          <span>food</span>
+        </a>
+
+        <!-- stubby -->
+        <a class="nav-item" data-opens="panel-stubby" href="#" onclick="openPanel('panel-stubby');return false;">
+          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <!-- body -->
+            <rect x="4"  y="9"  width="10" height="7"  fill="#4a3040"/>
+            <rect x="3"  y="10" width="12" height="5"  fill="#4a3040"/>
+            <!-- head -->
+            <rect x="5"  y="4"  width="8"  height="6"  fill="#4a3040"/>
+            <rect x="4"  y="5"  width="10" height="4"  fill="#4a3040"/>
+            <!-- ears -->
+            <rect x="4"  y="2"  width="3"  height="3"  fill="#4a3040"/>
+            <rect x="11" y="2"  width="3"  height="3"  fill="#4a3040"/>
+            <!-- eye highlights -->
+            <rect x="6"  y="6"  width="2"  height="2"  fill="#fdf6f0"/>
+            <rect x="10" y="6"  width="2"  height="2"  fill="#fdf6f0"/>
+            <!-- tail stub -->
+            <rect x="13" y="13" width="3"  height="2"  fill="#4a3040"/>
+          </svg>
+          <span>stubby</span>
+        </a>
+
+        <!-- beauty -->
+        <a class="nav-item" data-opens="panel-beauty" href="#" onclick="openPanel('panel-beauty');return false;">
+          <svg class="nav-icon" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <!-- tube -->
+            <rect x="7"  y="10" width="4"  height="5"  fill="#e05878"/>
+            <!-- cap band -->
+            <rect x="7"  y="9"  width="4"  height="1"  fill="#8b2a4a"/>
+            <!-- bullet body -->
+            <rect x="7"  y="6"  width="4"  height="4"  fill="#c05878"/>
+            <!-- bullet tip stepped -->
+            <rect x="8"  y="4"  width="3"  height="3"  fill="#c05878"/>
+            <rect x="9"  y="2"  width="2"  height="3"  fill="#c05878"/>
+            <rect x="10" y="2"  width="1"  height="2"  fill="#c05878"/>
+            <!-- base cap -->
+            <rect x="6"  y="14" width="6"  height="2"  fill="#8b2a4a"/>
+          </svg>
+          <span>beauty</span>
+        </a>
+
+        <!-- elsewhere -->
+        <div class="nav-section-label" style="margin-top:4px">
+          <svg width="8" height="8" viewBox="0 0 8 8">
+            <rect x="3" y="0" width="2" height="8" fill="#c05878"/>
+            <rect x="0" y="3" width="8" height="2" fill="#c05878"/>
+            <rect x="1" y="1" width="2" height="2" fill="#c05878"/>
+            <rect x="5" y="1" width="2" height="2" fill="#c05878"/>
+            <rect x="1" y="5" width="2" height="2" fill="#c05878"/>
+            <rect x="5" y="5" width="2" height="2" fill="#c05878"/>
+          </svg>
+          elsewhere
+        </div>
+
+        <a class="nav-item elsewhere" href="https://www.twitch.tv/me0wberry_" target="_blank" rel="noopener"><span>twitch ↗</span></a>
+        <a class="nav-item elsewhere" href="#" onclick="showDiscordPopup();return false;"><span>discord</span></a>
+        <a class="nav-item elsewhere" href="https://www.instagram.com/z._ivy/" target="_blank" rel="noopener"><span>instagram ↗</span></a>
+        <a class="nav-item elsewhere" href="https://open.spotify.com/user/_no_need_for_names_?si=b15417a7b9884f96" target="_blank" rel="noopener"><span>spotify ↗</span></a>
+        <a class="nav-item elsewhere" href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener"><span>steam ↗</span></a>
+
+      </div>
+    </nav>
+
+    <!-- ── Main ── -->
+    <main id="main">
+
+      <!-- ────────────────────────────
+           Bio Panel
+      ──────────────────────────── -->
+      <div class="panel visible" id="panel-bio" style="top:20px;left:18px;width:370px;">
+        <div class="panel-titlebar">
+          <span class="panel-title">hello! (=^･^=)</span>
+          <button class="panel-close" onclick="closePanel('panel-bio')">✕</button>
+        </div>
+
+        <!-- Windows-style tab bar -->
+        <div class="tab-bar" id="bio-tabbar">
+          <button class="tab-btn active" onclick="switchTab(this,'bio-about','bio-tabbar')">✦ about</button>
+          <button class="tab-btn" onclick="switchTab(this,'bio-likes','bio-tabbar')">♡ likes</button>
+          <button class="tab-btn" onclick="switchTab(this,'bio-dni','bio-tabbar')">✿ dni</button>
+          <button class="tab-btn" onclick="switchTab(this,'bio-findme','bio-tabbar')">★ find me</button>
+        </div>
+
+        <div class="panel-body">
+
+          <!-- ── Tab 1: about ── -->
+          <div class="tab-content active" id="bio-about">
+
+            <!-- pixel kitten 60×60, rect-only -->
+            <div class="kitten-corner">
+              <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                <!-- left ear outer (green-light) -->
+                <rect x="6"  y="4"  width="12" height="12" fill="#a8d8a0"/>
+                <rect x="8"  y="2"  width="8"  height="4"  fill="#a8d8a0"/>
+                <rect x="10" y="0"  width="4"  height="4"  fill="#a8d8a0"/>
+                <!-- left ear inner (pink) -->
+                <rect x="9"  y="6"  width="6"  height="8"  fill="#f4a0b8"/>
+                <rect x="11" y="4"  width="3"  height="4"  fill="#f4a0b8"/>
+                <!-- right ear outer (green-light) -->
+                <rect x="42" y="4"  width="12" height="12" fill="#a8d8a0"/>
+                <rect x="44" y="2"  width="8"  height="4"  fill="#a8d8a0"/>
+                <rect x="46" y="0"  width="4"  height="4"  fill="#a8d8a0"/>
+                <!-- right ear inner (pink) -->
+                <rect x="45" y="6"  width="6"  height="8"  fill="#f4a0b8"/>
+                <rect x="46" y="4"  width="3"  height="4"  fill="#f4a0b8"/>
+                <!-- face body (pink-pale) -->
+                <rect x="8"  y="12" width="44" height="2"  fill="#fdd8e0"/>
+                <rect x="6"  y="14" width="48" height="36" fill="#fdd8e0"/>
+                <!-- blush cheeks -->
+                <rect x="8"  y="30" width="10" height="5"  fill="#f4a0b8" opacity="0.45"/>
+                <rect x="42" y="30" width="10" height="5"  fill="#f4a0b8" opacity="0.45"/>
+                <!-- eyes -->
+                <rect x="14" y="23" width="9"  height="8"  fill="#4a3040"/>
+                <rect x="37" y="23" width="9"  height="8"  fill="#4a3040"/>
+                <!-- eye shine -->
+                <rect x="15" y="24" width="3"  height="3"  fill="#fdf6f0"/>
+                <rect x="38" y="24" width="3"  height="3"  fill="#fdf6f0"/>
+                <!-- nose -->
+                <rect x="27" y="33" width="6"  height="4"  fill="#e05878"/>
+                <rect x="28" y="31" width="4"  height="3"  fill="#e05878"/>
+                <!-- mouth -->
+                <rect x="22" y="38" width="6"  height="2"  fill="#8b2a4a"/>
+                <rect x="32" y="38" width="6"  height="2"  fill="#8b2a4a"/>
+                <!-- whiskers left -->
+                <rect x="0"  y="30" width="13" height="1"  fill="#a08090"/>
+                <rect x="0"  y="34" width="13" height="1"  fill="#a08090"/>
+                <!-- whiskers right -->
+                <rect x="47" y="30" width="13" height="1"  fill="#a08090"/>
+                <rect x="47" y="34" width="13" height="1"  fill="#a08090"/>
+              </svg>
+              <span class="kitten-kaomoji">ฅ^•ﻌ•^ฅ</span>
+            </div>
+
+            <div class="stat-block">
+              <div>she/her</div>
+              <div>23 · aries · 🐴</div>
+              <div>🇨🇦🇨🇳 eng / 中文</div>
+              <div>INFP-T</div>
+            </div>
+
+            <hr class="dashed-divider" style="clear:both;"/>
+
+            <div class="currently-header">Currently</div>
+            <div class="currently-row">
+              <span class="currently-label">playing</span>
+              <span>slay the spire / the sims 4 / marathon</span>
+            </div>
+            <div class="currently-row">
+              <span class="currently-label">listening</span>
+              <span>karencici / jay chou / cpop</span>
+            </div>
+            <div class="currently-row">
+              <span class="currently-label">reading</span>
+              <span>marathon lore</span>
+            </div>
+
+          </div><!-- /bio-about -->
+
+          <!-- ── Tab 2: likes ── -->
+          <div class="tab-content" id="bio-likes">
+            <div class="likes-cols">
+              <div class="likes-col">
+                <div class="likes-col-title">likes ♡</div>
+                <ul>
+                  <li>cats</li>
+                  <li>pink &amp; green</li>
+                  <li>cheese</li>
+                  <li>boba</li>
+                  <li>gaming</li>
+                  <li>salmon</li>
+                  <li>dreaming &amp; planning</li>
+                </ul>
+              </div>
+              <div class="likes-divider"></div>
+              <div class="likes-col">
+                <div class="likes-col-title">dislikes ✗</div>
+                <ul>
+                  <li>loud/crowded spaces</li>
+                  <li>certain individuals</li>
+                  <li>maga/trumpies</li>
+                  <li>raw onions</li>
+                  <li>dill pickles</li>
+                </ul>
+              </div>
+            </div>
+            <hr class="dashed-divider"/>
+            <div class="fit-right-in">
+              you'll fit right in if...<br>
+              – you like close-knit circles and trying new games :3
+            </div>
+          </div><!-- /bio-likes -->
+
+          <!-- ── Tab 3: dni ── -->
+          <div class="tab-content" id="bio-dni">
+            <div class="pixel-tag">/ dni</div>
+            <ul class="dni-list">
+              <li>minors (under 18)</li>
+              <li>racists / homophobes / transphobes / sexists</li>
+              <li>maga / far right / fascists</li>
+              <li>pro-harassment / drama &amp; callout culture</li>
+              <li>NFT/crypto people</li>
+              <li>AI art promoters / anti-artist</li>
+              <li>aggressively negative or cynical people</li>
+              <li>people who can't handle differing opinions on games/media</li>
+            </ul>
+            <hr class="dashed-divider"/>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px">also please don't:</div>
+            <ul class="dni-list dni-soft">
+              <li>be weird about me being in a relationship</li>
+              <li>only interact to argue</li>
+            </ul>
+          </div><!-- /bio-dni -->
+
+          <!-- ── Tab 4: find me ── -->
+          <div class="tab-content" id="bio-findme">
+            <div class="find-me-grid">
+              <a class="pixel-btn" href="https://www.twitch.tv/me0wberry_" target="_blank" rel="noopener">twitch ↗</a>
+              <a class="pixel-btn" href="https://www.instagram.com/z._ivy/" target="_blank" rel="noopener">instagram ↗</a>
+              <a class="pixel-btn" href="https://open.spotify.com/user/_no_need_for_names_?si=b15417a7b9884f96" target="_blank" rel="noopener">spotify ↗</a>
+              <a class="pixel-btn" href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener">steam ↗</a>
+              <button class="pixel-btn" onclick="showDiscordPopup()" style="grid-column:1/-1;justify-self:start;">discord</button>
+            </div>
+            <p class="find-me-note">i don't give out my discord right away — say hi somewhere else first (˶ᵔ ᵕ ᵔ˶)</p>
+          </div><!-- /bio-findme -->
+
+        </div><!-- /panel-body -->
+        <div class="panel-resize">
+          <svg width="10" height="10" viewBox="0 0 10 10">
+            <rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/>
+            <rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/>
+            <rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/>
+          </svg>
+        </div>
+      </div><!-- /panel-bio -->
+
+      <!-- ────────────────────────────
+           Lately Panel
+      ──────────────────────────── -->
+      <div class="panel" id="panel-lately" style="top:20px;left:408px;width:310px;">
+        <div class="panel-titlebar">
+          <span class="panel-title">/ lately</span>
+          <button class="panel-close" onclick="closePanel('panel-lately')">✕</button>
+        </div>
+        <div class="panel-body">
+          <div class="pixel-tag">/ lately</div>
+          <div class="panel-lora-heading">in the lately...</div>
+          <div class="panel-updated">last updated [month year]</div>
+
+          <div class="panel-px-label">where i'm at (ᐢ. .ᐢ):</div>
+          <div class="panel-section-body">
+            <ul><li>[ivy fills in]</li></ul>
+          </div>
+
+          <div class="hearts-divider">────── ♡ · ♡ · ♡ ──────</div>
+
+          <div class="panel-px-label">what i'm into:</div>
+          <div class="panel-section-body">
+            <ul><li>[ivy fills in]</li></ul>
+          </div>
+
+          <hr class="plain-divider"/>
+          <div style="font-size:12px;color:var(--heading);margin-bottom:6px">♡ a note:</div>
+          <div class="panel-section-body" style="font-style:italic;color:var(--muted)">[ivy fills in — freeform short paragraph]</div>
+        </div>
+        <div class="panel-resize">
+          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────
+           Games Panel
+      ──────────────────────────── -->
+      <div class="panel" id="panel-games" style="top:30px;left:440px;width:340px;">
+        <div class="panel-titlebar">
+          <span class="panel-title">/ games</span>
+          <button class="panel-close" onclick="closePanel('panel-games')">✕</button>
+        </div>
+        <div class="panel-body">
+          <div class="pixel-tag">/ games</div>
+          <div class="panel-lora-heading">games</div>
+          <div class="embed-container">
+            <div class="steam-fallback-card">
+              <div>
+                <div class="panel-px-label" style="margin-bottom:4px">steam profile</div>
+                <div style="font-size:12px;color:var(--body)">berrymeowy</div>
+              </div>
+              <a class="pixel-btn" href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener" style="font-size:6px;padding:6px 8px">view ↗</a>
+            </div>
+          </div>
+          <hr class="plain-divider"/>
+          <div class="panel-px-label">posts:</div>
+          <ul class="posts-list">
+            <li class="posts-empty">no posts yet ♡</li>
+          </ul>
+        </div>
+        <div class="panel-resize">
+          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────
+           Music Panel
+      ──────────────────────────── -->
+      <div class="panel" id="panel-music" style="top:35px;left:450px;width:340px;">
+        <div class="panel-titlebar">
+          <span class="panel-title">/ music</span>
+          <button class="panel-close" onclick="closePanel('panel-music')">✕</button>
+        </div>
+        <div class="panel-body">
+          <div class="pixel-tag">/ music</div>
+          <div class="panel-lora-heading">music</div>
+          <div class="embed-container">
+            <iframe
+              style="border-radius:3px;border:1px solid var(--frosted-border);display:block"
+              src="https://open.spotify.com/embed/user/_no_need_for_names_?utm_source=generator&theme=0"
+              width="100%" height="152" frameBorder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy">
+            </iframe>
+          </div>
+          <hr class="plain-divider"/>
+          <div class="panel-px-label">posts:</div>
+          <ul class="posts-list">
+            <li class="posts-empty">no posts yet ♡</li>
+          </ul>
+        </div>
+        <div class="panel-resize">
+          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────
+           Food Panel
+      ──────────────────────────── -->
+      <div class="panel" id="panel-food" style="top:40px;left:460px;width:310px;">
+        <div class="panel-titlebar">
+          <span class="panel-title">/ food</span>
+          <button class="panel-close" onclick="closePanel('panel-food')">✕</button>
+        </div>
+        <div class="panel-body">
+          <div class="pixel-tag">/ food</div>
+          <div class="panel-lora-heading">food</div>
+          <hr class="plain-divider"/>
+          <div class="panel-px-label">posts:</div>
+          <ul class="posts-list">
+            <li class="posts-empty">no posts yet ♡</li>
+          </ul>
+        </div>
+        <div class="panel-resize">
+          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────
+           Stubby Panel
+      ──────────────────────────── -->
+      <div class="panel" id="panel-stubby" style="top:40px;left:460px;width:310px;">
+        <div class="panel-titlebar">
+          <span class="panel-title">/ stubby 🐾</span>
+          <button class="panel-close" onclick="closePanel('panel-stubby')">✕</button>
+        </div>
+        <div class="panel-body">
+          <div class="pixel-tag">/ stubby</div>
+          <div class="panel-lora-heading">stubby 🐾</div>
+          <hr class="plain-divider"/>
+          <div class="panel-px-label">posts:</div>
+          <ul class="posts-list">
+            <li class="posts-empty">no posts yet ♡</li>
+          </ul>
+        </div>
+        <div class="panel-resize">
+          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
+        </div>
+      </div>
+
+      <!-- ────────────────────────────
+           Beauty Panel
+      ──────────────────────────── -->
+      <div class="panel" id="panel-beauty" style="top:40px;left:460px;width:310px;">
+        <div class="panel-titlebar">
+          <span class="panel-title">/ beauty</span>
+          <button class="panel-close" onclick="closePanel('panel-beauty')">✕</button>
+        </div>
+        <div class="panel-body">
+          <div class="pixel-tag">/ beauty</div>
+          <div class="panel-lora-heading">beauty</div>
+          <hr class="plain-divider"/>
+          <div class="panel-px-label">posts:</div>
+          <ul class="posts-list">
+            <li class="posts-empty">no posts yet ♡</li>
+          </ul>
+        </div>
+        <div class="panel-resize">
+          <svg width="10" height="10" viewBox="0 0 10 10"><rect x="6" y="2" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="2" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/><rect x="6" y="6" width="2" height="2" fill="#a08090" opacity="0.5"/></svg>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ── Discord Mini Popup (Windows error dialog style) ── -->
+  <div id="discord-popup">
+    <div class="discord-titlebar" id="discord-titlebar">
+      <span>discord</span>
+      <button class="panel-close" onclick="hideDiscordPopup()">✕</button>
+    </div>
+    <div class="discord-body">
+      <p>ask! (=^･^=)</p>
+      <button class="discord-ok" onclick="hideDiscordPopup()">ok</button>
+    </div>
+  </div>
+
+  <script>
+    // ── Z-index ──
+    let zTop = 200;
+
+    function bringToFront(el) { el.style.zIndex = ++zTop; }
+
+    // ── Panel open / close ──
+    function openPanel(id) {
+      const panel = document.getElementById(id);
+      if (!panel) return;
+      panel.classList.add('visible');
+      bringToFront(panel);
+      document.querySelectorAll('.nav-item[data-opens]').forEach(el => {
+        el.classList.toggle('active', el.dataset.opens === id);
+      });
+    }
+
+    function closePanel(id) {
+      const panel = document.getElementById(id);
+      if (!panel) return;
+      panel.classList.remove('visible');
+      // restore bio highlight if closed panel was active
+      const match = document.querySelector(`.nav-item[data-opens="${id}"].active`);
+      if (match) {
+        match.classList.remove('active');
+        const bio = document.querySelector('.nav-item[data-opens="panel-bio"]');
+        if (bio) bio.classList.add('active');
+      }
+    }
+
+    // click panel → front
+    document.querySelectorAll('.panel').forEach(p =>
+      p.addEventListener('mousedown', () => bringToFront(p), true)
+    );
+
+    // ── Drag ──
+    function makeDraggable(handle, panel) {
+      let on = false, ox, oy, pl, pt;
+      handle.addEventListener('mousedown', e => {
+        if (e.target.classList.contains('panel-close')) return;
+        on = true;
+        ox = e.clientX; oy = e.clientY;
+        pl = parseInt(panel.style.left) || 0;
+        pt = parseInt(panel.style.top)  || 0;
+        bringToFront(panel);
+        e.preventDefault();
+      });
+      document.addEventListener('mousemove', e => {
+        if (!on) return;
+        panel.style.left = (pl + e.clientX - ox) + 'px';
+        panel.style.top  = (pt + e.clientY - oy) + 'px';
+      });
+      document.addEventListener('mouseup', () => { on = false; });
+    }
+
+    document.querySelectorAll('.panel-titlebar').forEach(tb =>
+      makeDraggable(tb, tb.parentElement)
+    );
+
+    // ── Resize ──
+    document.querySelectorAll('.panel-resize').forEach(handle => {
+      const panel = handle.parentElement;
+      let on = false, ox, oy, sw, sh;
+      handle.addEventListener('mousedown', e => {
+        on = true;
+        ox = e.clientX; oy = e.clientY;
+        sw = panel.offsetWidth; sh = panel.offsetHeight;
+        e.preventDefault(); e.stopPropagation();
+      });
+      document.addEventListener('mousemove', e => {
+        if (!on) return;
+        panel.style.width  = Math.max(260, sw + e.clientX - ox) + 'px';
+        panel.style.height = Math.max(180, sh + e.clientY - oy) + 'px';
+      });
+      document.addEventListener('mouseup', () => { on = false; });
+    });
+
+    // ── Tab switching ──
+    function switchTab(btn, targetId, tabbarId) {
+      const tabbar = document.getElementById(tabbarId);
+      tabbar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const body = tabbar.nextElementSibling; // .panel-body
+      body.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+      document.getElementById(targetId).classList.add('active');
+    }
+
+    // ── Discord popup ──
+    function showDiscordPopup() {
+      const popup = document.getElementById('discord-popup');
+      popup.classList.add('visible');
+      bringToFront(popup);
+    }
+    function hideDiscordPopup() {
+      document.getElementById('discord-popup').classList.remove('visible');
+    }
+
+    // discord popup draggable
+    makeDraggable(
+      document.getElementById('discord-titlebar'),
+      document.getElementById('discord-popup')
+    );
+
+    // ── Init ──
+    bringToFront(document.getElementById('panel-bio'));
+  </script>
+</body>
+</html>
