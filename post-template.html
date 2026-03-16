@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- EDIT: update page title -->
+  <title>[post title] · me0wberry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── CSS Variables (same as index.html) ── */
+    :root {
+      --pink:           #e05878;
+      --pink-light:     #f4a0b8;
+      --pink-pale:      #fdd8e0;
+      --green:          #5ab86a;
+      --green-light:    #a8d8a0;
+      --cream:          #fdf6f0;
+      --heading:        #8b2a4a;
+      --body:           #4a3040;
+      --muted:          #a08090;
+      --pixel-label:    #b04060;
+      --pixel-label2:   #c05878;
+      --frosted-bg:     rgba(253, 246, 240, 0.45);
+      --frosted-border: rgba(255, 255, 255, 0.70);
+      --bow-pink:       #e8708a;
+      --stem-green:     #6ab870;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Lora', Georgia, serif;
+      font-size: 14px;
+      color: var(--body);
+      line-height: 1.75;
+    }
+
+    body {
+      background: linear-gradient(135deg,
+        #9ad898 0%, #c8e8b8 20%, #f0e0d0 45%, #f5c0cc 70%, #f090a8 100%
+      );
+      background-attachment: fixed;
+      padding: 32px 16px 48px;
+    }
+
+    /* ── Post container ── */
+    .post-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* ── Back link (above panel) ── */
+    .post-back {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--pixel-label);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+    .post-back:hover { opacity: 1; text-decoration: underline; }
+
+    /* ── Frosted panel ── */
+    .post-panel {
+      background: rgba(253, 246, 240, 0.60);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--frosted-border);
+      box-shadow: 0 8px 32px rgba(139, 42, 74, 0.12), 0 2px 8px rgba(0,0,0,0.07);
+      outline: 1px solid rgba(255,255,255,0.28);
+      outline-offset: 2px;
+    }
+
+    /* ── Titlebar ── */
+    .post-titlebar {
+      display: flex;
+      align-items: center;
+      padding: 6px 12px;
+      background: linear-gradient(90deg, var(--pink-pale) 0%, rgba(253,246,240,0.85) 100%);
+      border-bottom: 1px solid var(--frosted-border);
+    }
+
+    .post-panel-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--pixel-label);
+    }
+
+    /* ── Post content ── */
+    .post-content {
+      padding: 28px 32px 24px;
+    }
+
+    /* EDIT: these heading styles are ready to use in your post */
+    .post-content h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 26px;
+      color: var(--heading);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .post-content h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--pixel-label2);
+      margin: 22px 0 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .post-content h3 {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--heading);
+      margin: 18px 0 8px;
+    }
+
+    .post-content p {
+      margin-bottom: 14px;
+      font-size: 14px;
+      color: var(--body);
+    }
+
+    .post-content ul, .post-content ol {
+      padding-left: 20px;
+      margin-bottom: 14px;
+      font-size: 13px;
+    }
+
+    .post-content li { margin-bottom: 4px; }
+
+    .post-content a {
+      color: var(--pink);
+      text-decoration: none;
+    }
+    .post-content a:hover { text-decoration: underline; }
+
+    .post-content img {
+      max-width: 100%;
+      border: 1px solid var(--frosted-border);
+      margin: 10px 0;
+    }
+
+    .post-content blockquote {
+      border-left: 3px solid var(--pink-light);
+      padding: 8px 16px;
+      color: var(--muted);
+      font-style: italic;
+      margin: 14px 0;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .post-content hr {
+      border: none;
+      border-top: 2px dashed var(--pink-light);
+      margin: 20px 0;
+    }
+
+    .post-date-line {
+      font-style: italic;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* ── Post footer ── */
+    .post-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 32px;
+      border-top: 1px solid var(--frosted-border);
+      background: rgba(253, 246, 240, 0.35);
+    }
+
+    .post-footer a {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--pixel-label);
+      text-decoration: none;
+    }
+    .post-footer a:hover { text-decoration: underline; }
+
+    .post-footer-date {
+      font-style: italic;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 16px 10px 32px; }
+      .post-content { padding: 20px 18px 18px; }
+      .post-footer { padding: 12px 18px; flex-direction: column; gap: 6px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="post-wrap">
+
+    <a class="post-back" href="../../index.html">← me0wberry.com</a>
+
+    <div class="post-panel">
+
+      <div class="post-titlebar">
+        <!-- EDIT: update category and post title -->
+        <span class="post-panel-title">[category] · [post title]</span>
+      </div>
+
+      <div class="post-content">
+
+        <!-- EDIT: post heading -->
+        <h1>[post title]</h1>
+        <!-- EDIT: post date -->
+        <div class="post-date-line">[month day, year]</div>
+
+        <!-- ════════════════════════════
+             EDIT: post content goes here
+             ════════════════════════════ -->
+
+        <p>...</p>
+
+        <!-- ════════════════════════════
+             end post content
+             ════════════════════════════ -->
+
+      </div><!-- /post-content -->
+
+      <div class="post-footer">
+        <a href="../../index.html">← back to me0wberry.com</a>
+        <!-- EDIT: update date -->
+        <span class="post-footer-date">[month day, year]</span>
+      </div>
+
+    </div><!-- /post-panel -->
+  </div><!-- /post-wrap -->
+
+</body>
+</html>
