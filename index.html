@@ -198,10 +198,6 @@
     .panel {
       display: none;
       position: absolute;
-      top: 12px;
-      left: 12px;
-      width: calc(100% - 24px);
-      height: 480px;
       background: var(--frosted-bg);
       backdrop-filter: blur(10px);
       border: 2px solid var(--frosted-border);
@@ -971,7 +967,7 @@
       <!-- ──────────────────────────────
            Bio Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-bio" style="width:420px;">
+      <div class="panel" id="panel-bio" style="top:20px; left:18px; width:420px; height:480px;">
         <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">hello! (=^･^=)</span>
@@ -1120,7 +1116,7 @@
       <!-- ──────────────────────────────
            Lately Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-lately" style="width:360px;">
+      <div class="panel" id="panel-lately" style="top:20px; left:18px; width:360px; height:480px;">
         <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ lately</span>
@@ -1145,7 +1141,7 @@
       <!-- ──────────────────────────────
            Games Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-games" style="width:380px;">
+      <div class="panel" id="panel-games" style="top:20px; left:18px; width:380px; height:480px;">
         <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ games</span>
@@ -1174,7 +1170,7 @@
       <!-- ──────────────────────────────
            Music Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-music" style="width:380px;">
+      <div class="panel" id="panel-music" style="top:20px; left:18px; width:380px; height:480px;">
         <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ music</span>
@@ -1202,7 +1198,7 @@
       <!-- ──────────────────────────────
            Food Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-food" style="width:380px;">
+      <div class="panel" id="panel-food" style="top:20px; left:18px; width:380px; height:480px;">
         <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ food</span>
@@ -1221,7 +1217,7 @@
       <!-- ──────────────────────────────
            Stubby Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-stubby" style="width:380px;">
+      <div class="panel" id="panel-stubby" style="top:20px; left:18px; width:380px; height:480px;">
         <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ stubby 🐾</span>
@@ -1240,7 +1236,7 @@
       <!-- ──────────────────────────────
            Beauty Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-beauty" style="width:380px;">
+      <div class="panel" id="panel-beauty" style="top:20px; left:18px; width:380px; height:480px;">
         <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">/ beauty</span>
@@ -1259,7 +1255,7 @@
       <!-- ──────────────────────────────
            Favs Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-favs" style="width:400px;">
+      <div class="panel" id="panel-favs" style="top:20px; left:18px; width:400px; height:480px;">
         <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
         <div class="panel-titlebar">
           <span class="panel-title">✦ favs</span>
@@ -1479,8 +1475,8 @@
 
       // Desktop: reset position (not for player/cactus — they keep their position)
       if (id !== 'panel-player' && id !== 'panel-cactus') {
-        panel.style.top   = '12px';
-        panel.style.left  = '12px';
+        panel.style.top   = '20px';
+        panel.style.left  = '18px';
         panel.style.width = panelWidths[id] || '380px';
       } else if (id === 'panel-cactus' && !panel.classList.contains('open')) {
         panel.style.width = '220px';
