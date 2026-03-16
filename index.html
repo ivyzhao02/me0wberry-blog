@@ -729,6 +729,7 @@
       overflow: hidden;
       width: 100%;
       border: 1px solid var(--frosted-border);
+      border-radius: 3px;
     }
     .slide-track {
       display: flex;
@@ -737,9 +738,12 @@
     .slide-img {
       min-width: 100%;
       width: 100%;
-      height: 220px;
+      height: 200px;
+      max-height: 200px;
       object-fit: cover;
+      object-position: center;
       flex-shrink: 0;
+      display: block;
     }
     .slide-btn {
       position: absolute;
@@ -1096,7 +1100,7 @@
               <div>23 · aries · 🐴</div>
               <div class="stat-flags">🇨🇦 🇨🇳</div>
               <div>eng / 中文</div>
-              <div>INFP-T</div>
+              <div>INFP-T (´ ▽ ｀)</div>
             </div>
 
             <hr class="dashed-divider" style="clear:both;"/>
@@ -1126,7 +1130,7 @@
                   <li>pink &amp; green</li>
                   <li>gaming</li>
                   <li>plushies / stuffies</li>
-                  <li>dreaming &amp; planning</li>
+                  <li>dreaming &amp; planning (˘͈ᵕ˘͈)</li>
                   <li class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')">♡ him</li>
                 </ul>
               </div>
@@ -1197,16 +1201,25 @@
         </div>
         <div class="panel-body">
           <div class="pixel-tag">/ lately</div>
-          <div class="panel-lora-heading">in the lately...</div>
-          <div class="panel-updated">last updated [month year]</div>
+          <div class="panel-lora-heading">lately...</div>
+          <div class="panel-updated">last updated march 2026</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:8px;color:var(--pixel-label2);margin-top:14px;margin-bottom:8px;letter-spacing:0.5px;">March Update</div>
           <div class="panel-px-label">where i'm at (ᐢ. .ᐢ):</div>
-          <div class="panel-section-body"><ul><li>[ivy fills in]</li></ul></div>
+          <div class="panel-section-body"><ul>
+            <li>balancing school, job searching and gaming (gaming is winning (ᐢ •ᴗ• ᐢ)↑)</li>
+            <li>attempting to not make my already awful sleep schedule worse (failing (´• ω •`)zzz)</li>
+            <li>stubby.. needs to go on a diet (=｀ω´=)</li>
+          </ul></div>
           <div class="hearts-divider">────── ♡ · ♡ · ♡ ──────</div>
           <div class="panel-px-label">what i'm into:</div>
-          <div class="panel-section-body"><ul><li>[ivy fills in]</li></ul></div>
+          <div class="panel-section-body"><ul>
+            <li>slay the spire modding - but only a bit! (•ᴗ•)⌒♡ i like the vanilla game as is i just want to get achievements more easily</li>
+            <li>sims 4 CC.. how did i play without custom furniture before (⸝⸝> ᴗ <⸝⸝)</li>
+            <li>editing and improving this site &amp; my portfolio one! this is so fun (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</li>
+          </ul></div>
           <hr class="plain-divider"/>
           <div style="font-size:13px;color:var(--heading);margin-bottom:6px">♡ a note:</div>
-          <div class="panel-section-body" style="font-style:italic;color:var(--muted)">[ivy fills in — freeform short paragraph]</div>
+          <div class="panel-section-body" style="font-style:italic;color:var(--muted);font-size:13px;">hi! if you're reading this, thanks for checking out my site (˶ᵔ ᵕ ᵔ˶) this has been amazing to start and make.. and i highly recommend Claude, in a not weird-tech-billionaire way (¬‿¬) way better than ChatGPT and Anthropic has stood for their morals/ethics thus far lol. much love ♡</div>
         </div>
         <div class="panel-resize">···</div>
       </div>
@@ -1351,15 +1364,15 @@
           <div class="panel-lora-heading">favourites</div>
 
           <div class="favs-section-header">★ game mains:</div>
-          <div class="favs-entry">league of legends: sona, nami</div>
-          <div class="favs-entry">apex legends: lifeline, conduit</div>
+          <div class="favs-entry">league of legends: sona, nami (งᵕ̣̣̣̣̣̣˘ᵕ̣̣̣̣̣̣)ง</div>
+          <div class="favs-entry">apex legends: lifeline, conduit ♡</div>
           <div class="favs-entry">warframe: mag, khora, yareli, harrow</div>
           <div class="favs-subnote">yes mostly healers/supports (=^･^=)</div>
 
           <div class="hearts-divider">♡ · ♡ · ♡</div>
 
           <div class="favs-section-header">★ fav games:</div>
-          <div class="favs-entry">warframe / league of legends / lord of the rings online / the sims 4</div>
+          <div class="favs-entry">warframe / league of legends / lord of the rings online / the sims 4 ✦</div>
 
           <div class="hearts-divider">♡ · ♡ · ♡</div>
 
@@ -1370,13 +1383,12 @@
           <div class="hearts-divider">♡ · ♡ · ♡</div>
 
           <div class="favs-section-header">★ fav media:</div>
-          <div class="favs-entry">lord of the rings (full stop)</div>
-          <div class="favs-entry" style="color:var(--muted);font-style:italic">[comfort shows/movies — ivy fills in]</div>
+          <div class="favs-entry">lord of the rings (full stop) 🌿</div>
 
           <div class="hearts-divider">♡ · ♡ · ♡</div>
 
-          <div class="favs-section-header">★ fav foods &amp; drinks:</div>
-          <div class="favs-entry">homestyle shanghainese food / dim sum / katsu / musubi / grapes / mangoes</div>
+          <div class="favs-section-header">★ fav foods &amp; drinks: (￣﹃￣)</div>
+          <div class="favs-entry">homestyle shanghainese food / dim sum / katsu / musubi / grapes / mangoes ♡</div>
 
           <hr class="dashed-divider"/>
           <div class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')" style="text-align:center; padding:8px 0; font-size:13px; color:var(--muted);">
