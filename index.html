@@ -739,12 +739,20 @@
     .slide-img {
       min-width: 100%;
       width: 100%;
-      height: 200px;
-      max-height: 200px;
+      height: 180px;
+      max-height: 180px;
       object-fit: cover;
-      object-position: center;
+      object-position: center top;
       flex-shrink: 0;
       display: block;
+    }
+    @media (min-width: 769px) {
+      .slide-img {
+        height: 240px;
+        max-height: 240px;
+        object-fit: cover;
+        object-position: center top;
+      }
     }
     .slide-btn {
       position: absolute;
