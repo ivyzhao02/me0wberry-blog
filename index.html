@@ -933,20 +933,20 @@
         <!-- favs -->
         <div class="nav-item" data-opens="panel-favs" onclick="openPanel('panel-favs')">
           <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
-            <!-- Heart: top lobes with dip -->
-            <rect x="1"  y="3"  width="4"  height="1"  fill="#e07090"/>
-            <rect x="9"  y="3"  width="7"  height="1"  fill="#e07090"/>
-            <!-- Rows 5-6: full width -->
-            <rect x="1"  y="4"  width="15" height="2"  fill="#e07090"/>
-            <!-- Tapering to point -->
-            <rect x="2"  y="6"  width="13" height="1"  fill="#e07090"/>
-            <rect x="3"  y="7"  width="11" height="1"  fill="#e07090"/>
-            <rect x="4"  y="8"  width="9"  height="1"  fill="#e07090"/>
-            <rect x="5"  y="9"  width="7"  height="1"  fill="#e07090"/>
-            <rect x="6"  y="10" width="5"  height="1"  fill="#e07090"/>
-            <rect x="7"  y="11" width="3"  height="1"  fill="#e07090"/>
-            <rect x="8"  y="12" width="1"  height="1"  fill="#e07090"/>
-            <!-- Highlight -->
+            <!-- Two top lobes (rows 4-5), gap at cols 7-11 -->
+            <rect x="1"  y="3"  width="5"  height="2"  fill="#e07090"/>
+            <rect x="11" y="3"  width="5"  height="2"  fill="#e07090"/>
+            <!-- Lobes merge (rows 6-7) -->
+            <rect x="1"  y="5"  width="15" height="2"  fill="#e07090"/>
+            <!-- Taper to point -->
+            <rect x="2"  y="7"  width="13" height="1"  fill="#e07090"/>
+            <rect x="3"  y="8"  width="11" height="1"  fill="#e07090"/>
+            <rect x="4"  y="9"  width="9"  height="1"  fill="#e07090"/>
+            <rect x="5"  y="10" width="7"  height="1"  fill="#e07090"/>
+            <rect x="6"  y="11" width="5"  height="1"  fill="#e07090"/>
+            <rect x="7"  y="12" width="3"  height="1"  fill="#e07090"/>
+            <rect x="8"  y="13" width="1"  height="1"  fill="#e07090"/>
+            <!-- Highlight top-left lobe -->
             <rect x="2"  y="3"  width="2"  height="2"  fill="#f4a8b8"/>
           </svg>
           <span class="nav-item-label">★ favs</span>
@@ -1092,56 +1092,62 @@
 
           <!-- Tab 1: about -->
           <div class="tab-content active" id="bio-about">
-            <!-- pixel kitten 60×60, rect-only -->
+            <!-- pixel kitten 60×60, rect-only, face only -->
             <div class="kitten-corner">
               <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                <!-- Haunches -->
-                <rect x="7"  y="37" width="21" height="17" fill="#fdd8e0"/>
-                <rect x="29" y="37" width="23" height="17" fill="#fdd8e0"/>
-                <!-- Tail -->
-                <rect x="49" y="43" width="3"  height="10" fill="#fdd8e0"/>
-                <rect x="49" y="52" width="8"  height="3"  fill="#fdd8e0"/>
-                <!-- Head (rounded) -->
-                <rect x="9"  y="9"  width="41" height="1"  fill="#fdd8e0"/>
-                <rect x="8"  y="10" width="43" height="1"  fill="#fdd8e0"/>
-                <rect x="7"  y="11" width="45" height="25" fill="#fdd8e0"/>
-                <rect x="8"  y="36" width="43" height="1"  fill="#fdd8e0"/>
-                <rect x="9"  y="37" width="41" height="1"  fill="#fdd8e0"/>
+                <!-- Face body -->
+                <rect x="7"  y="11" width="45" height="1"  fill="#fdd8e0"/>
+                <rect x="6"  y="12" width="47" height="2"  fill="#fdd8e0"/>
+                <rect x="5"  y="14" width="49" height="39" fill="#fdd8e0"/>
+                <rect x="6"  y="53" width="47" height="1"  fill="#fdd8e0"/>
+                <rect x="7"  y="54" width="45" height="1"  fill="#fdd8e0"/>
                 <!-- Left ear outer -->
-                <rect x="9"  y="1"  width="2"  height="1"  fill="#a8d8a0"/>
-                <rect x="7"  y="2"  width="4"  height="2"  fill="#a8d8a0"/>
-                <rect x="7"  y="4"  width="6"  height="4"  fill="#a8d8a0"/>
-                <rect x="7"  y="8"  width="8"  height="3"  fill="#a8d8a0"/>
+                <rect x="10" y="0"  width="1"  height="4"  fill="#a8d8a0"/>
+                <rect x="9"  y="4"  width="2"  height="2"  fill="#a8d8a0"/>
+                <rect x="9"  y="6"  width="3"  height="2"  fill="#a8d8a0"/>
+                <rect x="9"  y="8"  width="4"  height="2"  fill="#a8d8a0"/>
+                <rect x="8"  y="10" width="5"  height="2"  fill="#a8d8a0"/>
+                <rect x="7"  y="12" width="7"  height="2"  fill="#a8d8a0"/>
                 <!-- Left ear inner -->
-                <rect x="9"  y="2"  width="2"  height="5"  fill="#f4a8b8"/>
+                <rect x="10" y="4"  width="1"  height="2"  fill="#f4a8b8"/>
+                <rect x="9"  y="6"  width="2"  height="2"  fill="#f4a8b8"/>
+                <rect x="9"  y="8"  width="3"  height="2"  fill="#f4a8b8"/>
+                <rect x="9"  y="10" width="3"  height="2"  fill="#f4a8b8"/>
                 <!-- Right ear outer -->
-                <rect x="47" y="1"  width="2"  height="1"  fill="#a8d8a0"/>
-                <rect x="45" y="2"  width="4"  height="2"  fill="#a8d8a0"/>
-                <rect x="43" y="4"  width="6"  height="4"  fill="#a8d8a0"/>
-                <rect x="43" y="8"  width="8"  height="3"  fill="#a8d8a0"/>
+                <rect x="48" y="0"  width="1"  height="4"  fill="#a8d8a0"/>
+                <rect x="47" y="4"  width="2"  height="2"  fill="#a8d8a0"/>
+                <rect x="47" y="6"  width="3"  height="2"  fill="#a8d8a0"/>
+                <rect x="46" y="8"  width="4"  height="2"  fill="#a8d8a0"/>
+                <rect x="45" y="10" width="5"  height="2"  fill="#a8d8a0"/>
+                <rect x="45" y="12" width="7"  height="2"  fill="#a8d8a0"/>
                 <!-- Right ear inner -->
-                <rect x="46" y="2"  width="2"  height="5"  fill="#f4a8b8"/>
+                <rect x="48" y="4"  width="1"  height="2"  fill="#f4a8b8"/>
+                <rect x="47" y="6"  width="2"  height="2"  fill="#f4a8b8"/>
+                <rect x="46" y="8"  width="3"  height="2"  fill="#f4a8b8"/>
+                <rect x="46" y="10" width="3"  height="2"  fill="#f4a8b8"/>
                 <!-- Left eye -->
-                <rect x="17" y="17" width="4"  height="4"  fill="#4a3040"/>
-                <rect x="17" y="17" width="2"  height="2"  fill="#fdf6f0"/>
+                <rect x="15" y="21" width="4"  height="4"  fill="#4a3040"/>
+                <rect x="15" y="21" width="2"  height="2"  fill="#fdf6f0"/>
                 <!-- Right eye -->
-                <rect x="35" y="17" width="4"  height="4"  fill="#4a3040"/>
-                <rect x="35" y="17" width="2"  height="2"  fill="#fdf6f0"/>
+                <rect x="39" y="21" width="4"  height="4"  fill="#4a3040"/>
+                <rect x="39" y="21" width="2"  height="2"  fill="#fdf6f0"/>
                 <!-- Nose -->
-                <rect x="27" y="27" width="4"  height="2"  fill="#e07090"/>
+                <rect x="26" y="32" width="7"  height="3"  fill="#e07090"/>
                 <!-- Mouth -->
-                <rect x="24" y="31" width="2"  height="1"  fill="#c07090"/>
-                <rect x="31" y="31" width="2"  height="1"  fill="#c07090"/>
+                <rect x="22" y="36" width="2"  height="1"  fill="#c07090"/>
+                <rect x="35" y="36" width="2"  height="1"  fill="#c07090"/>
                 <!-- Blush -->
-                <rect x="13" y="25" width="6"  height="3"  fill="#f4a8b8" opacity="0.45"/>
-                <rect x="37" y="25" width="6"  height="3"  fill="#f4a8b8" opacity="0.45"/>
+                <rect x="9"  y="29" width="8"  height="4"  fill="#f4a8b8" opacity="0.4"/>
+                <rect x="42" y="29" width="8"  height="4"  fill="#f4a8b8" opacity="0.4"/>
                 <!-- Whiskers -->
-                <rect x="1"  y="25" width="7"  height="1"  fill="#a09098"/>
-                <rect x="1"  y="28" width="7"  height="1"  fill="#a09098"/>
-                <rect x="49" y="25" width="7"  height="1"  fill="#a09098"/>
-                <rect x="49" y="28" width="7"  height="1"  fill="#a09098"/>
+                <rect x="1"  y="27" width="11" height="1"  fill="#a09098"/>
+                <rect x="1"  y="30" width="11" height="1"  fill="#a09098"/>
+                <rect x="1"  y="33" width="11" height="1"  fill="#a09098"/>
+                <rect x="47" y="27" width="11" height="1"  fill="#a09098"/>
+                <rect x="47" y="30" width="11" height="1"  fill="#a09098"/>
+                <rect x="47" y="33" width="11" height="1"  fill="#a09098"/>
               </svg>
-              <div class="kitten-kaomoji">ฅ^•ﻌ•^ฅ</div>
+              <div style="text-align:center; font-size:11px; color:var(--muted); margin-top:4px;">ฅ^•ﻌ•^ฅ</div>
             </div>
 
             <div class="stat-block">
