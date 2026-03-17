@@ -1991,17 +1991,56 @@
       }).join('\n');
     }
 
+    // ── Toggle lately fields ──
+    function toggleLatelyFields() {
+      const isLately = document.getElementById('post-category').value === 'lately';
+      document.getElementById('post-content-wrap').style.display  = isLately ? 'none' : '';
+      document.getElementById('post-lately-fields').style.display = isLately ? '' : 'none';
+    }
+
+    // ── Build lately post content HTML ──
+    function buildLatelyContent(title, whereAt, intoText, note) {
+      const toBullets = text => text.split('\n')
+        .map(l => l.trim()).filter(Boolean)
+        .map(l => `<li style="margin-bottom:4px;">– ${l}</li>`).join('\n        ');
+
+      const noteHtml = note ? `
+      <div style="border-top:1px dashed rgba(160,144,152,0.45); margin:14px 0 10px;"></div>
+      <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">♡ a note:</p>
+      <p style="font-style:italic; color:var(--muted);">${note}</p>` : '';
+
+      return `<div class="post-content">
+      <div style="font-family:'Press Start 2P',monospace; font-size:8px; color:var(--pixel-label2); margin-bottom:16px;">${title}</div>
+      <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">where i'm at (ᐢ. .ᐢ):</p>
+      <ul style="list-style:none; padding:0; margin-bottom:14px; font-size:14px; line-height:1.75;">
+        ${toBullets(whereAt)}
+      </ul>
+      <div style="text-align:center; color:var(--muted); margin:14px 0; letter-spacing:4px;">♡ · ♡ · ♡</div>
+      <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">what i'm into:</p>
+      <ul style="list-style:none; padding:0; margin-bottom:14px; font-size:14px; line-height:1.75;">
+        ${toBullets(intoText)}
+      </ul>${noteHtml}
+    </div>`;
+    }
+
     // ── Publish post via GitHub API ──
     async function publishPost() {
       const category = document.getElementById('post-category').value;
       const title    = document.getElementById('post-title').value.trim();
       const date     = document.getElementById('post-date').value.trim();
       const imageUrl = document.getElementById('post-image').value.trim();
-      const content  = document.getElementById('post-content').value.trim();
       const status   = document.getElementById('post-status');
 
-      if (!title || !content) {
-        status.textContent = 'title and content are required (˘･_･˘)';
+      const isLately = category === 'lately';
+      const content  = isLately ? '' : document.getElementById('post-content').value.trim();
+      const whereAt  = isLately ? document.getElementById('post-lately-whereat').value.trim() : '';
+      const intoText = isLately ? document.getElementById('post-lately-intotext').value.trim() : '';
+      const note     = isLately ? document.getElementById('post-lately-note').value.trim() : '';
+
+      if (!title || (!isLately && !content) || (isLately && (!whereAt || !intoText))) {
+        status.textContent = isLately
+          ? 'title, where i\'m at, and what i\'m into are required (˘･_･˘)'
+          : 'title and content are required (˘･_･˘)';
         status.style.color = 'var(--pink)';
         return;
       }
@@ -2055,7 +2094,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
     <div class="post-pixel-tag">/ ${category}</div>
     <div class="post-heading">${title}</div>
     <div class="post-date">${date}</div>
-    <div class="post-content">${markdownToHtml(content)}</div>
+    ${isLately ? buildLatelyContent(title, whereAt, intoText, note) : `<div class="post-content">${markdownToHtml(content)}</div>`}
     ${imageHtml}
     <div class="post-footer">
       <a href="/" class="post-back">← back to me0wberry.com</a>
@@ -2220,7 +2259,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
         <!-- Category -->
         <div style="margin-bottom:16px;">
           <label style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); display:block; margin-bottom:6px;">category</label>
-          <select id="post-category" style="font-size:13px; padding:7px 10px; border:2px solid var(--frosted-border); background:rgba(255,255,255,0.7); color:var(--body); width:100%; outline:none;">
+          <select id="post-category" onchange="toggleLatelyFields()" style="font-size:13px; padding:7px 10px; border:2px solid var(--frosted-border); background:rgba(255,255,255,0.7); color:var(--body); width:100%; outline:none;">
             <option value="games">🎮 games</option>
             <option value="music">🎵 music</option>
             <option value="food">🍜 food</option>
@@ -2252,10 +2291,29 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
         </div>
 
         <!-- Content -->
-        <div style="margin-bottom:24px;">
+        <div id="post-content-wrap" style="margin-bottom:24px;">
           <label style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); display:block; margin-bottom:6px;">content <span style="color:var(--muted)">(markdown ok)</span></label>
           <textarea id="post-content" rows="12" placeholder="write something cute here..."
             style="font-size:13px; padding:7px 10px; border:2px solid var(--frosted-border); background:rgba(255,255,255,0.7); color:var(--body); width:100%; outline:none; resize:vertical; line-height:1.7;"></textarea>
+        </div>
+
+        <!-- Lately fields (shown only when category = lately) -->
+        <div id="post-lately-fields" style="display:none; margin-bottom:24px;">
+          <div style="margin-bottom:16px;">
+            <label style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); display:block; margin-bottom:6px;">where i'm at</label>
+            <textarea id="post-lately-whereat" rows="5" placeholder="what's going on lately..."
+              style="font-size:13px; padding:7px 10px; border:2px solid var(--frosted-border); background:rgba(255,255,255,0.7); color:var(--body); width:100%; outline:none; resize:vertical; line-height:1.7;"></textarea>
+          </div>
+          <div style="margin-bottom:16px;">
+            <label style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); display:block; margin-bottom:6px;">what i'm into</label>
+            <textarea id="post-lately-intotext" rows="5" placeholder="things i'm loving right now..."
+              style="font-size:13px; padding:7px 10px; border:2px solid var(--frosted-border); background:rgba(255,255,255,0.7); color:var(--body); width:100%; outline:none; resize:vertical; line-height:1.7;"></textarea>
+          </div>
+          <div style="margin-bottom:0;">
+            <label style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); display:block; margin-bottom:6px;">♡ a note <span style="color:var(--muted)">(optional)</span></label>
+            <textarea id="post-lately-note" rows="4" placeholder="a little something extra..."
+              style="font-size:13px; padding:7px 10px; border:2px solid var(--frosted-border); background:rgba(255,255,255,0.7); color:var(--body); width:100%; outline:none; resize:vertical; line-height:1.7;"></textarea>
+          </div>
         </div>
 
         <!-- Submit -->
