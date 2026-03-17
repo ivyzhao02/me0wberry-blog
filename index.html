@@ -1975,13 +1975,20 @@
 
     // ── Simple markdown to HTML converter ──
     function markdownToHtml(md) {
-      return md
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1"/>')
-        .split('\n\n').map(p => p.trim() ? `<p>${p.replace(/\n/g, '<br>')}</p>` : '').join('\n');
+      return md.split('\n\n').map(block => {
+        const trimmed = block.trim();
+        if (!trimmed) return '';
+        // Raw HTML passthrough — leave unchanged
+        if (trimmed.startsWith('<')) return trimmed;
+        // Markdown block — escape then apply inline formatting
+        const escaped = trimmed
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+          .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1"/>');
+        return `<p>${escaped.replace(/\n/g, '<br>')}</p>`;
+      }).join('\n');
     }
 
     // ── Publish post via GitHub API ──
