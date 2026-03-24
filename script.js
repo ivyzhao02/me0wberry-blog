@@ -601,13 +601,13 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
           <div class="panel-px-label" style="margin-bottom:6px;">latest ✦</div>
           <div style="font-size:13px;font-weight:500;color:var(--heading);margin-bottom:2px;">${latest.title}</div>
           <div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:10px;">${latest.date}</div>
-          <a href="${latest.file}" target="_blank" rel="noopener" class="pixel-btn" style="font-size:11px;">read ↗</a>
+          <a href="${latest.file}" class="pixel-btn" style="font-size:11px;">read ↗</a>
         `;
       }
 
       if (postsEl && posts.length > 1) {
         postsEl.innerHTML = posts.slice(1).map(p =>
-          `<li><a href="${p.file}" target="_blank" rel="noopener" style="color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);">${p.title}</a> <span style="color:var(--muted);font-size:11px;">· ${p.date}</span></li>`
+          `<li><a href="${p.file}" style="color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);">${p.title}</a> <span style="color:var(--muted);font-size:11px;">· ${p.date}</span></li>`
         ).join('');
       }
     }
