@@ -9,6 +9,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
+  <style>
+@media (max-width: 768px) {
+  #main { display: block !important; }
+  #sidebar { display: none; }
+  #mobile-back { display: flex !important; }
+}
+  </style>
 </head>
 <body>
 
@@ -21,6 +28,8 @@
       <div class="tb-btn">✕</div>
     </div>
   </div>
+
+  <div id="mobile-back" onclick="window.history.back()" style="display:none;">← back</div>
 
   <div id="layout">
 
