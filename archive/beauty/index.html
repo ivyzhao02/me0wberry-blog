@@ -100,7 +100,7 @@
       const list = document.getElementById('archive-list');
       list.innerHTML = posts.map(p => `
         <div style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px dashed rgba(160,144,152,0.3);">
-          <a href="/${p.file}" target="_blank" rel="noopener" style="font-size:14px; color:var(--heading); text-decoration:none; border-bottom:1px dotted rgba(139,58,90,0.4);">${p.title}</a>
+          <a href="/${p.file}" style="font-size:14px; color:var(--heading); text-decoration:none; border-bottom:1px dotted rgba(139,58,90,0.4);">${p.title}</a>
           <span style="font-size:11px; color:var(--muted); margin-left:8px;">· ${p.date}</span>
         </div>
       `).join('');
