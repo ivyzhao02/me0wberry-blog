@@ -72,6 +72,7 @@
 
     // click panel → bring to front
     document.addEventListener('mousedown', function(e) {
+      if (e.target.closest('a')) return;
       const panel = e.target.closest('.panel');
       if (panel) bringToFront(panel);
     });
