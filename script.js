@@ -294,7 +294,8 @@
 
     audio.volume = 0.75;
 
-    document.getElementById('intro-overlay').addEventListener('click', function() {
+    const introOverlay = document.getElementById('intro-overlay');
+    if (introOverlay) introOverlay.addEventListener('click', function() {
       this.classList.add('fade-out');
       setTimeout(() => this.remove(), 800);
       audio.play().catch(function(){});
