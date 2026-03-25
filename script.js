@@ -352,14 +352,15 @@
         const mainEl  = document.getElementById('main');
         const playerW = 280;
         player.style.width = playerW + 'px';
-        if (!mainEl) player.style.position = 'fixed';
         player.classList.add('open');
         bringToFront(player);
         // measure rendered height then position
         const playerH   = player.offsetHeight;
-        const mainRect  = mainEl ? mainEl.getBoundingClientRect() : null;
-        const refWidth  = mainRect && mainRect.width  > 0 ? mainRect.width  : window.innerWidth;
-        const refHeight = mainRect && mainRect.height > 0 ? mainRect.height : window.innerHeight;
+        const isInMain  = mainEl && mainEl.contains(player);
+        const mainRect  = isInMain ? mainEl.getBoundingClientRect() : null;
+        const refWidth  = mainRect ? mainRect.width  : window.innerWidth;
+        const refHeight = mainRect ? mainRect.height : window.innerHeight;
+        if (!isInMain) player.style.position = 'fixed';
         player.style.left = Math.max(12, refWidth  - playerW - 20) + 'px';
         player.style.top  = Math.max(12, refHeight - playerH - 20) + 'px';
       })();
