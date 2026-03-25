@@ -346,19 +346,22 @@
       // bio opens at top-left
       openPanel('panel-bio');
 
-      // player opens at bottom-right of #main
+      // player opens at bottom-right of #main (or viewport if #main absent)
       (function() {
         const player  = document.getElementById('panel-player');
         const mainEl  = document.getElementById('main');
         const playerW = 280;
         player.style.width = playerW + 'px';
+        if (!mainEl) player.style.position = 'fixed';
         player.classList.add('open');
         bringToFront(player);
         // measure rendered height then position
-        const playerH  = player.offsetHeight;
-        const mainRect = mainEl.getBoundingClientRect();
-        player.style.left = Math.max(12, mainRect.width  - playerW - 20) + 'px';
-        player.style.top  = Math.max(12, mainRect.height - playerH - 20) + 'px';
+        const playerH   = player.offsetHeight;
+        const mainRect  = mainEl ? mainEl.getBoundingClientRect() : null;
+        const refWidth  = mainRect && mainRect.width  > 0 ? mainRect.width  : window.innerWidth;
+        const refHeight = mainRect && mainRect.height > 0 ? mainRect.height : window.innerHeight;
+        player.style.left = Math.max(12, refWidth  - playerW - 20) + 'px';
+        player.style.top  = Math.max(12, refHeight - playerH - 20) + 'px';
       })();
     }
     // ── Post Overlay ──
