@@ -197,6 +197,8 @@
       { src: 'audio/please-dont-stop.mp3',    title: "please don't stop being sweet to me · lace" },
       { src: 'audio/forever-and.mp3',          title: 'forever & · EJEAN' },
       { src: 'audio/huayuan-meteor-rain.mp3',  title: '花园裡的流星雨 · Karencici' },
+      { src: 'audio/tianshi-jiazaizhong.mp3',  title: '天使加载中...^_−☆ · Angels of Delusion' },
+      { src: 'audio/redreaming-angel.mp3',     title: 'ReDreaming Angel · Angels of Delusion' },
     ];
     let currentTrack = 0;
     const audio       = document.getElementById('player-audio');
