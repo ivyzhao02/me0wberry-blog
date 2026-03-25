@@ -1,4 +1,31 @@
-﻿    /* ── CSS Variables ── */
+﻿    /* ── Intro Overlay ── */
+    #intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: linear-gradient(135deg,
+        #a8e6a3 0%, #c9e8c5 25%, #e8ddd5 50%, #f2c4ce 75%, #f4a8b8 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.8s ease;
+    }
+    #intro-overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #intro-text {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 32px;
+      color: rgba(139, 58, 90, 0.75);
+      letter-spacing: 2px;
+      user-select: none;
+    }
+
+    /* ── CSS Variables ── */
     :root {
       --pink:           #e07090;
       --pink-light:     #f4a8b8;
