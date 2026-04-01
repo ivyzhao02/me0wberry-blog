@@ -1,16 +1,16 @@
 [
   {
-    "title": "March Update",
-    "date": "last updated march 2026",
-    "file": "posts/lately/2026-04-01-march-update.html",
-    "slug": "march-update",
+    "title": "April Update",
+    "date": "april 2026",
+    "file": "posts/lately/2026-04-01-april-update.html",
+    "slug": "april-update",
     "images": []
   },
   {
-    "title": "April Update",
-    "date": "last updated april 2026",
-    "file": "posts/lately/2026-04-01-april-update.html",
-    "slug": "april-update",
+    "title": "March Update",
+    "date": "march 2026",
+    "file": "posts/lately/2026-03-01-march-update.html",
+    "slug": "march-update",
     "images": []
   }
 ]
