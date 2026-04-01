@@ -436,7 +436,7 @@
     }
 
     // ── Build lately post content HTML ──
-    function buildLatelyContent(title, whereAt, intoText, note) {
+    function buildLatelyContent(title, whereAt, intoText, note, imageUrl) {
       const toBullets = text => text.split('\n')
         .map(l => l.trim()).filter(Boolean)
         .map(l => `<li style="margin-bottom:4px;">– ${l}</li>`).join('\n        ');
@@ -457,6 +457,7 @@
       <ul style="list-style:none; padding:0; margin-bottom:14px; font-size:14px; line-height:1.75;">
         ${toBullets(intoText)}
       </ul>${noteHtml}
+      ${imageUrl ? `<img src="${imageUrl}" alt="${title}" style="max-width:100%;margin:12px 0;display:block;border:1px solid rgba(255,255,255,0.68);"/>` : ''}
     </div>`;
     }
 
@@ -569,7 +570,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
     <div class="post-pixel-tag">/ ${category}</div>
     <div class="post-heading">${title}</div>
     <div class="post-date">${date}</div>
-    ${isLately ? buildLatelyContent(title, whereAt, intoText, note) : `<div class="post-content">${markdownToHtml(content)}</div>`}
+    ${isLately ? buildLatelyContent(title, whereAt, intoText, note, imageUrl) : `<div class="post-content">${markdownToHtml(content)}</div>`}
     ${isLately ? '' : galleryHtml}
     <div class="post-footer">
       <a href="/" class="post-back">← back to me0wberry.com</a>
