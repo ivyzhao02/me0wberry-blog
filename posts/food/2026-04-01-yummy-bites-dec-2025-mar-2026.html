@@ -26,6 +26,16 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 .post-footer{margin-top:18px;padding-top:12px;border-top:1px dashed rgba(160,144,152,0.45);display:flex;justify-content:space-between;align-items:center;}
 .post-back{font-size:12px;color:var(--muted);text-decoration:none;}
 .post-back:hover{color:var(--pink);}
+.stubby-slideshow{position:relative;margin-bottom:12px;}
+.slide-track-wrapper{overflow:hidden;width:100%;border:1px solid var(--frosted-border);border-radius:3px;}
+.slide-track{display:flex;transition:transform 0.4s ease;}
+.slide-img{min-width:100%;width:100%;height:280px;object-fit:cover;object-position:center;flex-shrink:0;display:block;}
+.slide-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:rgba(255,255,255,0.6);border:1px solid var(--frosted-border);color:var(--pixel-label);font-size:10px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.slide-prev{left:4px;}
+.slide-next{right:4px;}
+.slide-dots{display:flex;justify-content:center;gap:5px;margin-top:6px;}
+.slide-dot{width:6px;height:6px;border-radius:50%;background:var(--pink-pale);border:1px solid var(--pink);cursor:pointer;}
+.slide-dot.active{background:var(--pink);}
 </style>
 </head>
 <body>
@@ -35,25 +45,47 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
     <div class="post-pixel-tag">/ food</div>
     <div class="post-heading">yummy bites ! dec 2025 - mar 2026</div>
     <div class="post-date">last updated april 01 2026</div>
-    <div class="post-content"><p>hihi ! since this is my first post &amp; i don't eat out that often , here's a " quarterly " update on what i've had ( &amp; remembered to take pictures of . . )</p>
-<p>december , when i visited bf &amp; his family :<br>&lt;ul style="list-style:none;padding:0;"&gt;<br>&lt;li&gt;– delicious homemade breakfasts his 婆婆 made me while i stayed with her&lt;/li&gt;<br>&lt;li&gt;– avocado toast by his mom ( avocadoes are so much better in california &amp;lt;/3 )&lt;/li&gt;<br>&lt;li&gt;– my favourite ABC burger from The Stand&lt;/li&gt;<br>&lt;li&gt;– udon from Marugame Udon ! i forgot the order but it was so good&lt;/li&gt;<br>&lt;li&gt;– not a single bad bite in LA . . can't wait until i visit again&lt;/li&gt;<br>&lt;/ul&gt;</p>
-<p>january :<br>&lt;ul style="list-style:none;padding:0;"&gt;<br>&lt;li&gt;– went out w/ friends for Daimaru shabu shabu ₍ᐢ•ᴗ•ᐢ₎♡ it's the best . . but i always forget to take pictures so pardon their instagram tags&lt;/li&gt;<br>&lt;/ul&gt;</p>
-<p>february , chinese new year :<br>&lt;ul style="list-style:none;padding:0;"&gt;<br>&lt;li&gt;– shanghai shaomai / siumai , or 糯米烧卖 ! made with my grandmother , they're really yummy and filled with sticky rice , pork and mushrooms . my favourite ingredients (⸝⸝&gt; ᴗ &lt;⸝⸝)&lt;/li&gt;<br>&lt;/ul&gt;</p>
-<p>march :<br>&lt;ul style="list-style:none;padding:0;"&gt;<br>&lt;li&gt;– took my grandfather to Hey Noodle to try them out ! it's a little shop and though they specialize in spicy flavours , we opted for mild soups (˶ᵔ ᵕ ᵔ˶) would recommend trying if you're in markham !&lt;/li&gt;<br>&lt;/ul&gt;</p></div>
+    <div class="post-content"><p>hihi ! since this is my first post & i don't eat out that often , here's a " quarterly " update on what i've had ( & remembered to take pictures of . . )</p>
+
+<p>december , when i visited bf & his family :</p>
+<ul style="list-style:none;padding:0;margin-bottom:14px;">
+<li style="margin-bottom:4px;">– delicious homemade breakfasts his 婆婆 made me while i stayed with her</li>
+<li style="margin-bottom:4px;">– avocado toast by his mom ( avocadoes are so much better in california &lt;/3 )</li>
+<li style="margin-bottom:4px;">– my favourite ABC burger from The Stand</li>
+<li style="margin-bottom:4px;">– udon from Marugame Udon ! i forgot the order but it was so good</li>
+<li style="margin-bottom:4px;">– not a single bad bite in LA . . can't wait until i visit again</li>
+</ul>
+
+<p>january :</p>
+<ul style="list-style:none;padding:0;margin-bottom:14px;">
+<li style="margin-bottom:4px;">– went out w/ friends for Daimaru shabu shabu ₍ᐢ•ᴗ•ᐢ₎♡ it's the best . . but i always forget to take pictures so pardon their instagram tags</li>
+</ul>
+
+<p>february , chinese new year :</p>
+<ul style="list-style:none;padding:0;margin-bottom:14px;">
+<li style="margin-bottom:4px;">– shanghai shaomai / siumai , or 糯米烧卖 ! made with my grandmother , they're really yummy and filled with sticky rice , pork and mushrooms . my favourite ingredients (⸝⸝> ᴗ <⸝⸝)</li>
+</ul>
+
+<p>march :</p>
+<ul style="list-style:none;padding:0;margin-bottom:14px;">
+<li style="margin-bottom:4px;">– took my grandfather to Hey Noodle to try them out ! it's a little shop and though they specialize in spicy flavours , we opted for mild soups (˶ᵔ ᵕ ᵔ˶) would recommend trying if you're in markham !</li>
+</ul></div>
     <div class="stubby-slideshow" style="position:relative;margin:12px 0;">
-  <div class="slide-track-wrapper"><div class="slide-track" id="post-slide-track">
-        <img class="slide-img" src="/images/food/IMG_5241.jpg" alt=""/>
-        <img class="slide-img" src="/images/food/IMG_5252.jpg" alt=""/>
-        <img class="slide-img" src="/images/food/IMG_5255.jpg" alt=""/>
-        <img class="slide-img" src="/images/food/signal-2025-12-31-164703.jpg" alt=""/>
-        <img class="slide-img" src="/images/food/IMG_5245.jpg" alt=""/>
-        <img class="slide-img" src="/images/food/IMG_5286.jpg" alt=""/>
-        <img class="slide-img" src="/images/food/CC72EA3B-7157-4C37-BF87-4CCF11DC41A2.jpg" alt=""/>
-        <img class="slide-img" src="/images/food/IMG_5592.jpg" alt=""/>
-        <img class="slide-img" src="/images/food/IMG_5834.jpg" alt=""/>
-  </div></div>
-  <button class="slide-btn slide-prev" onclick="postSlidePrev()">&#8249;</button>
-  <button class="slide-btn slide-next" onclick="postSlideNext()">&#8250;</button>
+  <button class="slide-btn slide-prev" onclick="postSlidePrev()">◀</button>
+  <div class="slide-track-wrapper">
+    <div class="slide-track" id="post-slide-track">
+      <img class="slide-img" src="/images/food/IMG_5241.jpg" alt="yummy bites"/>
+      <img class="slide-img" src="/images/food/IMG_5252.jpg" alt="yummy bites"/>
+      <img class="slide-img" src="/images/food/IMG_5255.jpg" alt="yummy bites"/>
+      <img class="slide-img" src="/images/food/signal-2025-12-31-164703.jpg" alt="yummy bites"/>
+      <img class="slide-img" src="/images/food/IMG_5245.jpg" alt="yummy bites"/>
+      <img class="slide-img" src="/images/food/IMG_5286.jpg" alt="yummy bites"/>
+      <img class="slide-img" src="/images/food/CC72EA3B-7157-4C37-BF87-4CCF11DC41A2.jpg" alt="yummy bites"/>
+      <img class="slide-img" src="/images/food/IMG_5592.jpg" alt="yummy bites"/>
+      <img class="slide-img" src="/images/food/IMG_5834.jpg" alt="yummy bites"/>
+    </div>
+  </div>
+  <button class="slide-btn slide-next" onclick="postSlideNext()">▶</button>
   <div class="slide-dots" id="post-slide-dots"></div>
 </div>
 <script>
@@ -63,11 +95,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
   function goTo(n){cur=(n+total)%total;document.getElementById('post-slide-track').style.transform='translateX(-'+cur*100+'%)';document.querySelectorAll('#post-slide-dots .slide-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));}
   window.postSlideNext=function(){goTo(cur+1);};
   window.postSlidePrev=function(){goTo(cur-1);};
-  document.addEventListener('DOMContentLoaded',function(){
-    const dotsEl=document.getElementById('post-slide-dots');
-    for(let i=0;i<total;i++){const d=document.createElement('div');d.className='slide-dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}
-    goTo(0);
-  });
+  document.addEventListener('DOMContentLoaded',function(){const dotsEl=document.getElementById('post-slide-dots');for(let i=0;i<total;i++){const d=document.createElement('div');d.className='slide-dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}goTo(0);});
 })();
 </script>
     <div class="post-footer">
