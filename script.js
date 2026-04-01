@@ -471,9 +471,9 @@
       const slideImgs = images.map(f => `<img class="slide-img" src="${basePath}${f}" alt=""/>`).join('\n        ');
       return `<style>
 .stubby-slideshow{position:relative;margin-bottom:12px;}
-.slide-track-wrapper{overflow:hidden;width:100%;border:1px solid var(--frosted-border);border-radius:3px;}
+.slide-track-wrapper{overflow:hidden;width:100%;max-height:400px;border:1px solid var(--frosted-border);border-radius:3px;}
 .slide-track{display:flex;transition:transform 0.4s ease;}
-.slide-img{min-width:100%;width:100%;height:280px;object-fit:cover;object-position:center;flex-shrink:0;display:block;}
+.slide-img{min-width:100%;width:100%;height:auto;max-height:400px;object-fit:contain;object-position:center;background:rgba(0,0,0,0.03);flex-shrink:0;display:block;}
 .slide-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:rgba(255,255,255,0.6);border:1px solid var(--frosted-border);color:var(--pixel-label);font-size:10px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .slide-prev{left:4px;}
 .slide-next{right:4px;}
