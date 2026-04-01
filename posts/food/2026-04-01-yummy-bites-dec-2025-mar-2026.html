@@ -27,9 +27,9 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 .post-back{font-size:12px;color:var(--muted);text-decoration:none;}
 .post-back:hover{color:var(--pink);}
 .stubby-slideshow{position:relative;margin-bottom:12px;}
-.slide-track-wrapper{overflow:hidden;width:100%;border:1px solid var(--frosted-border);border-radius:3px;}
+.slide-track-wrapper{overflow:hidden;width:100%;max-height:400px;border:1px solid var(--frosted-border);border-radius:3px;}
 .slide-track{display:flex;transition:transform 0.4s ease;}
-.slide-img{min-width:100%;width:100%;height:280px;object-fit:cover;object-position:center;flex-shrink:0;display:block;}
+.slide-img{min-width:100%;width:100%;height:auto;max-height:400px;object-fit:contain;object-position:center;background:rgba(0,0,0,0.03);flex-shrink:0;display:block;}
 .slide-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:rgba(255,255,255,0.6);border:1px solid var(--frosted-border);color:var(--pixel-label);font-size:10px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .slide-prev{left:4px;}
 .slide-next{right:4px;}
@@ -78,7 +78,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
       <img class="slide-img" src="/images/food/IMG_5252.jpg" alt="yummy bites"/>
       <img class="slide-img" src="/images/food/IMG_5255.jpg" alt="yummy bites"/>
       <img class="slide-img" src="/images/food/signal-2025-12-31-164703.jpg" alt="yummy bites"/>
-      <img class="slide-img" src="/images/food/IMG_5245.jpg" alt="yummy bites"/>
+      <img class="slide-img" src="/images/food/IMG_5245.JPG" alt="yummy bites"/>
       <img class="slide-img" src="/images/food/IMG_5286.jpg" alt="yummy bites"/>
       <img class="slide-img" src="/images/food/CC72EA3B-7157-4C37-BF87-4CCF11DC41A2.jpg" alt="yummy bites"/>
       <img class="slide-img" src="/images/food/IMG_5592.jpg" alt="yummy bites"/>
