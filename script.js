@@ -585,7 +585,10 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
     ${isLately ? buildLatelyContent(title, whereAt, intoText, note, imageUrl) : `<div class="post-content">${markdownToHtml(content)}</div>`}
     ${isLately ? '' : galleryHtml}
     <div class="post-footer">
-      <a href="/" class="post-back">← back to me0wberry.com</a>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <a href="/" class="post-back">← back to me0wberry.com</a>
+        <a href="/archive" class="post-back">← back to archive</a>
+      </div>
       <span style="font-size:11px;color:var(--muted)">${date}</span>
     </div>
   </div>
