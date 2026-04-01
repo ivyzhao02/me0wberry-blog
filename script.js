@@ -427,9 +427,12 @@
 
     // ── Toggle lately fields ──
     function toggleLatelyFields() {
-      const isLately = document.getElementById('post-category').value === 'lately';
+      const category = document.getElementById('post-category').value;
+      const isLately = category === 'lately';
+      const showGallery = category === 'food' || category === 'stubby';
       document.getElementById('post-content-wrap').style.display  = isLately ? 'none' : '';
       document.getElementById('post-lately-fields').style.display = isLately ? '' : 'none';
+      document.getElementById('post-images-wrap').style.display   = (!isLately && showGallery) ? '' : 'none';
     }
 
     // ── Build lately post content HTML ──
@@ -457,13 +460,48 @@
     </div>`;
     }
 
+    // ── Build post image gallery HTML ──
+    function buildPostGallery(images, basePath) {
+      if (images.length === 0) return '';
+      if (images.length === 1) {
+        return `<img src="${basePath}${images[0]}" alt="" style="max-width:100%;border:1px solid var(--frosted-border);margin:10px 0;display:block;"/>`;
+      }
+      const total = images.length;
+      const slideImgs = images.map(f => `<img class="slide-img" src="${basePath}${f}" alt=""/>`).join('\n        ');
+      return `<div class="stubby-slideshow" style="position:relative;margin:12px 0;">
+  <div class="slide-track-wrapper"><div class="slide-track" id="post-slide-track">
+        ${slideImgs}
+  </div></div>
+  <button class="slide-btn slide-prev" onclick="postSlidePrev()">&#8249;</button>
+  <button class="slide-btn slide-next" onclick="postSlideNext()">&#8250;</button>
+  <div class="slide-dots" id="post-slide-dots"></div>
+</div>
+<script>
+(function(){
+  const total=${total};
+  let cur=0;
+  function goTo(n){cur=(n+total)%total;document.getElementById('post-slide-track').style.transform='translateX(-'+cur*100+'%)';document.querySelectorAll('#post-slide-dots .slide-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));}
+  window.postSlideNext=function(){goTo(cur+1);};
+  window.postSlidePrev=function(){goTo(cur-1);};
+  document.addEventListener('DOMContentLoaded',function(){
+    const dotsEl=document.getElementById('post-slide-dots');
+    for(let i=0;i<total;i++){const d=document.createElement('div');d.className='slide-dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}
+    goTo(0);
+  });
+})();
+<\/script>`;
+    }
+
     // ── Publish post via GitHub API ──
     async function publishPost() {
-      const category = document.getElementById('post-category').value;
-      const title    = document.getElementById('post-title').value.trim();
-      const date     = document.getElementById('post-date').value.trim();
-      const imageUrl = document.getElementById('post-image').value.trim();
-      const status   = document.getElementById('post-status');
+      const category   = document.getElementById('post-category').value;
+      const title      = document.getElementById('post-title').value.trim();
+      const date       = document.getElementById('post-date').value.trim();
+      const imageUrl   = document.getElementById('post-image').value.trim();
+      const imagesRaw  = document.getElementById('post-images').value.trim();
+      const images     = imagesRaw ? imagesRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+      const imgBasePath = `/images/${category}/`;
+      const status     = document.getElementById('post-status');
 
       const isLately = category === 'lately';
       const content  = isLately ? '' : document.getElementById('post-content').value.trim();
@@ -485,10 +523,13 @@
       const slug = title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
       const filename = `posts/${category}/${dateStr}-${slug}.html`;
 
-      // Generate image HTML
+      // Generate image HTML (single fallback when no gallery images)
       const imageHtml = imageUrl
         ? `<img src="${imageUrl}" alt="${title}" style="max-width:100%;margin:12px 0;display:block;border:1px solid rgba(255,255,255,0.68);"/>`
         : '';
+
+      // Generate gallery HTML
+      const galleryHtml = images.length > 0 ? buildPostGallery(images, imgBasePath) : imageHtml;
 
       // Generate post HTML
       const postHtml = `<!DOCTYPE html>
@@ -529,7 +570,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
     <div class="post-heading">${title}</div>
     <div class="post-date">${date}</div>
     ${isLately ? buildLatelyContent(title, whereAt, intoText, note) : `<div class="post-content">${markdownToHtml(content)}</div>`}
-    ${imageHtml}
+    ${isLately ? '' : galleryHtml}
     <div class="post-footer">
       <a href="/" class="post-back">← back to me0wberry.com</a>
       <span style="font-size:11px;color:var(--muted)">${date}</span>
@@ -577,7 +618,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
         } catch(e) { /* no index yet, start fresh */ }
 
         // 3. Prepend new post to index
-        posts.unshift({ title, date, file: filename, slug });
+        posts.unshift({ title, date, file: filename, slug, images });
 
         // 4. Save updated index.json
         const indexB64 = btoa(unescape(encodeURIComponent(JSON.stringify(posts, null, 2))));
