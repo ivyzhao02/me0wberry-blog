@@ -26,11 +26,15 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 .post-footer{margin-top:18px;padding-top:12px;border-top:1px dashed rgba(160,144,152,0.45);display:flex;justify-content:space-between;align-items:center;}
 .post-back{font-size:12px;color:var(--muted);text-decoration:none;}
 .post-back:hover{color:var(--pink);}
+#cat-strip{position:fixed;bottom:0;left:0;width:100%;height:48px;pointer-events:none;z-index:9990;overflow:hidden;}
+.cat-walker{position:absolute;bottom:6px;font-family:'Press Start 2P',monospace;font-size:9px;color:rgba(139,58,90,0.55);pointer-events:none;user-select:none;white-space:nowrap;}
+#cat-toggle{font-family:'Press Start 2P',monospace;font-size:9px;background:none;border:none;cursor:pointer;padding:0 4px;color:#a09098;opacity:0.7;line-height:1;}
+#cat-toggle:hover{opacity:1;}
 </style>
 </head>
 <body>
 <div class="post-container">
-  <div class="post-titlebar"><span class="post-titlebar-text">beauty · 2026 is supposed to be a no-spend year</span></div>
+  <div class="post-titlebar" style="display:flex;align-items:center;justify-content:space-between;"><span class="post-titlebar-text">beauty · 2026 is supposed to be a no-spend year</span><button id="cat-toggle" onclick="toggleCats()" title="hide cats" style="cursor:pointer;">🐱</button></div>
   <div class="post-body">
     <div class="post-pixel-tag">/ beauty</div>
     <div class="post-heading">2026 is supposed to be a no-spend year</div>
@@ -51,5 +55,6 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
     </div>
   </div>
 </div>
+<script src="/script.js"></script>
 </body>
 </html>
