@@ -735,8 +735,8 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
   ];
 
   const CAT_COUNT = 4;
-  const SPEED_MIN = 0.4;
-  const SPEED_MAX = 1.1;
+  const SPEED_MIN = 0.5;
+  const SPEED_MAX = 1.3;
 
   let cats = [];
   let animFrame = null;
