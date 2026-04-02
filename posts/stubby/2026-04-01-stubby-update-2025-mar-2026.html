@@ -31,7 +31,12 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 #cat-toggle{font-family:'Press Start 2P',monospace;font-size:9px;background:none;border:none;cursor:pointer;padding:0 4px;color:#a09098;opacity:0.7;line-height:1;}
 #cat-toggle:hover{opacity:1;}
 .bg-deco{position:fixed;pointer-events:none;z-index:0;user-select:none;line-height:1;color:white;}
-</style>
+.player-range::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;background:#e07090;cursor:pointer;border-radius:0;}
+.player-range::-moz-range-thumb{width:10px;height:10px;background:#e07090;cursor:pointer;border-radius:0;border:none;}
+.marquee-wrap{display:inline-block;}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.marquee-wrap.scrolling{animation:marquee 9s linear infinite;}
+@media(max-width:768px){#panel-player{display:none!important;}}</style>
 </head>
 <body>
 <div class="post-container">
@@ -52,7 +57,12 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 .slide-dots{display:flex;justify-content:center;gap:5px;margin-top:6px;}
 .slide-dot{width:6px;height:6px;border-radius:50%;background:var(--pink-pale);border:1px solid var(--pink);cursor:pointer;}
 .slide-dot.active{background:var(--pink);}
-</style>
+.player-range::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;background:#e07090;cursor:pointer;border-radius:0;}
+.player-range::-moz-range-thumb{width:10px;height:10px;background:#e07090;cursor:pointer;border-radius:0;border:none;}
+.marquee-wrap{display:inline-block;}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.marquee-wrap.scrolling{animation:marquee 9s linear infinite;}
+@media(max-width:768px){#panel-player{display:none!important;}}</style>
 <div class="stubby-slideshow" style="position:relative;margin:12px 0;">
   <button class="slide-btn slide-prev" onclick="postSlidePrev()">◀</button>
   <div class="slide-track-wrapper"><div class="slide-track" id="post-slide-track">
@@ -90,6 +100,34 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
       </div>
       <span style="font-size:11px;color:var(--muted)">last updated april 1 2026</span>
     </div>
+  </div>
+</div>
+<div id="panel-player" style="position:fixed;width:280px;bottom:20px;right:20px;z-index:9000;background:rgba(255,255,255,0.42);backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.68);display:flex;flex-direction:column;">
+  <div class="panel-titlebar" style="height:26px;background:rgba(255,255,255,0.55);border-bottom:2px solid rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:space-between;padding:0 8px;cursor:default;flex-shrink:0;">
+    <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#b05a7a;letter-spacing:0.4px;">♪ now playing</span>
+  </div>
+  <div style="padding:12px 14px 10px;">
+    <div style="overflow:hidden;white-space:nowrap;margin-bottom:10px;padding-bottom:2px;border-bottom:1px dashed rgba(160,144,152,0.3);">
+      <div class="marquee-wrap" id="player-marquee">
+        <span id="player-title" style="font-family:'Lora',serif;font-style:italic;font-size:12px;color:#b05a7a;display:inline-block;">♪ loading...</span>
+      </div>
+    </div>
+    <div class="player-time-row" style="display:flex;align-items:center;gap:6px;margin-bottom:10px;font-family:'Press Start 2P',monospace;font-size:6px;color:#a09098;">
+      <span id="player-current-time">0:00</span>
+      <input type="range" id="player-progress" class="player-range" min="0" max="100" value="0" step="0.1" style="flex:1;height:4px;background:rgba(224,112,144,0.2);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;">
+      <span id="player-total-time">0:00</span>
+    </div>
+    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:10px;">
+      <button class="player-btn" onclick="playerPrev()" style="font-family:'Press Start 2P',monospace;font-size:9px;color:#b05a7a;background:rgba(255,255,255,0.55);border:2px solid rgba(200,150,170,0.55);width:32px;height:28px;cursor:pointer;">◀</button>
+      <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" style="font-family:'Press Start 2P',monospace;font-size:9px;color:#b05a7a;background:rgba(255,255,255,0.55);border:2px solid rgba(200,150,170,0.55);width:40px;height:28px;cursor:pointer;">▶</button>
+      <button class="player-btn" onclick="playerNext()" style="font-family:'Press Start 2P',monospace;font-size:9px;color:#b05a7a;background:rgba(255,255,255,0.55);border:2px solid rgba(200,150,170,0.55);width:32px;height:28px;cursor:pointer;">▶|</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span style="font-size:13px;line-height:1;">🔊</span>
+      <input type="range" id="player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01" style="flex:1;height:4px;background:rgba(224,112,144,0.2);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;">
+    </div>
+    <div id="player-counter" style="font-family:'Press Start 2P',monospace;font-size:6px;color:#a09098;text-align:right;">track 1 / 5</div>
+    <audio id="player-audio" preload="none"></audio>
   </div>
 </div>
 <script src="/script.js"></script>
