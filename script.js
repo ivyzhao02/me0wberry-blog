@@ -167,6 +167,7 @@
       let dragging = null, ox = 0, oy = 0;
       const handle = document.getElementById('discord-titlebar');
       const popup  = document.getElementById('discord-popup');
+      if (!handle || !popup) return;
 
       handle.addEventListener('mousedown', function(e) {
         if (e.target.closest('.panel-close')) return;
