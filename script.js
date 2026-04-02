@@ -596,6 +596,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 .post-footer{margin-top:18px;padding-top:12px;border-top:1px dashed rgba(160,144,152,0.45);display:flex;justify-content:space-between;align-items:center;}
 .post-back{font-size:12px;color:var(--muted);text-decoration:none;}
 .post-back:hover{color:var(--pink);}
+.bg-deco{position:fixed;pointer-events:none;z-index:0;user-select:none;line-height:1;color:white;}
 </style>
 </head>
 <body>
@@ -723,6 +724,84 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 
     // Call on page load
     document.addEventListener('DOMContentLoaded', loadAllPosts);
+
+// ── Background Decorations ──
+(function injectBgDecos() {
+  const decos = [
+    { char:'✦', l:4,  t:8,  s:21, o:0.48, r:12  },
+    { char:'✧', l:15, t:22, s:14, o:0.43, r:0   },
+    { char:'♡', l:28, t:5,  s:17, o:0.46, r:-8  },
+    { char:'✦', l:43, t:14, s:24, o:0.43, r:5   },
+    { char:'✿', l:59, t:7,  s:14, o:0.46, r:0   },
+    { char:'✧', l:71, t:19, s:18, o:0.44, r:-15 },
+    { char:'♡', l:86, t:11, s:19, o:0.48, r:22  },
+    { char:'˚',  l:7,  t:42, s:13, o:0.43, r:0   },
+    { char:'✿', l:21, t:57, s:22, o:0.45, r:-10 },
+    { char:'✦', l:36, t:73, s:15, o:0.46, r:0   },
+    { char:'˚',  l:51, t:63, s:12, o:0.43, r:0   },
+    { char:'✧', l:66, t:81, s:18, o:0.46, r:8   },
+    { char:'♡', l:79, t:47, s:16, o:0.48, r:0   },
+    { char:'✦', l:91, t:69, s:23, o:0.43, r:-5  },
+    { char:'✿', l:3,  t:65, s:15, o:0.45, r:18  },
+    { char:'✦', l:38, t:42, s:20, o:0.43, r:0   },
+    { char:'♡', l:62, t:52, s:17, o:0.48, r:-6  },
+    { char:'⋆',  l:10, t:34, s:16, o:0.41, r:-7  },
+    { char:'✩',  l:19, t:47, s:13, o:0.38, r:14  },
+    { char:'★',  l:27, t:78, s:15, o:0.43, r:-3  },
+    { char:'⋆',  l:44, t:53, s:14, o:0.40, r:-11 },
+    { char:'✩',  l:48, t:36, s:18, o:0.37, r:8   },
+    { char:'★',  l:54, t:77, s:17, o:0.44, r:9   },
+    { char:'⋆',  l:63, t:27, s:12, o:0.38, r:-4  },
+    { char:'✩',  l:75, t:66, s:19, o:0.42, r:17  },
+    { char:'★',  l:83, t:38, s:13, o:0.46, r:-20 },
+    { char:'⋆',  l:89, t:55, s:15, o:0.39, r:11  },
+    { char:'✩',  l:16, t:91, s:14, o:0.41, r:6   },
+    { char:'★',  l:57, t:93, s:17, o:0.36, r:-9  },
+    { char:'=^･ω･^=', l:11, t:79, s:13, o:0.33, r:0, mono:true },
+    { char:'(=^･^=)',  l:56, t:36, s:13, o:0.33, r:0, mono:true },
+    { char:'=^･ω･^=', l:81, t:29, s:13, o:0.33, r:0, mono:true },
+    { char:'(=^･^=)',  l:33, t:88, s:13, o:0.33, r:0, mono:true },
+    { char:'=^･ω･^=', l:68, t:15, s:13, o:0.33, r:0, mono:true },
+  ];
+
+  // Don't inject if index.html already has bg-decos hardcoded
+  if (document.querySelector('.bg-deco')) return;
+
+  decos.forEach(d => {
+    const el = document.createElement('span');
+    el.className = 'bg-deco';
+    el.textContent = d.char;
+    el.style.left = d.l + '%';
+    el.style.top  = d.t + '%';
+    el.style.fontSize = d.s + 'px';
+    el.style.opacity  = d.o;
+    el.style.color    = 'white';
+    if (d.r) el.style.transform = 'rotate(' + d.r + 'deg)';
+    if (d.mono) el.style.fontFamily = "'Press Start 2P', monospace";
+    document.body.appendChild(el);
+  });
+
+  // Inject pixel bow SVGs
+  const bows = [
+    { l:47, t:89, r:0   },
+    { l:23, t:31, r:-12 },
+    { l:73, t:56, r:16  },
+  ];
+
+  bows.forEach(b => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('class','bg-deco');
+    svg.setAttribute('viewBox','0 0 18 12');
+    svg.style.left    = b.l + '%';
+    svg.style.top     = b.t + '%';
+    svg.style.width   = '28px';
+    svg.style.height  = '18px';
+    svg.style.opacity = '0.43';
+    if (b.r) svg.style.transform = 'rotate(' + b.r + 'deg)';
+    svg.innerHTML = '<rect x="0" y="3" width="2" height="6" fill="white"/><rect x="2" y="1" width="2" height="10" fill="white"/><rect x="4" y="0" width="2" height="12" fill="white"/><rect x="6" y="1" width="2" height="10" fill="white"/><rect x="10" y="1" width="2" height="10" fill="white"/><rect x="12" y="0" width="2" height="12" fill="white"/><rect x="14" y="1" width="2" height="10" fill="white"/><rect x="16" y="3" width="2" height="6" fill="white"/><rect x="8" y="4" width="2" height="4" fill="white"/>';
+    document.body.appendChild(svg);
+  });
+})();
 
 // ── Pixel Cat Strip ──
 (function() {
