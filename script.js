@@ -723,3 +723,121 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 
     // Call on page load
     document.addEventListener('DOMContentLoaded', loadAllPosts);
+
+// ── Pixel Cat Strip ──
+(function() {
+  const CAT_FACES = [
+    '=^･ω･^=',
+    '(=^･^=)',
+    'ฅ^•ﻌ•^ฅ',
+    '=^･ｪ･^=',
+    '(=^‥^=)',
+  ];
+
+  const CAT_COUNT = 4;
+  const SPEED_MIN = 0.4;
+  const SPEED_MAX = 1.1;
+
+  let cats = [];
+  let animFrame = null;
+  let enabled = true;
+  let strip = null;
+
+  function createStrip() {
+    strip = document.createElement('div');
+    strip.id = 'cat-strip';
+    document.body.appendChild(strip);
+  }
+
+  function createCat(index) {
+    const el = document.createElement('div');
+    el.className = 'cat-walker';
+    el.textContent = CAT_FACES[index % CAT_FACES.length];
+    strip.appendChild(el);
+
+    const speed = SPEED_MIN + Math.random() * (SPEED_MAX - SPEED_MIN);
+    const dir = Math.random() < 0.5 ? 1 : -1;
+    const startX = Math.random() * (window.innerWidth - 120);
+    const bounceOffset = Math.random() * 10;
+    const bounceSpeed = 0.02 + Math.random() * 0.02;
+    let x = startX;
+    let tick = Math.random() * Math.PI * 2;
+
+    return { el, x, dir, speed, bounceOffset, bounceSpeed, tick };
+  }
+
+  function initCats() {
+    if (!strip) return;
+    strip.innerHTML = '';
+    cats = [];
+    for (let i = 0; i < CAT_COUNT; i++) {
+      cats.push(createCat(i));
+    }
+  }
+
+  function updateCats() {
+    if (!enabled) return;
+    const W = window.innerWidth;
+
+    cats.forEach(cat => {
+      cat.x += cat.speed * cat.dir;
+      cat.tick += cat.bounceSpeed;
+      const yOffset = Math.sin(cat.tick) * 5 + cat.bounceOffset;
+
+      const elW = cat.el.offsetWidth || 80;
+
+      if (cat.x <= 0) {
+        cat.x = 0;
+        cat.dir = 1;
+        triggerBonk(cat, 'right');
+      } else if (cat.x + elW >= W) {
+        cat.x = W - elW;
+        cat.dir = -1;
+        triggerBonk(cat, 'left');
+      }
+
+      cat.el.style.left = cat.x + 'px';
+      cat.el.style.bottom = (6 + yOffset) + 'px';
+      cat.el.style.transform = cat.dir === -1 ? 'scaleX(-1)' : 'scaleX(1)';
+    });
+
+    animFrame = requestAnimationFrame(updateCats);
+  }
+
+  function triggerBonk(cat, side) {
+    cat.el.classList.remove('bonk');
+    void cat.el.offsetWidth;
+    cat.el.style.animation = 'none';
+    void cat.el.offsetWidth;
+    cat.el.style.animation = side === 'left'
+      ? 'cat-bonk 0.25s ease'
+      : 'cat-bonk-right 0.25s ease';
+    setTimeout(() => { cat.el.style.animation = ''; }, 260);
+  }
+
+  function setEnabled(val) {
+    enabled = val;
+    localStorage.setItem('cats_enabled', val ? '1' : '0');
+    if (strip) strip.style.display = val ? '' : 'none';
+    const btn = document.getElementById('cat-toggle');
+    if (btn) btn.title = val ? 'hide cats' : 'show cats';
+    if (val) {
+      initCats();
+      updateCats();
+    } else {
+      if (animFrame) cancelAnimationFrame(animFrame);
+    }
+  }
+
+  window.toggleCats = function() {
+    setEnabled(!enabled);
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    createStrip();
+    const saved = localStorage.getItem('cats_enabled');
+    const startEnabled = saved === null ? true : saved === '1';
+    setEnabled(startEnabled);
+    updateCats();
+  });
+})();
