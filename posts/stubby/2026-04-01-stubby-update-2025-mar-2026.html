@@ -51,10 +51,6 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 .slide-dots{display:flex;justify-content:center;gap:5px;margin-top:6px;}
 .slide-dot{width:6px;height:6px;border-radius:50%;background:var(--pink-pale);border:1px solid var(--pink);cursor:pointer;}
 .slide-dot.active{background:var(--pink);}
-#cat-strip{position:fixed;bottom:0;left:0;width:100%;height:48px;pointer-events:none;z-index:9990;overflow:hidden;}
-.cat-walker{position:absolute;bottom:6px;font-family:'Press Start 2P',monospace;font-size:9px;color:rgba(139,58,90,0.55);pointer-events:none;user-select:none;white-space:nowrap;}
-#cat-toggle{font-family:'Press Start 2P',monospace;font-size:9px;background:none;border:none;cursor:pointer;padding:0 4px;color:#a09098;opacity:0.7;line-height:1;}
-#cat-toggle:hover{opacity:1;}
 </style>
 <div class="stubby-slideshow" style="position:relative;margin:12px 0;">
   <button class="slide-btn slide-prev" onclick="postSlidePrev()">◀</button>
