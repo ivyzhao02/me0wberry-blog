@@ -390,6 +390,29 @@
         player.style.top  = Math.max(12, refHeight - playerH - 20) + 'px';
       })();
     }
+
+    // gifypet panel — opens to the left of the player
+    (function() {
+      const gifypet = document.getElementById('panel-gifypet');
+      const mainEl  = document.getElementById('main');
+      if (!gifypet) return;
+
+      const gifypetW = 330;
+      gifypet.style.width = gifypetW + 'px';
+      gifypet.classList.add('open');
+      bringToFront(gifypet);
+    
+      const isInMain  = mainEl && mainEl.contains(gifypet);
+      const mainRect  = isInMain ? mainEl.getBoundingClientRect() : null;
+      const refWidth  = mainRect ? mainRect.width  : window.innerWidth;
+      const refHeight = mainRect ? mainRect.height : window.innerHeight;
+      const playerW   = 280;
+      const gifypetH  = gifypet.offsetHeight;
+      if (!isInMain) gifypet.style.position = 'fixed';
+      gifypet.style.left = Math.max(12, refWidth - playerW - gifypetW - 30) + 'px';
+      gifypet.style.top  = Math.max(12, refHeight - gifypetH - 20) + 'px';
+    })();
+
     // ── Post Overlay ──
     function openPostOverlay() {
       document.getElementById('post-overlay').style.display = 'block';
