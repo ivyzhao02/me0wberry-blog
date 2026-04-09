@@ -35,7 +35,7 @@
       });
 
       // Desktop: reset position (not for player/cactus — they keep their position)
-      if (id !== 'panel-player' && id !== 'panel-cactus') {
+      if (id !== 'panel-player' && id !== 'panel-cactus' && id !== 'panel-gifypet' && id !== 'panel-josh') {
         panel.style.top  = '20px';
         panel.style.left = '18px';
         if (id !== 'panel-bio') panel.style.width = '';
