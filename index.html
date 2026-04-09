@@ -354,6 +354,7 @@
             <div class="kitten-corner">
               <img src="images/cat-avatar_2.png" alt="cat avatar" style="width:100%; height:auto; display:block;"/>
               <div style="display:block; width:100%; text-align:center; margin-top:6px; font-size:11px; color:var(--muted);">ฅ^•ﻌ•^ฅ</div>
+              <div class="ilmbf-trigger" onclick="openPanel('panel-gifypet')" style="display:block; width:100%; text-align:center; margin-top:6px; font-size:11px; color:var(--muted);">play with the gifypet cat! ↗</div>
             </div>
 
             <div class="stat-block">
@@ -770,7 +771,18 @@
         </div>
         <!-- no resize handle for player -->
       </div><!-- /panel-player -->
-
+     
+      <!-- ── GifyPet Panel ── -->
+      <div class="panel" id="panel-gifypet" style="width:330px; height:auto;">
+        <div class="pixel-corner-bl"></div><div class="pixel-corner-br"></div>
+        <div class="panel-titlebar">
+          <span class="panel-title">🐾 stubby</span>
+        </div>
+        <div class="panel-body" style="padding:8px; display:flex; align-items:center; justify-content:center;">
+          <iframe width="314" height="321" scrolling="no" src="https://gifypet.neocities.org/pet/pet.html?name=Stubby&dob=1775770472&gender=f&element=Fire&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fstubby-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgrass-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42" frameborder="0"></iframe>
+        </div>
+      </div>
+  
       <!-- ──────────────────────────────
            Secret Cactus Panel
       ────────────────────────────── -->
@@ -849,6 +861,7 @@
     </div><!-- /#main -->
   </div><!-- /#layout -->
 
+  
   <!-- ── Discord Mini Popup ── -->
   <div id="discord-popup">
     <div class="discord-titlebar" id="discord-titlebar">
