@@ -413,6 +413,29 @@
       gifypet.style.top  = Math.max(12, refHeight - gifypetH - 20) + 'px';
     })();
 
+    // josh/cactus gifypet panel — to the left of stubby
+    (function() {
+      const josh    = document.getElementById('panel-josh');
+      const mainEl  = document.getElementById('main');
+      if (!josh) return;
+    
+      const joshW = 330;
+      josh.style.width = joshW + 'px';
+      josh.classList.add('open');
+      bringToFront(josh);
+    
+      const isInMain  = mainEl && mainEl.contains(josh);
+      const mainRect  = isInMain ? mainEl.getBoundingClientRect() : null;
+      const refWidth  = mainRect ? mainRect.width  : window.innerWidth;
+      const refHeight = mainRect ? mainRect.height : window.innerHeight;
+      const playerW   = 280;
+      const gifypetW  = 330;
+      const joshH     = josh.offsetHeight;
+      if (!isInMain) josh.style.position = 'fixed';
+      josh.style.left = Math.max(12, refWidth - playerW - gifypetW - joshW - 40) + 'px';
+      josh.style.top  = Math.max(12, refHeight - joshH - 20) + 'px';
+    })();
+
     // ── Post Overlay ──
     function openPostOverlay() {
       document.getElementById('post-overlay').style.display = 'block';
