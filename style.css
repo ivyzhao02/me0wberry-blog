@@ -583,6 +583,9 @@
     /* ── Music Player Panel ── */
     #panel-player { height: auto; }
 
+    /* ── GifyPet Panel ── */
+    #panel-gifypet { height: auto; }
+
     /* ── Cactus Panel ── */
     #panel-cactus { height: auto; }
 
@@ -726,6 +729,7 @@
       .slide-img { max-height: 260px; }
       #cat-strip { display: none !important; }
       #panel-player { display: none !important; }
+      #panel-gifypet { display: none !important; }
       .kitten-corner { width: 45%; margin: 0 0 6px 10px; }
       .tab-bar { flex-wrap: wrap; gap: 2px; }
       .tab-btn { font-size: 7px; padding: 4px 6px 3px; }
