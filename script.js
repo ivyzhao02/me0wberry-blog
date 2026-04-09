@@ -29,8 +29,8 @@
       // Close all open panels before opening the new one
       // Exception: panel-player and panel-cactus stay open regardless
       document.querySelectorAll('.panel.open').forEach(p => {
-        if (p.id !== 'panel-player' && p.id !== 'panel-cactus') {
-          p.classList.remove('open');
+      if (p.id !== 'panel-player' && p.id !== 'panel-cactus' && p.id !== 'panel-gifypet' && p.id !== 'panel-josh') {
+        p.classList.remove('open');
         }
       });
 
