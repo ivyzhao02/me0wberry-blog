@@ -839,11 +839,11 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
     { char:'⋆',  l:89, t:55, s:15, o:0.39, r:11  },
     { char:'✩',  l:16, t:91, s:14, o:0.41, r:6   },
     { char:'★',  l:57, t:93, s:17, o:0.36, r:-9  },
-    { char:'=^･ω･^=', l:11, t:79, s:13, o:0.33, r:0, mono:true },
-    { char:'(=^･^=)',  l:56, t:36, s:13, o:0.33, r:0, mono:true },
-    { char:'=^･ω･^=', l:81, t:29, s:13, o:0.33, r:0, mono:true },
-    { char:'(=^･^=)',  l:33, t:88, s:13, o:0.33, r:0, mono:true },
-    { char:'=^･ω･^=', l:68, t:15, s:13, o:0.33, r:0, mono:true },
+    { gif:'/images/cats/cat-0363.gif', l:11, t:79, o:0.33 },
+    { gif:'/images/cats/cat-0491.gif', l:56, t:36, o:0.33 },
+    { gif:'/images/cats/cat-0420.gif', l:81, t:29, o:0.33 },
+    { gif:'/images/cats/cat-0421.gif', l:33, t:88, o:0.33 },
+    { gif:'/images/cats/cat-0363.gif', l:68, t:15, o:0.33 },
   ];
 
   // Don't inject if index.html already has bg-decos hardcoded
@@ -852,14 +852,23 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
   decos.forEach(d => {
     const el = document.createElement('span');
     el.className = 'bg-deco';
-    el.textContent = d.char;
+    if (d.gif) {
+      const img = document.createElement('img');
+      img.src = d.gif;
+      img.style.height = '24px';
+      img.style.width = 'auto';
+      img.style.imageRendering = 'pixelated';
+      el.appendChild(img);
+    } else {
+      el.textContent = d.char;
+      el.style.fontSize = d.s + 'px';
+      el.style.color = 'white';
+      if (d.r) el.style.transform = 'rotate(' + d.r + 'deg)';
+      if (d.mono) el.style.fontFamily = "'Press Start 2P', monospace";
+    }
     el.style.left = d.l + '%';
     el.style.top  = d.t + '%';
-    el.style.fontSize = d.s + 'px';
-    el.style.opacity  = d.o;
-    el.style.color    = 'white';
-    if (d.r) el.style.transform = 'rotate(' + d.r + 'deg)';
-    if (d.mono) el.style.fontFamily = "'Press Start 2P', monospace";
+    el.style.opacity = d.o;
     document.body.appendChild(el);
   });
 
@@ -887,14 +896,6 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 
 // ── Pixel Cat Strip ──
 (function() {
-  const CAT_FACES = [
-    '=^･ω･^=',
-    '(=^･^=)',
-    'ฅ^•ﻌ•^ฅ',
-    '=^･ｪ･^=',
-    '(=^‥^=)',
-  ];
-
   const CAT_COUNT = 4;
   const SPEED_MIN = 0.5;
   const SPEED_MAX = 1.3;
@@ -910,10 +911,22 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
     document.body.appendChild(strip);
   }
 
+  const CAT_GIFS = [
+    '/images/cats/cat-0363.gif',
+    '/images/cats/cat-0491.gif',
+    '/images/cats/cat-0420.gif',
+    '/images/cats/cat-0421.gif',
+  ];
+
   function createCat(index) {
     const el = document.createElement('div');
     el.className = 'cat-walker';
-    el.textContent = CAT_FACES[index % CAT_FACES.length];
+    const img = document.createElement('img');
+    img.src = CAT_GIFS[index % CAT_GIFS.length];
+    img.style.height = '32px';
+    img.style.width = 'auto';
+    img.style.imageRendering = 'pixelated';
+    el.appendChild(img);
     strip.appendChild(el);
 
     const speed = SPEED_MIN + Math.random() * (SPEED_MAX - SPEED_MIN);

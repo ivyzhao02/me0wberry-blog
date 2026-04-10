@@ -162,9 +162,6 @@ var teEnd = 5;
 var teFunction = null;
 
 function teStart(functionPass, duration) {
-    //Close any complex UI that may mess things up.
-    closeSlots();
-
     //If the timer is already running, call a cancel on whatever function is active.
     if (teTimer != -1) {
         teFunction(false);
@@ -375,7 +372,7 @@ function petParty() {
     mood += 80;
     coins -= 20;
 }
-var partyGuests = ['robot.gif', 'dog.gif', 'flower.gif', 'frog.gif', 'cactus.gif'];
+var partyGuests = ['cat-0363.gif', 'cat-0491.gif', 'cat-0420.gif', 'cat-0421.gif'];
 
 function teParty(active) {
     if (active === true) {
@@ -424,120 +421,6 @@ function teRain(active) {
     }
 }
 
-//Slots Game
-function openSlots() {
-    petInteract.style.zIndex = '-1'; //Disable pet interaction
-    overlay.style.backgroundImage = "url('slots/slots.gif')";
-    overlay.innerHTML = '' + '<div id="slots" >' + '<div id="slot-counters">' + '<div class="slot" id="slot1"><img src="slots/slot1.png" /></div>' + '<div class="slot" id="slot2"><img src="slots/slot2.png" /></div>' + '<div class="slot" id="slot3"><img src="slots/slot3.png" /></div>' + '</div>' + '<input id="slot-button" type="button" value="Start! (5c)" onclick="runSlots();" />' + '<input type="button" value="Exit" onclick="closeSlots();" />' + '<p id="slot-text" ><b>Welcome to GifySlots</b><br/>Lets play!</p>' + '</div>';
-}
-
-function closeSlots() {
-    petInteract.style.zIndex = '1'; //Enable pet interaction
-    overlay.style.backgroundImage = 'none';
-    overlay.innerHTML = '';
-}
-var slotIntervals = null;
-var slotLoopCounter = 0;
-var slotNumbers = [1, 1, 1];
-
-function runSlots() {
-    var slotButton = document.getElementById('slot-button');
-    var slotText = document.getElementById('slot-text');
-
-    if (slotIntervals !== null) {
-        if (slotLoopCounter < 15) {
-            return;
-        }
-        clearInterval(slotIntervals[0]);
-        clearInterval(slotIntervals[1]);
-        clearInterval(slotIntervals[2]);
-        slotIntervals = null;
-        slotLoopCounter = 0;
-        slotButton.value = 'Start! (5c)';
-
-        if (slotNumbers[0] == slotNumbers[1] && slotNumbers[1] == slotNumbers[2]) {
-            slotSoundWin.play();
-            slotText.innerHTML = '<b>YOU WON!</b><br/>20c for you :)';
-            speak(petName, "Wow, you're my hero ;3");
-            coins += 20;
-            mood += 20;
-        } else {
-            slotSoundLoose.play();
-            slotText.innerHTML = '<b>Aww :(</b><br/>Try again!';
-            speak(petName, 'Are you wasting my coins? ;-;');
-            mood -= 10;
-        }
-
-        return;
-    } else {
-        if (coins < 5) {
-            errorSound.play();
-            slotText.innerHTML = "<b>YOU'RE POOR</b><br/>You need coins to play..";
-            speak(petName, 'HOW AM I GONNA BUY FOOD NOW!');
-            mood -= 40;
-            return;
-        }
-
-        coins -= 5;
-    }
-
-    var slot1 = document.getElementById('slot1');
-    var slot2 = document.getElementById('slot2');
-    var slot3 = document.getElementById('slot3');
-
-    slotIntervals = [];
-
-    slotIntervals[0] = setInterval(function () {
-        slotSoundClick.play();
-
-        //Loop counter to allow stopping
-        slotLoopCounter++;
-        if (slotLoopCounter > 15) {
-            slotButton.value = 'Stop!';
-        }
-
-        slotNumbers[0]++;
-        if (slotNumbers[0] > 3) {
-            slotNumbers[0] = 1;
-        }
-
-        slot1.innerHTML = slotNumberToFruit(slotNumbers[0]);
-    }, Math.floor(Math.random() * 20 + 1) + 150);
-
-    slotIntervals[1] = setInterval(function () {
-        slotNumbers[1]++;
-        if (slotNumbers[1] > 3) {
-            slotNumbers[1] = 1;
-        }
-
-        slot2.innerHTML = slotNumberToFruit(slotNumbers[1]);
-    }, Math.floor(Math.random() * 20 + 1) + 150);
-
-    slotIntervals[2] = setInterval(function () {
-        slotNumbers[2]++;
-        if (slotNumbers[2] > 3) {
-            slotNumbers[2] = 1;
-        }
-
-        slot3.innerHTML = slotNumberToFruit(slotNumbers[2]);
-    }, Math.floor(Math.random() * 20 + 1) + 150);
-
-    slotButton.value = 'Running!';
-    slotText.innerHTML = '<b>THE SLOTS SPIN :O</b><br/>Good Luck!';
-    slotSoundPull.play();
-}
-
-function slotNumberToFruit(number) {
-    if (number == 1) {
-        return '<img src="slots/slot1.png" />';
-    } else if (number == 2) {
-        return '<img src="slots/slot2.png" />';
-    } else if (number == 3) {
-        return '<img src="slots/slot3.png" />';
-    } else {
-        return '!!';
-    }
-}
 
 //+++ Helpers +++
 
@@ -685,7 +568,3 @@ var partySound = new Audio('audio/song.mp3');
 var washSound = new Audio('audio/shower.mp3');
 var talkSound = new Audio('audio/hello.mp3');
 var errorSound = new Audio('audio/ohno.mp3');
-var slotSoundClick = new Audio('slots/click.mp3');
-var slotSoundPull = new Audio('slots/lever.mp3');
-var slotSoundWin = new Audio('slots/win.mp3');
-var slotSoundLoose = new Audio('slots/loose.mp3');
