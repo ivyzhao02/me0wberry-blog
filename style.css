@@ -836,9 +836,6 @@
 .cat-walker {
   position: absolute;
   bottom: 6px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 14px;
-  color: rgba(139, 58, 90, 0.55);
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
