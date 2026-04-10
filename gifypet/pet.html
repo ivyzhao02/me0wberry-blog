@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.35" />
+        <title>GifyPet</title>
+        <link rel="stylesheet" type="text/css" href="pet.css?v=0" />
+    </head>
+
+    <body>
+        <table id="petTable">
+            <tr>
+                <td>Name: <b id="petName"></b></td>
+                <td>Born: <b id="dob"></b></td>
+                <td><img class="uiicon" src="ui/zap.png" />: <b id="element"></b></td>
+            </tr>
+            <tr>
+                <td>Mood: <b id="mood"></b></td>
+                <td>Belly: <b id="belly"></b></td>
+                <td>Coins: <b id="coins"></b></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="map">
+                        <div id="underlay"></div>
+                        <div id="pet" class="pet">
+                            <div id="petName-tag"></div>
+                            <!-- <img id="petHat" src="ui/santa_hat.png" /> -->
+                        </div>
+                    </div>
+                    <div id="overlay"></div>
+                    <div onclick="pettPet();" id="overlay-pet-interact"></div>
+                </td>
+
+                <td class="controls">
+                    <b>Shop: (5c)</b>
+                    <img class="shopitem" src="ui/burger.png" onclick="feedPet(0);" />
+                    <img class="shopitem" src="ui/meat.png" onclick="feedPet(0);" />
+                    <img class="shopitem" src="ui/coke.png" onclick="feedPet(3);" />
+                    <br />
+                    <img class="shopitem" src="ui/bread.png" onclick="feedPet(2);" />
+                    <img class="shopitem" src="ui/muffin.png" onclick="feedPet(1);" />
+                    <img class="shopitem" src="ui/icecream.png" onclick="feedPet(1);" />
+                    <b>Actions:</b>
+                    <input type="button" value="Hello" onclick="talkToPet();" />
+                    <input type="button" value="Slots" onclick="openSlots();" />
+                    <input type="button" value="Wash 10c" onclick="showerPet();" />
+                    <input type="button" value="Party 20c" onclick="petParty();" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <textarea id="talk" disabled="true"></textarea>
+                </td>
+            </tr>
+        </table>
+        <footer>GET A <a href="https://gifypet.neocities.org/" target="_blank">GIFYPET!</a> - MADE BY <a href="https://www.melonking.net" target="_blank">MK</a> &lt;3 - v0.2.1</footer>
+
+        <script src="pet.js?v=0" charset="utf-8"></script>
+    </body>
+</html>
