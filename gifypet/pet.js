@@ -270,13 +270,11 @@ function feedPet(foodType) {
     //0-Main/Meat 1-Junk 2-Boring 3-Drink
     if (coins < 5) {
         speak('FoodShop', 'Food costs 5 coins!');
-        errorSound.play();
         return;
     }
 
     if (belly > 80) {
         speak(petName, 'Im too full to eat more :(');
-        errorSound.play();
         return;
     }
 
@@ -288,10 +286,7 @@ function feedPet(foodType) {
 }
 
 function teFeed(active) {
-    if (active === true) {
-        overlay.style.backgroundImage = "url('overlays/face.gif')";
-        eatSound.play();
-    } else {
+    if (active === false) {
         overlay.style.backgroundImage = 'none';
     }
 }
@@ -312,7 +307,6 @@ var talkResponces = ['Meeeeee :D', 'Ummmm... No...', 'Beats me!', 'GifyPets!', '
 function talkToPet() {
     var pick = Math.floor(Math.random() * talkSayings.length);
 
-    talkSound.play();
     speak('You', talkSayings[pick]);
     speak(petName, talkResponces[pick]);
 }
@@ -340,7 +334,6 @@ function tePett(active) {
 function showerPet() {
     if (coins < 10) {
         speak('MrShower', "You can't afford my services..");
-        errorSound.play();
         return;
     }
     teStart(teShower, 6);
@@ -353,7 +346,6 @@ function teShower(active) {
     if (active === true) {
         overlay.style.backgroundImage = "url('overlays/shower.gif')";
         overlay.innerHTML = '<img style="padding-top: 50px; width: 60%;" src="' + petImage + '" />';
-        washSound.play();
     } else {
         overlay.style.backgroundImage = 'none';
         overlay.innerHTML = '';
@@ -364,7 +356,6 @@ function teShower(active) {
 function petParty() {
     if (coins < 20) {
         speak('Pimp', "You can't afford my services..");
-        errorSound.play();
         return;
     }
     teStart(teParty, 9);
@@ -377,7 +368,6 @@ var partyGuests = ['cat-0363.gif', 'cat-0491.gif', 'cat-0420.gif', 'cat-0421.gif
 function teParty(active) {
     if (active === true) {
         overlay.style.backgroundImage = "url('overlays/party.gif')";
-        partySound.play();
 
         var shuffeledGuests = shuffle(partyGuests);
 
@@ -562,9 +552,3 @@ petInteract.addEventListener('pointerout', function () {
 //Welcome function calls
 speak(petName, "Hello, I'm " + petName + " and you're awesome!");
 
-//Load sounds
-var eatSound = new Audio('audio/ommnom.mp3');
-var partySound = new Audio('audio/song.mp3');
-var washSound = new Audio('audio/shower.mp3');
-var talkSound = new Audio('audio/hello.mp3');
-var errorSound = new Audio('audio/ohno.mp3');
