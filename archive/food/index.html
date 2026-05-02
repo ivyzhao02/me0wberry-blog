@@ -18,7 +18,7 @@
 }
   </style>
 </head>
-<body>
+<body data-archive-category="food">
 
   <div id="topbar">
     <span id="topbar-title">© me0wberry 2026</span>
@@ -101,24 +101,7 @@
     </div>
   </div>
 
-  <script>
-  (async function() {
-    const category = 'food';
-    try {
-      const res = await fetch('/posts/' + category + '/index.json?t=' + Date.now());
-      if (!res.ok) return;
-      const posts = await res.json();
-      if (!posts.length) return;
-      const list = document.getElementById('archive-list');
-      list.innerHTML = posts.map(p => `
-        <div style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px dashed rgba(160,144,152,0.3);">
-          <a href="/${p.file}" style="font-size:14px; color:var(--heading); text-decoration:none; border-bottom:1px dotted rgba(139,58,90,0.4);">${p.title}</a>
-          <span style="font-size:11px; color:var(--muted); margin-left:8px;">· ${p.date}</span>
-        </div>
-      `).join('');
-    } catch(e) {}
-  })();
-  </script>
+  <script src="/archive/archive-list.js"></script>
   <script src="/script.js"></script>
 </body>
 </html>
