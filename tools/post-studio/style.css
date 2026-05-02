@@ -1,0 +1,129 @@
+:root {
+  --pink: #e07090;
+  --pink-light: #f4a8b8;
+  --pink-pale: #ffd0de;
+  --green: #5aaa6a;
+  --cream: #fdf6f0;
+  --heading: #8b3a5a;
+  --body: #4a3a42;
+  --muted: #a09098;
+  --pixel-label: #b05a7a;
+  --pixel-label2: #c07090;
+  --frosted-bg: rgba(255, 255, 255, 0.42);
+  --frosted-border: rgba(255, 255, 255, 0.68);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 28px 16px;
+  color: var(--body);
+  font: 14px/1.7 system-ui, sans-serif;
+  background: linear-gradient(135deg, #a8e6a3 0%, #c9e8c5 25%, #e8ddd5 50%, #f2c4ce 75%, #f4a8b8 100%);
+}
+
+.studio-shell {
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.studio-panel {
+  background: var(--frosted-bg);
+  border: 2px solid var(--frosted-border);
+  backdrop-filter: blur(12px);
+}
+
+.studio-titlebar {
+  padding: 8px 12px;
+  color: var(--pixel-label);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  background: rgba(255, 255, 255, 0.55);
+  border-bottom: 2px solid var(--frosted-border);
+}
+
+form {
+  padding: 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+label {
+  display: block;
+  margin-bottom: 16px;
+}
+
+label span,
+.studio-help {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--pixel-label2);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  color: var(--body);
+  font: 13px/1.6 system-ui, sans-serif;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid var(--frosted-border);
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.image-list {
+  margin: 0 0 18px;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.studio-submit {
+  display: block;
+  margin: 8px auto 0;
+  padding: 10px 24px;
+  color: var(--pixel-label);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(200, 150, 170, 0.6);
+  cursor: pointer;
+}
+
+.studio-status {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.studio-status.is-error {
+  color: var(--pink);
+}
+
+.studio-status.is-success {
+  color: var(--green);
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

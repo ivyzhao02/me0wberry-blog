@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>me0wberry post studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="studio-shell">
+    <section class="studio-panel">
+      <div class="studio-titlebar">✦ me0wberry post studio</div>
+
+      <form id="post-form">
+        <div class="form-grid">
+          <label>
+            <span>category</span>
+            <select id="category" name="category">
+              <option value="games">🎮 games</option>
+              <option value="music">🎵 music</option>
+              <option value="food">🍜 food</option>
+              <option value="stubby">🐱 stubby</option>
+              <option value="beauty">💄 beauty</option>
+              <option value="lately">✦ lately</option>
+            </select>
+          </label>
+
+          <label>
+            <span>date label</span>
+            <input id="date" name="date" type="text">
+          </label>
+        </div>
+
+        <label>
+          <span>title</span>
+          <input id="title" name="title" type="text" placeholder="post title...">
+        </label>
+
+        <div id="normal-fields">
+          <label>
+            <span>content</span>
+            <textarea id="content" name="content" rows="12" placeholder="markdown is ok, raw HTML blocks are ok too"></textarea>
+          </label>
+        </div>
+
+        <div id="lately-fields" hidden>
+          <label>
+            <span>where i'm at</span>
+            <textarea id="whereAt" name="whereAt" rows="5"></textarea>
+          </label>
+          <label>
+            <span>what i'm into</span>
+            <textarea id="intoText" name="intoText" rows="5"></textarea>
+          </label>
+          <label>
+            <span>♡ a note</span>
+            <textarea id="note" name="note" rows="4"></textarea>
+          </label>
+        </div>
+
+        <label>
+          <span>image url</span>
+          <input id="imageUrl" name="imageUrl" type="text" placeholder="optional if selecting image files below">
+        </label>
+
+        <label>
+          <span>image files</span>
+          <input id="images" name="images" type="file" accept="image/*,.gif" multiple>
+        </label>
+
+        <div id="image-help" class="studio-help"></div>
+        <ul id="image-list" class="image-list"></ul>
+
+        <button class="studio-submit" type="submit">generate post ♡</button>
+        <div id="status" class="studio-status"></div>
+      </form>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
