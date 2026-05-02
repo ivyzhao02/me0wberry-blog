@@ -3,6 +3,8 @@
     const GITHUB_REPO = 'ivyzhao02/me0wberry-blog';
     const GITHUB_BRANCH = 'main';
     const POST_PASSWORD = '15meowoofCactus';
+    const MOBILE_BREAKPOINT = 768;
+    const PERSISTENT_PANEL_IDS = new Set(['panel-player', 'panel-cactus', 'panel-gifypet', 'panel-josh']);
 
     // ── Z-index ──
     let zTop = 10;
@@ -12,14 +14,21 @@
       panel.style.zIndex = zTop;
     }
 
+    function isMobileViewport() {
+      return window.innerWidth <= MOBILE_BREAKPOINT;
+    }
+
+    function isPersistentPanel(panel) {
+      return PERSISTENT_PANEL_IDS.has(panel.id);
+    }
+
     // ── Panel widths ──
     // ── Open / Close ──
     function openPanel(id) {
       const panel = document.getElementById(id);
       if (!panel) return;
 
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
+      if (isMobileViewport()) {
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
         panel.classList.add('open');
         document.body.classList.add('mobile-panel');
@@ -27,15 +36,15 @@
       }
 
       // Close all open panels before opening the new one
-      // Exception: panel-player and panel-cactus stay open regardless
+      // Persistent utility panels stay open alongside the main content panels.
       document.querySelectorAll('.panel.open').forEach(p => {
-      if (p.id !== 'panel-player' && p.id !== 'panel-cactus' && p.id !== 'panel-gifypet' && p.id !== 'panel-josh') {
-        p.classList.remove('open');
+        if (!isPersistentPanel(p)) {
+          p.classList.remove('open');
         }
       });
 
-      // Desktop: reset position (not for player/cactus — they keep their position)
-      if (id !== 'panel-player' && id !== 'panel-cactus' && id !== 'panel-gifypet' && id !== 'panel-josh') {
+      // Desktop: reset position for main content panels.
+      if (!isPersistentPanel(panel)) {
         panel.style.top  = '20px';
         panel.style.left = '18px';
         if (id !== 'panel-bio') panel.style.width = '';
@@ -70,6 +79,37 @@
       document.body.classList.remove('mobile-panel');
     }
 
+    const STUBBY_GIFYPET_URL = 'https://me0wberry.com/gifypet/pet.html?name=Stubby&dob=1775770472&gender=f&element=Fire&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fstubby-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgrass-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42';
+    const CACTUS_GIFYPET_URL = 'https://me0wberry.com/gifypet/pet.html?name=Cactus&dob=1775772452&gender=m&element=Earth&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fcactus-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgingham-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42';
+
+    function openStubbyGifypet() {
+      if (isMobileViewport()) {
+        window.open(STUBBY_GIFYPET_URL, '_blank');
+        return;
+      }
+
+      openPanel('panel-gifypet');
+    }
+
+    function openCactusGifypet() {
+      if (isMobileViewport()) {
+        window.open(CACTUS_GIFYPET_URL, '_blank');
+        return;
+      }
+
+      openPanel('panel-josh');
+    }
+
+    function openGifypetsExperience() {
+      if (isMobileViewport()) {
+        window.open(STUBBY_GIFYPET_URL, '_blank');
+        return;
+      }
+
+      openPanel('panel-gifypet');
+      openPanel('panel-josh');
+    }
+
     // click panel → bring to front
     document.addEventListener('mousedown', function(e) {
       if (e.target.closest('a')) return;
@@ -84,7 +124,7 @@
       document.addEventListener('mousedown', function(e) {
         const tb = e.target.closest('.panel-titlebar');
         if (!tb || e.target.closest('.panel-close')) return;
-        if (window.innerWidth <= 768) return;
+        if (isMobileViewport()) return;
 
         const panel = tb.closest('.panel');
         bringToFront(panel);
@@ -125,7 +165,7 @@
       document.addEventListener('mousedown', function(e) {
         const handle = e.target.closest('.panel-resize');
         if (!handle) return;
-        if (window.innerWidth <= 768) return;
+        if (isMobileViewport()) return;
         const panel = handle.closest('.panel');
         resizing = panel;
         startY = e.clientY;
@@ -190,7 +230,7 @@
 
     // ── Mobile resize handler ──
     window.addEventListener('resize', function() {
-      if (window.innerWidth > 768) document.body.classList.remove('mobile-panel');
+      if (!isMobileViewport()) document.body.classList.remove('mobile-panel');
     });
 
     // ── Audio Player ──
@@ -367,7 +407,7 @@
     })();
 
     // ── Init: open default panels ──
-    if (window.innerWidth > 768) {
+    if (!isMobileViewport()) {
       // bio opens at top-left
       openPanel('panel-bio');
 
