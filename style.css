@@ -728,7 +728,7 @@
       .panel-lora-heading { font-size: 17px; }
       .slide-img { max-height: 260px; }
       #cat-strip { display: none !important; }
-      #panel-player { display: none !important; }
+      #panel-player:not(.open) { display: none !important; }
       #panel-gifypet { display: none !important; }
       #panel-josh { display: none !important; }
       .kitten-corner { width: 45%; margin: 0 0 6px 10px; }

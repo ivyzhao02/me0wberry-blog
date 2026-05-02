@@ -18,25 +18,63 @@ function slugify(title) {
     .replace(/^-|-$/g, '') || 'post';
 }
 
+function renderInline(text = '') {
+  return escapeHtml(text)
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1"/>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+}
+
+function stripBulletPrefix(line = '') {
+  return line.trim().replace(/^(?:[-*•–—]\s*)+/, '').trim();
+}
+
+function isBulletLine(line = '') {
+  return /^(?:[-*•–—]\s*)+/.test(line.trim());
+}
+
+function renderStyledList(lines) {
+  const items = lines
+    .map(stripBulletPrefix)
+    .filter(Boolean)
+    .map((line) => `<li style="margin-bottom:4px;">– ${renderInline(line)}</li>`)
+    .join('\n');
+
+  if (!items) return '';
+  return `<ul style="list-style:none;padding:0;margin-bottom:14px;">\n${items}\n</ul>`;
+}
+
+function renderTextBlock(block) {
+  const lines = block.split('\n').map((line) => line.trim()).filter(Boolean);
+  if (!lines.length) return '';
+
+  if (lines.every(isBulletLine)) {
+    return renderStyledList(lines);
+  }
+
+  const firstBulletIndex = lines.findIndex(isBulletLine);
+  if (firstBulletIndex > 0) {
+    const intro = lines.slice(0, firstBulletIndex).join(' ');
+    const bullets = lines.slice(firstBulletIndex);
+    return `<p>${renderInline(intro)}</p>\n${renderStyledList(bullets)}`;
+  }
+
+  return `<p>${renderInline(lines.join('\n')).replace(/\n/g, '<br>')}</p>`;
+}
+
 function markdownToHtml(markdown = '') {
   return markdown.split('\n\n').map((block) => {
     const trimmed = block.trim();
     if (!trimmed) return '';
     if (trimmed.startsWith('<')) return trimmed;
-
-    const escaped = escapeHtml(trimmed)
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1"/>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-
-    return `<p>${escaped.replace(/\n/g, '<br>')}</p>`;
+    return renderTextBlock(trimmed);
   }).join('\n');
 }
 
 function toBullets(text = '') {
   return text.split('\n')
-    .map((line) => line.trim())
+    .map(stripBulletPrefix)
     .filter(Boolean)
     .map((line) => `<li style="margin-bottom:4px;">– ${escapeHtml(line)}</li>`)
     .join('\n        ');
@@ -168,7 +206,7 @@ ${galleryStyles(images, category)}#cat-strip{position:fixed;bottom:0;left:0;widt
 .marquee-wrap{display:inline-block;}
 @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .marquee-wrap.scrolling{animation:marquee 9s linear infinite;}
-@media(max-width:768px){#panel-player{display:none!important;}}</style>
+@media(max-width:768px){#panel-player:not(.open){display:none!important;}}</style>
 </head>
 <body>
 <div class="post-container">
