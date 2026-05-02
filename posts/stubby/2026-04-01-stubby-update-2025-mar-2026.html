@@ -36,7 +36,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 .marquee-wrap{display:inline-block;}
 @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .marquee-wrap.scrolling{animation:marquee 9s linear infinite;}
-@media(max-width:768px){#panel-player{display:none!important;}}</style>
+@media(max-width:768px){#panel-player:not(.open){display:none!important;}}</style>
 </head>
 <body>
 <div class="post-container">
@@ -62,7 +62,7 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 .marquee-wrap{display:inline-block;}
 @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .marquee-wrap.scrolling{animation:marquee 9s linear infinite;}
-@media(max-width:768px){#panel-player{display:none!important;}}</style>
+@media(max-width:768px){#panel-player:not(.open){display:none!important;}}</style>
 <div class="stubby-slideshow" style="position:relative;margin:12px 0;">
   <button class="slide-btn slide-prev" onclick="postSlidePrev()">◀</button>
   <div class="slide-track-wrapper"><div class="slide-track" id="post-slide-track">
