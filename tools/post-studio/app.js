@@ -22,13 +22,12 @@ function setStatus(message, kind = '') {
 function updateCategoryFields() {
   const category = categoryEl.value;
   const isLately = category === 'lately';
-  const usesGallery = category === 'food' || category === 'stubby';
 
   normalFields.hidden = isLately;
   latelyFields.hidden = !isLately;
-  imageHelp.textContent = usesGallery
-    ? 'selected files will be copied into this category image folder and used as a gallery'
-    : 'selected files will be copied into images/misc and the first one will be used as the post image';
+  imageHelp.textContent = category === 'food' || category === 'stubby'
+    ? 'selected files will be copied into this category image folder and rendered as a gallery'
+    : 'selected files will be copied into images/misc and rendered as a gallery';
 }
 
 function updateImageList() {

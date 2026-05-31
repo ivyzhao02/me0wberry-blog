@@ -1,7 +1,7 @@
 const path = require('path');
 
 const CATEGORIES = new Set(['games', 'music', 'food', 'stubby', 'beauty', 'lately']);
-const GALLERY_CATEGORIES = new Set(['food', 'stubby']);
+const GALLERY_CATEGORIES = CATEGORIES;
 
 function escapeHtml(value = '') {
   return String(value)
@@ -109,12 +109,14 @@ function buildPostGallery(images, category, alt) {
   if (!images.length) return '';
 
   const basePath = `/images/${category}/`;
+  const imageSrc = (name) => name.startsWith('/') ? name : `${basePath}${name}`;
+
   if (images.length === 1) {
-    return `    <img src="${basePath}${images[0]}" alt="${escapeHtml(alt)}" style="max-width:100%;border:1px solid var(--frosted-border);margin:10px 0;display:block;"/>`;
+    return `    <img src="${imageSrc(images[0])}" alt="${escapeHtml(alt)}" style="max-width:100%;border:1px solid var(--frosted-border);margin:10px 0;display:block;"/>`;
   }
 
   const slideImgs = images
-    .map((name) => `      <img class="slide-img" src="${basePath}${name}" alt="${escapeHtml(alt)}"/>`)
+    .map((name) => `      <img class="slide-img" src="${imageSrc(name)}" alt="${escapeHtml(alt)}"/>`)
     .join('\n');
 
   return `    <div class="stubby-slideshow" style="position:relative;margin:12px 0;">
@@ -140,7 +142,7 @@ ${slideImgs}
 }
 
 function galleryStyles(images, category) {
-  if (!GALLERY_CATEGORIES.has(category) || images.length <= 1) return '';
+  if (images.length <= 1) return '';
 
   return `.stubby-slideshow{position:relative;margin-bottom:12px;}
 .slide-track-wrapper{overflow:hidden;width:100%;max-height:400px;border:1px solid var(--frosted-border);border-radius:3px;}
@@ -164,7 +166,7 @@ function buildPostHtml(post) {
     ? buildLatelyContent({ title, ...lately })
     : `<div class="post-content">${markdownToHtml(content)}</div>`;
 
-  const mediaHtml = GALLERY_CATEGORIES.has(category) && images.length
+  const mediaHtml = images.length
     ? buildPostGallery(images, category, title)
     : buildImageHtml(imageUrl, title);
 

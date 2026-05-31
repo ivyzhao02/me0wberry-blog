@@ -3,7 +3,6 @@ const http = require('http');
 const path = require('path');
 const {
   CATEGORIES,
-  GALLERY_CATEGORIES,
   buildPostHtml,
   createPostRecord,
   slugify,
@@ -64,7 +63,7 @@ function readBody(req) {
 }
 
 function writeUploadedImages(category, uploadedImages) {
-  const targetCategory = GALLERY_CATEGORIES.has(category) ? category : 'misc';
+  const targetCategory = category === 'food' || category === 'stubby' ? category : 'misc';
   const targetDir = path.join(ROOT, 'images', targetCategory);
   fs.mkdirSync(targetDir, { recursive: true });
 
@@ -101,13 +100,10 @@ function createPost(payload) {
 
   const uploadedImages = Array.isArray(payload.images) ? payload.images : [];
   const writtenImages = writeUploadedImages(category, uploadedImages);
-  const galleryImages = GALLERY_CATEGORIES.has(category)
-    ? writtenImages.map((image) => image.fileName)
-    : [];
-  const uploadedHeroImage = !GALLERY_CATEGORIES.has(category) && writtenImages[0]
-    ? writtenImages[0].sitePath
-    : '';
-  const imageUrl = String(payload.imageUrl || '').trim() || uploadedHeroImage;
+  const galleryImages = writtenImages.map((image) => (
+    category === 'food' || category === 'stubby' ? image.fileName : image.sitePath
+  ));
+  const imageUrl = String(payload.imageUrl || '').trim();
   const slug = slugify(title);
   const today = new Date().toISOString().slice(0, 10);
   const postRelPath = path.join('posts', category, `${today}-${slug}.html`);

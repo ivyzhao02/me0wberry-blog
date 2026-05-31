@@ -19,5 +19,5 @@ The tool writes post HTML into `posts/<category>/`, updates the matching `index.
 Image behavior:
 
 - `food` and `stubby` selected images become gallery images in `images/food/` or `images/stubby/`.
-- Other categories use the first selected image as the post image and copy it into `images/misc/`.
+- Other categories selected images become gallery images in `images/misc/`.
 - An explicit image URL can still be used instead of selecting a file.
