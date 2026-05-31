@@ -1,14 +1,21 @@
 [
   {
+    "title": "pokémon and nintendo",
+    "date": "june 2026",
+    "file": "posts/games/2026-06-01-pok-mon-and-nintendo.html",
+    "slug": "pok-mon-and-nintendo",
+    "images": []
+  },
+  {
     "title": "i like pokémon but . .",
-    "date": "last updated may 2026",
+    "date": "may 2026",
     "file": "posts/games/2026-05-02-i-like-pok-mon-but.html",
     "slug": "i-like-pok-mon-but",
     "images": []
   },
   {
     "title": "life sims yap",
-    "date": "last updated april 1 2026",
+    "date": "april 2026",
     "file": "posts/games/2026-04-01-life-sims-yap.html",
     "slug": "life-sims-yap",
     "images": []
