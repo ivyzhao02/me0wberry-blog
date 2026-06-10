@@ -208,6 +208,7 @@ ${galleryStyles(images, category)}#cat-strip{position:fixed;bottom:0;left:0;widt
 .marquee-wrap{display:inline-block;}
 @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .marquee-wrap.scrolling{animation:marquee 9s linear infinite;}
+@media(max-width:1240px) and (min-width:769px){#panel-player{position:static!important;width:min(280px,calc(100vw - 40px))!important;margin:16px auto 0!important;}}
 @media(max-width:768px){#panel-player:not(.open){display:none!important;}}</style>
 </head>
 <body>
