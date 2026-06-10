@@ -17,8 +17,8 @@
       pointer-events: none;
     }
     #intro-text {
-      font-family: 'Lora', Georgia, serif;
-      font-style: italic;
+      font-family: var(--font-heading);
+      font-weight: 600;
       font-size: 32px;
       color: rgba(139, 58, 90, 0.75);
       letter-spacing: 2px;
@@ -42,6 +42,9 @@
       --frosted-border: rgba(255, 255, 255, 0.68);
       --bow-pink:       #e07090;
       --stem-green:     #5aaa6a;
+      --font-body:      'Nunito Sans', system-ui, sans-serif;
+      --font-heading:   'Quicksand', 'Nunito Sans', sans-serif;
+      --font-pixel:     'Press Start 2P', monospace;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,7 +52,7 @@
     html, body {
       height: 100%;
       overflow: hidden;
-      font-family: 'Lora', Georgia, serif;
+      font-family: var(--font-body);
       font-size: 14px;
       color: var(--body);
       line-height: 1.7;
@@ -88,13 +91,13 @@
       flex-shrink: 0;
     }
     #topbar-title {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 9px;
       color: var(--pixel-label);
       letter-spacing: 0.5px;
     }
     #topbar-tag {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 9px;
       color: var(--muted);
       border: 1px solid rgba(160,144,152,0.35);
@@ -145,14 +148,14 @@
       flex-shrink: 0;
     }
     #sidebar-name {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 10px;
       color: var(--pixel-label);
       line-height: 1.7;
       margin-bottom: 7px;
     }
     #sidebar-sub {
-      font-family: 'Lora', Georgia, serif;
+      font-family: var(--font-body);
       font-style: italic;
       font-size: 12px;
       color: #7a6b72;
@@ -170,7 +173,7 @@
     #sidebar-nav::-webkit-scrollbar-thumb { background: rgba(224,112,144,0.35); border-radius: 2px; }
 
     .nav-section-label {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 9px;
       color: var(--pixel-label2);
       padding: 12px 14px 5px;
@@ -254,7 +257,7 @@
     }
     .panel-titlebar:active { cursor: grabbing; }
     .panel-title {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 9px;
       color: var(--pixel-label);
       letter-spacing: 0.4px;
@@ -299,9 +302,10 @@
     }
 
     /* ── Panel content typography ── */
-    .panel-lora-heading {
-      font-family: 'Lora', Georgia, serif;
-      font-style: italic;
+    .panel-heading {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      letter-spacing: 0.01em;
       font-size: 20px;
       color: var(--heading);
       margin-bottom: 3px;
@@ -315,7 +319,7 @@
       opacity: 0.85;
     }
     .panel-px-label {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 8px;
       color: var(--pixel-label2);
       margin: 14px 0 7px;
@@ -344,7 +348,7 @@
     }
 
     .pixel-tag {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 7px;
       color: var(--pixel-label2);
       background: rgba(255,255,255,0.5);
@@ -372,7 +376,7 @@
       flex-shrink: 0;
     }
     .tab-btn {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 8px;
       color: var(--muted);
       padding: 5px 8px 4px;
@@ -402,7 +406,7 @@
     .stat-flags { font-size: 18px; line-height: 1.6; margin: 2px 0; }
 
     .currently-header {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 8px;
       color: var(--pixel-label2);
       margin-bottom: 8px;
@@ -415,7 +419,7 @@
       color: var(--body);
     }
     .currently-label {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 8px;
       color: var(--pixel-label2);
       min-width: 90px;
@@ -442,7 +446,7 @@
     .likes-cols { display: flex; font-size: 13px; }
     .likes-col { flex: 1; }
     .likes-col-title {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 8px;
       color: var(--pixel-label2);
       margin-bottom: 7px;
@@ -475,7 +479,7 @@
       display: inline-block;
       padding: 6px 12px;
       margin: 3px 3px 0 0;
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 8px;
       color: #7a3a5a;
       background: rgba(255,255,255,0.6);
@@ -518,7 +522,7 @@
     .discord-titlebar {
       background: var(--pink);
       color: white;
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 8px;
       padding: 5px 8px;
       display: flex;
@@ -538,7 +542,7 @@
     .discord-body { padding: 18px 14px 16px; text-align: center; }
     .discord-body p { font-size: 14px; color: var(--body); margin-bottom: 14px; }
     .discord-ok {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 7px;
       background: rgba(255,255,255,0.6);
       border: 2px solid rgba(200,150,170,0.6);
@@ -561,7 +565,7 @@
 
     /* ── Favs panel ── */
     .favs-section-header {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 8px;
       color: var(--pixel-label2);
       margin: 14px 0 6px;
@@ -603,8 +607,8 @@
     }
     .marquee-wrap.scrolling { animation: marquee 9s linear infinite; }
     #player-title {
-      font-family: 'Lora', Georgia, serif;
-      font-style: italic;
+      font-family: var(--font-heading);
+      font-weight: 600;
       font-size: 12px;
       color: var(--pixel-label);
       display: inline-block;
@@ -615,7 +619,7 @@
       align-items: center;
       gap: 6px;
       margin-bottom: 10px;
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 6px;
       color: var(--muted);
     }
@@ -651,7 +655,7 @@
       margin-bottom: 10px;
     }
     .player-btn {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 9px;
       color: var(--pixel-label);
       background: rgba(255,255,255,0.55);
@@ -676,7 +680,7 @@
     .player-vol-icon { font-size: 13px; line-height: 1; }
 
     .player-track-counter {
-      font-family: 'Press Start 2P', monospace;
+      font-family: var(--font-pixel);
       font-size: 6px;
       color: var(--muted);
       text-align: right;
@@ -709,7 +713,7 @@
         align-items: center;
         gap: 6px;
         padding: 8px 12px;
-        font-family: 'Press Start 2P', monospace;
+        font-family: var(--font-pixel);
         font-size: 6px;
         color: var(--pixel-label);
         background: rgba(255,255,255,0.5);
@@ -725,7 +729,7 @@
       #sidebar-header { padding: 12px 14px 10px; }
       #topbar-tag { display: none; }
       #topbar-title { font-size: 8px; }
-      .panel-lora-heading { font-size: 17px; }
+      .panel-heading { font-size: 17px; }
       .slide-img { max-height: 260px; }
       #cat-strip { display: none !important; }
       #panel-player:not(.open) { display: none !important; }
@@ -861,7 +865,7 @@
 }
 
 #cat-toggle {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-pixel);
   font-size: 9px;
   background: none;
   border: none;

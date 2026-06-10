@@ -11,6 +11,8 @@
   --pixel-label2: #c07090;
   --frosted-bg: rgba(255, 255, 255, 0.42);
   --frosted-border: rgba(255, 255, 255, 0.68);
+  --font-body: 'Nunito Sans', system-ui, sans-serif;
+  --font-pixel: 'Press Start 2P', monospace;
 }
 
 *, *::before, *::after {
@@ -22,7 +24,7 @@ body {
   margin: 0;
   padding: 28px 16px;
   color: var(--body);
-  font: 14px/1.7 system-ui, sans-serif;
+  font: 14px/1.7 var(--font-body);
   background: linear-gradient(135deg, #a8e6a3 0%, #c9e8c5 25%, #e8ddd5 50%, #f2c4ce 75%, #f4a8b8 100%);
 }
 
@@ -40,7 +42,7 @@ body {
 .studio-titlebar {
   padding: 8px 12px;
   color: var(--pixel-label);
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-pixel);
   font-size: 9px;
   background: rgba(255, 255, 255, 0.55);
   border-bottom: 2px solid var(--frosted-border);
@@ -66,7 +68,7 @@ label span,
   display: block;
   margin-bottom: 6px;
   color: var(--pixel-label2);
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-pixel);
   font-size: 7px;
 }
 
@@ -83,7 +85,7 @@ textarea {
   width: 100%;
   padding: 8px 10px;
   color: var(--body);
-  font: 13px/1.6 system-ui, sans-serif;
+  font: 13px/1.6 var(--font-body);
   background: rgba(255, 255, 255, 0.7);
   border: 2px solid var(--frosted-border);
   outline: none;
@@ -105,7 +107,7 @@ textarea {
   margin: 8px auto 0;
   padding: 10px 24px;
   color: var(--pixel-label);
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-pixel);
   font-size: 8px;
   background: rgba(255, 255, 255, 0.7);
   border: 2px solid rgba(200, 150, 170, 0.6);
