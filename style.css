@@ -76,6 +76,22 @@
       z-index: 0;
       user-select: none;
       line-height: 1;
+      color: white;
+    }
+    .bg-sparkle { opacity: 0.38; text-shadow: 0 0 10px rgba(255,255,255,0.28); }
+    .bg-sparkle-sm { font-size: 13px; opacity: 0.36; }
+    .bg-sparkle-md { font-size: 18px; opacity: 0.4; }
+    .bg-sparkle-lg { font-size: 22px; opacity: 0.42; }
+    .bg-sparkle-xl { font-size: 25px; opacity: 0.39; }
+    .bg-heart { font-size: 18px; opacity: 0.38; }
+    .bg-flower { font-size: 18px; opacity: 0.36; }
+    .bg-dot { font-size: 13px; opacity: 0.32; }
+    .bg-star { font-size: 15px; opacity: 0.33; }
+    .bg-cat { opacity: 0.31; }
+    .bg-bow {
+      width: 22px;
+      height: 14px;
+      opacity: 0.3;
     }
 
     /* ── Top Bar ── */
@@ -304,20 +320,6 @@
     }
     .panel.open { display: flex; }
     #panel-bio { width: 420px; }
-
-    /* pixel corners */
-    .panel::before, .panel::after,
-    .panel .pixel-corner-bl, .panel .pixel-corner-br {
-      content: '';
-      position: absolute;
-      width: 5px; height: 5px;
-      background: white;
-      z-index: 2;
-    }
-    .panel::before { top: -2px; left: -2px; }
-    .panel::after  { top: -2px; right: -2px; }
-    .panel .pixel-corner-bl { bottom: -2px; left: -2px; }
-    .panel .pixel-corner-br { bottom: -2px; right: -2px; }
 
     .panel-titlebar {
       height: 26px;
@@ -800,7 +802,6 @@
       .panel.open { display: flex; }
       .panel-titlebar { cursor: default; }
       .panel-resize { display: none; }
-      .panel .pixel-corner-bl, .panel .pixel-corner-br { display: none; }
       .find-me-grid { grid-template-columns: 1fr; }
       #mobile-back {
         display: none;
