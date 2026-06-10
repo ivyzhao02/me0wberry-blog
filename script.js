@@ -1,6 +1,7 @@
 ﻿    // ── Site Config ──
     const MOBILE_BREAKPOINT = 768;
-    const PERSISTENT_PANEL_IDS = new Set(['panel-player', 'panel-cactus', 'panel-gifypet', 'panel-josh']);
+    const PERSISTENT_PANEL_IDS = new Set(['panel-player']);
+    const GIFYPET_PANEL_IDS = new Set(['panel-gifypet', 'panel-josh']);
 
     // ── Z-index ──
     let zTop = 10;
@@ -18,6 +19,50 @@
       return PERSISTENT_PANEL_IDS.has(panel.id);
     }
 
+    function isGifypetPanel(panel) {
+      return GIFYPET_PANEL_IDS.has(panel.id);
+    }
+
+    function closeTransientPanels(options = {}) {
+      const keepGifypets = options.keepGifypets || false;
+
+      document.querySelectorAll('.panel.open').forEach(p => {
+        if (isPersistentPanel(p)) return;
+        if (keepGifypets && isGifypetPanel(p)) return;
+        p.classList.remove('open');
+      });
+    }
+
+    function positionUtilityPanel(panel, options) {
+      const mainEl = document.getElementById('main');
+      const isInMain = mainEl && mainEl.contains(panel);
+      const mainRect = isInMain ? mainEl.getBoundingClientRect() : null;
+      const refWidth = mainRect ? mainRect.width : window.innerWidth;
+      const refHeight = mainRect ? mainRect.height : window.innerHeight;
+      const width = options.width || panel.offsetWidth;
+      const rightOffset = options.rightOffset || 20;
+      const bottomOffset = options.bottomOffset || 20;
+
+      panel.style.width = width + 'px';
+      if (!isInMain) panel.style.position = 'fixed';
+      panel.style.left = Math.max(12, refWidth - width - rightOffset) + 'px';
+      panel.style.top = Math.max(12, refHeight - panel.offsetHeight - bottomOffset) + 'px';
+    }
+
+    function openGifypetPanel(id, options = {}) {
+      const panel = document.getElementById(id);
+      if (!panel) return;
+
+      closeTransientPanels({ keepGifypets: true });
+      panel.classList.add('open');
+      bringToFront(panel);
+      positionUtilityPanel(panel, {
+        width: 330,
+        rightOffset: options.rightOffset || 310,
+        bottomOffset: 20
+      });
+    }
+
     // ── Panel widths ──
     // ── Open / Close ──
     function openPanel(id) {
@@ -31,13 +76,9 @@
         return;
       }
 
-      // Close all open panels before opening the new one
-      // Persistent utility panels stay open alongside the main content panels.
-      document.querySelectorAll('.panel.open').forEach(p => {
-        if (!isPersistentPanel(p)) {
-          p.classList.remove('open');
-        }
-      });
+      // Close temporary panels before opening the new one.
+      // The music player is the only desktop panel that stays persistent.
+      closeTransientPanels({ keepGifypets: isGifypetPanel(panel) });
 
       // Desktop: reset position for main content panels.
       if (!isPersistentPanel(panel)) {
@@ -84,7 +125,7 @@
         return;
       }
 
-      openPanel('panel-gifypet');
+      openGifypetPanel('panel-gifypet');
     }
 
     function openCactusGifypet() {
@@ -93,7 +134,7 @@
         return;
       }
 
-      openPanel('panel-josh');
+      openGifypetPanel('panel-josh');
     }
 
     function openGifypetsExperience() {
@@ -102,8 +143,8 @@
         return;
       }
 
-      openPanel('panel-gifypet');
-      openPanel('panel-josh');
+      openGifypetPanel('panel-gifypet', { rightOffset: 310 });
+      openGifypetPanel('panel-josh', { rightOffset: 650 });
     }
 
     // click panel → bring to front
@@ -426,51 +467,6 @@
         player.style.top  = Math.max(12, refHeight - playerH - 20) + 'px';
       })();
     }
-
-    // gifypet panel — opens to the left of the player
-    (function() {
-      const gifypet = document.getElementById('panel-gifypet');
-      const mainEl  = document.getElementById('main');
-      if (!gifypet) return;
-
-      const gifypetW = 330;
-      gifypet.style.width = gifypetW + 'px';
-      gifypet.classList.add('open');
-      bringToFront(gifypet);
-    
-      const isInMain  = mainEl && mainEl.contains(gifypet);
-      const mainRect  = isInMain ? mainEl.getBoundingClientRect() : null;
-      const refWidth  = mainRect ? mainRect.width  : window.innerWidth;
-      const refHeight = mainRect ? mainRect.height : window.innerHeight;
-      const playerW   = 280;
-      const gifypetH  = gifypet.offsetHeight;
-      if (!isInMain) gifypet.style.position = 'fixed';
-      gifypet.style.left = Math.max(12, refWidth - playerW - gifypetW - 30) + 'px';
-      gifypet.style.top  = Math.max(12, refHeight - gifypetH - 20) + 'px';
-    })();
-
-    // josh/cactus gifypet panel — to the left of stubby
-    (function() {
-      const josh    = document.getElementById('panel-josh');
-      const mainEl  = document.getElementById('main');
-      if (!josh) return;
-    
-      const joshW = 330;
-      josh.style.width = joshW + 'px';
-      josh.classList.add('open');
-      bringToFront(josh);
-    
-      const isInMain  = mainEl && mainEl.contains(josh);
-      const mainRect  = isInMain ? mainEl.getBoundingClientRect() : null;
-      const refWidth  = mainRect ? mainRect.width  : window.innerWidth;
-      const refHeight = mainRect ? mainRect.height : window.innerHeight;
-      const playerW   = 280;
-      const gifypetW  = 330;
-      const joshH     = josh.offsetHeight;
-      if (!isInMain) josh.style.position = 'fixed';
-      josh.style.left = Math.max(12, refWidth - playerW - gifypetW - joshW - 40) + 'px';
-      josh.style.top  = Math.max(12, refHeight - joshH - 20) + 'px';
-    })();
 
     // ── Update category panel after post ──
     function updateCategoryPanel(category, posts) {
