@@ -242,7 +242,36 @@
     }
     .nav-item:hover { transform: translateX(1px); }
     .nav-item.active { box-shadow: inset 3px 0 0 rgba(224,112,144,0.28); }
-    .nav-item svg { flex-shrink: 0; width: 20px; height: 20px; }
+    .nav-section-icon {
+      width: 8px;
+      height: 8px;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+    }
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+      transition: transform 0.14s, filter 0.14s;
+    }
+    .nav-item:hover .nav-icon,
+    .nav-item.active .nav-icon {
+      transform: translateY(-1px);
+      filter: drop-shadow(1px 1px 0 rgba(255,255,255,0.55));
+    }
+    .nav-icon .tone-pink,
+    .nav-section-icon .tone-pink { fill: #e07090; }
+    .nav-icon .tone-soft,
+    .nav-section-icon .tone-soft { fill: #f4a8b8; }
+    .nav-icon .tone-blush { fill: #ffd0de; }
+    .nav-icon .tone-cream { fill: #fdf6f0; }
+    .nav-icon .tone-green { fill: #a8d8a0; }
+    .nav-icon .tone-green-dark { fill: #5aaa6a; }
+    .nav-icon .tone-muted { fill: #a09098; }
+    .nav-icon .tone-dark { fill: #4a3a42; }
+    .nav-icon .tone-mutedpink { fill: #c07090; }
+    .nav-icon .tone-darkpink { fill: #8b3a5a; }
     .nav-item-label { flex: 1; }
     .nav-item.elsewhere { font-size: 13px; color: var(--muted); }
     .nav-item.elsewhere:hover { color: #5a4a52; }
