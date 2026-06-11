@@ -305,7 +305,7 @@
     }
     .taskbar-icon-img[src$="/player.png"],
     .taskbar-window-icon[src$="/player.png"] {
-      width: 31px;
+      width: 29px;
     }
     .taskbar-start:hover .taskbar-start-icon,
     .taskbar-app:hover .taskbar-icon-img,
@@ -569,9 +569,9 @@
       transition: transform 0.14s, filter 0.14s;
     }
     .nav-icon-img[src$="/player.png"] {
-      width: 42px;
-      margin-left: -4px;
-      margin-right: -4px;
+      width: 38px;
+      margin-left: -2px;
+      margin-right: -2px;
     }
     .nav-item > svg {
       width: 20px;
@@ -1243,9 +1243,9 @@
         height: 30px;
       }
       .nav-icon-img[src$="/player.png"] {
-        width: 38px;
-        margin-left: -4px;
-        margin-right: -4px;
+        width: 34px;
+        margin-left: -2px;
+        margin-right: -2px;
       }
       #sidebar-header { padding: 12px 14px 10px; }
       #topbar-tag { display: none; }
