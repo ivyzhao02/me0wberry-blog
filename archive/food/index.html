@@ -10,9 +10,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <style>
-#main { overflow-y: auto; min-height: 0; }
+#main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
 @media (max-width: 768px) {
-  #main { display: block !important; }
+  #main { display: block !important; padding-bottom: 0; }
   #sidebar { display: none; }
   #mobile-back { display: flex !important; }
 }
