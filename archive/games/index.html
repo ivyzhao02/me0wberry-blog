@@ -45,11 +45,15 @@
           <svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>
           pages
         </span>
-        <a class="nav-item" href="/"><svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="2" width="2" height="2" fill="#e07090"/><rect x="6" y="4" width="6" height="2" fill="#e07090"/><rect x="4" y="6" width="10" height="2" fill="#e07090"/><rect x="3" y="7" width="12" height="1" fill="#c05878"/><rect x="4" y="8" width="10" height="7" fill="#fdd8e0"/><rect x="7" y="11" width="4" height="4" fill="#a8d8a0"/><rect x="5" y="9" width="2" height="2" fill="#f4a8b8"/><rect x="11" y="9" width="2" height="2" fill="#f4a8b8"/></svg><span class="nav-item-label">home</span></a>
-        <a class="nav-item" href="/info"><svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="3" width="6" height="2" fill="#e07090"/><rect x="4" y="5" width="2" height="2" fill="#e07090"/><rect x="12" y="5" width="2" height="2" fill="#e07090"/><rect x="12" y="7" width="2" height="2" fill="#e07090"/><rect x="10" y="9" width="2" height="2" fill="#e07090"/><rect x="8" y="11" width="2" height="2" fill="#e07090"/><rect x="8" y="14" width="2" height="2" fill="#e07090"/></svg><span class="nav-item-label">info</span></a>
-        <a class="nav-item active" href="/archive"><svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="2" width="10" height="14" fill="#fdd8e0"/><rect x="11" y="2" width="2" height="2" fill="#f4a8b8"/><rect x="13" y="4" width="2" height="12" fill="#f4a8b8"/><rect x="5" y="6" width="6" height="1" fill="#e07090" opacity="0.6"/><rect x="5" y="8" width="6" height="1" fill="#e07090" opacity="0.6"/><rect x="5" y="10" width="4" height="1" fill="#e07090" opacity="0.6"/></svg><span class="nav-item-label">archive</span></a>
+        <a class="nav-item" href="/">
+          <img class="nav-icon nav-icon-img" src="/images/ui-icons/home.png" alt="" aria-hidden="true"><span class="nav-item-label">home</span></a>
+        <a class="nav-item" href="/info">
+          <img class="nav-icon nav-icon-img" src="/images/ui-icons/info.png" alt="" aria-hidden="true"><span class="nav-item-label">info</span></a>
+        <a class="nav-item active" href="/archive">
+          <img class="nav-icon nav-icon-img" src="/images/ui-icons/archive.png" alt="" aria-hidden="true"><span class="nav-item-label">archive</span></a>
         <span class="nav-section-label" style="margin-top:4px"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>extras</span>
-        <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')"><svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="3" width="2" height="8" fill="#e07090"/><rect x="8" y="3" width="7" height="2" fill="#e07090"/><rect x="13" y="5" width="2" height="3" fill="#e07090"/><rect x="4" y="10" width="6" height="4" fill="#e07090"/><rect x="3" y="11" width="7" height="2" fill="#e07090"/><rect x="13" y="7" width="4" height="4" fill="#e07090"/><rect x="12" y="8" width="5" height="2" fill="#e07090"/></svg><span class="nav-item-label">player</span></div>
+        <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')">
+          <img class="nav-icon nav-icon-img" src="/images/ui-icons/player.png" alt="" aria-hidden="true"><span class="nav-item-label">player</span></div>
       </div>
     </div>
 
@@ -111,13 +115,13 @@
   <div id="bottom-taskbar" aria-label="desktop taskbar">
     <div class="taskbar-inner">
       <a class="taskbar-start" href="/" title="start">
-        <span class="start-window" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <img class="taskbar-start-icon" src="/images/ui-icons/favs.png" alt="" aria-hidden="true">
       </a>
       <div class="taskbar-pinned" aria-label="quick launch">
-        <a class="taskbar-app" href="/" title="home"><span class="taskbar-icon taskbar-icon-home" aria-hidden="true"></span></a>
-        <a class="taskbar-app" href="/info/" title="info"><span class="taskbar-icon taskbar-icon-info" aria-hidden="true"></span></a>
-        <a class="taskbar-app is-active" href="/archive/" title="archive"><span class="taskbar-icon taskbar-icon-archive" aria-hidden="true"></span></a>
-        <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><span class="taskbar-icon taskbar-icon-music" aria-hidden="true"></span></button>
+        <a class="taskbar-app" href="/" title="home"><img class="taskbar-icon-img" src="/images/ui-icons/home.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="/info/" title="info"><img class="taskbar-icon-img" src="/images/ui-icons/info.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app is-active" href="/archive/" title="archive"><img class="taskbar-icon-img" src="/images/ui-icons/archive.png" alt="" aria-hidden="true"></a>
+        <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><img class="taskbar-icon-img" src="/images/ui-icons/player.png" alt="" aria-hidden="true"></button>
       </div>
       <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>
     </div>

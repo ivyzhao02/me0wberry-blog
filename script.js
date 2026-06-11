@@ -4,18 +4,18 @@
     const PERSISTENT_PANEL_IDS = new Set(['panel-player']);
     const GIFYPET_PANEL_IDS = new Set(['panel-gifypet', 'panel-josh']);
     const TASKBAR_PANEL_META = {
-      'panel-bio': { label: 'hello', short: 'h', order: 10 },
-      'panel-lately': { label: 'lately', short: 'l', order: 20 },
-      'panel-favs': { label: 'favs', short: 'f', order: 30 },
-      'panel-games': { label: 'games', short: 'g', order: 40 },
-      'panel-music': { label: 'music', short: 'm', order: 50 },
-      'panel-food': { label: 'food', short: 'fo', order: 60 },
-      'panel-stubby': { label: 'stubby', short: 's', order: 70 },
-      'panel-beauty': { label: 'beauty', short: 'b', order: 80 },
-      'panel-gifypet': { label: 'stubby pet', short: 'p', order: 90 },
-      'panel-josh': { label: 'cactus pet', short: 'c', order: 100 },
-      'panel-player': { label: 'player', short: '♪', order: 110 },
-      'panel-cactus': { label: 'cactus', short: 'c', order: 120 }
+      'panel-bio': { label: 'hello', icon: '/images/ui-icons/hello.png', order: 10 },
+      'panel-lately': { label: 'lately', icon: '/images/ui-icons/lately.png', order: 20 },
+      'panel-favs': { label: 'favs', icon: '/images/ui-icons/favs.png', order: 30 },
+      'panel-games': { label: 'games', icon: '/images/ui-icons/games.png', order: 40 },
+      'panel-music': { label: 'music', icon: '/images/ui-icons/music.png', order: 50 },
+      'panel-food': { label: 'food', icon: '/images/ui-icons/food.png', order: 60 },
+      'panel-stubby': { label: 'stubby', icon: '/images/ui-icons/stubby.png', order: 70 },
+      'panel-beauty': { label: 'beauty', icon: '/images/ui-icons/beauty.png', order: 80 },
+      'panel-gifypet': { label: 'stubby pet', icon: '/images/ui-icons/gifypets.png', order: 90 },
+      'panel-josh': { label: 'cactus pet', icon: '/images/ui-icons/gifypets.png', order: 100 },
+      'panel-player': { label: 'player', icon: '/images/ui-icons/player.png', order: 110 },
+      'panel-cactus': { label: 'cactus', icon: '/images/ui-icons/gifypets.png', order: 120 }
     };
 
     // ── Z-index ──
@@ -174,7 +174,7 @@
 
       openApps.innerHTML = openPanels.map(panel => {
         const meta = TASKBAR_PANEL_META[panel.id];
-        return `<button class="taskbar-window" onclick="focusTaskbarPanel('${panel.id}')" title="${meta.label}">${meta.short}</button>`;
+        return `<button class="taskbar-window" onclick="focusTaskbarPanel('${panel.id}')" title="${meta.label}"><img class="taskbar-window-icon" src="${meta.icon}" alt="" aria-hidden="true"></button>`;
       }).join('');
     }
 

@@ -223,8 +223,8 @@
     }
     .taskbar-inner {
       min-width: 310px;
-      height: 34px;
-      padding: 4px 8px;
+      height: 38px;
+      padding: 3px 8px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -242,10 +242,10 @@
     .taskbar-app,
     .taskbar-window {
       position: relative;
-      width: 30px;
-      height: 30px;
+      width: 34px;
+      height: 34px;
       border: 1px solid rgba(200,150,170,0.38);
-      border-radius: 10px;
+      border-radius: 12px;
       background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,225,234,0.58));
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,0.9),
@@ -261,11 +261,13 @@
     .taskbar-window:hover,
     .taskbar-app.is-active {
       transform: translateY(-2px);
-      border-color: rgba(224,112,144,0.65);
-      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,207,222,0.74));
+      border-color: rgba(143,175,120,0.5);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,244,248,0.66)),
+        linear-gradient(135deg, rgba(229,242,223,0.72), rgba(255,207,222,0.44));
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,0.95),
-        0 5px 12px rgba(122,58,82,0.13);
+        0 5px 12px rgba(107,130,78,0.16);
     }
     .taskbar-app.is-active::after,
     .taskbar-window::after {
@@ -277,7 +279,7 @@
       height: 2px;
       transform: translateX(-50%);
       border-radius: 2px;
-      background: var(--pink);
+      background: var(--green);
       opacity: 0.74;
     }
     .taskbar-pinned,
@@ -291,6 +293,27 @@
       border-left: 1px solid rgba(200,150,170,0.26);
     }
     .taskbar-open-apps:empty { display: none; }
+    .taskbar-start-icon,
+    .taskbar-icon-img,
+    .taskbar-window-icon {
+      width: 27px;
+      height: 27px;
+      object-fit: contain;
+      flex: 0 0 auto;
+      filter: drop-shadow(0 2px 3px rgba(122,58,82,0.13));
+      transition: transform 0.14s, filter 0.14s;
+    }
+    .taskbar-icon-img[src$="/player.png"],
+    .taskbar-window-icon[src$="/player.png"] {
+      width: 31px;
+    }
+    .taskbar-start:hover .taskbar-start-icon,
+    .taskbar-app:hover .taskbar-icon-img,
+    .taskbar-app.is-active .taskbar-icon-img,
+    .taskbar-window:hover .taskbar-window-icon {
+      transform: translateY(-1px) rotate(-4deg) scale(1.06);
+      filter: drop-shadow(0 4px 5px rgba(107,130,78,0.18));
+    }
     .start-window {
       position: relative;
       display: block;
@@ -492,8 +515,9 @@
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 9px 10px;
+      gap: 11px;
+      min-height: 48px;
+      padding: 7px 10px;
       font-size: 14px;
       color: #5a4a52;
       border: 1px solid transparent;
@@ -536,11 +560,18 @@
       image-rendering: pixelated;
     }
     .nav-icon {
-      width: 20px;
-      height: 20px;
+      width: 34px;
+      height: 34px;
       flex-shrink: 0;
-      image-rendering: pixelated;
+      object-fit: contain;
+      image-rendering: auto;
+      filter: drop-shadow(0 2px 3px rgba(122,58,82,0.12));
       transition: transform 0.14s, filter 0.14s;
+    }
+    .nav-icon-img[src$="/player.png"] {
+      width: 42px;
+      margin-left: -4px;
+      margin-right: -4px;
     }
     .nav-item > svg {
       width: 20px;
@@ -553,8 +584,8 @@
     .nav-item.active .nav-icon,
     .nav-item:hover > svg,
     .nav-item.active > svg {
-      transform: translateY(-1px);
-      filter: drop-shadow(1px 1px 0 rgba(255,255,255,0.55));
+      transform: translateY(-2px) rotate(-3deg) scale(1.05);
+      filter: drop-shadow(0 4px 5px rgba(107,130,78,0.18));
     }
     .nav-icon .tone-pink,
     .nav-section-icon .tone-pink { fill: #e07090; }
@@ -1206,7 +1237,16 @@
 
       .panel.open { border-radius: 0; margin: 0; }
       .panel-body { padding: 16px 14px 16px; }
-      .nav-item { padding: 12px 14px; font-size: 15px; }
+      .nav-item { min-height: 50px; padding: 8px 14px; font-size: 15px; }
+      .nav-icon {
+        width: 30px;
+        height: 30px;
+      }
+      .nav-icon-img[src$="/player.png"] {
+        width: 38px;
+        margin-left: -4px;
+        margin-right: -4px;
+      }
       #sidebar-header { padding: 12px 14px 10px; }
       #topbar-tag { display: none; }
       #topbar-title { font-size: 8px; }
