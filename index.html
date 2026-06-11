@@ -726,6 +726,30 @@
     </div><!-- /#main -->
   </div><!-- /#layout -->
 
+  <!-- Bottom desktop taskbar -->
+  <div id="bottom-taskbar" aria-label="desktop taskbar">
+    <div class="taskbar-inner">
+      <button class="taskbar-start" onclick="openPanel('panel-bio')" title="start">
+        <span class="start-window" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </button>
+      <div class="taskbar-pinned" aria-label="quick launch">
+        <button class="taskbar-app" data-opens="panel-lately" onclick="openPanel('panel-lately')" title="lately">
+          <span class="taskbar-icon taskbar-icon-note" aria-hidden="true"></span>
+        </button>
+        <button class="taskbar-app" data-opens="panel-favs" onclick="openPanel('panel-favs')" title="favs">
+          <span class="taskbar-icon taskbar-icon-heart" aria-hidden="true"></span>
+        </button>
+        <button class="taskbar-app" data-opens="panel-gifypet" onclick="openGifypetsExperience()" title="gifypets">
+          <span class="taskbar-icon taskbar-icon-pet" aria-hidden="true"></span>
+        </button>
+        <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player">
+          <span class="taskbar-icon taskbar-icon-music" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>
+    </div>
+  </div>
+
   
   <!-- ── Discord Mini Popup ── -->
   <div id="discord-popup">

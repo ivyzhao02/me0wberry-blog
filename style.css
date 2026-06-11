@@ -48,6 +48,7 @@
       --chrome-highlight: rgba(255, 255, 255, 0.82);
       --chrome-shadow:    rgba(122, 58, 82, 0.13);
       --chrome-line:      rgba(200, 150, 170, 0.42);
+      --taskbar-height:   44px;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -171,6 +172,194 @@
       transform: translateY(-1px);
     }
 
+    /* ── Bottom Taskbar ── */
+    #bottom-taskbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--taskbar-height);
+      z-index: 9992;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,226,236,0.58)),
+        linear-gradient(90deg, rgba(168,216,160,0.22), rgba(244,168,184,0.28));
+      border-top: 1px solid rgba(255,255,255,0.82);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.78),
+        0 -8px 24px rgba(122,58,82,0.08);
+      backdrop-filter: blur(12px);
+      pointer-events: auto;
+    }
+    #bottom-taskbar::before,
+    #bottom-taskbar::after {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-pixel);
+      font-size: 7px;
+      color: rgba(176,90,122,0.64);
+      letter-spacing: 0.35px;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.72);
+      pointer-events: none;
+    }
+    #bottom-taskbar::before {
+      content: 'me0wberry';
+      left: 16px;
+    }
+    #bottom-taskbar::after {
+      content: '♡ online';
+      right: 16px;
+    }
+    .taskbar-inner {
+      min-width: 310px;
+      height: 34px;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.64), rgba(255,244,248,0.36)),
+        linear-gradient(90deg, rgba(168,216,160,0.08), rgba(244,168,184,0.14));
+      border: 1px solid rgba(255,255,255,0.62);
+      border-radius: 12px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.72),
+        0 1px 5px rgba(122,58,82,0.07);
+    }
+    .taskbar-start,
+    .taskbar-app,
+    .taskbar-window {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(200,150,170,0.38);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,225,234,0.58));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.9),
+        0 1px 4px rgba(122,58,82,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--pixel-label);
+      transition: transform 0.14s, border-color 0.14s, background 0.14s, box-shadow 0.14s;
+    }
+    .taskbar-start:hover,
+    .taskbar-app:hover,
+    .taskbar-window:hover,
+    .taskbar-app.is-active {
+      transform: translateY(-2px);
+      border-color: rgba(224,112,144,0.65);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,207,222,0.74));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.95),
+        0 5px 12px rgba(122,58,82,0.13);
+    }
+    .taskbar-app.is-active::after,
+    .taskbar-window::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 3px;
+      width: 12px;
+      height: 2px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+      background: var(--pink);
+      opacity: 0.74;
+    }
+    .taskbar-pinned,
+    .taskbar-open-apps {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .taskbar-open-apps {
+      padding-left: 7px;
+      border-left: 1px solid rgba(200,150,170,0.26);
+    }
+    .taskbar-open-apps:empty { display: none; }
+    .start-window {
+      display: grid;
+      grid-template-columns: repeat(2, 8px);
+      grid-template-rows: repeat(2, 8px);
+      gap: 2px;
+      transform: rotate(-2deg);
+    }
+    .start-window i {
+      display: block;
+      background: var(--pink);
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.4);
+    }
+    .start-window i:nth-child(2),
+    .start-window i:nth-child(4) { background: var(--pink-light); }
+    .taskbar-icon {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+    .taskbar-icon::before,
+    .taskbar-icon::after {
+      content: '';
+      position: absolute;
+      image-rendering: pixelated;
+    }
+    .taskbar-icon-note {
+      background:
+        linear-gradient(var(--pink), var(--pink)) 5px 2px / 8px 2px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 5px 7px / 8px 2px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 5px 12px / 6px 2px no-repeat,
+        var(--cream);
+      border: 1px solid var(--pink-light);
+      box-shadow: 3px 3px 0 rgba(244,168,184,0.6);
+    }
+    .taskbar-icon-heart::before {
+      width: 16px;
+      height: 14px;
+      left: 1px;
+      top: 2px;
+      background:
+        linear-gradient(var(--pink), var(--pink)) 4px 0 / 4px 2px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 10px 0 / 4px 2px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 2px 2px / 14px 4px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 4px 6px / 10px 4px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 6px 10px / 6px 2px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 8px 12px / 2px 2px no-repeat;
+    }
+    .taskbar-icon-pet::before {
+      width: 16px;
+      height: 14px;
+      left: 1px;
+      top: 2px;
+      background:
+        linear-gradient(var(--green), var(--green)) 2px 0 / 4px 8px no-repeat,
+        linear-gradient(var(--green), var(--green)) 10px 0 / 4px 8px no-repeat,
+        linear-gradient(var(--pink-pale), var(--pink-pale)) 3px 6px / 10px 8px no-repeat,
+        linear-gradient(var(--body), var(--body)) 5px 9px / 2px 2px no-repeat,
+        linear-gradient(var(--body), var(--body)) 11px 9px / 2px 2px no-repeat;
+    }
+    .taskbar-icon-music::before {
+      width: 14px;
+      height: 16px;
+      left: 3px;
+      top: 1px;
+      background:
+        linear-gradient(var(--pink), var(--pink)) 8px 0 / 3px 11px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 8px 0 / 7px 3px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 2px 10px / 8px 5px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 1px 11px / 8px 3px no-repeat;
+    }
+    .taskbar-window {
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      text-transform: lowercase;
+    }
+
     /* ── Layout ── */
     #layout {
       display: flex;
@@ -215,7 +404,7 @@
     #sidebar-nav {
       flex: 1;
       overflow-y: auto;
-      padding: 6px 0 12px;
+      padding: 6px 0 calc(var(--taskbar-height) + 18px);
       scrollbar-width: thin;
       scrollbar-color: rgba(224,112,144,0.4) transparent;
     }
@@ -829,6 +1018,7 @@
       #topbar-title { font-size: 8px; }
       .panel-heading { font-size: 17px; }
       .slide-img { max-height: 260px; }
+      #bottom-taskbar { display: none !important; }
       #cat-strip { display: none !important; }
       #panel-player:not(.open) { display: none !important; }
       #panel-gifypet { display: none !important; }
@@ -843,7 +1033,7 @@
     body {
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 17 C10 17 2 11 2 6 C2 3 4 1 7 1 C8.5 1 9.5 2 10 3 C10.5 2 11.5 1 13 1 C16 1 18 3 18 6 C18 11 10 17 10 17Z' fill='white' stroke='%23e07090' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, auto;
     }
-    a, button, [onclick], .nav-item, .tab-btn, .panel-close, .panel-resize {
+    a, button, [onclick], .nav-item, .tab-btn, .panel-close, .panel-resize, .taskbar-start, .taskbar-app, .taskbar-window {
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 17 C10 17 2 11 2 6 C2 3 4 1 7 1 C8.5 1 9.5 2 10 3 C10.5 2 11.5 1 13 1 C16 1 18 3 18 6 C18 11 10 17 10 17Z' fill='white' stroke='%23e07090' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, pointer;
     }
 
@@ -926,7 +1116,7 @@
 /* ── Pixel Cat Strip ── */
 #cat-strip {
   position: fixed;
-  bottom: 0;
+  bottom: calc(var(--taskbar-height) + 8px);
   left: 0;
   width: 100%;
   height: 60px;

@@ -1,7 +1,22 @@
 ﻿    // ── Site Config ──
     const MOBILE_BREAKPOINT = 768;
+    const UTILITY_PANEL_BOTTOM_OFFSET = 72;
     const PERSISTENT_PANEL_IDS = new Set(['panel-player']);
     const GIFYPET_PANEL_IDS = new Set(['panel-gifypet', 'panel-josh']);
+    const TASKBAR_PANEL_META = {
+      'panel-bio': { label: 'hello', short: 'h', order: 10 },
+      'panel-lately': { label: 'lately', short: 'l', order: 20 },
+      'panel-favs': { label: 'favs', short: 'f', order: 30 },
+      'panel-games': { label: 'games', short: 'g', order: 40 },
+      'panel-music': { label: 'music', short: 'm', order: 50 },
+      'panel-food': { label: 'food', short: 'fo', order: 60 },
+      'panel-stubby': { label: 'stubby', short: 's', order: 70 },
+      'panel-beauty': { label: 'beauty', short: 'b', order: 80 },
+      'panel-gifypet': { label: 'stubby pet', short: 'p', order: 90 },
+      'panel-josh': { label: 'cactus pet', short: 'c', order: 100 },
+      'panel-player': { label: 'player', short: '♪', order: 110 },
+      'panel-cactus': { label: 'cactus', short: 'c', order: 120 }
+    };
 
     // ── Z-index ──
     let zTop = 10;
@@ -41,7 +56,7 @@
       const refHeight = mainRect ? mainRect.height : window.innerHeight;
       const width = options.width || panel.offsetWidth;
       const rightOffset = options.rightOffset || 20;
-      const bottomOffset = options.bottomOffset || 20;
+      const bottomOffset = options.bottomOffset || UTILITY_PANEL_BOTTOM_OFFSET;
 
       panel.style.width = width + 'px';
       if (!isInMain) panel.style.position = 'fixed';
@@ -59,8 +74,9 @@
       positionUtilityPanel(panel, {
         width: 330,
         rightOffset: options.rightOffset || 310,
-        bottomOffset: 20
+        bottomOffset: UTILITY_PANEL_BOTTOM_OFFSET
       });
+      updateTaskbar();
     }
 
     // ── Panel widths ──
@@ -73,6 +89,7 @@
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
         panel.classList.add('open');
         document.body.classList.add('mobile-panel');
+        updateTaskbar();
         return;
       }
 
@@ -91,6 +108,7 @@
       }
       panel.classList.add('open');
       bringToFront(panel);
+      updateTaskbar();
 
       // sync nav highlight
       document.querySelectorAll('.nav-item[data-opens]').forEach(el => {
@@ -109,11 +127,55 @@
         const bio = document.querySelector('.nav-item[data-opens="panel-bio"]');
         if (bio) bio.classList.add('active');
       }
+      updateTaskbar();
     }
 
     function mobileBack() {
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
       document.body.classList.remove('mobile-panel');
+      updateTaskbar();
+    }
+
+    function focusTaskbarPanel(id) {
+      const panel = document.getElementById(id);
+      if (!panel) return;
+
+      if (panel.classList.contains('open')) {
+        bringToFront(panel);
+        updateTaskbar();
+        return;
+      }
+
+      if (isGifypetPanel(panel)) {
+        openGifypetPanel(id, { rightOffset: id === 'panel-josh' ? 650 : 310 });
+        return;
+      }
+
+      openPanel(id);
+    }
+
+    function updateTaskbar() {
+      const openApps = document.getElementById('taskbar-open-apps');
+      if (!openApps) return;
+
+      document.querySelectorAll('.taskbar-app[data-opens]').forEach(btn => {
+        const openedPanel = document.getElementById(btn.dataset.opens);
+        btn.classList.toggle('is-active', !!openedPanel && openedPanel.classList.contains('open'));
+      });
+
+      if (isMobileViewport()) {
+        openApps.innerHTML = '';
+        return;
+      }
+
+      const openPanels = Array.from(document.querySelectorAll('.panel.open'))
+        .filter(panel => TASKBAR_PANEL_META[panel.id])
+        .sort((a, b) => TASKBAR_PANEL_META[a.id].order - TASKBAR_PANEL_META[b.id].order);
+
+      openApps.innerHTML = openPanels.map(panel => {
+        const meta = TASKBAR_PANEL_META[panel.id];
+        return `<button class="taskbar-window" onclick="focusTaskbarPanel('${panel.id}')" title="${meta.label}">${meta.short}</button>`;
+      }).join('');
     }
 
     const STUBBY_GIFYPET_URL = 'https://me0wberry.com/gifypet/pet.html?name=Stubby&dob=1775770472&gender=f&element=Fire&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fstubby-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgrass-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42';
@@ -268,6 +330,7 @@
     // ── Mobile resize handler ──
     window.addEventListener('resize', function() {
       if (!isMobileViewport()) document.body.classList.remove('mobile-panel');
+      updateTaskbar();
     });
 
     // ── Audio Player ──
@@ -464,8 +527,9 @@
         const refHeight = mainRect ? mainRect.height : window.innerHeight;
         if (!isInMain) player.style.position = 'fixed';
         player.style.left = Math.max(12, refWidth  - playerW - 20) + 'px';
-        player.style.top  = Math.max(12, refHeight - playerH - 20) + 'px';
+        player.style.top  = Math.max(12, refHeight - playerH - UTILITY_PANEL_BOTTOM_OFFSET) + 'px';
       })();
+      updateTaskbar();
     }
 
     // ── Update category panel after post ──
