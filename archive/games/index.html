@@ -108,6 +108,21 @@
     </div>
   </div>
 
+  <div id="bottom-taskbar" aria-label="desktop taskbar">
+    <div class="taskbar-inner">
+      <a class="taskbar-start" href="/" title="start">
+        <span class="start-window" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </a>
+      <div class="taskbar-pinned" aria-label="quick launch">
+        <a class="taskbar-app" href="/" title="home"><span class="taskbar-icon taskbar-icon-home" aria-hidden="true"></span></a>
+        <a class="taskbar-app" href="/info/" title="info"><span class="taskbar-icon taskbar-icon-info" aria-hidden="true"></span></a>
+        <a class="taskbar-app is-active" href="/archive/" title="archive"><span class="taskbar-icon taskbar-icon-archive" aria-hidden="true"></span></a>
+        <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><span class="taskbar-icon taskbar-icon-music" aria-hidden="true"></span></button>
+      </div>
+      <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>
+    </div>
+  </div>
+
   <script src="/archive/archive-list.js"></script>
   <script src="/script.js"></script>
 </body>

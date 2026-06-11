@@ -284,19 +284,32 @@
     }
     .taskbar-open-apps:empty { display: none; }
     .start-window {
-      display: grid;
-      grid-template-columns: repeat(2, 8px);
-      grid-template-rows: repeat(2, 8px);
-      gap: 2px;
-      transform: rotate(-2deg);
-    }
-    .start-window i {
+      position: relative;
       display: block;
+      width: 20px;
+      height: 18px;
       background: var(--pink);
-      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.4);
+      clip-path: polygon(
+        10% 10%, 35% 10%, 35% 22%, 50% 22%, 50% 10%, 75% 10%,
+        90% 25%, 90% 50%, 78% 50%, 78% 66%, 64% 66%, 64% 82%,
+        50% 82%, 50% 94%, 36% 82%, 36% 66%, 22% 66%, 22% 50%,
+        10% 50%, 10% 25%
+      );
+      transform: rotate(-2deg);
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.36);
     }
-    .start-window i:nth-child(2),
-    .start-window i:nth-child(4) { background: var(--pink-light); }
+    .start-window::before,
+    .start-window::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      background: rgba(255,255,255,0.78);
+      transform: translate(-50%, -50%);
+    }
+    .start-window::before { width: 3px; height: 12px; }
+    .start-window::after { width: 13px; height: 3px; }
+    .start-window i { display: none; }
     .taskbar-icon {
       position: relative;
       width: 18px;
@@ -358,6 +371,43 @@
       font-family: var(--font-pixel);
       font-size: 9px;
       text-transform: lowercase;
+    }
+    .taskbar-app { text-decoration: none; }
+    .taskbar-icon-home::before {
+      width: 16px;
+      height: 15px;
+      left: 1px;
+      top: 2px;
+      background:
+        linear-gradient(var(--pink), var(--pink)) 7px 0 / 3px 2px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 5px 2px / 7px 2px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 3px 4px / 11px 2px no-repeat,
+        linear-gradient(var(--pink-pale), var(--pink-pale)) 4px 6px / 10px 8px no-repeat,
+        linear-gradient(var(--green-light), var(--green-light)) 7px 9px / 4px 5px no-repeat;
+    }
+    .taskbar-icon-info::before {
+      width: 14px;
+      height: 16px;
+      left: 2px;
+      top: 1px;
+      background:
+        linear-gradient(var(--pink), var(--pink)) 4px 1px / 7px 2px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 2px 3px / 3px 3px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 10px 3px / 3px 4px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 8px 7px / 3px 3px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 6px 10px / 3px 3px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 6px 14px / 3px 2px no-repeat;
+    }
+    .taskbar-icon-archive::before {
+      width: 15px;
+      height: 15px;
+      left: 2px;
+      top: 2px;
+      background:
+        linear-gradient(var(--pink-pale), var(--pink-pale)) 2px 0 / 10px 14px no-repeat,
+        linear-gradient(var(--pink-light), var(--pink-light)) 12px 3px / 2px 12px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 5px 5px / 6px 2px no-repeat,
+        linear-gradient(var(--pink), var(--pink)) 5px 9px / 6px 2px no-repeat;
     }
 
     /* ── Layout ── */
@@ -453,6 +503,12 @@
       flex-shrink: 0;
       image-rendering: pixelated;
     }
+    .nav-section-label > svg {
+      width: 8px;
+      height: 8px;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+    }
     .nav-icon {
       width: 20px;
       height: 20px;
@@ -460,8 +516,17 @@
       image-rendering: pixelated;
       transition: transform 0.14s, filter 0.14s;
     }
+    .nav-item > svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+      transition: transform 0.14s, filter 0.14s;
+    }
     .nav-item:hover .nav-icon,
-    .nav-item.active .nav-icon {
+    .nav-item.active .nav-icon,
+    .nav-item:hover > svg,
+    .nav-item.active > svg {
       transform: translateY(-1px);
       filter: drop-shadow(1px 1px 0 rgba(255,255,255,0.55));
     }

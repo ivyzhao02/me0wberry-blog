@@ -439,14 +439,11 @@
     if (introOverlay) introOverlay.addEventListener('click', function() {
       this.classList.add('fade-out');
       setTimeout(() => this.remove(), 800);
-      audio.play().catch(function(){});
-      playPauseBtn.textContent = '❚❚';
     });
 
     (function() {
       const savedTrack   = parseInt(sessionStorage.getItem('player_track') || '0');
       const savedTime    = parseFloat(sessionStorage.getItem('player_time') || '0');
-      const savedPlaying = sessionStorage.getItem('player_playing') === 'true';
 
       loadTrack(savedTrack);
 
@@ -454,10 +451,6 @@
         audio.addEventListener('canplay', function seekOnce() {
           audio.currentTime = savedTime;
           audio.removeEventListener('canplay', seekOnce);
-          if (savedPlaying) {
-            audio.play().catch(function(){});
-            playPauseBtn.textContent = '❚❚';
-          }
         });
       }
     })();
@@ -465,7 +458,7 @@
     window.addEventListener('beforeunload', function() {
       sessionStorage.setItem('player_track', currentTrack);
       sessionStorage.setItem('player_time', audio.currentTime);
-      sessionStorage.setItem('player_playing', (!audio.paused).toString());
+      sessionStorage.removeItem('player_playing');
     });
 
     // ── Stubby Slideshow ──
