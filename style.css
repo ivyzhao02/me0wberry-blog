@@ -1187,8 +1187,25 @@
     }
     .player-btn[title="prev"] { text-indent: -1px; }
     .player-btn[title="next"] {
-      letter-spacing: -1px;
-      text-indent: 1px;
+      position: relative;
+      font-size: 0;
+    }
+    .player-btn[title="next"]::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid currentColor;
+      transform: translateX(-2px);
+    }
+    .player-btn[title="next"]::after {
+      content: '';
+      width: 2px;
+      height: 10px;
+      border-radius: 1px;
+      background: currentColor;
+      transform: translateX(2px);
     }
     .player-btn-main { text-indent: 1px; }
     .player-btn:hover {
