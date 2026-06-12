@@ -218,7 +218,7 @@
 
     // ── Drag (from reference) ──
     (function() {
-      let dragging = null, ox = 0, oy = 0;
+      let dragging = null, ox = 0, oy = 0, dragFrame = null;
 
       document.addEventListener('mousedown', function(e) {
         const tb = e.target.closest('.panel-titlebar');
@@ -226,16 +226,21 @@
         if (isMobileViewport()) return;
 
         const panel = tb.closest('.panel');
+        if (getComputedStyle(panel).position === 'relative') return;
         bringToFront(panel);
         dragging = panel;
 
         const rect = panel.getBoundingClientRect();
-        const mainRect = document.getElementById('main').getBoundingClientRect();
+        const mainEl = document.getElementById('main');
+        const isInMain = mainEl && mainEl.contains(panel);
+        const mainRect = isInMain ? mainEl.getBoundingClientRect() : null;
+        dragFrame = mainRect;
         ox = e.clientX - rect.left;
         oy = e.clientY - rect.top;
 
-        panel.style.left  = (rect.left - mainRect.left) + 'px';
-        panel.style.top   = (rect.top  - mainRect.top)  + 'px';
+        if (!isInMain) panel.style.position = 'fixed';
+        panel.style.left = (mainRect ? rect.left - mainRect.left : rect.left) + 'px';
+        panel.style.top  = (mainRect ? rect.top - mainRect.top : rect.top) + 'px';
         panel.style.width = rect.width + 'px';
         panel.style.right  = '';
         panel.style.bottom = '';
@@ -245,16 +250,20 @@
 
       document.addEventListener('mousemove', function(e) {
         if (!dragging) return;
-        const mainRect = document.getElementById('main').getBoundingClientRect();
-        let x = e.clientX - mainRect.left - ox;
-        let y = e.clientY - mainRect.top  - oy;
+        const frameLeft = dragFrame ? dragFrame.left : 0;
+        const frameTop = dragFrame ? dragFrame.top : 0;
+        let x = e.clientX - frameLeft - ox;
+        let y = e.clientY - frameTop - oy;
         x = Math.max(-dragging.offsetWidth + 60, x);
         y = Math.max(0, y);
         dragging.style.left = x + 'px';
         dragging.style.top  = y + 'px';
       });
 
-      document.addEventListener('mouseup', function() { dragging = null; });
+      document.addEventListener('mouseup', function() {
+        dragging = null;
+        dragFrame = null;
+      });
     })();
 
     // ── Resize — vertical only (from reference) ──
@@ -359,6 +368,11 @@
       return m + ':' + (sec < 10 ? '0' : '') + sec;
     }
 
+    function setPlayPauseState(isPlaying) {
+      playPauseBtn.classList.toggle('is-playing', isPlaying);
+      playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
+    }
+
     function checkMarquee() {
       const container = marqueeWrap.parentElement;
       // duplicate text for seamless loop if overflowing
@@ -385,7 +399,7 @@
       progressEl.value = 0;
       currentTimeEl.textContent = '0:00';
       totalTimeEl.textContent = '0:00';
-      playPauseBtn.textContent = '▶';
+      setPlayPauseState(false);
       // check marquee after paint
       requestAnimationFrame(checkMarquee);
     }
@@ -393,24 +407,24 @@
     function playerToggle() {
       if (audio.paused) {
         audio.play().catch(function() {}); // handle missing file gracefully
-        playPauseBtn.textContent = '❚❚';
+        setPlayPauseState(true);
       } else {
         audio.pause();
-        playPauseBtn.textContent = '▶';
+        setPlayPauseState(false);
       }
     }
 
     function playerNext() {
       const wasPlaying = !audio.paused;
       loadTrack((currentTrack + 1) % tracks.length);
-      if (wasPlaying) { audio.play().catch(function(){}); playPauseBtn.textContent = '❚❚'; }
+      if (wasPlaying) { audio.play().catch(function(){}); setPlayPauseState(true); }
     }
 
     function playerPrev() {
       if (audio.currentTime > 3) { audio.currentTime = 0; return; }
       const wasPlaying = !audio.paused;
       loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
-      if (wasPlaying) { audio.play().catch(function(){}); playPauseBtn.textContent = '❚❚'; }
+      if (wasPlaying) { audio.play().catch(function(){}); setPlayPauseState(true); }
     }
 
     audio.addEventListener('timeupdate', function() {

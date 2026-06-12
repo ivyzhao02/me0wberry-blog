@@ -1185,19 +1185,30 @@
       transition: background 0.12s, border-color 0.12s, box-shadow 0.12s, transform 0.12s;
       user-select: none;
     }
-    .player-btn[title="prev"] { text-indent: -1px; }
-    .player-btn[title="next"] {
+    .player-btn[title="prev"],
+    .player-btn[title="next"],
+    .player-btn-main {
       position: relative;
       font-size: 0;
     }
-    .player-btn[title="next"]::before {
+    .player-btn[title="prev"]::before,
+    .player-btn[title="next"]::before,
+    .player-btn-main::before {
       content: '';
+      display: block;
       width: 0;
       height: 0;
       border-top: 5px solid transparent;
       border-bottom: 5px solid transparent;
+    }
+    .player-btn[title="prev"]::before {
+      border-right: 8px solid currentColor;
+    }
+    .player-btn[title="next"] {
+      gap: 4px;
+    }
+    .player-btn[title="next"]::before {
       border-left: 8px solid currentColor;
-      transform: translateX(-2px);
     }
     .player-btn[title="next"]::after {
       content: '';
@@ -1205,9 +1216,25 @@
       height: 10px;
       border-radius: 1px;
       background: currentColor;
-      transform: translateX(2px);
     }
-    .player-btn-main { text-indent: 1px; }
+    .player-btn-main::before {
+      border-left: 8px solid currentColor;
+      transform: translateX(1px);
+    }
+    .player-btn-main.is-playing {
+      gap: 4px;
+    }
+    .player-btn-main.is-playing::before,
+    .player-btn-main.is-playing::after {
+      content: '';
+      display: block;
+      width: 3px;
+      height: 10px;
+      border: 0;
+      border-radius: 1px;
+      background: currentColor;
+      transform: none;
+    }
     .player-btn:hover {
       background:
         linear-gradient(180deg, rgba(255,255,255,0.96), rgba(229,242,223,0.44));
