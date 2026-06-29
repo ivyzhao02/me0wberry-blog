@@ -111,6 +111,18 @@ function writeUploadedImages(category, uploadedImages) {
   });
 }
 
+function removeFileIfExists(filePath) {
+  if (filePath && fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+  }
+}
+
+function writeTextFileAtomic(filePath, contents) {
+  const tempPath = `${filePath}.tmp-${process.pid}-${Date.now()}`;
+  fs.writeFileSync(tempPath, contents, 'utf8');
+  fs.renameSync(tempPath, filePath);
+}
+
 function createPost(payload) {
   const category = String(payload.category || '').trim();
   const title = String(payload.title || '').trim();
@@ -135,44 +147,53 @@ function createPost(payload) {
 
   const uploadedImages = Array.isArray(payload.images) ? payload.images : [];
   const existingImages = readExistingImages(category, payload.existingImages);
-  const writtenImages = writeUploadedImages(category, uploadedImages);
-  const galleryImages = [...existingImages, ...writtenImages.map((image) => image.fileName)];
   const imageUrl = String(payload.imageUrl || '').trim();
   const slug = slugify(title);
   const today = new Date().toISOString().slice(0, 10);
   const postRelPath = path.join('posts', category, `${today}-${slug}.html`);
   const postAbsPath = path.join(ROOT, postRelPath);
+  const indexPath = path.join(ROOT, 'posts', category, 'index.json');
 
   if (fs.existsSync(postAbsPath)) {
     throw new Error(`A post already exists at ${postRelPath}. Adjust the title or date before generating.`);
   }
 
-  const postHtml = buildPostHtml({
-    category,
-    title,
-    date,
-    content,
-    imageUrl,
-    images: galleryImages,
-    lately,
-  });
-
-  fs.mkdirSync(path.dirname(postAbsPath), { recursive: true });
-  fs.writeFileSync(postAbsPath, postHtml, 'utf8');
-
-  const indexPath = path.join(ROOT, 'posts', category, 'index.json');
   const posts = fs.existsSync(indexPath)
     ? JSON.parse(fs.readFileSync(indexPath, 'utf8'))
     : [];
-  const record = createPostRecord(postRelPath, title, date, slug, galleryImages);
-  posts.unshift(record);
-  fs.writeFileSync(indexPath, `${JSON.stringify(posts, null, 2)}\n`, 'utf8');
 
-  return {
-    post: postRelPath.split(path.sep).join('/'),
-    index: path.relative(ROOT, indexPath).split(path.sep).join('/'),
-    images: galleryImages.map((fileName) => `/images/${category}/${fileName}`),
-  };
+  let writtenImages = [];
+  try {
+    writtenImages = writeUploadedImages(category, uploadedImages);
+    const galleryImages = [...existingImages, ...writtenImages.map((image) => image.fileName)];
+    const postHtml = buildPostHtml({
+      category,
+      title,
+      date,
+      content,
+      imageUrl,
+      images: galleryImages,
+      lately,
+    });
+
+    fs.mkdirSync(path.dirname(postAbsPath), { recursive: true });
+    writeTextFileAtomic(postAbsPath, postHtml);
+    const record = createPostRecord(postRelPath, title, date, slug, galleryImages);
+    posts.unshift(record);
+    writeTextFileAtomic(indexPath, `${JSON.stringify(posts, null, 2)}\n`);
+
+    return {
+      post: postRelPath.split(path.sep).join('/'),
+      index: path.relative(ROOT, indexPath).split(path.sep).join('/'),
+      images: galleryImages.map((fileName) => `/images/${category}/${fileName}`),
+    };
+  } catch (error) {
+    writtenImages.forEach((image) => {
+      removeFileIfExists(path.join(ROOT, image.sitePath.replace(/^\//, '').replace(/\//g, path.sep)));
+    });
+    removeFileIfExists(postAbsPath);
+    throw error;
+  }
 }
 
 const server = http.createServer(async (req, res) => {

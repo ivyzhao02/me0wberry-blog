@@ -102,7 +102,7 @@ function buildLatelyContent({ title, whereAt, intoText, note }) {
 
 function buildImageHtml(src, alt) {
   if (!src) return '';
-  return `    <img src="${src}" alt="${escapeHtml(alt)}" style="max-width:100%;margin:12px 0;display:block;border:1px solid rgba(255,255,255,0.68);"/>`;
+  return `    <img src="${src}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" style="max-width:100%;margin:12px 0;display:block;border:1px solid rgba(255,255,255,0.68);"/>`;
 }
 
 function buildPostGallery(images, category, alt) {
@@ -112,11 +112,17 @@ function buildPostGallery(images, category, alt) {
   const imageSrc = (name) => name.startsWith('/') ? name : `${basePath}${name}`;
 
   if (images.length === 1) {
-    return `    <img src="${imageSrc(images[0])}" alt="${escapeHtml(alt)}" style="max-width:100%;border:1px solid var(--frosted-border);margin:10px 0;display:block;"/>`;
+    return `    <img src="${imageSrc(images[0])}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" style="max-width:100%;border:1px solid var(--frosted-border);margin:10px 0;display:block;"/>`;
   }
 
   const slideImgs = images
-    .map((name) => `      <img class="slide-img" src="${imageSrc(name)}" alt="${escapeHtml(alt)}"/>`)
+    .map((name, index) => {
+      const src = imageSrc(name);
+      const attrs = index === 0
+        ? `src="${src}" fetchpriority="high"`
+        : `data-src="${src}"`;
+      return `      <img class="slide-img" ${attrs} alt="${escapeHtml(alt)}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"/>`;
+    })
     .join('\n');
 
   return `    <div class="stubby-slideshow" style="position:relative;margin:12px 0;">
@@ -128,17 +134,7 @@ ${slideImgs}
   </div>
   <button class="slide-btn slide-next" onclick="postSlideNext()">▶</button>
   <div class="slide-dots" id="post-slide-dots"></div>
-</div>
-<script>
-(function(){
-  const total=${images.length};
-  let cur=0;
-  function goTo(n){cur=(n+total)%total;document.getElementById('post-slide-track').style.transform='translateX(-'+cur*100+'%)';document.querySelectorAll('#post-slide-dots .slide-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));}
-  window.postSlideNext=function(){goTo(cur+1);};
-  window.postSlidePrev=function(){goTo(cur-1);};
-  document.addEventListener('DOMContentLoaded',function(){const dotsEl=document.getElementById('post-slide-dots');for(let i=0;i<total;i++){const d=document.createElement('div');d.className='slide-dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}goTo(0);});
-})();
-</script>`;
+</div>`;
 }
 
 function galleryStyles(images, category) {

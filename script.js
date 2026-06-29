@@ -14,8 +14,7 @@
       'panel-beauty': { label: 'beauty', icon: '/images/ui-icons/beauty.png', order: 80 },
       'panel-gifypet': { label: 'stubby pet', icon: '/images/ui-icons/gifypets.png', order: 90 },
       'panel-josh': { label: 'cactus pet', icon: '/images/ui-icons/gifypets.png', order: 100 },
-      'panel-player': { label: 'player', icon: '/images/ui-icons/player.png', order: 110 },
-      'panel-cactus': { label: 'cactus', icon: '/images/ui-icons/gifypets.png', order: 120 }
+      'panel-player': { label: 'player', icon: '/images/ui-icons/player.png', order: 110 }
     };
 
     // ── Z-index ──
@@ -99,12 +98,9 @@
 
       // Desktop: reset position for main content panels.
       if (!isPersistentPanel(panel)) {
-        panel.style.top  = '20px';
-        panel.style.left = '18px';
+        panel.style.top  = id === 'panel-cactus' ? '60px' : '20px';
+        panel.style.left = id === 'panel-cactus' ? '60px' : '18px';
         if (id !== 'panel-bio') panel.style.width = '';
-      } else if (id === 'panel-cactus' && !panel.classList.contains('open')) {
-        panel.style.top  = '60px';
-        panel.style.left = '60px';
       }
       panel.classList.add('open');
       bringToFront(panel);
@@ -563,21 +559,99 @@
       }
     }
 
+    let postGalleryState = null;
+
+    function ensurePostSlideLoaded(index) {
+      if (!postGalleryState) return;
+      const total = postGalleryState.images.length;
+      if (!total) return;
+
+      const normalized = ((index % total) + total) % total;
+      const image = postGalleryState.images[normalized];
+      if (image && !image.getAttribute('src')) {
+        const deferredSrc = image.dataset.src;
+        if (deferredSrc) {
+          image.setAttribute('src', deferredSrc);
+        }
+      }
+    }
+
+    function syncPostSlideDots() {
+      if (!postGalleryState) return;
+      postGalleryState.dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === postGalleryState.current);
+      });
+    }
+
+    function goToPostSlide(index) {
+      if (!postGalleryState) return;
+      const total = postGalleryState.images.length;
+      if (!total) return;
+
+      postGalleryState.current = ((index % total) + total) % total;
+      ensurePostSlideLoaded(postGalleryState.current);
+      ensurePostSlideLoaded(postGalleryState.current + 1);
+      ensurePostSlideLoaded(postGalleryState.current - 1);
+      postGalleryState.track.style.transform = `translateX(-${postGalleryState.current * 100}%)`;
+      syncPostSlideDots();
+    }
+
+    window.postSlideNext = function() {
+      goToPostSlide((postGalleryState ? postGalleryState.current : 0) + 1);
+    };
+
+    window.postSlidePrev = function() {
+      goToPostSlide((postGalleryState ? postGalleryState.current : 0) - 1);
+    };
+
+    function initPostGallery() {
+      const track = document.getElementById('post-slide-track');
+      const dotsEl = document.getElementById('post-slide-dots');
+      if (!track || !dotsEl) return;
+
+      const images = Array.from(track.querySelectorAll('.slide-img'));
+      if (!images.length) return;
+
+      postGalleryState = {
+        current: 0,
+        track,
+        dots: [],
+        images,
+      };
+
+      dotsEl.innerHTML = '';
+      images.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'slide-dot';
+        dot.addEventListener('click', function() {
+          goToPostSlide(index);
+        });
+        dotsEl.appendChild(dot);
+        postGalleryState.dots.push(dot);
+      });
+
+      ensurePostSlideLoaded(0);
+      ensurePostSlideLoaded(1);
+      goToPostSlide(0);
+    }
+
     // ── Load posts from index.json on page load ──
     async function loadAllPosts() {
       const categories = ['games','music','food','stubby','beauty','lately'];
-      for (const cat of categories) {
+      const cacheBust = Date.now();
+      await Promise.all(categories.map(async (cat) => {
         try {
-          const res = await fetch(`posts/${cat}/index.json?t=${Date.now()}`);
-          if (!res.ok) continue;
+          const res = await fetch(`/posts/${cat}/index.json?t=${cacheBust}`);
+          if (!res.ok) return;
           const posts = await res.json();
           updateCategoryPanel(cat, posts);
         } catch(e) { /* no posts yet */ }
-      }
+      }));
     }
 
     // Call on page load
     document.addEventListener('DOMContentLoaded', loadAllPosts);
+    document.addEventListener('DOMContentLoaded', initPostGallery);
 
 // ── Background Decorations ──
 (function injectBgDecos() {

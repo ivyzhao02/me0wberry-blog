@@ -61,25 +61,15 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
   <button class="slide-btn slide-prev" onclick="postSlidePrev()">◀</button>
   <div class="slide-track-wrapper">
     <div class="slide-track" id="post-slide-track">
-      <img class="slide-img" src="/images/beauty/img-6344.jpg" alt="march to may update"/>
-      <img class="slide-img" src="/images/beauty/img-5909.jpg" alt="march to may update"/>
-      <img class="slide-img" src="/images/beauty/img-5910.jpg" alt="march to may update"/>
-      <img class="slide-img" src="/images/beauty/img-6343.jpg" alt="march to may update"/>
+      <img class="slide-img" src="/images/beauty/img-6344.jpg" fetchpriority="high" alt="march to may update" loading="eager" decoding="async"/>
+      <img class="slide-img" data-src="/images/beauty/img-5909.jpg" alt="march to may update" loading="lazy" decoding="async"/>
+      <img class="slide-img" data-src="/images/beauty/img-5910.jpg" alt="march to may update" loading="lazy" decoding="async"/>
+      <img class="slide-img" data-src="/images/beauty/img-6343.jpg" alt="march to may update" loading="lazy" decoding="async"/>
     </div>
   </div>
   <button class="slide-btn slide-next" onclick="postSlideNext()">▶</button>
   <div class="slide-dots" id="post-slide-dots"></div>
 </div>
-<script>
-(function(){
-  const total=4;
-  let cur=0;
-  function goTo(n){cur=(n+total)%total;document.getElementById('post-slide-track').style.transform='translateX(-'+cur*100+'%)';document.querySelectorAll('#post-slide-dots .slide-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));}
-  window.postSlideNext=function(){goTo(cur+1);};
-  window.postSlidePrev=function(){goTo(cur-1);};
-  document.addEventListener('DOMContentLoaded',function(){const dotsEl=document.getElementById('post-slide-dots');for(let i=0;i<total;i++){const d=document.createElement('div');d.className='slide-dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);}goTo(0);});
-})();
-</script>
     <div class="post-footer">
       <div style="display:flex;flex-direction:column;gap:4px;">
         <a href="/" class="post-back">← back to me0wberry.com</a>
