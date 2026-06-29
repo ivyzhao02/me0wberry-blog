@@ -10,6 +10,7 @@ const {
 
 const PORT = Number(process.env.PORT || 8124);
 const ROOT = path.resolve(__dirname, '..', '..');
+const IMAGE_EXTENSIONS = new Set(['.gif', '.jpeg', '.jpg', '.png', '.webp']);
 const PUBLIC_FILES = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
@@ -46,6 +47,41 @@ function uniqueName(dir, desiredName) {
   return candidate;
 }
 
+function readExistingImages(category, value) {
+  const targetDir = path.join(ROOT, 'images', category);
+  const requestedNames = String(value || '')
+    .split(/[\r\n,]+/)
+    .map((name) => name.trim())
+    .filter(Boolean);
+
+  if (!requestedNames.length) return [];
+  if (!fs.existsSync(targetDir)) {
+    throw new Error(`No image folder exists yet for ${category}.`);
+  }
+
+  const availableNames = fs.readdirSync(targetDir);
+  const resolvedNames = requestedNames.map((requestedName) => {
+    if (path.basename(requestedName) !== requestedName) {
+      throw new Error(`Use a filename only, not a path: ${requestedName}`);
+    }
+    if (!IMAGE_EXTENSIONS.has(path.extname(requestedName).toLowerCase())) {
+      throw new Error(`Use a supported image filename: ${requestedName}`);
+    }
+
+    const actualName = availableNames.find((name) => name === requestedName)
+      || availableNames.find((name) => name.toLowerCase() === requestedName.toLowerCase());
+    const filePath = actualName ? path.join(targetDir, actualName) : '';
+
+    if (!actualName || !fs.statSync(filePath).isFile()) {
+      throw new Error(`Image not found in images/${category}/: ${requestedName}`);
+    }
+
+    return actualName;
+  });
+
+  return [...new Set(resolvedNames)];
+}
+
 function readBody(req) {
   return new Promise((resolve, reject) => {
     let body = '';
@@ -63,8 +99,7 @@ function readBody(req) {
 }
 
 function writeUploadedImages(category, uploadedImages) {
-  const targetCategory = category === 'food' || category === 'stubby' ? category : 'misc';
-  const targetDir = path.join(ROOT, 'images', targetCategory);
+  const targetDir = path.join(ROOT, 'images', category);
   fs.mkdirSync(targetDir, { recursive: true });
 
   return uploadedImages.map((image) => {
@@ -72,7 +107,7 @@ function writeUploadedImages(category, uploadedImages) {
     const finalName = uniqueName(targetDir, desiredName);
     const base64 = String(image.data || '').split(',').pop();
     fs.writeFileSync(path.join(targetDir, finalName), Buffer.from(base64, 'base64'));
-    return { fileName: finalName, sitePath: `/images/${targetCategory}/${finalName}` };
+    return { fileName: finalName, sitePath: `/images/${category}/${finalName}` };
   });
 }
 
@@ -99,10 +134,9 @@ function createPost(payload) {
   }
 
   const uploadedImages = Array.isArray(payload.images) ? payload.images : [];
+  const existingImages = readExistingImages(category, payload.existingImages);
   const writtenImages = writeUploadedImages(category, uploadedImages);
-  const galleryImages = writtenImages.map((image) => (
-    category === 'food' || category === 'stubby' ? image.fileName : image.sitePath
-  ));
+  const galleryImages = [...existingImages, ...writtenImages.map((image) => image.fileName)];
   const imageUrl = String(payload.imageUrl || '').trim();
   const slug = slugify(title);
   const today = new Date().toISOString().slice(0, 10);
@@ -137,7 +171,7 @@ function createPost(payload) {
   return {
     post: postRelPath.split(path.sep).join('/'),
     index: path.relative(ROOT, indexPath).split(path.sep).join('/'),
-    images: writtenImages.map((image) => image.sitePath),
+    images: galleryImages.map((fileName) => `/images/${category}/${fileName}`),
   };
 }
 
@@ -163,6 +197,14 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, '127.0.0.1', () => {
-  console.log(`me0wberry post studio running at http://127.0.0.1:${PORT}`);
-});
+if (require.main === module) {
+  server.listen(PORT, '127.0.0.1', () => {
+    console.log(`me0wberry post studio running at http://127.0.0.1:${PORT}`);
+  });
+}
+
+module.exports = {
+  createPost,
+  readExistingImages,
+  writeUploadedImages,
+};

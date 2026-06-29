@@ -5,6 +5,7 @@ const statusEl = document.getElementById('status');
 const normalFields = document.getElementById('normal-fields');
 const latelyFields = document.getElementById('lately-fields');
 const imageHelp = document.getElementById('image-help');
+const existingImageHelp = document.getElementById('existing-image-help');
 const imageList = document.getElementById('image-list');
 const imageInput = document.getElementById('images');
 
@@ -25,9 +26,8 @@ function updateCategoryFields() {
 
   normalFields.hidden = isLately;
   latelyFields.hidden = !isLately;
-  imageHelp.textContent = category === 'food' || category === 'stubby'
-    ? 'selected files will be copied into this category image folder and rendered as a gallery'
-    : 'selected files will be copied into images/misc and rendered as a gallery';
+  existingImageHelp.textContent = `use files already in images/${category}/ , one filename per line`;
+  imageHelp.textContent = `selected files will be copied into images/${category}/ and rendered as a gallery`;
 }
 
 function updateImageList() {
@@ -58,6 +58,7 @@ async function buildPayload() {
     date: formData.get('date'),
     content: formData.get('content'),
     imageUrl: formData.get('imageUrl'),
+    existingImages: formData.get('existingImages'),
     whereAt: formData.get('whereAt'),
     intoText: formData.get('intoText'),
     note: formData.get('note'),
