@@ -26,8 +26,8 @@ function updateCategoryFields() {
 
   normalFields.hidden = isLately;
   latelyFields.hidden = !isLately;
-  existingImageHelp.textContent = `use files already in images/${category}/ , one filename per line`;
-  imageHelp.textContent = `selected files will be copied into images/${category}/ without overwriting existing ones , and multiple images will render as a gallery`;
+  existingImageHelp.textContent = `use files already in images/${category}/ , one filename per line - these will appear before any new uploads`;
+  imageHelp.textContent = `selected files will be copied into images/${category}/ without overwriting existing ones , and you can mix them with existing filenames in one gallery`;
 }
 
 function updateImageList() {
