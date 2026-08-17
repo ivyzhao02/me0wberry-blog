@@ -7,6 +7,7 @@
       'panel-bio': { label: 'hello', icon: '/images/ui-icons/hello.png', order: 10 },
       'panel-lately': { label: 'lately', icon: '/images/ui-icons/lately.png', order: 20 },
       'panel-favs': { label: 'favs', icon: '/images/ui-icons/favs.png', order: 30 },
+      'panel-projects': { label: 'projects', icon: '/images/ui-icons/projects.png', order: 35 },
       'panel-games': { label: 'games', icon: '/images/ui-icons/games.png', order: 40 },
       'panel-music': { label: 'music', icon: '/images/ui-icons/music.png', order: 50 },
       'panel-food': { label: 'food', icon: '/images/ui-icons/food.png', order: 60 },
@@ -212,6 +213,41 @@
       if (panel) bringToFront(panel);
     });
 
+    function initKeyboardControls() {
+      const selector = [
+        '.nav-item[onclick]',
+        '.panel-close',
+        '.ilmbf-trigger[onclick]',
+        '.project-inline-link[onclick]',
+        '#mobile-back',
+        '#intro-overlay'
+      ].join(',');
+
+      document.querySelectorAll(selector).forEach(element => {
+        if (!element.hasAttribute('role')) element.setAttribute('role', 'button');
+        if (!element.hasAttribute('tabindex')) element.tabIndex = 0;
+        if (element.classList.contains('panel-close') && !element.hasAttribute('aria-label')) {
+          element.setAttribute('aria-label', 'close window');
+        }
+        if (element.id === 'intro-overlay' && !element.hasAttribute('aria-label')) {
+          element.setAttribute('aria-label', 'enter me0wberry.com');
+        }
+
+        element.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          element.click();
+        });
+      });
+
+      document.querySelectorAll('.slide-prev, .slide-next').forEach(button => {
+        if (button.hasAttribute('aria-label')) return;
+        button.setAttribute('aria-label', button.classList.contains('slide-prev') ? 'previous photo' : 'next photo');
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initKeyboardControls);
+
     // ── Drag (from reference) ──
     (function() {
       let dragging = null, ox = 0, oy = 0, dragFrame = null;
@@ -371,6 +407,10 @@
 
     function checkMarquee() {
       const container = marqueeWrap.parentElement;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        marqueeWrap.classList.remove('scrolling');
+        return;
+      }
       // duplicate text for seamless loop if overflowing
       if (titleSpan.offsetWidth > container.offsetWidth) {
         if (!titleSpan.dataset.doubled) {
@@ -473,20 +513,37 @@
 
     // ── Stubby Slideshow ──
     (function() {
-      const total = 3;
       let current = 0;
       let timer = null;
+      let images = [];
+      let track = null;
+      let dotsEl = null;
+
+      function ensureLoaded(index) {
+        if (!images.length) return;
+        const normalized = ((index % images.length) + images.length) % images.length;
+        const image = images[normalized];
+        if (!image.getAttribute('src') && image.dataset.src) {
+          image.setAttribute('src', image.dataset.src);
+        }
+      }
 
       function goTo(n) {
-        current = (n + total) % total;
-        const track = document.getElementById('stubby-track');
-        if (track) track.style.transform = `translateX(-${current * 100}%)`;
-        const dots = document.querySelectorAll('.slide-dot');
-        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        if (!images.length || !track) return;
+        current = (n + images.length) % images.length;
+        ensureLoaded(current);
+        ensureLoaded(current + 1);
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dotsEl.querySelectorAll('.slide-dot').forEach((dot, index) => {
+          const isActive = index === current;
+          dot.classList.toggle('active', isActive);
+          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
       }
 
       function startTimer() {
         if (timer) clearInterval(timer);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         timer = setInterval(() => goTo(current + 1), 8000);
       }
 
@@ -495,17 +552,26 @@
 
       // Init dots
       document.addEventListener('DOMContentLoaded', function() {
-        const dotsEl = document.getElementById('stubby-dots');
-        if (dotsEl) {
-          for (let i = 0; i < total; i++) {
-            const d = document.createElement('div');
-            d.className = 'slide-dot' + (i === 0 ? ' active' : '');
-            d.onclick = () => { goTo(i); startTimer(); };
-            dotsEl.appendChild(d);
-          }
+        track = document.getElementById('stubby-track');
+        dotsEl = document.getElementById('stubby-dots');
+        if (!track || !dotsEl) return;
+
+        images = Array.from(track.querySelectorAll('.slide-img'));
+        if (!images.length) return;
+
+        for (let i = 0; i < images.length; i++) {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', `show stubby photo ${i + 1}`);
+          dot.setAttribute('aria-current', i === 0 ? 'true' : 'false');
+          dot.onclick = () => { goTo(i); startTimer(); };
+          dotsEl.appendChild(dot);
         }
-        goTo(0);
-        startTimer();
+
+        ensureLoaded(0);
+        track.style.transform = 'translateX(0)';
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) startTimer();
       });
     })();
 
@@ -579,7 +645,9 @@
     function syncPostSlideDots() {
       if (!postGalleryState) return;
       postGalleryState.dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === postGalleryState.current);
+        const isActive = index === postGalleryState.current;
+        dot.classList.toggle('active', isActive);
+        dot.setAttribute('aria-current', isActive ? 'true' : 'false');
       });
     }
 
@@ -621,8 +689,12 @@
 
       dotsEl.innerHTML = '';
       images.forEach((_, index) => {
-        const dot = document.createElement('div');
+        const dot = document.createElement('button');
+        dot.type = 'button';
         dot.className = 'slide-dot';
+        dot.style.padding = '0';
+        dot.style.display = 'block';
+        dot.setAttribute('aria-label', `show photo ${index + 1}`);
         dot.addEventListener('click', function() {
           goToPostSlide(index);
         });
@@ -632,12 +704,18 @@
 
       ensurePostSlideLoaded(0);
       ensurePostSlideLoaded(1);
-      goToPostSlide(0);
+      postGalleryState.track.style.transform = 'translateX(0)';
+      syncPostSlideDots();
     }
 
     // ── Load posts from index.json on page load ──
     async function loadAllPosts() {
       const categories = ['games','music','food','stubby','beauty','lately'];
+      const hasPostTargets = categories.some(category =>
+        document.getElementById(`latest-${category}`) || document.getElementById(`posts-${category}`)
+      );
+      if (!hasPostTargets) return;
+
       const cacheBust = Date.now();
       await Promise.all(categories.map(async (cat) => {
         try {
@@ -750,6 +828,7 @@
   let animFrame = null;
   let enabled = true;
   let strip = null;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function createStrip() {
     strip = document.createElement('div');
@@ -840,7 +919,10 @@
     localStorage.setItem('cats_enabled', val ? '1' : '0');
     if (strip) strip.style.display = val ? '' : 'none';
     const btn = document.getElementById('cat-toggle');
-    if (btn) btn.title = val ? 'hide cats' : 'show cats';
+    if (btn) {
+      btn.title = val ? 'hide cats' : 'show cats';
+      btn.setAttribute('aria-pressed', val ? 'true' : 'false');
+    }
     if (val) {
       initCats();
       updateCats();
@@ -856,8 +938,17 @@
   document.addEventListener('DOMContentLoaded', function() {
     createStrip();
     const saved = localStorage.getItem('cats_enabled');
+    if (saved === null && prefersReducedMotion) {
+      enabled = false;
+      strip.style.display = 'none';
+      const btn = document.getElementById('cat-toggle');
+      if (btn) {
+        btn.title = 'show cats';
+        btn.setAttribute('aria-pressed', 'false');
+      }
+      return;
+    }
     const startEnabled = saved === null ? true : saved === '1';
     setEnabled(startEnabled);
-    updateCats();
   });
 })();

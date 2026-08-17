@@ -8,6 +8,9 @@ const imageHelp = document.getElementById('image-help');
 const existingImageHelp = document.getElementById('existing-image-help');
 const imageList = document.getElementById('image-list');
 const imageInput = document.getElementById('images');
+const optimizeImagesEl = document.getElementById('optimize-images');
+const MAX_IMAGE_DIMENSION = 2560;
+const WEBP_QUALITY = 0.9;
 
 function defaultDateLabel() {
   const now = new Date();
@@ -34,9 +37,41 @@ function updateImageList() {
   imageList.innerHTML = '';
   Array.from(imageInput.files).forEach((file) => {
     const item = document.createElement('li');
-    item.textContent = file.name;
+    const willOptimize = optimizeImagesEl.checked && /image\/(?:jpeg|png)/i.test(file.type);
+    item.textContent = `${file.name}${willOptimize ? ' → optimized webp' : ''}`;
     imageList.appendChild(item);
   });
+}
+
+function canvasToBlob(canvas, type, quality) {
+  return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
+}
+
+async function optimizeImage(file) {
+  if (!optimizeImagesEl.checked || !/image\/(?:jpeg|png)/i.test(file.type)) return file;
+
+  let bitmap;
+  try {
+    bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, MAX_IMAGE_DIMENSION / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+
+    const blob = await canvasToBlob(canvas, 'image/webp', WEBP_QUALITY);
+    if (!blob || blob.size >= file.size) return file;
+
+    const baseName = file.name.replace(/\.[^.]+$/, '') || 'image';
+    return new File([blob], `${baseName}.webp`, {
+      type: 'image/webp',
+      lastModified: file.lastModified,
+    });
+  } catch (error) {
+    return file;
+  } finally {
+    if (bitmap) bitmap.close();
+  }
 }
 
 function readFileAsDataUrl(file) {
@@ -49,7 +84,10 @@ function readFileAsDataUrl(file) {
 }
 
 async function buildPayload() {
-  const files = await Promise.all(Array.from(imageInput.files).map(readFileAsDataUrl));
+  const selectedFiles = Array.from(imageInput.files);
+  if (selectedFiles.length && optimizeImagesEl.checked) setStatus('optimizing images...');
+  const preparedFiles = await Promise.all(selectedFiles.map(optimizeImage));
+  const files = await Promise.all(preparedFiles.map(readFileAsDataUrl));
   const formData = new FormData(form);
 
   return {
@@ -71,6 +109,7 @@ updateCategoryFields();
 
 categoryEl.addEventListener('change', updateCategoryFields);
 imageInput.addEventListener('change', updateImageList);
+optimizeImagesEl.addEventListener('change', updateImageList);
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();

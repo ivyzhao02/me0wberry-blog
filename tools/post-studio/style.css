@@ -102,6 +102,26 @@ textarea {
   font-size: 12px;
 }
 
+.optimization-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -4px 0 4px;
+}
+
+.optimization-option input {
+  width: auto;
+  accent-color: var(--green);
+}
+
+.optimization-option span {
+  margin: 0;
+}
+
+.optimization-note {
+  margin-bottom: 14px;
+}
+
 .studio-submit {
   display: block;
   margin: 8px auto 0;

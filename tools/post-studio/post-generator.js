@@ -38,11 +38,11 @@ function renderStyledList(lines) {
   const items = lines
     .map(stripBulletPrefix)
     .filter(Boolean)
-    .map((line) => `<li style="margin-bottom:4px;">– ${renderInline(line)}</li>`)
+    .map((line) => `<li>– ${renderInline(line)}</li>`)
     .join('\n');
 
   if (!items) return '';
-  return `<ul style="list-style:none;padding:0;margin-bottom:14px;">\n${items}\n</ul>`;
+  return `<ul class="post-list">\n${items}\n</ul>`;
 }
 
 function renderTextBlock(block) {
@@ -76,25 +76,25 @@ function toBullets(text = '') {
   return text.split('\n')
     .map(stripBulletPrefix)
     .filter(Boolean)
-    .map((line) => `<li style="margin-bottom:4px;">– ${escapeHtml(line)}</li>`)
+    .map((line) => `<li>– ${escapeHtml(line)}</li>`)
     .join('\n        ');
 }
 
 function buildLatelyContent({ title, whereAt, intoText, note }) {
   const noteHtml = note ? `
-      <div style="border-top:1px dashed rgba(160,144,152,0.45); margin:14px 0 10px;"></div>
-      <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">♡ a note:</p>
-      <p style="font-style:italic; color:var(--muted);">${escapeHtml(note)}</p>` : '';
+      <div class="post-note-divider"></div>
+      <p class="post-section-label">♡ a note:</p>
+      <p class="post-note">${escapeHtml(note)}</p>` : '';
 
   return `<div class="post-content">
-      <div style="font-family:'Press Start 2P',monospace; font-size:8px; color:var(--pixel-label2); margin-bottom:16px;">${escapeHtml(title)}</div>
-      <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">where i'm at (ᐢ. .ᐢ):</p>
-      <ul style="list-style:none; padding:0; margin-bottom:14px; font-size:14px; line-height:1.75;">
+      <div class="post-lately-title">${escapeHtml(title)}</div>
+      <p class="post-section-label">where i'm at (ᐢ. .ᐢ):</p>
+      <ul class="post-list post-list-lately">
         ${toBullets(whereAt)}
       </ul>
-      <div style="text-align:center; color:var(--muted); margin:14px 0; letter-spacing:4px;">♡ · ♡ · ♡</div>
-      <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">what i'm into:</p>
-      <ul style="list-style:none; padding:0; margin-bottom:14px; font-size:14px; line-height:1.75;">
+      <div class="post-heart-divider">♡ · ♡ · ♡</div>
+      <p class="post-section-label">what i'm into:</p>
+      <ul class="post-list post-list-lately">
         ${toBullets(intoText)}
       </ul>${noteHtml}
     </div>`;
@@ -102,7 +102,7 @@ function buildLatelyContent({ title, whereAt, intoText, note }) {
 
 function buildImageHtml(src, alt) {
   if (!src) return '';
-  return `    <img src="${src}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" style="max-width:100%;margin:12px 0;display:block;border:1px solid rgba(255,255,255,0.68);"/>`;
+  return `    <img class="post-image" src="${src}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
 }
 
 function buildPostGallery(images, category, alt) {
@@ -112,7 +112,7 @@ function buildPostGallery(images, category, alt) {
   const imageSrc = (name) => name.startsWith('/') ? name : `${basePath}${name}`;
 
   if (images.length === 1) {
-    return `    <img src="${imageSrc(images[0])}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" style="max-width:100%;border:1px solid var(--frosted-border);margin:10px 0;display:block;"/>`;
+    return `    <img class="post-image" src="${imageSrc(images[0])}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
   }
 
   const slideImgs = images
@@ -125,22 +125,22 @@ function buildPostGallery(images, category, alt) {
     })
     .join('\n');
 
-  return `    <div class="stubby-slideshow" style="position:relative;margin:12px 0;">
-  <button class="slide-btn slide-prev" onclick="postSlidePrev()">◀</button>
+  return `    <div class="stubby-slideshow">
+  <button class="slide-btn slide-prev" onclick="postSlidePrev()" aria-label="previous photo">◀</button>
   <div class="slide-track-wrapper">
     <div class="slide-track" id="post-slide-track">
 ${slideImgs}
     </div>
   </div>
-  <button class="slide-btn slide-next" onclick="postSlideNext()">▶</button>
+  <button class="slide-btn slide-next" onclick="postSlideNext()" aria-label="next photo">▶</button>
   <div class="slide-dots" id="post-slide-dots"></div>
 </div>`;
 }
 
-function galleryStyles(images, category) {
+function galleryStyles(images) {
   if (images.length <= 1) return '';
 
-  return `.stubby-slideshow{position:relative;margin-bottom:12px;}
+  return `.stubby-slideshow{position:relative;margin:12px 0;}
 .slide-track-wrapper{overflow:hidden;width:100%;max-height:400px;border:1px solid var(--frosted-border);border-radius:3px;}
 .slide-track{display:flex;transition:transform 0.4s ease;}
 .slide-img{min-width:100%;width:100%;height:auto;max-height:400px;object-fit:contain;object-position:center;background:rgba(0,0,0,0.03);flex-shrink:0;display:block;}
@@ -148,7 +148,7 @@ function galleryStyles(images, category) {
 .slide-prev{left:4px;}
 .slide-next{right:4px;}
 .slide-dots{display:flex;justify-content:center;gap:5px;margin-top:6px;}
-.slide-dot{width:6px;height:6px;border-radius:50%;background:var(--pink-pale);border:1px solid var(--pink);cursor:pointer;}
+.slide-dot{display:block;width:6px;height:6px;padding:0;border-radius:50%;background:var(--pink-pale);border:1px solid var(--pink);cursor:pointer;}
 .slide-dot.active{background:var(--pink);}
 `;
 }
@@ -191,10 +191,19 @@ body{background:linear-gradient(135deg,#a8e6a3 0%,#c9e8c5 25%,#e8ddd5 50%,#f2c4c
 .post-content p{margin-bottom:12px;}
 .post-content img{max-width:100%;border:1px solid var(--frosted-border);margin:8px 0;display:block;}
 .post-content a{color:var(--pink);text-decoration:underline dotted;}
+.post-list{list-style:none;padding:0;margin-bottom:14px;}
+.post-list li{margin-bottom:4px;}
+.post-list-lately{font-size:14px;line-height:1.75;}
+.post-lately-title{font-family:'Press Start 2P',monospace;font-size:8px;color:var(--pixel-label2);margin-bottom:16px;}
+.post-section-label{font-family:'Press Start 2P',monospace;font-size:7px;color:var(--pixel-label2);margin-bottom:8px;}
+.post-heart-divider{text-align:center;color:var(--muted);margin:14px 0;letter-spacing:4px;}
+.post-note-divider{border-top:1px dashed rgba(160,144,152,0.45);margin:14px 0 10px;}
+.post-note{font-style:italic;color:var(--muted);}
+.post-image{max-width:100%;margin:12px 0;display:block;border:1px solid var(--frosted-border);}
 .post-footer{margin-top:18px;padding-top:12px;border-top:1px dashed rgba(160,144,152,0.45);display:flex;justify-content:space-between;align-items:center;}
 .post-back{font-size:12px;color:var(--muted);text-decoration:none;}
 .post-back:hover{color:var(--pink);}
-${galleryStyles(images, category)}#cat-strip{position:fixed;bottom:0;left:0;width:100%;height:48px;pointer-events:none;z-index:9990;overflow:hidden;}
+${galleryStyles(images)}#cat-strip{position:fixed;bottom:0;left:0;width:100%;height:48px;pointer-events:none;z-index:9990;overflow:hidden;}
 .cat-walker{position:absolute;bottom:6px;font-family:'Press Start 2P',monospace;font-size:9px;color:rgba(139,58,90,0.55);pointer-events:none;user-select:none;white-space:nowrap;}
 #cat-toggle{font-family:'Press Start 2P',monospace;font-size:9px;background:none;border:none;cursor:pointer;padding:0 4px;color:#a09098;opacity:0.7;line-height:1;}
 #cat-toggle:hover{opacity:1;}
@@ -204,6 +213,8 @@ ${galleryStyles(images, category)}#cat-strip{position:fixed;bottom:0;left:0;widt
 .marquee-wrap{display:inline-block;}
 @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 .marquee-wrap.scrolling{animation:marquee 9s linear infinite;}
+:where(a,button,input,[role="button"]):focus-visible{outline:2px solid rgba(90,170,106,0.78);outline-offset:3px;}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;}.marquee-wrap.scrolling{animation:none!important;}}
 @media(max-width:1240px) and (min-width:769px){#panel-player{position:static!important;width:min(280px,calc(100vw - 40px))!important;margin:16px auto 0!important;}}
 @media(max-width:768px){#panel-player:not(.open){display:none!important;}}</style>
 </head>

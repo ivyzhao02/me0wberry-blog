@@ -123,6 +123,12 @@
           <span class="nav-item-label">favs</span>
         </div>
 
+        <!-- projects -->
+        <div class="nav-item" data-opens="panel-projects" onclick="openPanel('panel-projects')">
+          <img class="nav-icon nav-icon-img" src="/images/ui-icons/projects.png" alt="" aria-hidden="true">
+          <span class="nav-item-label">projects</span>
+        </div>
+
         <!-- info -->
         <a class="nav-item" href="/info">
           <img class="nav-icon nav-icon-img" src="/images/ui-icons/info.png" alt="" aria-hidden="true">
@@ -243,7 +249,11 @@
             </div>
             <div class="currently-row">
               <span class="currently-label">planning</span>
-              <span>activities w my <span class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')">♡</span>
+              <span>activities w my <span class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')">♡</span></span>
+            </div>
+            <div class="currently-row">
+              <span class="currently-label">helping</span>
+              <span class="project-inline-link" onclick="openPanel('panel-projects')">blightfall ˖°</span>
             </div>
           </div><!-- /bio-about -->
 
@@ -471,15 +481,15 @@
           <div class="pixel-tag">/ stubby</div>
           <div class="panel-heading">stubby ˚₊·</div>
           <div class="stubby-slideshow">
-            <button class="slide-btn slide-prev" onclick="stubbyPrev()">◀</button>
+            <button class="slide-btn slide-prev" onclick="stubbyPrev()" aria-label="previous stubby photo">◀</button>
             <div class="slide-track-wrapper">
               <div class="slide-track" id="stubby-track">
-                <img src="images/stubby/IMG_5499.JPG" alt="stubby" class="slide-img"/>
-                <img src="images/stubby/IMG_5535.JPG" alt="stubby" class="slide-img"/>
-                <img src="images/stubby/IMG_5725.JPG" alt="stubby" class="slide-img"/>
+                <img src="images/stubby/IMG_5499.JPG" alt="stubby" class="slide-img" loading="eager" decoding="async"/>
+                <img data-src="images/stubby/IMG_5535.JPG" alt="stubby" class="slide-img" loading="lazy" decoding="async"/>
+                <img data-src="images/stubby/IMG_5725.JPG" alt="stubby" class="slide-img" loading="lazy" decoding="async"/>
               </div>
             </div>
-            <button class="slide-btn slide-next" onclick="stubbyNext()">▶</button>
+            <button class="slide-btn slide-next" onclick="stubbyNext()" aria-label="next stubby photo">▶</button>
             <div class="slide-dots" id="stubby-dots"></div>
           </div>
           <hr class="plain-divider"/>
@@ -579,6 +589,33 @@
           <hr class="dashed-divider"/>
           <div class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')" style="text-align:center; padding:8px 0; font-size:13px; color:var(--muted);">
             ♡ him
+          </div>
+        </div>
+        <div class="panel-resize">···</div>
+      </div>
+
+      <!-- ──────────────────────────────
+           Projects Panel
+      ────────────────────────────── -->
+      <div class="panel" id="panel-projects" style="top:20px; left:18px; width:440px;">
+        <div class="panel-titlebar">
+          <span class="panel-title">/ projects</span>
+          <div class="panel-close" onclick="closePanel('panel-projects')">✕</div>
+        </div>
+        <div class="panel-body">
+          <div class="pixel-tag">/ community projects</div>
+          <div class="panel-heading">projects ₊˚⊹</div>
+
+          <div class="project-card">
+            <div class="project-card-header">
+              <img class="project-card-icon" src="/images/ui-icons/projects.png" alt="" aria-hidden="true">
+              <div>
+                <div class="project-card-title">blightfall</div>
+                <div class="project-card-role">community management &amp; operations lead</div>
+              </div>
+            </div>
+            <p class="project-card-copy">helping keep a roblox game project moving behind the scenes , across its community , operations &amp; development planning ˖°</p>
+            <a class="pixel-btn project-card-link" href="https://blightfall.ca" target="_blank" rel="noopener">check out the development ↗</a>
           </div>
         </div>
         <div class="panel-resize">···</div>
