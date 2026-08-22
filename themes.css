@@ -1,0 +1,256 @@
+:root[data-theme="strawberry-milk"] {
+  --pink: #d96c91;
+  --pink-light: #f4a8be;
+  --pink-pale: #ffe1e9;
+  --green: #8da77b;
+  --green-light: #c9d7ba;
+  --sage: #a9b895;
+  --sage-soft: #dde7d3;
+  --sage-pale: #f1f5eb;
+  --matcha: #aebd83;
+  --cream: #fff9f7;
+  --heading: #873d5a;
+  --body: #4f3d45;
+  --muted: #765f69;
+  --pixel-label: #af5477;
+  --pixel-label2: #c56b8b;
+  --frosted-bg: rgba(255, 249, 251, 0.56);
+  --frosted-border: rgba(255, 255, 255, 0.78);
+  --chrome-highlight: rgba(255, 255, 255, 0.9);
+  --chrome-shadow: rgba(135, 61, 90, 0.14);
+  --chrome-line: rgba(217, 108, 145, 0.34);
+  --chrome-inset: rgba(255, 255, 255, 0.84);
+  --theme-desktop-bg: linear-gradient(135deg, #fff8f6 0%, #fbe9ed 26%, #f8d8e2 55%, #f4bfd0 78%, #ed9db8 100%);
+  --theme-topbar-bg: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,238,244,0.62));
+  --theme-sidebar-bg: linear-gradient(150deg, rgba(255,249,250,0.78), rgba(247,211,223,0.48));
+  --theme-panel-bg: linear-gradient(145deg, rgba(255,255,255,0.6), rgba(255,226,235,0.34)), var(--frosted-bg);
+  --theme-titlebar-bg: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,233,240,0.5));
+  --theme-surface-bg: linear-gradient(145deg, rgba(255,255,255,0.7), rgba(255,226,235,0.3));
+  --theme-control-bg: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,225,235,0.58));
+  --theme-active-bg: linear-gradient(90deg, rgba(255,255,255,0.78), rgba(247,198,215,0.48));
+  --theme-taskbar-bg: linear-gradient(180deg, rgba(255,250,251,0.88), rgba(245,198,215,0.74));
+  --theme-border: rgba(217, 108, 145, 0.3);
+  --theme-shadow: rgba(135, 61, 90, 0.13);
+}
+
+:root[data-theme="matcha-cream"] {
+  --pink: #c87991;
+  --pink-light: #e7a6b7;
+  --pink-pale: #f5d6dd;
+  --green: #658a55;
+  --green-light: #b8cc9d;
+  --sage: #8fa875;
+  --sage-soft: #d5e1c0;
+  --sage-pale: #edf2df;
+  --matcha: #8da454;
+  --cream: #fbf7e9;
+  --heading: #58643f;
+  --body: #45463a;
+  --muted: #686759;
+  --pixel-label: #6f8655;
+  --pixel-label2: #879e67;
+  --frosted-bg: rgba(250, 248, 232, 0.58);
+  --frosted-border: rgba(255, 253, 238, 0.76);
+  --chrome-highlight: rgba(255, 253, 238, 0.86);
+  --chrome-shadow: rgba(77, 94, 54, 0.14);
+  --chrome-line: rgba(126, 151, 91, 0.38);
+  --chrome-inset: rgba(255, 253, 238, 0.8);
+  --theme-desktop-bg: linear-gradient(135deg, #dce9cc 0%, #edf0d6 27%, #f7f0d9 55%, #e7dbc2 78%, #c6d39e 100%);
+  --theme-topbar-bg: linear-gradient(180deg, rgba(255,253,239,0.84), rgba(226,235,203,0.62));
+  --theme-sidebar-bg: linear-gradient(150deg, rgba(239,245,221,0.76), rgba(250,239,215,0.5));
+  --theme-panel-bg: linear-gradient(145deg, rgba(255,253,239,0.6), rgba(216,229,191,0.34)), var(--frosted-bg);
+  --theme-titlebar-bg: linear-gradient(180deg, rgba(255,253,239,0.82), rgba(224,234,199,0.5));
+  --theme-surface-bg: linear-gradient(145deg, rgba(255,253,239,0.68), rgba(215,228,188,0.34));
+  --theme-control-bg: linear-gradient(180deg, rgba(255,253,239,0.9), rgba(222,232,198,0.58));
+  --theme-active-bg: linear-gradient(90deg, rgba(255,253,239,0.76), rgba(194,212,159,0.5));
+  --theme-taskbar-bg: linear-gradient(180deg, rgba(251,248,232,0.9), rgba(201,215,169,0.76));
+  --theme-border: rgba(111, 134, 85, 0.34);
+  --theme-shadow: rgba(77, 94, 54, 0.14);
+}
+
+:root[data-theme="cyberpunk"] {
+  color-scheme: dark;
+  --pink: #ff5fa2;
+  --pink-light: #ff91c0;
+  --pink-pale: #5b2940;
+  --green: #76f7c8;
+  --green-light: #3a8d79;
+  --sage: #6bd3a0;
+  --sage-soft: #234c43;
+  --sage-pale: #18322f;
+  --matcha: #b9ef67;
+  --cream: #141720;
+  --heading: #ff8fbd;
+  --body: #f0e8ee;
+  --muted: #b7a8b3;
+  --pixel-label: #ff70aa;
+  --pixel-label2: #8af4cf;
+  --frosted-bg: rgba(15, 20, 30, 0.78);
+  --frosted-border: rgba(118, 247, 200, 0.28);
+  --chrome-highlight: rgba(255, 143, 189, 0.22);
+  --chrome-shadow: rgba(0, 0, 0, 0.36);
+  --chrome-line: rgba(118, 247, 200, 0.34);
+  --chrome-inset: rgba(255, 255, 255, 0.08);
+  --theme-desktop-bg: linear-gradient(135deg, #09101d 0%, #111b28 28%, #1b1830 55%, #2a142c 78%, #101a22 100%);
+  --theme-topbar-bg: linear-gradient(180deg, rgba(25,31,44,0.96), rgba(15,20,31,0.9));
+  --theme-sidebar-bg: linear-gradient(150deg, rgba(17,31,35,0.94), rgba(36,18,40,0.88));
+  --theme-panel-bg: linear-gradient(145deg, rgba(30,38,50,0.82), rgba(41,20,43,0.7)), var(--frosted-bg);
+  --theme-titlebar-bg: linear-gradient(180deg, rgba(35,43,56,0.94), rgba(22,27,39,0.9));
+  --theme-surface-bg: linear-gradient(145deg, rgba(30,40,49,0.86), rgba(35,24,43,0.8));
+  --theme-control-bg: linear-gradient(180deg, rgba(35,44,56,0.94), rgba(22,28,39,0.9));
+  --theme-active-bg: linear-gradient(90deg, rgba(42,70,66,0.82), rgba(63,26,53,0.8));
+  --theme-taskbar-bg: linear-gradient(180deg, rgba(22,29,40,0.97), rgba(12,17,26,0.96));
+  --theme-border: rgba(118, 247, 200, 0.3);
+  --theme-shadow: rgba(0, 0, 0, 0.34);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) body {
+  background: var(--theme-desktop-bg);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) body.welcome-page {
+  background: var(--theme-desktop-bg);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #topbar {
+  background: var(--theme-topbar-bg);
+  border-color: var(--chrome-highlight);
+  box-shadow: inset 0 -1px 0 var(--theme-border), 0 2px 10px var(--theme-shadow);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #sidebar {
+  background: var(--theme-sidebar-bg);
+  border-color: var(--chrome-highlight);
+  box-shadow: inset -1px 0 0 var(--theme-border), 7px 0 22px var(--theme-shadow);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #sidebar-header,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #mobile-back,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .panel-titlebar,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .welcome-titlebar {
+  background: var(--theme-titlebar-bg);
+  border-color: var(--theme-border);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .panel,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .welcome-window,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .post-container {
+  background: var(--theme-panel-bg);
+  border-color: var(--frosted-border);
+  box-shadow: inset 0 1px 0 var(--chrome-inset), 0 16px 34px var(--theme-shadow);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .nav-item:hover,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .nav-item.active {
+  color: var(--body);
+  background: var(--theme-active-bg);
+  border-color: var(--theme-border);
+  box-shadow: inset 3px 0 0 var(--sage), 0 5px 12px var(--theme-shadow);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .nav-item {
+  color: var(--body);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) :is(
+  .info-card,
+  .info-avatar-frame,
+  .info-art-silhouette,
+  .project-card,
+  .system-card,
+  .webgarden-card,
+  .webgarden-surprise,
+  .toybox-kaomoji-group,
+  .toybox-sticker,
+  .toybox-sticker-preview,
+  .toybox-resource-card,
+  .archive-search,
+  .archive-search-result,
+  .system-detail-list li
+) {
+  background: var(--theme-surface-bg);
+  border-color: var(--theme-border);
+  box-shadow: inset 0 1px 0 var(--chrome-inset), 0 8px 18px var(--theme-shadow);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) :is(
+  .pixel-btn,
+  .tab-btn,
+  .player-btn,
+  .toybox-filter,
+  .toybox-kaomoji,
+  .archive-search-input,
+  .archive-search-clear,
+  .skin-option,
+  .taskbar-start,
+  .taskbar-app,
+  .taskbar-window
+) {
+  color: var(--pixel-label);
+  background: var(--theme-control-bg);
+  border-color: var(--theme-border);
+  box-shadow: inset 0 1px 0 var(--chrome-inset), 0 2px 6px var(--theme-shadow);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .skin-option.is-active {
+  border-color: var(--green);
+  box-shadow: inset 3px 0 0 var(--green), inset 0 1px 0 var(--chrome-inset), 0 5px 12px var(--theme-shadow);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) :is(
+  .pixel-tag,
+  .post-pixel-tag,
+  .info-chip
+) {
+  color: var(--pixel-label2);
+  background: var(--theme-control-bg);
+  border-color: var(--theme-border);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #bottom-taskbar {
+  background: var(--theme-taskbar-bg);
+  border-color: var(--chrome-highlight);
+  box-shadow: inset 0 1px 0 var(--chrome-inset), 0 -8px 24px var(--theme-shadow);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .welcome-avatar-well {
+  background: radial-gradient(circle at 35% 24%, var(--chrome-highlight), transparent 35%), var(--theme-surface-bg);
+  border-color: var(--theme-border);
+  box-shadow: inset 0 1px 0 var(--chrome-inset), 0 10px 24px var(--theme-shadow);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .welcome-meta {
+  color: var(--muted);
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .post-titlebar,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #panel-player .panel-titlebar {
+  background: var(--theme-titlebar-bg) !important;
+  border-color: var(--theme-border) !important;
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #panel-player {
+  color: var(--body);
+  background: var(--theme-panel-bg) !important;
+  border-color: var(--frosted-border) !important;
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #panel-player .player-btn {
+  color: var(--pixel-label) !important;
+  background: var(--theme-control-bg) !important;
+  border-color: var(--theme-border) !important;
+}
+
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #panel-player .player-range {
+  background: var(--theme-active-bg) !important;
+}
+
+:root[data-theme="cyberpunk"] :is(.bg-deco, .welcome-meta, #topbar-title) {
+  text-shadow: 0 0 9px rgba(118, 247, 200, 0.36);
+}
+
+:root[data-theme="cyberpunk"] :is(.panel-close, .tb-btn, .welcome-window-controls span) {
+  color: var(--green);
+  background: rgba(20, 28, 39, 0.9);
+  border-color: rgba(255, 95, 162, 0.34);
+}

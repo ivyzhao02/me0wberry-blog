@@ -19,3 +19,5 @@ Post Studio writes posts into `posts/<category>/`, updates the matching `index.j
 - `/webgarden/` holds saved handmade sites, the growing button shelf, and Surprise Me.
 - `/toybox/` holds copyable kaomoji, saved graphics, and desktop resources.
 - `/archive/` provides category browsing and keyword search; `/feed.xml` provides the RSS feed with a browser-friendly view from `/feed.xsl`.
+
+Visitor desktop skins are selected in `/system/` and saved in the browser. New public pages should load `theme-loader.js` before the main stylesheet and `themes.css` after it; Post Studio adds both files to future posts automatically.

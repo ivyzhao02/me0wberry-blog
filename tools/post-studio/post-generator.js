@@ -179,9 +179,11 @@ function buildPostHtml(post) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${safeTitle} — me0wberry</title>
 <link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../../feed.xml">
+<script src="../../theme-loader.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../themes.css" data-site-themes>
 <style>
 :root{--pink:#e07090;--pink-light:#f4a8b8;--pink-pale:#ffd0de;--green:#5aaa6a;--green-light:#a8d8a0;--cream:#fdf6f0;--heading:#8b3a5a;--body:#4a3a42;--muted:#a09098;--pixel-label:#b05a7a;--pixel-label2:#c07090;--frosted-bg:rgba(255,255,255,0.42);--frosted-border:rgba(255,255,255,0.68);}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}

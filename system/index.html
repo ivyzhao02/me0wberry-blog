@@ -6,10 +6,12 @@
   <title>system properties — me0wberry</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../feed.xml">
+  <script src="../theme-loader.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../themes.css" data-site-themes>
   <style>
     #main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
     @media (max-width: 768px) {
@@ -64,13 +66,14 @@
 
           <div class="system-overview-grid">
             <div class="system-card"><div class="system-card-label">status</div><div class="system-card-value">online ♡</div></div>
-            <div class="system-card"><div class="system-card-label">theme</div><div class="system-card-value">me0wberry main</div></div>
+            <div class="system-card"><div class="system-card-label">theme</div><div class="system-card-value" id="current-theme-name">me0wberry main</div></div>
             <div class="system-card"><div class="system-card-label">build</div><div class="system-card-value">handmade static site</div></div>
             <div class="system-card"><div class="system-card-label">since</div><div class="system-card-value">march 2026</div></div>
           </div>
 
           <nav class="system-jump-links" aria-label="system sections">
             <a class="pixel-btn" href="#colophon">colophon</a>
+            <a class="pixel-btn" href="#skins">skins</a>
             <a class="pixel-btn" href="#credits">credits</a>
             <a class="pixel-btn" href="#resources">resources</a>
             <a class="pixel-btn" href="#old-versions">old versions</a>
@@ -87,6 +90,30 @@
               <li><strong>hosting</strong>GitHub Pages</li>
               <li><strong>default skin</strong>me0wberry main</li>
             </ul>
+          </section>
+
+          <section class="system-section" id="skins" aria-labelledby="skins-title">
+            <h2 class="system-section-title" id="skins-title">desktop skins / choose one</h2>
+            <p class="info-profile-copy">saved in this browser , so the site remembers what you picked ♡</p>
+            <div class="skin-picker" aria-label="site colour theme">
+              <button class="skin-option" type="button" data-theme-choice="main" aria-pressed="false">
+                <span class="skin-option-preview skin-option-preview-main" aria-hidden="true"></span>
+                <span><strong>me0wberry main</strong><small>pink + green original</small></span>
+              </button>
+              <button class="skin-option" type="button" data-theme-choice="strawberry-milk" aria-pressed="false">
+                <span class="skin-option-preview skin-option-preview-strawberry" aria-hidden="true"></span>
+                <span><strong>strawberry milk</strong><small>blush pink + cream</small></span>
+              </button>
+              <button class="skin-option" type="button" data-theme-choice="matcha-cream" aria-pressed="false">
+                <span class="skin-option-preview skin-option-preview-matcha" aria-hidden="true"></span>
+                <span><strong>matcha cream</strong><small>soft green + warm cream</small></span>
+              </button>
+              <button class="skin-option" type="button" data-theme-choice="cyberpunk" aria-pressed="false">
+                <span class="skin-option-preview skin-option-preview-cyberpunk" aria-hidden="true"></span>
+                <span><strong>cyberpunk</strong><small>dark chrome + neon accents</small></span>
+              </button>
+            </div>
+            <div class="skin-picker-status" id="theme-picker-status" aria-live="polite">me0wberry main selected</div>
           </section>
 
           <section class="system-section" id="credits" aria-labelledby="credits-title">
@@ -221,6 +248,7 @@
               <li>rss has a proper pink + green reading view now instead of plain xml ✿</li>
               <li>opened the toybox for kaomoji , pixels + desktop treats ☆</li>
               <li>the frugal gamer's resource shelf joined the webgarden ✿</li>
+              <li>added strawberry milk , matcha cream + cyberpunk desktop skins ♡</li>
             </ul>
           </section>
         </div>

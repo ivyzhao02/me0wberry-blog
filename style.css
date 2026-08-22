@@ -2461,6 +2461,62 @@ a.toybox-resource-card:hover {
   font-weight: 700;
 }
 
+.skin-picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 11px;
+}
+
+.skin-option {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 11px;
+  padding: 10px;
+  color: var(--body);
+  border: 1px solid rgba(192,112,144,0.24);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.4);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
+  font: inherit;
+  text-align: left;
+  transition: transform 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+.skin-option:hover { transform: translateY(-1px); }
+
+.skin-option.is-active {
+  border-color: rgba(143,175,120,0.64);
+  box-shadow: inset 3px 0 0 var(--sage), inset 0 1px 0 rgba(255,255,255,0.82), 0 5px 12px rgba(91,113,78,0.1);
+}
+
+.skin-option-preview {
+  width: 42px;
+  height: 32px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255,255,255,0.82);
+  border-radius: 9px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.72), 0 3px 8px rgba(122,58,82,0.1);
+}
+
+.skin-option-preview-main { background: linear-gradient(135deg, #a8e6a3, #eee2dc 50%, #f4a8b8); }
+.skin-option-preview-strawberry { background: linear-gradient(135deg, #fff8f6, #f8d8e2 50%, #ed9db8); }
+.skin-option-preview-matcha { background: linear-gradient(135deg, #dce9cc, #f7f0d9 52%, #aabb78); }
+.skin-option-preview-cyberpunk { background: linear-gradient(135deg, #09101d, #ff5fa2 52%, #76f7c8); }
+
+.skin-option strong,
+.skin-option small { display: block; }
+.skin-option strong { color: var(--heading); font-family: var(--font-heading); font-size: 13px; }
+.skin-option small { margin-top: 2px; color: var(--muted); font-size: 10px; }
+
+.skin-picker-status {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 10px;
+  text-align: right;
+}
+
 .system-detail-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2509,6 +2565,10 @@ a.toybox-resource-card:hover {
   .system-overview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+@media (max-width: 520px) {
+  .skin-picker { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 620px) {
