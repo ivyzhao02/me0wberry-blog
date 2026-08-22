@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.35" />
@@ -12,7 +12,7 @@
             <tr>
                 <td>Name: <b id="petName"></b></td>
                 <td>Born: <b id="dob"></b></td>
-                <td><img class="uiicon" src="ui/zap.png" />: <b id="element"></b></td>
+                <td><img class="uiicon" src="ui/zap.png" alt="" aria-hidden="true" />: <b id="element"></b></td>
             </tr>
             <tr>
                 <td>Mood: <b id="mood"></b></td>
@@ -29,18 +29,18 @@
                         </div>
                     </div>
                     <div id="overlay"></div>
-                    <div onclick="pettPet();" id="overlay-pet-interact"></div>
+                    <div onclick="pettPet();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();pettPet();}" id="overlay-pet-interact" role="button" tabindex="0" aria-label="pet the virtual pet"></div>
                 </td>
 
                 <td class="controls">
                     <b>Shop: (5c)</b>
-                    <img class="shopitem" src="ui/burger.png" onclick="feedPet(0);" />
-                    <img class="shopitem" src="ui/meat.png" onclick="feedPet(0);" />
-                    <img class="shopitem" src="ui/coke.png" onclick="feedPet(3);" />
+                    <img class="shopitem" src="ui/burger.png" alt="buy burger" role="button" tabindex="0" onclick="feedPet(0);" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();feedPet(0);}" />
+                    <img class="shopitem" src="ui/meat.png" alt="buy meat" role="button" tabindex="0" onclick="feedPet(0);" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();feedPet(0);}" />
+                    <img class="shopitem" src="ui/coke.png" alt="buy soda" role="button" tabindex="0" onclick="feedPet(3);" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();feedPet(3);}" />
                     <br />
-                    <img class="shopitem" src="ui/bread.png" onclick="feedPet(2);" />
-                    <img class="shopitem" src="ui/muffin.png" onclick="feedPet(1);" />
-                    <img class="shopitem" src="ui/icecream.png" onclick="feedPet(1);" />
+                    <img class="shopitem" src="ui/bread.png" alt="buy bread" role="button" tabindex="0" onclick="feedPet(2);" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();feedPet(2);}" />
+                    <img class="shopitem" src="ui/muffin.png" alt="buy muffin" role="button" tabindex="0" onclick="feedPet(1);" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();feedPet(1);}" />
+                    <img class="shopitem" src="ui/icecream.png" alt="buy ice cream" role="button" tabindex="0" onclick="feedPet(1);" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();feedPet(1);}" />
                     <b>Actions:</b>
                     <input type="button" value="Hello" onclick="talkToPet();" />
                     <input type="button" value="Wash 10c" onclick="showerPet();" />
@@ -49,7 +49,7 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <textarea id="talk" disabled="true"></textarea>
+                    <textarea id="talk" disabled="true" aria-label="virtual pet messages"></textarea>
                 </td>
             </tr>
         </table>

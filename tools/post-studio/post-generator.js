@@ -228,11 +228,12 @@ ${galleryStyles(images)}#cat-strip{position:fixed;bottom:0;left:0;width:100%;hei
 @media(max-width:768px){#panel-player:not(.open){display:none!important;}}</style>
 </head>
 <body>
-<div class="post-container">
+<a class="skip-link" href="#main">skip to content</a>
+<main class="post-container" id="main" tabindex="-1">
   <div class="post-titlebar" style="display:flex;align-items:center;justify-content:space-between;"><span class="post-titlebar-text">${safeCategory} · ${safeTitle}</span><button id="cat-toggle" onclick="toggleCats()" title="hide cats" style="cursor:pointer;">🐱</button></div>
   <div class="post-body">
     <div class="post-pixel-tag">/ ${safeCategory}</div>
-    <div class="post-heading">${safeTitle}</div>
+    <h1 class="post-heading">${safeTitle}</h1>
     <div class="post-date">${safeDate}</div>
     ${mainContent}
 ${mediaHtml ? `${mediaHtml}\n` : ''}    <div class="post-footer">
@@ -271,7 +272,7 @@ ${mediaHtml ? `${mediaHtml}\n` : ''}    <div class="post-footer">
     <div id="player-counter" style="font-family:'Press Start 2P',monospace;font-size:6px;color:#a09098;text-align:right;">track 1 / 5</div>
     <audio id="player-audio" preload="none"></audio>
   </div>
-</div>
+</main>
 <script src="../../script.js" data-site-root="../.."></script>
 </body>
 </html>

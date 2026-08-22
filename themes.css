@@ -1,3 +1,59 @@
+:root[data-theme="main"] {
+  --muted: #76676e;
+  --pixel-label: #a04b68;
+  --pixel-label2: #984a62;
+  --green-text: #3f7d4c;
+}
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 12000;
+  padding: 8px 11px;
+  color: var(--pixel-label);
+  border: 1px solid var(--chrome-line, rgba(192,112,144,0.42));
+  border-radius: 10px;
+  background: var(--cream);
+  box-shadow: 0 5px 16px var(--chrome-shadow, rgba(122,58,82,0.16));
+  font-family: var(--font-pixel, 'Press Start 2P', monospace);
+  font-size: 7px;
+  text-decoration: none;
+  transform: translateY(calc(-100% - 14px));
+  transition: transform 0.14s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+:where(a, button, input, select, textarea, [role="button"]):focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px var(--chrome-inset, rgba(255,255,255,0.7));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 :root[data-theme="strawberry-milk"] {
   --pink: #d96c91;
   --pink-light: #f4a8be;
@@ -13,7 +69,8 @@
   --body: #4f3d45;
   --muted: #765f69;
   --pixel-label: #af5477;
-  --pixel-label2: #c56b8b;
+  --pixel-label2: #9c4969;
+  --green-text: #607752;
   --frosted-bg: rgba(255, 249, 251, 0.56);
   --frosted-border: rgba(255, 255, 255, 0.78);
   --chrome-highlight: rgba(255, 255, 255, 0.9);
@@ -47,8 +104,9 @@
   --heading: #58643f;
   --body: #45463a;
   --muted: #686759;
-  --pixel-label: #6f8655;
-  --pixel-label2: #879e67;
+  --pixel-label: #5e7347;
+  --pixel-label2: #596d43;
+  --green-text: #526d43;
   --frosted-bg: rgba(250, 248, 232, 0.58);
   --frosted-border: rgba(255, 253, 238, 0.76);
   --chrome-highlight: rgba(255, 253, 238, 0.86);
@@ -85,6 +143,7 @@
   --muted: #b7a8b3;
   --pixel-label: #ff70aa;
   --pixel-label2: #8af4cf;
+  --green-text: #76f7c8;
   --frosted-bg: rgba(15, 20, 30, 0.78);
   --frosted-border: rgba(118, 247, 200, 0.28);
   --chrome-highlight: rgba(255, 143, 189, 0.22);

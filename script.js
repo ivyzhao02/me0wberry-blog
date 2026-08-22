@@ -70,6 +70,98 @@
       });
     });
 
+    function initAccessibility() {
+      const main = document.getElementById('main') || document.querySelector('.post-container');
+      if (main) {
+        if (!main.id) main.id = 'main';
+        main.setAttribute('role', 'main');
+        main.setAttribute('tabindex', '-1');
+
+        if (!document.querySelector('.skip-link')) {
+          const skipLink = document.createElement('a');
+          skipLink.className = 'skip-link';
+          skipLink.href = '#main';
+          skipLink.textContent = 'skip to content';
+          document.body.prepend(skipLink);
+        }
+      }
+
+      const topbar = document.getElementById('topbar');
+      if (topbar) topbar.setAttribute('role', 'banner');
+
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar) {
+        sidebar.setAttribute('role', 'navigation');
+        sidebar.setAttribute('aria-label', 'site navigation');
+      }
+
+      const updateSkipTarget = () => {
+        const skipLink = document.querySelector('.skip-link');
+        const sidebarNav = document.getElementById('sidebar-nav');
+        if (!skipLink || !main) return;
+        const useNavigation = sidebarNav && sidebar && getComputedStyle(sidebar).display !== 'none' && getComputedStyle(main).display === 'none';
+        const target = useNavigation ? sidebarNav : main;
+        target.setAttribute('tabindex', '-1');
+        skipLink.href = `#${target.id}`;
+        skipLink.textContent = useNavigation ? 'skip to navigation' : 'skip to content';
+      };
+      updateSkipTarget();
+      document.querySelector('.skip-link')?.addEventListener('focus', updateSkipTarget);
+      window.addEventListener('resize', updateSkipTarget);
+
+      const taskbar = document.getElementById('bottom-taskbar');
+      if (taskbar) {
+        taskbar.setAttribute('role', 'navigation');
+        taskbar.setAttribute('aria-label', 'desktop taskbar');
+      }
+
+      document.querySelectorAll('.panel').forEach((panel) => {
+        panel.setAttribute('role', 'region');
+        const title = panel.querySelector('.panel-title')?.textContent.trim();
+        if (title && !panel.hasAttribute('aria-label')) panel.setAttribute('aria-label', title);
+      });
+
+      document.querySelectorAll('.panel-close[onclick]').forEach((control) => {
+        if (control instanceof HTMLButtonElement) return;
+        const title = control.closest('.panel, #discord-popup')?.querySelector('.panel-title, .discord-titlebar span')?.textContent.trim();
+        control.setAttribute('role', 'button');
+        control.setAttribute('tabindex', '0');
+        control.setAttribute('aria-label', `close ${title || 'window'}`);
+        control.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          control.click();
+        });
+      });
+
+      document.querySelectorAll('.player-btn[title], .taskbar-start[title], .taskbar-app[title], #cat-toggle[title]').forEach((control) => {
+        if (control.hasAttribute('aria-label')) return;
+        const labels = { prev: 'previous track', next: 'next track' };
+        control.setAttribute('aria-label', labels[control.title] || control.title);
+      });
+
+      document.querySelectorAll('.player-range').forEach((control) => {
+        if (control.hasAttribute('aria-label')) return;
+        control.setAttribute('aria-label', control.id.includes('volume') ? 'volume' : 'track progress');
+      });
+
+      const playerTitle = document.getElementById('player-title');
+      if (playerTitle) playerTitle.setAttribute('aria-live', 'polite');
+
+      const postHeading = document.querySelector('.post-heading');
+      if (postHeading && postHeading.tagName !== 'H1') {
+        postHeading.setAttribute('role', 'heading');
+        postHeading.setAttribute('aria-level', '1');
+      } else if (!document.querySelector('h1, [role="heading"][aria-level="1"]') && main) {
+        const pageHeading = document.createElement('h1');
+        pageHeading.className = 'sr-only';
+        pageHeading.textContent = document.title.replace(/\s+[—-]\s+me0wberry.*$/i, '') || 'me0wberry.com';
+        main.prepend(pageHeading);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initAccessibility);
+
     function surpriseMe() {
       const posts = window.me0wberrySearchIndex?.posts;
       if (!Array.isArray(posts) || posts.length === 0) {

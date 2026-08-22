@@ -67,7 +67,17 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
     }
     checkReference(file, reference);
   }
+
+  for (const match of source.matchAll(/<img\b[^>]*>/gi)) {
+    if (!/\balt=["'][^"']*["']/i.test(match[0])) errors.push(`${file}: image is missing alt text`);
+  }
+
+  for (const match of source.matchAll(/<iframe\b[^>]*>/gi)) {
+    if (!/\btitle=["'][^"']+["']/i.test(match[0])) errors.push(`${file}: iframe is missing a title`);
+  }
 }
+
+if (!exactFiles.has('404.html')) errors.push('404.html: custom not-found page is missing');
 
 for (const file of relativeFiles.filter(file => file.endsWith('.css') && !file.startsWith('tools/'))) {
   const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
