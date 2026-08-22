@@ -83,6 +83,16 @@
           extras
         </span>
 
+        <a class="nav-item" href="../webgarden/index.html">
+          <span class="nav-icon webgarden-nav-icon" aria-hidden="true">✿</span>
+          <span class="nav-item-label">webgarden</span>
+        </a>
+
+        <button class="nav-item nav-item-button" type="button" onclick="surpriseMe()">
+          <span class="nav-icon surprise-icon" aria-hidden="true">✦</span>
+          <span class="nav-item-label">surprise me</span>
+        </button>
+
         <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')">
           <img class="nav-icon nav-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true">
           <span class="nav-item-label">player</span>
@@ -242,6 +252,9 @@
         </a>
         <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player">
           <img class="taskbar-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true">
+        </button>
+        <button class="taskbar-app" type="button" onclick="surpriseMe()" title="surprise me" aria-label="open a random post">
+          <span class="surprise-icon" aria-hidden="true">✦</span>
         </button>
       </div>
       <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>

@@ -46,6 +46,8 @@
         <a class="nav-item" href="../archive/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"><span class="nav-item-label">archive</span></a>
         <a class="nav-item active" href="index.html"><span class="nav-icon system-nav-icon" aria-hidden="true">✦</span><span class="nav-item-label">system</span></a>
         <span class="nav-section-label" style="margin-top:4px"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>extras</span>
+        <a class="nav-item" href="../webgarden/index.html"><span class="nav-icon webgarden-nav-icon" aria-hidden="true">✿</span><span class="nav-item-label">webgarden</span></a>
+        <button class="nav-item nav-item-button" type="button" onclick="surpriseMe()"><span class="nav-icon surprise-icon" aria-hidden="true">✦</span><span class="nav-item-label">surprise me</span></button>
         <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')"><img class="nav-icon nav-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true"><span class="nav-item-label">player</span></div>
       </div>
     </div>
@@ -91,6 +93,7 @@
             <ul class="system-resource-list">
               <li>site direction , writing &amp; photography by me0wberry ♡</li>
               <li>foodcore interface icons + repo card made for this site with image generation , then cropped &amp; adjusted for the UI</li>
+              <li>tiny walking naranya adopted from <a href="https://cinni.net/adopt" target="_blank" rel="noopener">cinni's adoption center ↗</a></li>
               <li>commissioned persona art will be credited beside each piece on the info page</li>
             </ul>
           </section>
@@ -99,8 +102,9 @@
             <h2 class="system-section-title" id="resources-title">resources / web treats</h2>
             <ul class="system-resource-list">
               <li><a href="https://gifypet.neocities.org" target="_blank" rel="noopener">GifyPet ↗</a> — the homepage pets</li>
-              <li><a href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a> — bouncing pixel cats</li>
+              <li><a href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a> — the original four bouncing pixel cats</li>
               <li><a href="../feed.xml">RSS feed ↗</a> — all monthly posts in one feed</li>
+              <li><a href="../webgarden/index.html">Webgarden ↗</a> — saved sites + a growing button drawer</li>
             </ul>
           </section>
 
@@ -210,6 +214,9 @@
               <li>fixed archive + post paths after moving everything out of onedrive , oops (ᐢ. .ᐢ)</li>
               <li>bluesky link has its new me0wberry.com home ♡</li>
               <li>website development gets its own projects card now too ♡</li>
+              <li>planted a tiny webgarden + added surprise me for wandering old posts ✿</li>
+              <li>webgarden found two more gif-filled paths + tiny naranya joined the cats (˶ᵔ ᵕ ᵔ˶)</li>
+              <li>rss has a proper pink + green reading view now instead of plain xml ✿</li>
             </ul>
           </section>
         </div>
@@ -238,11 +245,13 @@
         <a class="taskbar-app" href="../info/index.html" title="info"><img class="taskbar-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"></a>
         <a class="taskbar-app" href="../archive/index.html" title="archive"><img class="taskbar-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"></a>
         <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><img class="taskbar-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true"></button>
+        <button class="taskbar-app" type="button" onclick="surpriseMe()" title="surprise me" aria-label="open a random post"><span class="surprise-icon" aria-hidden="true">✦</span></button>
       </div>
       <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>
     </div>
   </div>
 
+  <script src="../data/search-index.js"></script>
   <script src="../script.js" data-site-root=".."></script>
 </body>
 </html>

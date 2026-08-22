@@ -5,6 +5,22 @@
       return new URL(value.slice(1), new URL(`${SITE_ROOT}/`, window.location.href)).href;
     }
 
+    function surpriseMe() {
+      const posts = window.me0wberrySearchIndex?.posts;
+      if (!Array.isArray(posts) || posts.length === 0) {
+        window.location.href = sitePath('/archive/index.html');
+        return;
+      }
+
+      const currentPath = decodeURIComponent(window.location.pathname).replace(/\\/g, '/');
+      const choices = posts.filter((post) => !currentPath.endsWith(post.url));
+      const pool = choices.length ? choices : posts;
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      window.location.href = sitePath(pick.url);
+    }
+
+    window.surpriseMe = surpriseMe;
+
     const MOBILE_BREAKPOINT = 768;
     const UTILITY_PANEL_BOTTOM_OFFSET = 72;
     const PERSISTENT_PANEL_IDS = new Set(['panel-player']);
@@ -816,7 +832,6 @@
 
 // ── Pixel Cat Strip ──
 (function() {
-  const CAT_COUNT = 4;
   const SPEED_MIN = 0.5;
   const SPEED_MAX = 1.3;
 
@@ -832,11 +847,13 @@
     document.body.appendChild(strip);
   }
 
+  // Naranya was adopted from cinni.net/adopt; visitor-facing credit lives in System.
   const CAT_GIFS = [
     sitePath('/images/cats/cat-0363.gif'),
     sitePath('/images/cats/cat-0491.gif'),
     sitePath('/images/cats/cat-0420.gif'),
     sitePath('/images/cats/cat-0421.gif'),
+    sitePath('/images/cats/naranya-walking.gif'),
   ];
 
   function createCat(index) {
@@ -865,7 +882,7 @@
     if (!strip) return;
     strip.innerHTML = '';
     cats = [];
-    for (let i = 0; i < CAT_COUNT; i++) {
+    for (let i = 0; i < CAT_GIFS.length; i++) {
       cats.push(createCat(i));
     }
   }
