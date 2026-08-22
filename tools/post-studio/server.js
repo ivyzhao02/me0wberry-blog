@@ -7,6 +7,7 @@ const {
   createPostRecord,
   slugify,
 } = require('./post-generator');
+const { buildSiteData } = require('../build-site-data');
 
 const PORT = Number(process.env.PORT || 8124);
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -142,7 +143,7 @@ function createPost(payload) {
 
   if (!isLately && !content) throw new Error('Content is required.');
   if (isLately && (!lately.whereAt || !lately.intoText)) {
-    throw new Error('Lately posts need both "where I am at" and "what I am into".');
+    throw new Error('Now posts need both "where I am at" and "what I am into".');
   }
 
   const uploadedImages = Array.isArray(payload.images) ? payload.images : [];
@@ -161,6 +162,7 @@ function createPost(payload) {
   const posts = fs.existsSync(indexPath)
     ? JSON.parse(fs.readFileSync(indexPath, 'utf8'))
     : [];
+  const originalIndex = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, 'utf8') : null;
 
   let writtenImages = [];
   try {
@@ -181,6 +183,7 @@ function createPost(payload) {
     const record = createPostRecord(postRelPath, title, date, slug, galleryImages);
     posts.unshift(record);
     writeTextFileAtomic(indexPath, `${JSON.stringify(posts, null, 2)}\n`);
+    buildSiteData();
 
     return {
       post: postRelPath.split(path.sep).join('/'),
@@ -192,6 +195,13 @@ function createPost(payload) {
       removeFileIfExists(path.join(ROOT, image.sitePath.replace(/^\//, '').replace(/\//g, path.sep)));
     });
     removeFileIfExists(postAbsPath);
+    if (originalIndex === null) removeFileIfExists(indexPath);
+    else writeTextFileAtomic(indexPath, originalIndex);
+    try {
+      buildSiteData();
+    } catch (refreshError) {
+      console.error('Could not restore generated site data after a failed post.', refreshError);
+    }
     throw error;
   }
 }

@@ -1,21 +1,27 @@
 ﻿    // ── Site Config ──
+    const SITE_ROOT = document.currentScript && document.currentScript.dataset.siteRoot;
+    function sitePath(value) {
+      if (!SITE_ROOT || !value.startsWith('/')) return value;
+      return new URL(value.slice(1), new URL(`${SITE_ROOT}/`, window.location.href)).href;
+    }
+
     const MOBILE_BREAKPOINT = 768;
     const UTILITY_PANEL_BOTTOM_OFFSET = 72;
     const PERSISTENT_PANEL_IDS = new Set(['panel-player']);
     const GIFYPET_PANEL_IDS = new Set(['panel-gifypet', 'panel-josh']);
     const TASKBAR_PANEL_META = {
-      'panel-bio': { label: 'hello', icon: '/images/ui-icons/hello.png', order: 10 },
-      'panel-lately': { label: 'lately', icon: '/images/ui-icons/lately.png', order: 20 },
-      'panel-favs': { label: 'favs', icon: '/images/ui-icons/favs.png', order: 30 },
-      'panel-projects': { label: 'projects', icon: '/images/ui-icons/projects.png', order: 35 },
-      'panel-games': { label: 'games', icon: '/images/ui-icons/games.png', order: 40 },
-      'panel-music': { label: 'music', icon: '/images/ui-icons/music.png', order: 50 },
-      'panel-food': { label: 'food', icon: '/images/ui-icons/food.png', order: 60 },
-      'panel-stubby': { label: 'stubby', icon: '/images/ui-icons/stubby.png', order: 70 },
-      'panel-beauty': { label: 'beauty', icon: '/images/ui-icons/beauty.png', order: 80 },
-      'panel-gifypet': { label: 'stubby pet', icon: '/images/ui-icons/gifypets.png', order: 90 },
-      'panel-josh': { label: 'cactus pet', icon: '/images/ui-icons/gifypets.png', order: 100 },
-      'panel-player': { label: 'player', icon: '/images/ui-icons/player.png', order: 110 }
+      'panel-bio': { label: 'hello', icon: sitePath('/images/ui-icons/hello.png'), order: 10 },
+      'panel-lately': { label: 'now', icon: sitePath('/images/ui-icons/lately.png'), order: 20 },
+      'panel-favs': { label: 'favs', icon: sitePath('/images/ui-icons/favs.png'), order: 30 },
+      'panel-projects': { label: 'projects', icon: sitePath('/images/ui-icons/projects.png'), order: 35 },
+      'panel-games': { label: 'games', icon: sitePath('/images/ui-icons/games.png'), order: 40 },
+      'panel-music': { label: 'music', icon: sitePath('/images/ui-icons/music.png'), order: 50 },
+      'panel-food': { label: 'food', icon: sitePath('/images/ui-icons/food.png'), order: 60 },
+      'panel-stubby': { label: 'stubby', icon: sitePath('/images/ui-icons/stubby.png'), order: 70 },
+      'panel-beauty': { label: 'beauty', icon: sitePath('/images/ui-icons/beauty.png'), order: 80 },
+      'panel-gifypet': { label: 'stubby pet', icon: sitePath('/images/ui-icons/gifypets.png'), order: 90 },
+      'panel-josh': { label: 'cactus pet', icon: sitePath('/images/ui-icons/gifypets.png'), order: 100 },
+      'panel-player': { label: 'player', icon: sitePath('/images/ui-icons/player.png'), order: 110 }
     };
 
     // ── Z-index ──
@@ -42,6 +48,7 @@
       const keepGifypets = options.keepGifypets || false;
 
       document.querySelectorAll('.panel.open').forEach(p => {
+        if (p.hasAttribute('data-static-panel')) return;
         if (isPersistentPanel(p)) return;
         if (keepGifypets && isGifypetPanel(p)) return;
         p.classList.remove('open');
@@ -376,11 +383,11 @@
 
     // ── Audio Player ──
     const tracks = [
-      { src: '/audio/please-dont-stop.mp3',    title: "please don't stop being sweet to me · lace" },
-      { src: '/audio/forever-and.mp3',          title: 'forever & · EJEAN' },
-      { src: '/audio/huayuan-meteor-rain.mp3',  title: '花园裡的流星雨 · Karencici' },
-      { src: '/audio/tianshi-jiazaizhong.mp3',  title: '天使加载中...^_−☆ · Angels of Delusion' },
-      { src: '/audio/redreaming-angel.mp3',     title: 'ReDreaming Angel · Angels of Delusion' },
+      { src: sitePath('/audio/please-dont-stop.mp3'),    title: "please don't stop being sweet to me · lace" },
+      { src: sitePath('/audio/forever-and.mp3'),          title: 'forever & · EJEAN' },
+      { src: sitePath('/audio/huayuan-meteor-rain.mp3'),  title: '花园裡的流星雨 · Karencici' },
+      { src: sitePath('/audio/tianshi-jiazaizhong.mp3'),  title: '天使加载中...^_−☆ · Angels of Delusion' },
+      { src: sitePath('/audio/redreaming-angel.mp3'),     title: 'ReDreaming Angel · Angels of Delusion' },
     ];
     let currentTrack = 0;
     const audio       = document.getElementById('player-audio');
@@ -763,11 +770,11 @@
     { char:'⋆',  l:89, t:55, s:15, o:0.39, r:11  },
     { char:'✩',  l:16, t:91, s:14, o:0.41, r:6   },
     { char:'★',  l:57, t:93, s:17, o:0.36, r:-9  },
-    { gif:'/images/cats/cat-0363.gif', l:11, t:79, o:0.33 },
-    { gif:'/images/cats/cat-0491.gif', l:56, t:36, o:0.33 },
-    { gif:'/images/cats/cat-0420.gif', l:81, t:29, o:0.33 },
-    { gif:'/images/cats/cat-0421.gif', l:33, t:88, o:0.33 },
-    { gif:'/images/cats/cat-0363.gif', l:68, t:15, o:0.33 },
+    { gif:sitePath('/images/cats/cat-0363.gif'), l:11, t:79, o:0.33 },
+    { gif:sitePath('/images/cats/cat-0491.gif'), l:56, t:36, o:0.33 },
+    { gif:sitePath('/images/cats/cat-0420.gif'), l:81, t:29, o:0.33 },
+    { gif:sitePath('/images/cats/cat-0421.gif'), l:33, t:88, o:0.33 },
+    { gif:sitePath('/images/cats/cat-0363.gif'), l:68, t:15, o:0.33 },
   ];
 
   // Don't inject if index.html already has bg-decos hardcoded
@@ -837,10 +844,10 @@
   }
 
   const CAT_GIFS = [
-    '/images/cats/cat-0363.gif',
-    '/images/cats/cat-0491.gif',
-    '/images/cats/cat-0420.gif',
-    '/images/cats/cat-0421.gif',
+    sitePath('/images/cats/cat-0363.gif'),
+    sitePath('/images/cats/cat-0491.gif'),
+    sitePath('/images/cats/cat-0420.gif'),
+    sitePath('/images/cats/cat-0421.gif'),
   ];
 
   function createCat(index) {

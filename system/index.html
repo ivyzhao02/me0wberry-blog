@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>system properties — me0wberry</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../feed.xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    #main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
+    @media (max-width: 768px) {
+      #layout { height: calc(100dvh - 59px); min-height: 0; overflow: hidden; }
+      #main { display: block !important; flex: 1 1 0; height: 100%; max-height: 100%; min-height: 0; overflow-y: auto; padding-bottom: 0; }
+      #sidebar { display: none; }
+      #mobile-back { display: flex !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="topbar">
+    <span id="topbar-title">© me0wberry 2026</span>
+    <span id="topbar-tag">(=^･^=) · me0wberry.com</span>
+    <div id="topbar-btns">
+      <button id="cat-toggle" onclick="toggleCats()" title="hide cats">🐱</button>
+      <div class="tb-btn">_</div><div class="tb-btn">□</div><div class="tb-btn">✕</div>
+    </div>
+  </div>
+
+  <div id="mobile-back" onclick="window.history.back()" style="display:none;">← back</div>
+
+  <div id="layout">
+    <div id="sidebar">
+      <div id="sidebar-header">
+        <div id="sidebar-name">me0wberry</div>
+        <div id="sidebar-sub">₍^. .^₎⟆ · markham · she/her · ilmbf ♡✧˚.</div>
+      </div>
+      <div id="sidebar-nav">
+        <span class="nav-section-label"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>pages</span>
+        <a class="nav-item" href="../index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/home.png" alt="" aria-hidden="true"><span class="nav-item-label">home</span></a>
+        <a class="nav-item" href="../now/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"><span class="nav-item-label">now</span></a>
+        <a class="nav-item" href="../info/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"><span class="nav-item-label">info</span></a>
+        <a class="nav-item" href="../archive/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"><span class="nav-item-label">archive</span></a>
+        <a class="nav-item active" href="index.html"><span class="nav-icon system-nav-icon" aria-hidden="true">✦</span><span class="nav-item-label">system</span></a>
+        <span class="nav-section-label" style="margin-top:4px"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>extras</span>
+        <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')"><img class="nav-icon nav-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true"><span class="nav-item-label">player</span></div>
+      </div>
+    </div>
+
+    <div id="main">
+      <div class="panel open system-page-panel" id="panel-system" data-static-panel>
+        <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">/ system properties</span></div>
+        <div class="panel-body">
+          <a href="../index.html" class="page-back-link">← home</a>
+          <div class="pixel-tag">/ system</div>
+          <h1 class="panel-heading">system properties ₊˚⊹</h1>
+          <p class="info-profile-copy">the little behind-the-scenes drawer for how this site is made , where its pieces came from &amp; how it keeps changing ˖°</p>
+
+          <div class="system-overview-grid">
+            <div class="system-card"><div class="system-card-label">status</div><div class="system-card-value">online ♡</div></div>
+            <div class="system-card"><div class="system-card-label">theme</div><div class="system-card-value">me0wberry main</div></div>
+            <div class="system-card"><div class="system-card-label">build</div><div class="system-card-value">handmade static site</div></div>
+            <div class="system-card"><div class="system-card-label">since</div><div class="system-card-value">march 2026</div></div>
+          </div>
+
+          <nav class="system-jump-links" aria-label="system sections">
+            <a class="pixel-btn" href="#colophon">colophon</a>
+            <a class="pixel-btn" href="#credits">credits</a>
+            <a class="pixel-btn" href="#resources">resources</a>
+            <a class="pixel-btn" href="#old-versions">old versions</a>
+            <a class="pixel-btn" href="#changelog">changelog</a>
+          </nav>
+
+          <section class="system-section" id="colophon" aria-labelledby="colophon-title">
+            <h2 class="system-section-title" id="colophon-title">colophon / fonts map</h2>
+            <ul class="system-detail-list">
+              <li><strong>body</strong>Nunito Sans</li>
+              <li><strong>headings</strong>Quicksand</li>
+              <li><strong>tiny labels</strong>Press Start 2P</li>
+              <li><strong>stack</strong>HTML + CSS + JavaScript</li>
+              <li><strong>hosting</strong>GitHub Pages</li>
+              <li><strong>default skin</strong>me0wberry main</li>
+            </ul>
+          </section>
+
+          <section class="system-section" id="credits" aria-labelledby="credits-title">
+            <h2 class="system-section-title" id="credits-title">credits</h2>
+            <ul class="system-resource-list">
+              <li>site direction , writing &amp; photography by me0wberry ♡</li>
+              <li>foodcore interface icons + repo card made for this site with image generation , then cropped &amp; adjusted for the UI</li>
+              <li>commissioned persona art will be credited beside each piece on the info page</li>
+            </ul>
+          </section>
+
+          <section class="system-section" id="resources" aria-labelledby="resources-title">
+            <h2 class="system-section-title" id="resources-title">resources / web treats</h2>
+            <ul class="system-resource-list">
+              <li><a href="https://gifypet.neocities.org" target="_blank" rel="noopener">GifyPet ↗</a> — the homepage pets</li>
+              <li><a href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a> — bouncing pixel cats</li>
+              <li><a href="../feed.xml">RSS feed ↗</a> — all monthly posts in one feed</li>
+            </ul>
+          </section>
+
+          <section class="system-section" id="old-versions" aria-labelledby="old-versions-title">
+            <h2 class="system-section-title" id="old-versions-title">old versions</h2>
+            <p class="info-profile-copy">screenshots &amp; earlier builds will live here once i rescue enough of them from the past (˶ᵔ ᵕ ᵔ˶)</p>
+          </section>
+
+          <section class="system-section" id="changelog" aria-labelledby="changelog-title">
+            <h2 class="system-section-title" id="changelog-title">changelog</h2>
+
+            <div class="changelog-month">march 2026 ₊˚⊹</div>
+            <ul class="posts-list" style="margin-bottom:16px;">
+              <li>launched me0wberry.com ✦</li>
+              <li>built site from scratch : desktop OS panel UI , frosted glass aesthetic , pink &amp; green palette</li>
+              <li>added bio panel with tabbed pages — about , likes , dni , find me</li>
+              <li>added lately , favs , games , music , food , stubby , beauty panels</li>
+              <li>music player with 3-track playlist ₊˚♡</li>
+              <li>added two Angels of Delusion songs to the playlist ♡</li>
+              <li>steam &amp; spotify embeds</li>
+              <li>stubby photo slideshow gallery ˚₊·</li>
+              <li>there's an easter egg somewhere on the site .. have you found it ? (=^･^=)</li>
+              <li>GitHub API-powered blog post system ⋆｡°✩</li>
+              <li>post publishing UI with password + github token auth ✦</li>
+              <li>per-post image galleries for food &amp; stubby — comma-separated filenames ˖°</li>
+              <li>custom ♡ cursor</li>
+              <li>pixel cat avatar with green collar ₍ᐢ•ᴗ•ᐢ₎</li>
+              <li>custom strawberry heart favicon 🍓</li>
+              <li>split into separate HTML / CSS / JS files</li>
+              <li>info page &amp; archive pages — you are here ! ˖°</li>
+              <li>fixed info &amp; archive pages not opening on mobile ! oops ☆〜（ゝ。∂）</li>
+              <li>music player now works on info &amp; archive pages — fixed relative audio paths ✦</li>
+              <li>music player now stays bottom-right on all pages ₊˚</li>
+              <li>site intro overlay on first load — click to enter &amp; start music (˶˃ ᵕ ˂˶)</li>
+              <li>more star &amp; kaomoji bg-decos scattered across the background ⋆</li>
+            </ul>
+
+            <div class="changelog-month">april 2026 ₊˚⊹</div>
+            <ul class="posts-list" style="margin-bottom:16px;">
+              <li>started monthly posts across all blog categories !! first post day :D ✦</li>
+              <li>← back to archive link added to all post pages ˖°</li>
+              <li>music player now resumes from where it left off when navigating between pages ♡</li>
+              <li>music player now appears on all post pages ₊˚♡</li>
+              <li>bouncing pixel cats at the bottom of every page ദ്ദി •⩊• ) with a 🐱 toggle in the topbar</li>
+              <li>background decorations now appear on all pages ⋆</li>
+              <li>enlarged background decorations &amp; cat strip ˖°</li>
+              <li>mobile UI improvements — better spacing , tap targets &amp; panel sizing</li>
+              <li>added two gifypets to the homepage — meet stubby &amp; cactus ! pet them , feed them , watch it rain ♡ — powered by <a href="https://gifypet.neocities.org" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:underline dotted;">GifyPet</a> , self-hosted to work cross-domain</li>
+              <li>bouncing pixel cat gifs now roam the bottom of the page &amp; scatter across the background — art from <a href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:underline dotted;">Pixel Sea</a> ⸜(｡˃ ᵕ ˂ )⸝♡</li>
+              <li>removed Claude from this site ૮ ˶ᵔ ᵕ ᵔ˶ ა i don't need it anymore !</li>
+            </ul>
+
+            <div class="changelog-month">may 2026 ₊˚⊹</div>
+            <ul class="posts-list" style="margin-bottom:16px;">
+              <li>monthly updates for may posted across blog categories ! also did some general cleanup of the code structure across posting 𓈒ㅤׂ 𝜗𝜚</li>
+              <li>tiny little copy changes to the main page (–⩊–) probably shouldn't matter to most people ! ╮ (. ❛ ᴗ ❛.) ╭</li>
+              <li>added my long-neglected tumblr blog to info links ! and gave it a nice ol revamp , go check it out ! ദ്ദി◝ ⩊ ◜.ᐟ</li>
+              <li>moved post-making to a local-only tool &amp; removed the old public posting form for safety ₊˚⊹</li>
+              <li>fixed the music player button on mobile so it actually opens the controls now ♫</li>
+            </ul>
+
+            <div class="changelog-month">june 2026 ₊˚⊹</div>
+            <ul class="posts-list" style="margin-bottom:16px;">
+              <li>monthly updates for june posted across most blog categories ! beauty , food , games , lately &amp; stubby ˖°</li>
+              <li>homepage lately panel updated to the june update ꉂ(˵˃ ᗜ ˂˵)</li>
+              <li>image galleries now work across all post categories , not just food &amp; stubby 𓈒ㅤׂ 𝜗𝜚</li>
+              <li>beauty posts can show nail galleries now ! very important actually ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧</li>
+              <li>post formatting cleanup so bullet lists look more consistent across new posts ₊˚.</li>
+              <li>swapped the site fonts to softer rounded sans styles ₊˚⊹</li>
+              <li>gifypets now hidden until opened , and close when other windows need the space</li>
+              <li>music no longer auto-starts on page load ! probably better for everyone's ears ૮ ˶ᵔ ᵕ ᵔ˶ ა</li>
+              <li>topbar , window titlebars , close buttons &amp; hover states got a little polish ✧</li>
+              <li>rounded out panel borders &amp; softened the UI so everything feels more cohesive ♡</li>
+              <li>added a bottom taskbar on desktop pages , with pinned buttons &amp; tiny icons ˖°</li>
+              <li>background atmosphere got a softer sparkle pass — less noisy , more floaty ₍ᐢ. .ᐢ₎</li>
+              <li>made a full new foodcore icon set for the sidebar &amp; taskbar ! tiny cake , dango , strawberry , radio &amp; friends ⸜(｡˃ ᵕ ˂ )⸝♡</li>
+              <li>did a few tiny alignment tweaks so stubby , the radio &amp; the other new icons sit nicely in place ₊˚.</li>
+              <li>tiny polish : player arrows , intro click hint , new sidebar cat ₍^. .^₎⟆</li>
+              <li>player buttons match now + dragging behaves on info/archive pages</li>
+              <li>made a cute repo preview image for github</li>
+              <li>post studio can reuse existing images + every category gets its own gallery folder</li>
+            </ul>
+
+            <div class="changelog-month">july 2026 ₊˚⊹</div>
+            <ul class="posts-list" style="margin-bottom:16px;">
+              <li>monthly updates for july posted across beauty , food , games , lately , music &amp; stubby ˖°</li>
+              <li>homepage lately panel updated for july (˶ˆᗜˆ˵)</li>
+              <li>trimmed a duplicate note from the info page</li>
+              <li>gallery posts load their photos a little more gently now , so the heavier ones should feel less abrupt</li>
+              <li>post studio is safer if something goes wrong mid-post , and homepage post lists load a bit tidier too ˖°</li>
+              <li>added a bluesky button to the info page social links ˖°</li>
+            </ul>
+
+            <div class="changelog-month">august 2026 ₊˚⊹</div>
+            <ul class="posts-list" style="margin-bottom:16px;">
+              <li>monthly updates for august posted across beauty , food , games , lately , music &amp; stubby ˖°</li>
+              <li>homepage lately panel updated for august ヾ(=`ω´=)ノ”</li>
+              <li>post studio now spells out that existing filenames + new uploads can be mixed into one gallery ˖°</li>
+              <li>august date labels now just show month + year , and post studio follows that too ˖°</li>
+              <li>added a projects panel for my blightfall work + a shiny little folder icon (˶ᵔ ᵕ ᵔ˶)</li>
+              <li>tidied up gallery loading , keyboard controls &amp; post studio image sizes so things should feel lighter ♡</li>
+              <li>lately became now + got its own little page (˶ᵔ ᵕ ᵔ˶)</li>
+              <li>archive has keyword search + rss now , both stay in sync with post studio ˖°</li>
+              <li>info is a proper me0wberry profile now + site details moved into system properties ૮ ˶ᵔ ᵕ ᵔ˶ ა</li>
+              <li>fixed local previews so the click-to-enter screen &amp; page assets behave again ˖°</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-player" style="width:280px;">
+    <div class="panel-titlebar"><span class="panel-title">♪ now playing</span><div class="panel-close" onclick="closePanel('panel-player')">✕</div></div>
+    <div class="panel-body" style="padding:12px 14px 10px;">
+      <div class="player-track-title"><div class="marquee-wrap" id="player-marquee"><span id="player-title">please don't stop being sweet to me · lace</span></div></div>
+      <div class="player-time-row"><span id="player-current-time">0:00</span><input type="range" id="player-progress" class="player-range" min="0" max="100" value="0" step="0.1"><span id="player-total-time">0:00</span></div>
+      <div class="player-controls"><button class="player-btn" onclick="playerPrev()" title="prev">◀</button><button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" title="play/pause">▶</button><button class="player-btn" onclick="playerNext()" title="next">▶|</button></div>
+      <div class="player-volume-row"><span class="player-vol-icon">🔊</span><input type="range" id="player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01"></div>
+      <div class="player-track-counter" id="player-counter">track 1 / 5</div>
+      <audio id="player-audio" preload="none"></audio>
+    </div>
+  </div>
+
+  <div id="bottom-taskbar" aria-label="desktop taskbar">
+    <div class="taskbar-inner">
+      <a class="taskbar-start" href="../index.html" title="start"><img class="taskbar-start-icon" src="../images/ui-icons/favs.png" alt="" aria-hidden="true"></a>
+      <div class="taskbar-pinned" aria-label="quick launch">
+        <a class="taskbar-app" href="../index.html" title="home"><img class="taskbar-icon-img" src="../images/ui-icons/home.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../now/index.html" title="now"><img class="taskbar-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../info/index.html" title="info"><img class="taskbar-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../archive/index.html" title="archive"><img class="taskbar-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"></a>
+        <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><img class="taskbar-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true"></button>
+      </div>
+      <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>
+    </div>
+  </div>
+
+  <script src="../script.js" data-site-root=".."></script>
+</body>
+</html>

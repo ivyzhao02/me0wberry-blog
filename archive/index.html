@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>archive — me0wberry</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="/feed.xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
@@ -12,7 +13,8 @@
   <style>
 #main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
 @media (max-width: 768px) {
-  #main { display: block !important; padding-bottom: 0; }
+  #layout { height: calc(100dvh - 59px); min-height: 0; overflow: hidden; }
+  #main { display: block !important; flex: 1 1 0; height: 100%; max-height: 100%; min-height: 0; overflow-y: auto; padding-bottom: 0; }
   #sidebar { display: none; }
   #mobile-back { display: flex !important; }
 }
@@ -56,6 +58,11 @@
           <span class="nav-item-label">home</span>
         </a>
 
+        <a class="nav-item" href="/now/">
+          <img class="nav-icon nav-icon-img" src="/images/ui-icons/lately.png" alt="" aria-hidden="true">
+          <span class="nav-item-label">now</span>
+        </a>
+
         <a class="nav-item" href="/info">
           <img class="nav-icon nav-icon-img" src="/images/ui-icons/info.png" alt="" aria-hidden="true">
           <span class="nav-item-label">info</span>
@@ -64,6 +71,11 @@
         <a class="nav-item active" href="/archive">
           <img class="nav-icon nav-icon-img" src="/images/ui-icons/archive.png" alt="" aria-hidden="true">
           <span class="nav-item-label">archive</span>
+        </a>
+
+        <a class="nav-item" href="/system/">
+          <span class="nav-icon system-nav-icon" aria-hidden="true">✦</span>
+          <span class="nav-item-label">system</span>
         </a>
 
         <span class="nav-section-label" style="margin-top:4px">
@@ -82,7 +94,7 @@
     <!-- ── Main ── -->
     <div id="main">
 
-      <div class="panel open" id="panel-archive-home" style="position:relative; top:auto; left:auto; width:100%; height:auto;">
+      <div class="panel open" id="panel-archive-home" data-static-panel style="position:relative; top:auto; left:auto; width:100%; height:auto;">
         <div class="panel-titlebar" style="cursor:default;">
           <span class="panel-title">/ archive</span>
         </div>
@@ -92,13 +104,23 @@
           <div class="pixel-tag">/ archive</div>
           <div class="panel-heading">archive ⋆｡°✩</div>
           <div style="font-size:12px; color:var(--muted); margin-bottom:12px;">all posts by category</div>
+          <section class="archive-search" aria-labelledby="archive-search-label">
+            <label id="archive-search-label" class="panel-px-label" for="archive-search">search the site ˖°</label>
+            <div class="archive-search-controls">
+              <input id="archive-search" class="archive-search-input" type="search" placeholder="try pokémon , stubby , matcha . ." autocomplete="off" disabled>
+              <button id="archive-search-clear" class="pixel-btn archive-search-clear" type="button" disabled>clear</button>
+            </div>
+            <div id="archive-search-status" class="archive-search-status" aria-live="polite">loading search...</div>
+            <div id="archive-search-results" class="archive-search-results" hidden></div>
+          </section>
           <div style="margin-top:12px;">
-            <a href="/archive/lately" class="pixel-btn">✦ lately</a>
+            <a href="/archive/lately/" class="pixel-btn">✦ now</a>
             <a href="/archive/games" class="pixel-btn">🎮 games</a>
             <a href="/archive/music" class="pixel-btn">🎵 music</a>
             <a href="/archive/food" class="pixel-btn">🍜 food</a>
             <a href="/archive/stubby" class="pixel-btn">🐱 stubby</a>
             <a href="/archive/beauty" class="pixel-btn">💄 beauty</a>
+            <a href="/feed.xml" class="pixel-btn">☼ rss feed</a>
           </div>
         </div>
       </div>
@@ -209,6 +231,9 @@
         <a class="taskbar-app" href="/" title="home">
           <img class="taskbar-icon-img" src="/images/ui-icons/home.png" alt="" aria-hidden="true">
         </a>
+        <a class="taskbar-app" href="/now/" title="now">
+          <img class="taskbar-icon-img" src="/images/ui-icons/lately.png" alt="" aria-hidden="true">
+        </a>
         <a class="taskbar-app" href="/info/" title="info">
           <img class="taskbar-icon-img" src="/images/ui-icons/info.png" alt="" aria-hidden="true">
         </a>
@@ -224,5 +249,6 @@
   </div>
 
   <script src="/script.js"></script>
+  <script src="/archive/search.js"></script>
 </body>
 </html>

@@ -156,7 +156,7 @@ function galleryStyles(images) {
 function buildPostHtml(post) {
   const { category, title, date, content, imageUrl, images, lately } = post;
   const safeTitle = escapeHtml(title);
-  const safeCategory = escapeHtml(category);
+  const safeCategory = escapeHtml(category === 'lately' ? 'now' : category);
   const safeDate = escapeHtml(date);
   const mainContent = category === 'lately'
     ? buildLatelyContent({ title, ...lately })
@@ -172,6 +172,7 @@ function buildPostHtml(post) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${safeTitle} — me0wberry</title>
+<link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="/feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">

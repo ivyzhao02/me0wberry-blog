@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>info — me0wberry</title>
+  <title>now — me0wberry</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../feed.xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,8 +13,8 @@
   <style>
     #main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
     @media (max-width: 768px) {
-      #layout { height: calc(100dvh - 59px); min-height: 0; overflow: hidden; }
-      #main { display: block !important; flex: 1 1 0; height: 100%; max-height: 100%; min-height: 0; overflow-y: auto; padding-bottom: 0; }
+  #layout { height: calc(100dvh - 59px); min-height: 0; overflow: hidden; }
+  #main { display: block !important; flex: 1 1 0; height: 100%; max-height: 100%; min-height: 0; overflow-y: auto; padding-bottom: 0; }
       #sidebar { display: none; }
       #mobile-back { display: flex !important; }
     }
@@ -41,8 +41,8 @@
       <div id="sidebar-nav">
         <span class="nav-section-label"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>pages</span>
         <a class="nav-item" href="../index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/home.png" alt="" aria-hidden="true"><span class="nav-item-label">home</span></a>
-        <a class="nav-item" href="../now/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"><span class="nav-item-label">now</span></a>
-        <a class="nav-item active" href="index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"><span class="nav-item-label">info</span></a>
+        <a class="nav-item active" href="index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"><span class="nav-item-label">now</span></a>
+        <a class="nav-item" href="../info/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"><span class="nav-item-label">info</span></a>
         <a class="nav-item" href="../archive/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"><span class="nav-item-label">archive</span></a>
         <a class="nav-item" href="../system/index.html"><span class="nav-icon system-nav-icon" aria-hidden="true">✦</span><span class="nav-item-label">system</span></a>
         <span class="nav-section-label" style="margin-top:4px"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>extras</span>
@@ -51,81 +51,48 @@
     </div>
 
     <div id="main">
-      <div class="panel open info-page-panel" id="panel-info" data-static-panel>
-        <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">/ info</span></div>
+      <div class="panel open now-page-panel" id="panel-now-page" data-static-panel>
+        <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">/ now</span></div>
         <div class="panel-body">
           <a href="../index.html" class="page-back-link">← home</a>
-          <div class="pixel-tag">/ me0wberry</div>
-          <h1 class="panel-heading">hello ! ₊˚⊹</h1>
-
-          <div class="info-profile-grid">
-            <section class="info-card info-identity-card">
-              <div class="info-avatar-frame">
-                <img src="../images/cat-avatar_2.png" alt="pink pixel cat avatar wearing a green collar">
-              </div>
-              <div>
-                <div class="info-profile-name">me0wberry</div>
-                <div class="info-profile-meta">she / her · markham · eng / 中文</div>
-                <p class="info-profile-copy">my little online home for monthly updates , favourite things , collections in progress &amp; whatever else i feel like keeping here (˶ᵔ ᵕ ᵔ˶)</p>
-                <div class="info-chip-row" aria-label="interests">
-                  <span class="info-chip">cats</span>
-                  <span class="info-chip">games</span>
-                  <span class="info-chip">plushies</span>
-                  <span class="info-chip">pink + green</span>
-                  <span class="info-chip">webmaking</span>
-                </div>
-              </div>
-            </section>
-
-            <aside class="info-card info-art-card">
-              <div class="info-art-silhouette" aria-hidden="true">₍^. .^₎⟆</div>
-              <div class="info-section-title">online self gallery</div>
-              <p class="info-profile-copy">a home for commissioned art of me0wberry as the collection grows ˖°</p>
-              <a class="pixel-btn" href="https://vgen.co/yoursleepywitch/portfolio/showcase/me0wberry-s-minecraft-skin/e3c6efce-e736-4215-8933-168b7fe8b230" target="_blank" rel="noopener" style="margin-top:10px;">minecraft skin ↗</a>
-            </aside>
-          </div>
-
-          <section class="info-section" aria-labelledby="find-me-title">
-            <h2 class="info-section-title" id="find-me-title">find me ✧˚.</h2>
-            <div class="info-social-links">
-              <a href="https://www.twitch.tv/me0wberry_" target="_blank" rel="noopener" class="pixel-btn">twitch ↗</a>
-              <a href="https://www.instagram.com/z._ivy/" target="_blank" rel="noopener" class="pixel-btn">instagram ↗</a>
-              <a href="https://open.spotify.com/user/_no_need_for_names_?si=b15417a7b9884f96" target="_blank" rel="noopener" class="pixel-btn">spotify ↗</a>
-              <a href="https://me0wberry.tumblr.com" target="_blank" rel="noopener" class="pixel-btn">tumblr ↗</a>
-              <a href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener" class="pixel-btn">steam ↗</a>
-              <a href="https://bsky.app/profile/me0w-berry.bsky.social" target="_blank" rel="noopener" class="pixel-btn">bluesky ↗</a>
-              <button class="pixel-btn" onclick="showDiscordPopup()">discord</button>
+<!-- generated-now-entry:start -->
+          <article class="now-entry">
+            <div class="pixel-tag">/ now</div>
+            <h1 class="panel-heading">August Update</h1>
+            <div class="panel-updated">august 2026</div>
+            <div class="now-post-content">
+<div style="font-family:'Press Start 2P',monospace; font-size:8px; color:var(--pixel-label2); margin-bottom:16px;">August Update</div>
+      <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">where i'm at (ᐢ. .ᐢ):</p>
+      <ul style="list-style:none; padding:0; margin-bottom:14px; font-size:14px; line-height:1.75;">
+        <li style="margin-bottom:4px;">– july was a great month ヾ(=`ω´=)ノ” TennoCon 2026 was a very cool experience from the fan-side , and it was great to catch up with friends &amp; meet longtime ones for the first time irl (⁠ ⁠ˊ⁠ᵕ⁠ˋ⁠ ⁠)♡ i also got lots of merch !</li>
+        <li style="margin-bottom:4px;">– played through most of the pokemon gofest 2026 at the same time ᕙ(  •̀ ᗜ •́  )ᕗ lots of remote raids &amp; shinies ~</li>
+        <li style="margin-bottom:4px;">– looking forward to a work trip this month to visit the office &amp; summer soirée , alongside attending a very important wedding (..◜ᴗ◝..)</li>
+      </ul>
+      <div style="text-align:center; color:var(--muted); margin:14px 0; letter-spacing:4px;">♡ · ♡ · ♡</div>
+      <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">what i'm into:</p>
+      <ul style="list-style:none; padding:0; margin-bottom:14px; font-size:14px; line-height:1.75;">
+        <li style="margin-bottom:4px;">– lots of pokémon ! still playing though pokémon za &amp; scarlet , but i also have sword in the queue now (˶˃⤙˂˶) alongside all their dlc too . .</li>
+        <li style="margin-bottom:4px;">– juggling some survival games ( project zomboid , palworld &amp; ark survival ascended ) , alongside other steam singleplayer games ＼(＾▽＾)／</li>
+        <li style="margin-bottom:4px;">– having a disco elysium lore / universe resurgence as well ૮꒰◞ ˕ ◟ ྀི꒱ა</li>
+        <li style="margin-bottom:4px;">– improving this site &amp; my professional one slowly but surely ꒰ ( ˊ˘ˋ ) ꒱</li>
+      </ul>
+      <div style="border-top:1px dashed rgba(160,144,152,0.45); margin:14px 0 10px;"></div>
+      <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">♡ a note:</p>
+      <p style="font-style:italic; color:var(--muted);">per disco elysium revival in my life , have a gorgeous drawing of kim kitsuragi by @sirnik_bober on twitter / x ૮꒰˶ - ˕ -꒱ა</p>
             </div>
-          </section>
-
-          <section class="info-section" aria-labelledby="projects-title">
-            <h2 class="info-section-title" id="projects-title">projects ₊˚.</h2>
-            <div class="project-card info-project-card">
-              <div class="project-card-header">
-                <img class="project-card-icon" src="../images/ui-icons/projects.png" alt="" aria-hidden="true">
-                <div>
-                  <div class="project-card-title">blightfall</div>
-                  <div class="project-card-role">community management &amp; operations lead</div>
-                </div>
-              </div>
-              <p class="project-card-copy">helping keep a roblox game project moving behind the scenes , across its community , operations &amp; development planning ˖°</p>
-              <a class="pixel-btn project-card-link" href="https://blightfall.ca" target="_blank" rel="noopener">check out the development ↗</a>
+            <div class="now-gallery is-single">
+              <img src="../images/lately/kim-kitsuragi-disco-elysium-art.jpg" alt="August Update" loading="lazy" decoding="async">
             </div>
-          </section>
-
-          <section class="info-section" aria-labelledby="site-info-title">
-            <h2 class="info-section-title" id="site-info-title">about this webspace</h2>
-            <p class="info-profile-copy">fonts , credits , resources , old versions &amp; the changelog live in their own little settings window now ♡</p>
-            <a class="pixel-btn" href="../system/index.html" style="margin-top:9px;">open system properties ↗</a>
-          </section>
+            <div class="now-entry-actions">
+              <a href="../posts/lately/2026-07-29-august-update.html" class="pixel-btn">open this post ↗</a>
+              <a href="../archive/lately/index.html" class="pixel-btn">past updates ↗</a>
+              <a href="../feed.xml" class="pixel-btn">rss feed ↗</a>
+            </div>
+          </article>
+<!-- generated-now-entry:end -->
         </div>
       </div>
     </div>
-  </div>
-
-  <div id="discord-popup">
-    <div class="discord-titlebar" id="discord-titlebar"><span>discord</span><div class="panel-close" onclick="hideDiscordPopup()">✕</div></div>
-    <div class="discord-body"><p>ask! (=^･^=)</p><button class="discord-ok" onclick="hideDiscordPopup()">ok</button></div>
   </div>
 
   <div class="panel" id="panel-player" style="width:280px;">
@@ -145,8 +112,8 @@
       <a class="taskbar-start" href="../index.html" title="start"><img class="taskbar-start-icon" src="../images/ui-icons/favs.png" alt="" aria-hidden="true"></a>
       <div class="taskbar-pinned" aria-label="quick launch">
         <a class="taskbar-app" href="../index.html" title="home"><img class="taskbar-icon-img" src="../images/ui-icons/home.png" alt="" aria-hidden="true"></a>
-        <a class="taskbar-app" href="../now/index.html" title="now"><img class="taskbar-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"></a>
-        <a class="taskbar-app is-active" href="index.html" title="info"><img class="taskbar-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app is-active" href="index.html" title="now"><img class="taskbar-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../info/index.html" title="info"><img class="taskbar-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"></a>
         <a class="taskbar-app" href="../archive/index.html" title="archive"><img class="taskbar-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"></a>
         <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><img class="taskbar-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true"></button>
       </div>

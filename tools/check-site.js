@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const { buildSiteData } = require('./build-site-data');
 
 const ROOT = path.resolve(__dirname, '..');
 const SKIP_DIRS = new Set(['.git', 'codex-notes']);
@@ -82,6 +83,19 @@ for (const file of relativeFiles.filter(file => file.endsWith('.json'))) {
 for (const file of relativeFiles.filter(file => file.endsWith('.js'))) {
   const result = spawnSync(process.execPath, ['--check', path.join(ROOT, file)], { encoding: 'utf8' });
   if (result.status !== 0) errors.push(`${file}: invalid JavaScript\n${result.stderr.trim()}`);
+}
+
+try {
+  for (const output of buildSiteData({ write: false })) {
+    const filePath = path.join(ROOT, output.file);
+    if (!fs.existsSync(filePath)) {
+      errors.push(`${output.file}: generated file is missing (run node tools/build-site-data.js)`);
+    } else if (fs.readFileSync(filePath, 'utf8') !== output.contents) {
+      errors.push(`${output.file}: generated content is stale (run node tools/build-site-data.js)`);
+    }
+  }
+} catch (error) {
+  errors.push(`generated site data could not be checked (${error.message})`);
 }
 
 if (errors.length) {
