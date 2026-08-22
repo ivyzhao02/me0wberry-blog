@@ -13,6 +13,7 @@ Post Studio writes posts into `posts/<category>/`, updates the matching `index.j
 
 ## Public pages
 
+- `/welcome/` is the first-visit entrance into the desktop; the root URL remains the desktop itself.
 - `/info/` is the me0wberry profile, social links, commissioned-art space, and projects page.
 - `/system/` holds the colophon, credits, resources, old-version notes, and changelog.
 - `/archive/` provides category browsing and keyword search; `/feed.xml` provides the RSS feed.

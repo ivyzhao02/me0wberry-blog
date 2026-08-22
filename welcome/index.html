@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>welcome — me0wberry</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../feed.xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="welcome-page">
+  <main class="welcome-shell">
+    <img class="welcome-deco-icon welcome-deco-dango" src="../images/ui-icons/lately.png" alt="" aria-hidden="true">
+    <img class="welcome-deco-icon welcome-deco-strawberry" src="../images/ui-icons/favs.png" alt="" aria-hidden="true">
+
+    <section class="welcome-window" aria-labelledby="welcome-heading">
+      <div class="welcome-titlebar">
+        <span>/ welcome</span>
+        <span class="welcome-window-controls" aria-hidden="true"><span>_</span><span>□</span><span>✕</span></span>
+      </div>
+      <div class="welcome-content">
+        <div class="welcome-avatar-well">
+          <img src="../images/cat-avatar_2.png" alt="pink pixel cat wearing a green collar">
+        </div>
+        <div>
+          <div class="welcome-eyebrow">personal webspace · online since 2026</div>
+          <h1 class="welcome-heading" id="welcome-heading">me0wberry.com</h1>
+          <div class="welcome-kaomoji">(˶˃ ᵕ ˂˶) . . .</div>
+          <p class="welcome-copy">a little pink + green desktop for monthly updates , games , music , photos &amp; collections in progress ♡</p>
+          <button class="welcome-enter" id="welcome-enter" type="button">
+            click to enter <span class="welcome-enter-arrow">↗</span>
+          </button>
+          <noscript><p class="welcome-copy" style="margin-top:12px;"><a href="../index.html?entered=1">enter the site ↗</a></p></noscript>
+        </div>
+      </div>
+    </section>
+
+    <div class="welcome-meta" aria-label="site notes">
+      <span>best explored slowly</span>
+      <span>♡</span>
+      <span>music is optional</span>
+      <span>♡</span>
+      <span>made for the personal web</span>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('welcome-enter').addEventListener('click', function() {
+      try { sessionStorage.setItem('me0wberry_entered', '1'); } catch (error) {}
+      const target = window.location.protocol === 'file:' ? '../index.html?entered=1' : '../?entered=1';
+      window.location.href = target;
+    });
+  </script>
+</body>
+</html>

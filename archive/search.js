@@ -1,4 +1,8 @@
 (() => {
+  const script = document.currentScript;
+  const siteRoot = script?.dataset.siteRoot || '..';
+  const siteBase = new URL(siteRoot.endsWith('/') ? siteRoot : `${siteRoot}/`, window.location.href);
+  const siteUrl = (value) => new URL(String(value).replace(/^\/+/, ''), siteBase).href;
   const input = document.getElementById('archive-search');
   const clearButton = document.getElementById('archive-search-clear');
   const status = document.getElementById('archive-search-status');
@@ -32,7 +36,7 @@
 
     const link = document.createElement('a');
     link.className = 'archive-search-result-title';
-    link.href = post.url;
+    link.href = siteUrl(post.url);
     link.textContent = post.title;
 
     const meta = document.createElement('div');
@@ -70,9 +74,12 @@
 
   async function loadSearch() {
     try {
-      const response = await fetch('/data/search-index.json');
-      if (!response.ok) throw new Error(`search index returned ${response.status}`);
-      const data = await response.json();
+      let data = window.me0wberrySearchIndex;
+      if (!data) {
+        const response = await fetch(siteUrl('data/search-index.json'));
+        if (!response.ok) throw new Error(`search index returned ${response.status}`);
+        data = await response.json();
+      }
       posts = Array.isArray(data.posts) ? data.posts : [];
       input.disabled = false;
       clearButton.disabled = false;

@@ -10,15 +10,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('entered') === '1') {
+        try { sessionStorage.setItem('me0wberry_entered', '1'); } catch (error) {}
+        params.delete('entered');
+        const query = params.toString();
+        history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
+        return;
+      }
+
+      try {
+        if (sessionStorage.getItem('me0wberry_entered') === '1') return;
+      } catch (error) {}
+
+      window.location.replace(new URL('welcome/index.html', window.location.href).href);
+    })();
+  </script>
 </head>
 <body>
-
-  <div id="intro-overlay">
-    <div id="intro-text">
-      <span>(˶˃ ᵕ ˂˶) . . .</span>
-      <span id="intro-hint">click !</span>
-    </div>
-  </div>
 
   <!-- ── Background Atmosphere ── -->
   <span class="bg-deco bg-sparkle bg-sparkle-lg" style="left:6%;top:9%;transform:rotate(12deg)">✦</span>
@@ -229,8 +240,10 @@
           <!-- Tab 1: about -->
           <div class="tab-content active" id="bio-about">
             <div class="kitten-corner">
-              <img src="images/cat-avatar_2.png" alt="cat avatar" style="width:100%; height:auto; display:block;"/>
-              <div style="display:block; width:100%; text-align:center; margin-top:6px; font-size:11px; color:var(--muted);">ฅ^•ﻌ•^ฅ</div>
+              <a class="kitten-profile-link" href="info/index.html" title="open the full me0wberry profile">
+                <img src="images/cat-avatar_2.png" alt="cat avatar" style="width:100%; height:auto; display:block;"/>
+                <span>full profile ↗</span>
+              </a>
               <div class="ilmbf-trigger" onclick="openStubbyGifypet()" style="display:block; width:100%; text-align:center; margin-top:6px; font-size:11px; color:var(--muted);">play with the gifypet cat! ↗</div>
             </div>
 
@@ -247,15 +260,22 @@
             <div class="currently-header">Currently</div>
             <div class="currently-row">
               <span class="currently-label">playing</span>
-              <span>tomodachi life / pokemon go / pk scarlet</span>
+              <button class="bio-topic-link" onclick="openPanel('panel-games')">
+                <span>tomodachi life / pokemon go / pk scarlet</span>
+                <span class="bio-topic-hint">games ↗</span>
+              </button>
             </div>
             <div class="currently-row">
               <span class="currently-label">listening</span>
-              <span>cykim / PRYVT / other favs</span>
+              <button class="bio-topic-link" onclick="openPanel('panel-music')">
+                <span>cykim / PRYVT / other favs</span>
+                <span class="bio-topic-hint">music ↗</span>
+              </button>
             </div>
             <div class="currently-row">
               <span class="currently-label">planning</span>
               <span>activities w my <span class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')">♡</span></span>
+              <a class="bio-topic-hint" href="now/index.html">now ↗</a>
             </div>
             <div class="currently-row">
               <span class="currently-label">helping</span>
@@ -269,11 +289,11 @@
               <div class="likes-col">
                 <div class="likes-col-title">likes ♡</div>
                 <ul>
-                  <li>cats ₊˚⊹</li>
-                  <li>pink &amp; green</li>
-                  <li>gaming ˖°✦</li>
-                  <li>plushies / stuffies</li>
-                  <li>dreaming &amp; planning</li>
+                  <li><button class="bio-topic-link" onclick="openPanel('panel-stubby')"><span>cats ₊˚⊹</span><span class="bio-topic-hint">stubby ↗</span></button></li>
+                  <li><a class="bio-topic-link" href="system/index.html"><span>pink &amp; green</span><span class="bio-topic-hint">theme ↗</span></a></li>
+                  <li><button class="bio-topic-link" onclick="openPanel('panel-games')"><span>gaming ˖°✦</span><span class="bio-topic-hint">games ↗</span></button></li>
+                  <li><button class="bio-topic-link" onclick="openPanel('panel-favs')"><span>plushies / stuffies</span><span class="bio-topic-hint">favs ↗</span></button></li>
+                  <li><a class="bio-topic-link" href="now/index.html"><span>dreaming &amp; planning</span><span class="bio-topic-hint">now ↗</span></a></li>
                   <li class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')">♡ him</li>
                 </ul>
               </div>
@@ -612,7 +632,7 @@
           <div class="panel-close" onclick="closePanel('panel-projects')">✕</div>
         </div>
         <div class="panel-body">
-          <div class="pixel-tag">/ community projects</div>
+          <div class="pixel-tag">/ projects</div>
           <div class="panel-heading">projects ₊˚⊹</div>
 
           <div class="project-card">
@@ -625,6 +645,18 @@
             </div>
             <p class="project-card-copy">helping keep a roblox game project moving behind the scenes , across its community , operations &amp; development planning ˖°</p>
             <a class="pixel-btn project-card-link" href="https://blightfall.ca" target="_blank" rel="noopener">check out the development ↗</a>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-header">
+              <img class="project-card-icon" src="images/ui-icons/home.png" alt="" aria-hidden="true">
+              <div>
+                <div class="project-card-title">website development</div>
+                <div class="project-card-role">personal sites + web experiments</div>
+              </div>
+            </div>
+            <p class="project-card-copy">making little websites has become one of my forever projects . this one gets most of the attention ♡</p>
+            <a class="pixel-btn project-card-link" href="system/index.html">behind this site ↗</a>
           </div>
         </div>
         <div class="panel-resize">···</div>

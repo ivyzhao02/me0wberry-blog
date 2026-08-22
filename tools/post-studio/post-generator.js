@@ -100,16 +100,22 @@ function buildLatelyContent({ title, whereAt, intoText, note }) {
     </div>`;
 }
 
+function toPostAssetPath(src) {
+  const value = String(src || '');
+  if (!value || /^(?:https?:)?\/\//i.test(value) || value.startsWith('data:')) return value;
+  return value.startsWith('/') ? `../..${value}` : value;
+}
+
 function buildImageHtml(src, alt) {
   if (!src) return '';
-  return `    <img class="post-image" src="${src}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
+  return `    <img class="post-image" src="${toPostAssetPath(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
 }
 
 function buildPostGallery(images, category, alt) {
   if (!images.length) return '';
 
-  const basePath = `/images/${category}/`;
-  const imageSrc = (name) => name.startsWith('/') ? name : `${basePath}${name}`;
+  const basePath = `../../images/${category}/`;
+  const imageSrc = (name) => name.startsWith('/') ? toPostAssetPath(name) : `${basePath}${name}`;
 
   if (images.length === 1) {
     return `    <img class="post-image" src="${imageSrc(images[0])}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
@@ -172,7 +178,7 @@ function buildPostHtml(post) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${safeTitle} — me0wberry</title>
-<link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../../feed.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
@@ -229,8 +235,8 @@ ${galleryStyles(images)}#cat-strip{position:fixed;bottom:0;left:0;width:100%;hei
     ${mainContent}
 ${mediaHtml ? `${mediaHtml}\n` : ''}    <div class="post-footer">
       <div style="display:flex;flex-direction:column;gap:4px;">
-        <a href="/" class="post-back">← back to me0wberry.com</a>
-        <a href="/archive" class="post-back">← back to archive</a>
+        <a href="../../index.html" class="post-back">← back to me0wberry.com</a>
+        <a href="../../archive/index.html" class="post-back">← back to archive</a>
       </div>
       <span style="font-size:11px;color:var(--muted)">${safeDate}</span>
     </div>
@@ -264,7 +270,7 @@ ${mediaHtml ? `${mediaHtml}\n` : ''}    <div class="post-footer">
     <audio id="player-audio" preload="none"></audio>
   </div>
 </div>
-<script src="/script.js"></script>
+<script src="../../script.js" data-site-root="../.."></script>
 </body>
 </html>
 `;

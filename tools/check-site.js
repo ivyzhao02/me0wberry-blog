@@ -61,7 +61,11 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
   }
 
   for (const match of source.matchAll(/\b(?:src|href|data-src)=["']([^"']+)["']/gi)) {
-    checkReference(file, match[1]);
+    const reference = match[1];
+    if (reference.startsWith('/') && !reference.startsWith('//')) {
+      errors.push(`${file}: root-relative local reference ${reference} breaks direct file previews`);
+    }
+    checkReference(file, reference);
   }
 }
 

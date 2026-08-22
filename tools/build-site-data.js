@@ -137,6 +137,10 @@ function buildSearchIndex(posts) {
   return `${JSON.stringify({ posts: output }, null, 2)}\n`;
 }
 
+function buildSearchDataScript(posts) {
+  return `window.me0wberrySearchIndex = ${buildSearchIndex(posts).trim()};\n`;
+}
+
 function buildRss(posts) {
   const latestDate = posts.length ? posts[0].published : new Date(0);
   const items = posts.map((post) => `    <item>
@@ -259,6 +263,10 @@ function buildSiteData({ write = true } = {}) {
     {
       file: 'data/search-index.json',
       contents: buildSearchIndex(posts),
+    },
+    {
+      file: 'data/search-index.js',
+      contents: buildSearchDataScript(posts),
     },
     {
       file: 'feed.xml',

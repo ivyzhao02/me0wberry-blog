@@ -226,8 +226,7 @@
         '.panel-close',
         '.ilmbf-trigger[onclick]',
         '.project-inline-link[onclick]',
-        '#mobile-back',
-        '#intro-overlay'
+        '#mobile-back'
       ].join(',');
 
       document.querySelectorAll(selector).forEach(element => {
@@ -236,10 +235,6 @@
         if (element.classList.contains('panel-close') && !element.hasAttribute('aria-label')) {
           element.setAttribute('aria-label', 'close window');
         }
-        if (element.id === 'intro-overlay' && !element.hasAttribute('aria-label')) {
-          element.setAttribute('aria-label', 'enter me0wberry.com');
-        }
-
         element.addEventListener('keydown', event => {
           if (event.key !== 'Enter' && event.key !== ' ') return;
           event.preventDefault();
@@ -491,12 +486,6 @@
     });
 
     audio.volume = 0.75;
-
-    const introOverlay = document.getElementById('intro-overlay');
-    if (introOverlay) introOverlay.addEventListener('click', function() {
-      this.classList.add('fade-out');
-      setTimeout(() => this.remove(), 800);
-    });
 
     (function() {
       const savedTrack   = parseInt(sessionStorage.getItem('player_track') || '0');
