@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>toybox — me0wberry</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../feed.xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Press+Start+2P&amp;family=Quicksand:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    #main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
+    @media (max-width: 768px) {
+      #layout { height: calc(100dvh - 59px); min-height: 0; overflow: hidden; }
+      #main { display: block !important; flex: 1 1 0; height: 100%; max-height: 100%; min-height: 0; overflow-y: auto; padding-bottom: 0; }
+      #sidebar { display: none; }
+      #mobile-back { display: flex !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="topbar">
+    <span id="topbar-title">© me0wberry 2026</span>
+    <span id="topbar-tag">(=^･^=) · me0wberry.com</span>
+    <div id="topbar-btns"><button id="cat-toggle" onclick="toggleCats()" title="hide cats">🐱</button><div class="tb-btn">_</div><div class="tb-btn">□</div><div class="tb-btn">✕</div></div>
+  </div>
+
+  <div id="mobile-back" onclick="window.history.back()" style="display:none;">← back</div>
+
+  <div id="layout">
+    <div id="sidebar">
+      <div id="sidebar-header"><div id="sidebar-name">me0wberry</div><div id="sidebar-sub">₍^. .^₎⟆ · markham · she/her · ilmbf ♡✧˚.</div></div>
+      <div id="sidebar-nav">
+        <span class="nav-section-label"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>pages</span>
+        <a class="nav-item" href="../index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/home.png" alt="" aria-hidden="true"><span class="nav-item-label">home</span></a>
+        <a class="nav-item" href="../now/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"><span class="nav-item-label">now</span></a>
+        <a class="nav-item" href="../info/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"><span class="nav-item-label">info</span></a>
+        <a class="nav-item" href="../archive/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"><span class="nav-item-label">archive</span></a>
+        <a class="nav-item" href="../system/index.html"><span class="nav-icon system-nav-icon" aria-hidden="true">✦</span><span class="nav-item-label">system</span></a>
+        <span class="nav-section-label" style="margin-top:4px"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>extras</span>
+        <a class="nav-item" href="../webgarden/index.html"><span class="nav-icon webgarden-nav-icon" aria-hidden="true">✿</span><span class="nav-item-label">webgarden</span></a>
+        <a class="nav-item active" href="index.html"><span class="nav-icon toybox-nav-icon" aria-hidden="true">✧</span><span class="nav-item-label">toybox</span></a>
+        <button class="nav-item nav-item-button" type="button" onclick="surpriseMe()"><span class="nav-icon surprise-icon" aria-hidden="true">✦</span><span class="nav-item-label">surprise me</span></button>
+        <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')"><img class="nav-icon nav-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true"><span class="nav-item-label">player</span></div>
+      </div>
+    </div>
+
+    <div id="main">
+      <div class="panel open toybox-page-panel" id="panel-toybox" data-static-panel>
+        <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">／ toybox</span></div>
+        <div class="panel-body">
+          <a href="../index.html" class="info-home-link">← home</a>
+          <div class="pixel-tag">／ toybox</div>
+          <h1 class="panel-heading">things i wanted to keep ☆</h1>
+          <p class="toybox-intro">little graphics , kaomoji + downloads i keep coming back to . click a face to copy it ♡</p>
+
+          <section class="toybox-section" aria-labelledby="kaomoji-title">
+            <h2 class="toybox-section-title" id="kaomoji-title">kaomoji shelf / click to copy</h2>
+            <div class="toybox-kaomoji-groups">
+              <div class="toybox-kaomoji-group">
+                <h3>cat paws</h3>
+                <div class="toybox-kaomoji-grid">
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">₍^. .^₎⟆</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(=^･^=)</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">₍ᐢ•ᴗ•ᐢ₎</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">𐔌՞. .՞𐦯</span><span class="toybox-copy-label">copy</span></button>
+                </div>
+              </div>
+              <div class="toybox-kaomoji-group">
+                <h3>happy</h3>
+                <div class="toybox-kaomoji-grid">
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(˶ᵔ ᵕ ᵔ˶)</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(˶ˆᗜˆ˵)</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">⸜(｡˃ ᵕ ˂ )⸝♡</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">ヾ(=`ω´=)ノ”</span><span class="toybox-copy-label">copy</span></button>
+                </div>
+              </div>
+              <div class="toybox-kaomoji-group">
+                <h3>sweet</h3>
+                <div class="toybox-kaomoji-grid">
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">( ˘ ³˘)♡</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">૮ ˶ᵔ ᵕ ᵔ˶ ა</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">૮꒰ ˶• ༝ •˶꒱ა ♡</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">ദ്ദി◝ ⩊ ◜.ᐟ</span><span class="toybox-copy-label">copy</span></button>
+                </div>
+              </div>
+              <div class="toybox-kaomoji-group">
+                <h3>tiny moods</h3>
+                <div class="toybox-kaomoji-grid">
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(ᐢ. .ᐢ)</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(–⩊–)</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">╮ (. ❛ ᴗ ❛.) ╭</span><span class="toybox-copy-label">copy</span></button>
+                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(｡•́︿•̀｡)</span><span class="toybox-copy-label">copy</span></button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="toybox-section" aria-labelledby="sticker-title">
+            <div class="toybox-section-heading-row">
+              <h2 class="toybox-section-title" id="sticker-title">sticker drawer / sort by</h2>
+              <span class="toybox-filter-status" id="toybox-filter-status" aria-live="polite">showing all</span>
+            </div>
+            <div class="toybox-filters" aria-label="filter graphics">
+              <button class="toybox-filter is-active" type="button" data-filter="all">all</button>
+              <button class="toybox-filter" type="button" data-filter="button">88 × 31</button>
+              <button class="toybox-filter" type="button" data-filter="pixel">pixels</button>
+              <button class="toybox-filter" type="button" data-filter="adoption">adoptions</button>
+            </div>
+            <div class="toybox-sticker-grid">
+              <article class="toybox-sticker" data-toybox-kind="button">
+                <div class="toybox-sticker-preview"><span class="webgarden-button">me0wberry<br>.com</span></div>
+                <div class="toybox-sticker-name">site button</div>
+                <div class="toybox-sticker-source">made here ♡</div>
+              </article>
+              <article class="toybox-sticker" data-toybox-kind="pixel">
+                <div class="toybox-sticker-preview"><img src="../images/cats/cat-0363.gif" alt="small walking pixel cat"></div>
+                <div class="toybox-sticker-name">walking cat</div>
+                <a class="toybox-sticker-source" href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a>
+              </article>
+              <article class="toybox-sticker" data-toybox-kind="pixel">
+                <div class="toybox-sticker-preview"><img src="../images/cats/cat-0491.gif" alt="small sitting pixel cat"></div>
+                <div class="toybox-sticker-name">sitting cat</div>
+                <a class="toybox-sticker-source" href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a>
+              </article>
+              <article class="toybox-sticker" data-toybox-kind="pixel">
+                <div class="toybox-sticker-preview"><img src="../images/cats/cat-0420.gif" alt="small stretching pixel cat"></div>
+                <div class="toybox-sticker-name">stretching cat</div>
+                <a class="toybox-sticker-source" href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a>
+              </article>
+              <article class="toybox-sticker" data-toybox-kind="pixel">
+                <div class="toybox-sticker-preview"><img src="../images/cats/cat-0421.gif" alt="small standing pixel cat"></div>
+                <div class="toybox-sticker-name">standing cat</div>
+                <a class="toybox-sticker-source" href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a>
+              </article>
+              <article class="toybox-sticker" data-toybox-kind="adoption">
+                <div class="toybox-sticker-preview"><img src="../images/cats/naranya-walking.gif" alt="tiny walking Naranya pixel cat"></div>
+                <div class="toybox-sticker-name">tiny naranya</div>
+                <a class="toybox-sticker-source" href="https://cinni.net/adopt" target="_blank" rel="noopener">adopted from Cinni ↗</a>
+              </article>
+            </div>
+            <p class="toybox-small-note">blinkies + stamps get their own filters once i actually collect some !</p>
+          </section>
+
+          <section class="toybox-section" aria-labelledby="desktop-title">
+            <h2 class="toybox-section-title" id="desktop-title">desktop treats</h2>
+            <div class="toybox-resource-grid">
+              <a class="toybox-resource-card" href="https://cinni.net/theme/icons" target="_blank" rel="noopener">
+                <span class="toybox-resource-symbol" aria-hidden="true">▣</span>
+                <span><strong>cinni's desktop icons ↗</strong><small>windows-ready .ico sets + a full download</small></span>
+              </a>
+              <div class="toybox-resource-card is-future">
+                <span class="toybox-resource-symbol" aria-hidden="true">♡</span>
+                <span><strong>me0wberry downloads</strong><small>future wallpapers , icons or other little things</small></span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-player" style="width:280px;">
+    <div class="panel-titlebar"><span class="panel-title">♪ now playing</span><div class="panel-close" onclick="closePanel('panel-player')">✕</div></div>
+    <div class="panel-body" style="padding:12px 14px 10px;">
+      <div class="player-track-title"><div class="marquee-wrap" id="player-marquee"><span id="player-title">please don't stop being sweet to me · lace</span></div></div>
+      <div class="player-time-row"><span id="player-current-time">0:00</span><input type="range" id="player-progress" class="player-range" min="0" max="100" value="0" step="0.1"><span id="player-total-time">0:00</span></div>
+      <div class="player-controls"><button class="player-btn" onclick="playerPrev()" title="prev">◀</button><button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" title="play/pause">▶</button><button class="player-btn" onclick="playerNext()" title="next">▶|</button></div>
+      <div class="player-volume-row"><span class="player-vol-icon">🔊</span><input type="range" id="player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01"></div>
+      <div class="player-track-counter" id="player-counter">track 1 / 5</div>
+      <audio id="player-audio" preload="none"></audio>
+    </div>
+  </div>
+
+  <div id="bottom-taskbar" aria-label="desktop taskbar">
+    <div class="taskbar-inner">
+      <a class="taskbar-start" href="../index.html" title="start"><img class="taskbar-start-icon" src="../images/ui-icons/favs.png" alt="" aria-hidden="true"></a>
+      <div class="taskbar-pinned" aria-label="quick launch">
+        <a class="taskbar-app" href="../index.html" title="home"><img class="taskbar-icon-img" src="../images/ui-icons/home.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../now/index.html" title="now"><img class="taskbar-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../info/index.html" title="info"><img class="taskbar-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../archive/index.html" title="archive"><img class="taskbar-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"></a>
+        <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><img class="taskbar-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true"></button>
+        <button class="taskbar-app" type="button" onclick="surpriseMe()" title="surprise me" aria-label="open a random post"><span class="surprise-icon" aria-hidden="true">✦</span></button>
+      </div>
+      <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>
+    </div>
+  </div>
+
+  <script src="../data/search-index.js"></script>
+  <script src="../script.js" data-site-root=".."></script>
+  <script src="toybox.js"></script>
+</body>
+</html>
