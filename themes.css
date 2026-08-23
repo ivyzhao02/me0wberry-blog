@@ -186,13 +186,16 @@
 :root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #sidebar-header,
 :root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) #mobile-back,
 :root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .panel-titlebar,
-:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .welcome-titlebar {
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .welcome-titlebar,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .passport-reward-titlebar {
   background: var(--theme-titlebar-bg);
   border-color: var(--theme-border);
 }
 
 :root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .panel,
 :root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .welcome-window,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .welcome-passport,
+:root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .passport-reward-window,
 :root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) .post-container {
   background: var(--theme-panel-bg);
   border-color: var(--frosted-border);
@@ -223,6 +226,7 @@
   .toybox-sticker,
   .toybox-sticker-preview,
   .toybox-resource-card,
+  .passport-stamp-slot,
   .archive-search,
   .archive-search-result,
   .system-detail-list li
@@ -241,6 +245,7 @@
   .archive-search-input,
   .archive-search-clear,
   .skin-option,
+  .welcome-passport-reward,
   .taskbar-start,
   .taskbar-app,
   .taskbar-window

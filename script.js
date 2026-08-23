@@ -5,6 +5,39 @@
       return new URL(value.slice(1), new URL(`${SITE_ROOT}/`, window.location.href)).href;
     }
 
+    const PASSPORT_STORAGE_KEY = 'me0wberry_passport_v1';
+    const PASSPORT_STAMP_IDS = ['wander', 'naranya', 'love-ball', 'pixel-cat'];
+
+    function recordPassportStamp(stampId, options = {}) {
+      if (!PASSPORT_STAMP_IDS.includes(stampId)) return false;
+      if (window.me0wberryPassport?.stamp) {
+        return window.me0wberryPassport.stamp(stampId, options);
+      }
+
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(PASSPORT_STORAGE_KEY) || '{}');
+        const stamps = Array.isArray(saved.stamps)
+          ? saved.stamps.filter((stamp) => PASSPORT_STAMP_IDS.includes(stamp))
+          : [];
+        if (stamps.includes(stampId)) return false;
+        stamps.push(stampId);
+        window.localStorage.setItem(PASSPORT_STORAGE_KEY, JSON.stringify({ stamps }));
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function loadPassportScript() {
+      if (window.me0wberryPassport || document.querySelector('script[data-site-passport]')) return;
+      const passportScript = document.createElement('script');
+      passportScript.src = sitePath('/passport.js');
+      passportScript.dataset.sitePassport = '';
+      document.head.appendChild(passportScript);
+    }
+
+    loadPassportScript();
+
     const THEME_STATE = window.me0wberryTheme || {
       storageKey: 'me0wberry_theme',
       themeIds: ['main', 'strawberry-milk', 'matcha-cream', 'cyberpunk'],
@@ -163,6 +196,9 @@
     document.addEventListener('DOMContentLoaded', initAccessibility);
 
     function surpriseMe() {
+      if (recordPassportStamp('wander', { toast: false })) {
+        try { window.sessionStorage.setItem('me0wberry_passport_pending_toast', '1'); } catch (error) {}
+      }
       const posts = window.me0wberrySearchIndex?.posts;
       const places = [
         '/info/index.html',
@@ -560,11 +596,13 @@
 
     // ── Audio Player ──
     const tracks = [
-      { src: sitePath('/audio/please-dont-stop.mp3'),    title: "please don't stop being sweet to me · lace" },
-      { src: sitePath('/audio/forever-and.mp3'),          title: 'forever & · EJEAN' },
-      { src: sitePath('/audio/huayuan-meteor-rain.mp3'),  title: '花园裡的流星雨 · Karencici' },
-      { src: sitePath('/audio/tianshi-jiazaizhong.mp3'),  title: '天使加载中...^_−☆ · Angels of Delusion' },
-      { src: sitePath('/audio/redreaming-angel.mp3'),     title: 'ReDreaming Angel · Angels of Delusion' },
+      { id: 'lace', src: sitePath('/audio/please-dont-stop.mp3'), title: "please don't stop being sweet to me · lace" },
+      { id: 'forever-and', src: sitePath('/audio/forever-and.mp3'), title: 'forever & · EJEAN' },
+      { id: 'meteor-rain', src: sitePath('/audio/huayuan-meteor-rain.mp3'), title: '花园裡的流星雨 · Karencici' },
+      { id: 'angel-loading', src: sitePath('/audio/tianshi-jiazaizhong.mp3'), title: '天使加载中...^_−☆ · Angels of Delusion' },
+      { id: 'redreaming-angel', src: sitePath('/audio/redreaming-angel.mp3'), title: 'ReDreaming Angel · Angels of Delusion' },
+      { id: 'national-park-gsc', src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/e9/06/f7/e906f78d-1e80-0e1b-e616-93a116c705cb/mzaf_6047781193972057181.plus.aac.p.m4a', title: 'national park (gold / silver) · GAME FREAK' },
+      { id: 'national-park-hgss', src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/1e/9b/24/1e9b2416-0656-a1a7-8acf-7196022d36b6/mzaf_5043987050176404935.plus.aac.p.m4a', title: 'national park (heartgold / soulsilver) · GAME FREAK' },
     ];
     let currentTrack = 0;
     const audio       = document.getElementById('player-audio');
@@ -647,6 +685,20 @@
       if (wasPlaying) { audio.play().catch(function(){}); setPlayPauseState(true); }
     }
 
+    function playerPlayTrack(trackId) {
+      const trackIndex = tracks.findIndex(track => track.id === trackId);
+      if (trackIndex < 0) return;
+      loadTrack(trackIndex);
+      openPanel('panel-player');
+      audio.play().then(function() {
+        setPlayPauseState(true);
+      }).catch(function() {
+        setPlayPauseState(false);
+      });
+    }
+
+    window.playerPlayTrack = playerPlayTrack;
+
     audio.addEventListener('timeupdate', function() {
       if (!audio.duration) return;
       progressEl.value = (audio.currentTime / audio.duration) * 100;
@@ -670,7 +722,8 @@
     audio.volume = 0.75;
 
     (function() {
-      const savedTrack   = parseInt(sessionStorage.getItem('player_track') || '0');
+      const savedTrackValue = parseInt(sessionStorage.getItem('player_track') || '0');
+      const savedTrack = Number.isInteger(savedTrackValue) && savedTrackValue >= 0 && savedTrackValue < tracks.length ? savedTrackValue : 0;
       const savedTime    = parseFloat(sessionStorage.getItem('player_time') || '0');
 
       loadTrack(savedTrack);

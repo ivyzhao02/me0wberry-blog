@@ -62,7 +62,7 @@
           <div class="pixel-tag">／ pokémon shrine</div>
 
           <div class="shrine-room-hero">
-            <div class="shrine-room-emblem"><img class="shrine-love-ball" src="../../images/pokemon/love-ball.png" alt="Love Ball from Pokémon"></div>
+            <button class="shrine-room-emblem passport-stamp-trigger" type="button" data-passport-stamp="love-ball" aria-label="inspect the Love Ball"><img class="shrine-love-ball" src="../../images/pokemon/love-ball.png" alt="Love Ball from Pokémon"></button>
             <div>
               <h1 class="shrine-room-title">pokémon room ✦</h1>
               <p class="shrine-room-copy">for favourites , collections + the parts of pokémon i always come back to</p>
@@ -101,6 +101,14 @@
                 <span class="shrine-cabinet-status">catching</span>
                 <strong>plush shelf</strong>
                 <p>plushies + merch when there is enough to make a proper shelf</p>
+              </div>
+            </a>
+            <a class="shrine-cabinet-card shrine-cabinet-card-with-icon" href="#game-music">
+              <span class="shrine-cabinet-icon-frame"><img class="shrine-cabinet-icon shrine-cabinet-icon-music" src="../../images/ui-icons/music.png" alt="" aria-hidden="true"></span>
+              <div>
+                <span class="shrine-cabinet-status">listening</span>
+                <strong>game music</strong>
+                <p>songs that make old game worlds feel remembered</p>
               </div>
             </a>
           </div>
@@ -157,6 +165,34 @@
             <div class="pokemon-family-grid" id="pokemon-family-grid"></div>
             <div class="pokemon-lookbook-heading"><h3 class="shrine-cabinet-heading">art + models / closer looks</h3><p>official art + pokémon home models for now , game screenshots next ♡</p></div>
             <div class="pokemon-lookbook-grid" id="pokemon-lookbook-grid"></div>
+          </section>
+
+          <section class="pokemon-room-section" id="game-music" aria-labelledby="game-music-title">
+            <div class="pokemon-section-heading">
+              <div><div class="pixel-tag">／ game music</div><h2 id="game-music-title">national park / then + now ♫</h2></div>
+              <p>two versions of the same place , and somehow both feel like remembering somewhere i never got to grow up with</p>
+            </div>
+            <div class="pokemon-music-grid">
+              <article class="pokemon-music-card">
+                <span class="pokemon-music-year">1999 / gold + silver</span>
+                <h3>national park</h3>
+                <p>the original game boy colour version · soft , tiny + full of feeling</p>
+                <div class="pokemon-music-actions">
+                  <button class="pixel-btn" type="button" onclick="playerPlayTrack('national-park-gsc')">play preview ♫</button>
+                  <a class="pixel-btn" href="https://music.apple.com/ca/album/national-park/796790051?i=796804375" target="_blank" rel="noopener">full track ↗</a>
+                </div>
+              </article>
+              <article class="pokemon-music-card">
+                <span class="pokemon-music-year">2009 / heartgold + soulsilver</span>
+                <h3>national park</h3>
+                <p>the nintendo ds remake · the same melody opening into something warm + sweeping</p>
+                <div class="pokemon-music-actions">
+                  <button class="pixel-btn" type="button" onclick="playerPlayTrack('national-park-hgss')">play preview ♫</button>
+                  <a class="pixel-btn" href="https://music.apple.com/ca/album/national-park/796790051?i=796790266" target="_blank" rel="noopener">full track ↗</a>
+                </div>
+              </article>
+            </div>
+            <p class="pokemon-music-note">official apple music previews play through the site player · full tracks open in apple music ♡</p>
           </section>
 
           <section class="pokemon-room-section pokemon-plush-placeholder" id="plush-shelf" aria-labelledby="plush-shelf-title">

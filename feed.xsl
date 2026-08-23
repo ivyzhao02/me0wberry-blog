@@ -97,6 +97,45 @@
             font-weight: 700;
           }
 
+          .feed-filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin: 0 0 7px;
+          }
+
+          .feed-filter {
+            padding: 7px 10px;
+            color: var(--ink);
+            border: 1px solid rgba(193, 104, 137, 0.28);
+            border-radius: 999px;
+            background: rgba(255,255,255,0.54);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+          }
+
+          .feed-filter:hover,
+          .feed-filter:focus-visible {
+            color: var(--pink-deep);
+            border-color: rgba(193, 104, 137, 0.54);
+          }
+
+          .feed-filter.is-active {
+            color: #5f7f56;
+            border-color: rgba(148, 185, 135, 0.72);
+            background: rgba(220, 239, 212, 0.82);
+          }
+
+          .feed-filter-status {
+            min-height: 18px;
+            margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 10px;
+          }
+
           .feed-list {
             display: grid;
             gap: 12px;
@@ -111,6 +150,8 @@
               linear-gradient(135deg, rgba(248,214,226,0.28), transparent);
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 7px 17px rgba(98, 113, 89, 0.07);
           }
+
+          .feed-entry[hidden] { display: none; }
 
           .feed-entry-title {
             margin: 0;
@@ -166,11 +207,21 @@
           </div>
           <div class="feed-body">
             <h1 class="feed-heading"><xsl:value-of select="rss/channel/title" /> ♡</h1>
-          <p class="feed-intro">this is the rss feed ! add this page address to a feed reader , or look through the latest posts below (˶ᵔ ᵕ ᵔ˶)</p>
+            <p class="feed-intro">this is the rss feed ! add this page address to a feed reader , or look through the latest posts below (˶ᵔ ᵕ ᵔ˶)</p>
             <p class="feed-updated">last built : <xsl:value-of select="rss/channel/lastBuildDate" /></p>
+            <div class="feed-filter-row" role="group" aria-label="filter posts by category">
+              <button class="feed-filter is-active" type="button" data-feed-filter="all" aria-pressed="true">all</button>
+              <button class="feed-filter" type="button" data-feed-filter="now" aria-pressed="false">now</button>
+              <button class="feed-filter" type="button" data-feed-filter="games" aria-pressed="false">games</button>
+              <button class="feed-filter" type="button" data-feed-filter="music" aria-pressed="false">music</button>
+              <button class="feed-filter" type="button" data-feed-filter="food" aria-pressed="false">food</button>
+              <button class="feed-filter" type="button" data-feed-filter="stubby" aria-pressed="false">stubby</button>
+              <button class="feed-filter" type="button" data-feed-filter="beauty" aria-pressed="false">beauty</button>
+            </div>
+            <p class="feed-filter-status" id="feed-filter-status" aria-live="polite"></p>
             <div class="feed-list">
               <xsl:for-each select="rss/channel/item">
-                <article class="feed-entry">
+                <article class="feed-entry" data-category="{category}">
                   <h2 class="feed-entry-title"><a href="{link}"><xsl:value-of select="title" /></a></h2>
                   <div class="feed-meta">
                     <span class="feed-category"><xsl:value-of select="category" /></span>
@@ -182,6 +233,33 @@
             </div>
           </div>
         </main>
+        <script><![CDATA[
+          document.addEventListener('DOMContentLoaded', function() {
+            var buttons = Array.from(document.querySelectorAll('[data-feed-filter]'));
+            var entries = Array.from(document.querySelectorAll('.feed-entry'));
+            var status = document.getElementById('feed-filter-status');
+
+            function applyFilter(category) {
+              var visible = 0;
+              entries.forEach(function(entry) {
+                var show = category === 'all' || entry.dataset.category === category;
+                entry.hidden = !show;
+                if (show) visible += 1;
+              });
+              buttons.forEach(function(button) {
+                var active = button.dataset.feedFilter === category;
+                button.classList.toggle('is-active', active);
+                button.setAttribute('aria-pressed', active ? 'true' : 'false');
+              });
+              status.textContent = visible + (visible === 1 ? ' post' : ' posts') + (category === 'all' ? ' in the feed' : ' in ' + category);
+            }
+
+            buttons.forEach(function(button) {
+              button.addEventListener('click', function() { applyFilter(button.dataset.feedFilter); });
+            });
+            applyFilter('all');
+          });
+        ]]></script>
       </body>
     </html>
   </xsl:template>

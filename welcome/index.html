@@ -40,6 +40,21 @@
       </div>
     </section>
 
+    <section class="welcome-passport" data-passport-progress aria-labelledby="passport-progress-title" hidden>
+      <div class="welcome-passport-copy">
+        <div class="welcome-eyebrow">returning visitor</div>
+        <h2 id="passport-progress-title">desktop passport</h2>
+        <p data-passport-status>0 / 4 stamps found</p>
+      </div>
+      <div class="passport-stamp-row" aria-label="passport stamp progress">
+        <span class="passport-stamp-slot" data-passport-slot>?</span>
+        <span class="passport-stamp-slot" data-passport-slot>?</span>
+        <span class="passport-stamp-slot" data-passport-slot>?</span>
+        <span class="passport-stamp-slot" data-passport-slot>?</span>
+      </div>
+      <button class="welcome-passport-reward" type="button" data-passport-reward hidden>open your mail ♡</button>
+    </section>
+
     <div class="welcome-meta" aria-label="site notes">
       <a href="../info/index.html">learn about me ( 0wberry )</a>
       <span>♡</span>
@@ -49,6 +64,46 @@
     </div>
   </main>
 
+  <dialog class="passport-reward-dialog" data-passport-dialog aria-labelledby="passport-reward-title">
+    <section class="passport-reward-window">
+      <div class="passport-reward-titlebar">
+        <span id="passport-reward-title">/ rest house mail</span>
+        <button type="button" data-passport-close aria-label="close postcard reward">✕</button>
+      </div>
+      <div class="passport-reward-body">
+        <p class="passport-rest-message">You should rest a little! Good Trainers don't push their Pokémon too hard.</p>
+
+        <button class="passport-envelope-button" type="button" data-passport-envelope aria-label="open the envelope">
+          <span class="passport-envelope" aria-hidden="true">
+            <span class="passport-envelope-paper"></span>
+            <span class="passport-envelope-back"></span>
+            <span class="passport-envelope-letter">♡</span>
+            <span class="passport-envelope-front"></span>
+            <span class="passport-envelope-flap"></span>
+          </span>
+        </button>
+
+        <div class="passport-postcard-stage" data-passport-postcard-stage>
+          <button class="passport-postcard" type="button" data-passport-postcard aria-label="flip the National Park postcard" aria-pressed="false" tabindex="-1">
+            <span class="passport-postcard-face passport-postcard-front">
+              <span class="passport-park-art"><img src="../images/pokemon/national-park-hgss-day.png" alt="National Park during the day in Pokémon HeartGold and SoulSilver, with a path, flowers, trees, and a bench"></span>
+              <span class="passport-postcard-caption">national park · a place to rest ♫</span>
+            </span>
+            <span class="passport-postcard-face passport-postcard-back">
+              <span class="passport-postcard-stamp"><img src="../images/pokemon/love-ball.png" alt=""></span>
+              <span class="passport-postcard-address" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="passport-postcard-message">You and your Pokémon should all be filled with energy again! Now, you can go anywhere!</span>
+              <span class="passport-postcard-signoff">from me0wberry.com ♡</span>
+            </span>
+          </button>
+        </div>
+
+        <p class="passport-reward-instruction" data-passport-instruction aria-live="polite">open the envelope ♡</p>
+      </div>
+    </section>
+  </dialog>
+
+  <script src="../passport.js"></script>
   <script>
     document.getElementById('welcome-enter').addEventListener('click', function() {
       try { sessionStorage.setItem('me0wberry_entered', '1'); } catch (error) {}
