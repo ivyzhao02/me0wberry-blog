@@ -33,7 +33,7 @@
     <div id="topbar-btns"><button id="cat-toggle" onclick="toggleCats()" title="hide cats">🐱</button><div class="tb-btn">_</div><div class="tb-btn">□</div><div class="tb-btn">✕</div></div>
   </div>
 
-  <div id="mobile-back" onclick="window.history.back()" style="display:none;">← back</div>
+  <a id="mobile-back" href="../index.html" style="display:none;">← shrine</a>
 
   <div id="layout">
     <div id="sidebar">
@@ -58,7 +58,7 @@
       <div class="panel open shrine-page-panel" id="panel-stubby-shrine" data-static-panel>
         <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">／ stubby's room</span></div>
         <div class="panel-body">
-          <a href="../index.html" class="info-home-link">← shrine</a>
+          <a href="../index.html" class="shrine-back-link"><img src="../../images/ui-icons/shrines.png" alt="" aria-hidden="true"><span>shrine</span></a>
           <div class="pixel-tag">／ stubby shrine</div>
 
           <div class="shrine-room-hero">
@@ -81,16 +81,16 @@
               <strong>through the years</strong>
               <p>fourteen years of photos , little videos + memories ♡</p>
             </a>
-            <div class="shrine-cabinet-card is-future">
+            <a class="shrine-cabinet-card" href="#favourite-moments">
               <span class="shrine-cabinet-status">sharing</span>
               <strong>favourite moments</strong>
-              <p>stories wip !</p>
-            </div>
-            <div class="shrine-cabinet-card is-future">
+              <p>the ordinary little things i love the most</p>
+            </a>
+            <a class="shrine-cabinet-card" href="#little-facts">
               <span class="shrine-cabinet-status">sharing</span>
               <strong>little facts</strong>
-              <p>nicknames , habits + stubby lore</p>
-            </div>
+              <p>nicknames , habits + the things she always does</p>
+            </a>
           </div>
 
           <section class="stubby-timeline-section" id="through-the-years" aria-labelledby="stubby-timeline-title">
@@ -102,6 +102,42 @@
               <p>some exact dates were lost along the way , but the years are all home</p>
             </div>
             <div class="stubby-timeline" id="stubby-timeline"></div>
+          </section>
+
+          <section class="stubby-everyday-section" id="favourite-moments" aria-labelledby="stubby-moments-title">
+            <div class="stubby-timeline-heading-row">
+              <div>
+                <div class="pixel-tag">／ favourite moments</div>
+                <h2 id="stubby-moments-title">the everyday things ♡</h2>
+              </div>
+              <p>the mundane , repetitive moments are usually the ones i cherish most</p>
+            </div>
+            <div class="stubby-everyday-grid">
+              <article><span>coming home</span><p>having stubby waiting at home , and knowing she will be there when i walk through the door</p></article>
+              <article><span>sharing space</span><p>lounging around the house together , whether it is on the bed , floor or couches</p></article>
+              <article><span>work buddy</span><p>having her by my side while i work from home , in another office chair or beside me on the couch or bed</p></article>
+              <article><span>little reminders</span><p>looking over from my computer and seeing her asleep on my bed or napping in the hallway</p></article>
+              <article><span>up close</span><p>petting her and hearing her purr , feeling her knead my arms and leave little love scratches when her claws need trimming</p></article>
+              <article><span>even closer</span><p>when she lies on my chest , headbutts my chin or decides that my face needs grooming too</p></article>
+            </div>
+            <p class="stubby-everyday-closing">all of my favourite things about her are just her existing ♡</p>
+          </section>
+
+          <section class="stubby-everyday-section" id="little-facts" aria-labelledby="stubby-facts-title">
+            <div class="stubby-timeline-heading-row">
+              <div>
+                <div class="pixel-tag">／ little facts</div>
+                <h2 id="stubby-facts-title">stubby things ₊˚⊹</h2>
+              </div>
+              <p>the names , routines + tiny habits that make her stubby</p>
+            </div>
+            <dl class="stubby-facts-grid">
+              <div><dt>nicknames</dt><dd>stubbert / stubbort , bubby , bubby wubby , goober , goobie + silly baby</dd></div>
+              <div><dt>what she answers to</dt><dd>stubby , of course ! her legal name is stubborn , but nobody actually calls her that</dd></div>
+              <div><dt>daily routine</dt><dd>grooming herself , licking her already furless belly + fitting in as many naps as possible</dd></div>
+              <div><dt>backyard watch</dt><dd>keeping an eye on the squirrels + birds , then hissing and jumping menacingly at raccoons safely outside</dd></div>
+              <div><dt>leaving her mark</dt><dd>scent marking furniture , belongings + the outer corners of walls so everything stays properly hers</dd></div>
+            </dl>
           </section>
 
           <div class="shrine-room-footer"><a class="pixel-btn" href="../index.html">shrine</a><a class="pixel-btn" href="../../archive/stubby/index.html">stubby archive</a></div>

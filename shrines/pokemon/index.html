@@ -33,7 +33,7 @@
     <div id="topbar-btns"><button id="cat-toggle" onclick="toggleCats()" title="hide cats">🐱</button><div class="tb-btn">_</div><div class="tb-btn">□</div><div class="tb-btn">✕</div></div>
   </div>
 
-  <div id="mobile-back" onclick="window.history.back()" style="display:none;">← back</div>
+  <a id="mobile-back" href="../index.html" style="display:none;">← shrine</a>
 
   <div id="layout">
     <div id="sidebar">
@@ -58,7 +58,7 @@
       <div class="panel open shrine-page-panel" id="panel-pokemon-shrine" data-static-panel>
         <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">／ pokémon room</span></div>
         <div class="panel-body">
-          <a href="../index.html" class="info-home-link">← shrine</a>
+          <a href="../index.html" class="shrine-back-link"><img src="../../images/ui-icons/shrines.png" alt="" aria-hidden="true"><span>shrine</span></a>
           <div class="pixel-tag">／ pokémon shrine</div>
 
           <div class="shrine-room-hero">
@@ -163,20 +163,22 @@
               <p>normal + shiny , because choosing one colour is impossible</p>
             </div>
             <div class="pokemon-family-grid" id="pokemon-family-grid"></div>
-            <div class="pokemon-lookbook-heading"><h3 class="shrine-cabinet-heading">art + models / closer looks</h3><p>official art + pokémon home models for now , game screenshots next ♡</p></div>
+            <div class="pokemon-lookbook-heading"><h3 class="shrine-cabinet-heading">art + models / closer looks</h3><p>official art + pokémon home models ♡</p></div>
             <div class="pokemon-lookbook-grid" id="pokemon-lookbook-grid"></div>
+            <div class="pokemon-history-heading"><h3 class="shrine-cabinet-heading">main-series history / then + now</h3><p>every core-series stop , with transfer-only visits noted too ♡</p></div>
+            <div class="pokemon-history-list" id="pokemon-history-list"></div>
           </section>
 
           <section class="pokemon-room-section" id="game-music" aria-labelledby="game-music-title">
             <div class="pokemon-section-heading">
               <div><div class="pixel-tag">／ game music</div><h2 id="game-music-title">national park / then + now ♫</h2></div>
-              <p>two versions of the same place , and somehow both feel like remembering somewhere i never got to grow up with</p>
+              <p>songs that embody love for the pokémon franchise the most to me</p>
             </div>
             <div class="pokemon-music-grid">
               <article class="pokemon-music-card">
                 <span class="pokemon-music-year">1999 / gold + silver</span>
                 <h3>national park</h3>
-                <p>the original game boy colour version · soft , tiny + full of feeling</p>
+                <p>composed + arranged by Gō Ichinose</p>
                 <div class="pokemon-music-actions">
                   <button class="pixel-btn" type="button" onclick="playerPlayTrack('national-park-gsc')">play preview ♫</button>
                   <a class="pixel-btn" href="https://music.apple.com/ca/album/national-park/796790051?i=796804375" target="_blank" rel="noopener">full track ↗</a>
@@ -185,7 +187,7 @@
               <article class="pokemon-music-card">
                 <span class="pokemon-music-year">2009 / heartgold + soulsilver</span>
                 <h3>national park</h3>
-                <p>the nintendo ds remake · the same melody opening into something warm + sweeping</p>
+                <p>composed + arranged by Gō Ichinose</p>
                 <div class="pokemon-music-actions">
                   <button class="pixel-btn" type="button" onclick="playerPlayTrack('national-park-hgss')">play preview ♫</button>
                   <a class="pixel-btn" href="https://music.apple.com/ca/album/national-park/796790051?i=796790266" target="_blank" rel="noopener">full track ↗</a>

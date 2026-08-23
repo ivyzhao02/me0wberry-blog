@@ -169,10 +169,10 @@
   });
 
   const lookbook = [
-    { name: 'sprigatito', artwork: 'sprigatito-artwork.png', model: 'sprigatito-home.png' },
-    { name: 'snivy', artwork: 'snivy-artwork.png', model: 'snivy-home.png' },
-    { name: 'leafeon', artwork: 'leafeon-artwork.png', model: 'leafeon-home.png' },
-    { name: 'sylveon', artwork: 'sylveon-artwork.png', model: 'sylveon-home.png' }
+    { name: 'sprigatito', artwork: 'sprigatito-artwork.png', model: 'sprigatito-home.png', game: 'sprigatito-scarlet-violet.png', gameLabel: 'scarlet + violet' },
+    { name: 'snivy', artwork: 'snivy-artwork.png', model: 'snivy-home.png', game: 'snivy-black-white.png', gameLabel: 'black + white' },
+    { name: 'leafeon', artwork: 'leafeon-artwork.png', model: 'leafeon-home.png', game: 'leafeon-scarlet-violet.png', gameLabel: 'scarlet + violet' },
+    { name: 'sylveon', artwork: 'sylveon-artwork.png', model: 'sylveon-home.png', game: 'sylveon-scarlet-violet.png', gameLabel: 'scarlet + violet' }
   ];
   const lookbookGrid = document.getElementById('pokemon-lookbook-grid');
   lookbook.forEach((favourite) => {
@@ -183,14 +183,15 @@
     title.textContent = favourite.name;
     images.className = 'pokemon-lookbook-pair';
     [
-      ['official artwork', favourite.artwork],
-      ['pokémon home', favourite.model]
-    ].forEach(([label, file]) => {
+      ['official artwork', `../../images/pokemon/favourites/${favourite.artwork}`, 'render'],
+      ['pokémon home', `../../images/pokemon/favourites/${favourite.model}`, 'render'],
+      [favourite.gameLabel, `../../images/pokemon/game-appearances/${favourite.game}`, 'game']
+    ].forEach(([label, source, kind]) => {
       const button = document.createElement('button');
       const image = document.createElement('img');
       const caption = document.createElement('span');
-      const source = `../../images/pokemon/favourites/${file}`;
       button.type = 'button';
+      if (kind === 'game') button.className = 'pokemon-lookbook-game';
       button.dataset.pokemonFull = source;
       button.dataset.pokemonCaption = `${favourite.name} · ${label}`;
       button.setAttribute('aria-label', `open ${favourite.name} ${label}`);
@@ -203,6 +204,125 @@
     });
     card.append(title, images);
     lookbookGrid?.appendChild(card);
+  });
+
+  const histories = [
+    {
+      name: 'snivy',
+      years: '2010 → 2023',
+      entries: [
+        ['2010', 'black + white', 'first partner / Nuvema Town', 'snivy-bw.png', 'sprite'],
+        ['2012', 'black 2 + white 2', 'first partner / Aspertia City', 'snivy-b2w2.png', 'sprite'],
+        ['2013', 'x + y', 'transfer or trade', 'snivy-xy.png', 'render'],
+        ['2014', 'omega ruby + alpha sapphire', 'gift after the Delta Episode', 'snivy-xy.png', 'render'],
+        ['2016', 'sun + moon', 'breed a transferred Serperior', 'snivy-sm.png', 'render'],
+        ['2017', 'ultra sun + ultra moon', 'transfer or trade', 'snivy-sm.png', 'render'],
+        ['2023', 'scarlet + violet', 'Savanna Biome / Indigo Disk', 'snivy-sv.png', 'scene']
+      ]
+    },
+    {
+      name: 'leafeon',
+      years: '2006 → 2025',
+      entries: [
+        ['2006', 'diamond + pearl', 'evolve Eevee at Moss Rock', 'leafeon-dp.png', 'sprite'],
+        ['2008', 'platinum', 'evolve Eevee at Moss Rock', 'leafeon-platinum.png', 'sprite'],
+        ['2009', 'heartgold + soulsilver', 'trade from Sinnoh', 'leafeon-hgss.png', 'sprite'],
+        ['2010', 'black + white', 'evolve a Dream World Eevee', 'leafeon-bw.png', 'sprite'],
+        ['2012', 'black 2 + white 2', 'evolve Eevee at Moss Rock', 'leafeon-bw.png', 'sprite'],
+        ['2013', 'x + y', 'evolve Eevee at Moss Rock', 'leafeon-xy.png', 'render'],
+        ['2014', 'omega ruby + alpha sapphire', 'evolve Eevee at Moss Rock', 'leafeon-xy.png', 'render'],
+        ['2016', 'sun + moon', 'evolve Eevee at Moss Rock', 'leafeon-sm.png', 'render'],
+        ['2017', 'ultra sun + ultra moon', 'evolve Eevee at Moss Rock', 'leafeon-usum.png', 'render'],
+        ['2019', 'sword + shield', 'Lake of Outrage / Leaf Stone', 'leafeon-swsh.png', 'render'],
+        ['2021', 'brilliant diamond + shining pearl', 'evolve Eevee at Moss Rock', 'leafeon-bdsp.png', 'render'],
+        ['2022', 'legends: arceus', 'space-time distortions', 'leafeon-la.png', 'render'],
+        ['2022', 'scarlet + violet', 'wild / Leaf Stone', 'leafeon-scarlet-violet.png', 'scene'],
+        ['2025', 'legends: z-a', 'Wild Zone 20', 'leafeon-za.png', 'scene']
+      ]
+    },
+    {
+      name: 'sylveon',
+      years: '2013 → 2025',
+      entries: [
+        ['2013', 'x + y', 'evolve Eevee with affection', 'sylveon-xy.png', 'render'],
+        ['2014', 'omega ruby + alpha sapphire', 'evolve Eevee with affection', 'sylveon-xy.png', 'render'],
+        ['2016', 'sun + moon', 'evolve Eevee with affection', 'sylveon-sm.png', 'render'],
+        ['2017', 'ultra sun + ultra moon', 'evolve Eevee with affection', 'sylveon-usum.png', 'render'],
+        ['2019', 'sword + shield', 'Lake of Outrage / Max Raid', 'sylveon-swsh.png', 'render'],
+        ['2022', 'legends: arceus', 'space-time distortions', 'sylveon-la.png', 'render'],
+        ['2022', 'scarlet + violet', 'wild / Tera raids', 'sylveon-scarlet-violet.png', 'scene'],
+        ['2025', 'legends: z-a', 'Wild Zone 20', 'sylveon-za.png', 'sprite']
+      ]
+    }
+  ];
+
+  const historyList = document.getElementById('pokemon-history-list');
+  const historySpriteScale = {
+    'snivy-bw.png': 0.8,
+    'snivy-b2w2.png': 0.82,
+    'snivy-xy.png': 3,
+    'snivy-sm.png': 3,
+    'leafeon-dp.png': 1,
+    'leafeon-platinum.png': 1.05,
+    'leafeon-hgss.png': 1.05,
+    'leafeon-bw.png': 1,
+    'leafeon-xy.png': 2.25,
+    'leafeon-sm.png': 1.85,
+    'leafeon-usum.png': 1.55,
+    'leafeon-swsh.png': 1.65,
+    'leafeon-bdsp.png': 0.68,
+    'leafeon-la.png': 0.95,
+    'sylveon-xy.png': 1.9,
+    'sylveon-sm.png': 1.55,
+    'sylveon-usum.png': 1.7,
+    'sylveon-swsh.png': 1.35,
+    'sylveon-la.png': 0.92,
+    'sylveon-za.png': 0.68
+  };
+  histories.forEach((history) => {
+    const section = document.createElement('section');
+    const heading = document.createElement('div');
+    const title = document.createElement('h4');
+    const summary = document.createElement('span');
+    const track = document.createElement('div');
+    section.className = 'pokemon-history-row';
+    heading.className = 'pokemon-history-row-heading';
+    title.textContent = history.name;
+    summary.textContent = `${history.years} · ${history.entries.length} core-series stops`;
+    heading.append(title, summary);
+    track.className = 'pokemon-history-track';
+    track.setAttribute('aria-label', `${history.name} core-series game history`);
+
+    history.entries.forEach(([year, games, method, file, kind]) => {
+      const card = document.createElement('button');
+      const date = document.createElement('span');
+      const visual = document.createElement('span');
+      const image = document.createElement('img');
+      const game = document.createElement('strong');
+      const note = document.createElement('small');
+      const source = `../../images/pokemon/game-appearances/${file}`;
+      card.className = `pokemon-history-card is-${kind}`;
+      card.type = 'button';
+      if (historySpriteScale[file]) card.style.setProperty('--pokemon-sprite-scale', historySpriteScale[file]);
+      card.dataset.pokemonFull = source;
+      card.dataset.pokemonCaption = `${history.name} · ${games} · ${method}`;
+      card.setAttribute('aria-label', `open ${history.name} in ${games}`);
+      date.className = 'pokemon-history-year';
+      date.textContent = year;
+      visual.className = 'pokemon-history-visual';
+      image.src = source;
+      image.alt = `${history.name} in ${games}`;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      game.textContent = games;
+      note.textContent = method;
+      visual.appendChild(image);
+      card.append(date, visual, game, note);
+      track.appendChild(card);
+    });
+
+    section.append(heading, track);
+    historyList?.appendChild(section);
   });
 
   const dialog = document.getElementById('pokemon-memory-dialog');
