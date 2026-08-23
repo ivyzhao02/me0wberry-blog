@@ -18,6 +18,7 @@ Post Studio writes posts into `posts/<category>/`, updates the matching `index.j
 - `/system/` holds the colophon, credits, resources, old-version notes, and changelog.
 - `/webgarden/` holds saved handmade sites, the growing button shelf, and Surprise Me.
 - `/toybox/` holds copyable kaomoji, saved graphics, and desktop resources.
+- `/shrines/` is the hallway for growing subject rooms; Stubby and Pokémon are the first two.
 - `/archive/` provides category browsing and keyword search; `/feed.xml` provides the RSS feed with a browser-friendly view from `/feed.xsl`.
 - `/404.html` gives lost links a themed route back to the Welcome screen or desktop.
 

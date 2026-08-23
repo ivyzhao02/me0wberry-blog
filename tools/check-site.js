@@ -77,7 +77,16 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
   }
 }
 
-if (!exactFiles.has('404.html')) errors.push('404.html: custom not-found page is missing');
+const requiredPages = new Map([
+  ['404.html', 'custom not-found page'],
+  ['shrines/index.html', 'shrine hallway'],
+  ['shrines/stubby/index.html', 'Stubby shrine'],
+  ['shrines/pokemon/index.html', 'Pokémon shrine'],
+]);
+
+for (const [file, label] of requiredPages) {
+  if (!exactFiles.has(file)) errors.push(`${file}: required ${label} is missing`);
+}
 
 for (const file of relativeFiles.filter(file => file.endsWith('.css') && !file.startsWith('tools/'))) {
   const source = fs.readFileSync(path.join(ROOT, file), 'utf8');

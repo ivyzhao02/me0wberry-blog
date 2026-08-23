@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>info — me0wberry</title>
+  <title>shrines — me0wberry</title>
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../feed.xml">
   <script src="../theme-loader.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Press+Start+2P&amp;family=Quicksand:wght@500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="../themes.css" data-site-themes>
+  <link rel="stylesheet" href="shrines.css">
   <style>
     #main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
     @media (max-width: 768px) {
@@ -26,123 +27,55 @@
   <div id="topbar">
     <span id="topbar-title">© me0wberry 2026</span>
     <span id="topbar-tag">(=^･^=) · me0wberry.com</span>
-    <div id="topbar-btns">
-      <button id="cat-toggle" onclick="toggleCats()" title="hide cats">🐱</button>
-      <div class="tb-btn">_</div><div class="tb-btn">□</div><div class="tb-btn">✕</div>
-    </div>
+    <div id="topbar-btns"><button id="cat-toggle" onclick="toggleCats()" title="hide cats">🐱</button><div class="tb-btn">_</div><div class="tb-btn">□</div><div class="tb-btn">✕</div></div>
   </div>
 
   <div id="mobile-back" onclick="window.history.back()" style="display:none;">← back</div>
 
   <div id="layout">
     <div id="sidebar">
-      <div id="sidebar-header">
-        <div id="sidebar-name">me0wberry</div>
-        <div id="sidebar-sub">₍^. .^₎⟆ · markham · she/her · ilmbf ♡✧˚.</div>
-      </div>
+      <div id="sidebar-header"><div id="sidebar-name">me0wberry</div><div id="sidebar-sub">₍^. .^₎⟆ · markham · she/her · ilmbf ♡✧˚.</div></div>
       <div id="sidebar-nav">
         <span class="nav-section-label"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>pages</span>
         <a class="nav-item" href="../index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/home.png" alt="" aria-hidden="true"><span class="nav-item-label">home</span></a>
         <a class="nav-item" href="../now/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"><span class="nav-item-label">now</span></a>
-        <a class="nav-item active" href="index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"><span class="nav-item-label">info</span></a>
+        <a class="nav-item" href="../info/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"><span class="nav-item-label">info</span></a>
         <a class="nav-item" href="../archive/index.html"><img class="nav-icon nav-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"><span class="nav-item-label">archive</span></a>
         <a class="nav-item" href="../system/index.html"><span class="nav-icon system-nav-icon" aria-hidden="true">✦</span><span class="nav-item-label">system</span></a>
         <span class="nav-section-label" style="margin-top:4px"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>extras</span>
         <a class="nav-item" href="../webgarden/index.html"><span class="nav-icon webgarden-nav-icon" aria-hidden="true">✿</span><span class="nav-item-label">webgarden</span></a>
         <a class="nav-item" href="../toybox/index.html"><span class="nav-icon toybox-nav-icon" aria-hidden="true">✧</span><span class="nav-item-label">toybox</span></a>
-        <a class="nav-item" href="../shrines/index.html"><span class="nav-icon shrine-nav-icon" aria-hidden="true">♡</span><span class="nav-item-label">shrines</span></a>
+        <a class="nav-item active" href="index.html"><span class="nav-icon shrine-nav-icon" aria-hidden="true">♡</span><span class="nav-item-label">shrines</span></a>
         <button class="nav-item nav-item-button" type="button" onclick="surpriseMe()"><span class="nav-icon surprise-icon" aria-hidden="true">✦</span><span class="nav-item-label">surprise me</span></button>
         <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')"><img class="nav-icon nav-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true"><span class="nav-item-label">player</span></div>
       </div>
     </div>
 
     <div id="main">
-      <div class="panel open info-page-panel" id="panel-info" data-static-panel>
-        <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">/ info</span></div>
+      <div class="panel open shrine-page-panel" id="panel-shrines" data-static-panel>
+        <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">／ shrine hallway</span></div>
         <div class="panel-body">
-          <a href="../index.html" class="page-back-link">← home</a>
-          <div class="pixel-tag">/ me0wberry</div>
-          <h1 class="panel-heading">hello ! ₊˚⊹</h1>
+          <a href="../index.html" class="info-home-link">← home</a>
+          <div class="pixel-tag">／ shrines</div>
+          <h1 class="panel-heading">favourite things get their own rooms ♡</h1>
+          <p class="shrine-intro">a hallway for the things i could talk about forever . the shelves are only just getting started</p>
 
-          <div class="info-profile-grid">
-            <section class="info-card info-identity-card">
-              <div class="info-avatar-frame">
-                <img src="../images/cat-avatar_2.png" alt="pink pixel cat avatar wearing a green collar">
-              </div>
-              <div>
-                <div class="info-profile-name">me0wberry</div>
-                <div class="info-profile-meta">she / her · markham · eng / 中文</div>
-                <p class="info-profile-copy">my little online home for monthly updates , favourite things , collections in progress &amp; whatever else i feel like keeping here (˶ᵔ ᵕ ᵔ˶)</p>
-                <div class="info-chip-row" aria-label="interests">
-                  <span class="info-chip">cats</span>
-                  <span class="info-chip">games</span>
-                  <span class="info-chip">plushies</span>
-                  <span class="info-chip">pink + green</span>
-                  <span class="info-chip">webmaking</span>
-                </div>
-              </div>
-            </section>
+          <div class="shrine-hallway-grid">
+            <a class="shrine-door shrine-door-stubby" href="stubby/index.html">
+              <div class="shrine-door-preview"><img src="../images/stubby-gifypet.png" alt="pink pixel cat representing Stubby"></div>
+              <div class="shrine-door-label-row"><span class="shrine-door-title">stubby's room</span><span class="shrine-door-status">open ♡</span></div>
+              <p class="shrine-door-copy">photos , monthly notes + many years of being the most important cat ever</p>
+            </a>
 
-            <aside class="info-card info-art-card">
-              <div class="info-art-silhouette" aria-hidden="true">₍^. .^₎⟆</div>
-              <div class="info-section-title">online self gallery</div>
-              <p class="info-profile-copy">a home for commissioned art of me0wberry as the collection grows ˖°</p>
-              <a class="pixel-btn" href="https://vgen.co/yoursleepywitch/portfolio/showcase/me0wberry-s-minecraft-skin/e3c6efce-e736-4215-8933-168b7fe8b230" target="_blank" rel="noopener" style="margin-top:10px;">minecraft skin ↗</a>
-            </aside>
+            <a class="shrine-door shrine-door-pokemon" href="pokemon/index.html">
+              <div class="shrine-door-preview"><img class="shrine-love-ball" src="../images/pokemon/love-ball.png" alt="Love Ball from Pokémon"></div>
+              <div class="shrine-door-label-row"><span class="shrine-door-title">pokémon room</span><span class="shrine-door-status">shelves ready ✦</span></div>
+              <p class="shrine-door-copy">shinies , cards , teams , plushies + whatever else ends up here</p>
+            </a>
           </div>
-
-          <section class="info-section" aria-labelledby="find-me-title">
-            <h2 class="info-section-title" id="find-me-title">find me ✧˚.</h2>
-            <div class="info-social-links">
-              <a href="https://www.twitch.tv/me0wberry_" target="_blank" rel="noopener" class="pixel-btn">twitch ↗</a>
-              <a href="https://www.instagram.com/z._ivy/" target="_blank" rel="noopener" class="pixel-btn">instagram ↗</a>
-              <a href="https://open.spotify.com/user/_no_need_for_names_?si=b15417a7b9884f96" target="_blank" rel="noopener" class="pixel-btn">spotify ↗</a>
-              <a href="https://me0wberry.tumblr.com" target="_blank" rel="noopener" class="pixel-btn">tumblr ↗</a>
-              <a href="https://steamcommunity.com/id/berrymeowy/" target="_blank" rel="noopener" class="pixel-btn">steam ↗</a>
-                <a href="https://bsky.app/profile/me0wberry.com" target="_blank" rel="noopener" class="pixel-btn">bluesky ↗</a>
-              <button class="pixel-btn" onclick="showDiscordPopup()">discord</button>
-            </div>
-          </section>
-
-          <section class="info-section" aria-labelledby="projects-title">
-            <h2 class="info-section-title" id="projects-title">projects ₊˚.</h2>
-            <div class="project-card info-project-card">
-              <div class="project-card-header">
-                <img class="project-card-icon" src="../images/ui-icons/projects.png" alt="" aria-hidden="true">
-                <div>
-                  <div class="project-card-title">blightfall</div>
-                  <div class="project-card-role">community management &amp; operations lead</div>
-                </div>
-              </div>
-              <p class="project-card-copy">helping keep a roblox game project moving behind the scenes , across its community , operations &amp; development planning ˖°</p>
-              <a class="pixel-btn project-card-link" href="https://blightfall.ca" target="_blank" rel="noopener">check out the development ↗</a>
-            </div>
-            <div class="project-card info-project-card">
-              <div class="project-card-header">
-                <img class="project-card-icon" src="../images/ui-icons/home.png" alt="" aria-hidden="true">
-                <div>
-                  <div class="project-card-title">website development</div>
-                  <div class="project-card-role">personal sites + web experiments</div>
-                </div>
-              </div>
-              <p class="project-card-copy">making little websites has become one of my forever projects . this one gets most of the attention ♡</p>
-              <a class="pixel-btn project-card-link" href="../system/index.html">behind this site ↗</a>
-            </div>
-          </section>
-
-          <section class="info-section" aria-labelledby="site-info-title">
-            <h2 class="info-section-title" id="site-info-title">about this webspace</h2>
-            <p class="info-profile-copy">fonts , credits , resources , old versions &amp; the changelog live in their own little settings window now ♡</p>
-            <a class="pixel-btn" href="../system/index.html" style="margin-top:9px;">open system properties ↗</a>
-          </section>
         </div>
       </div>
     </div>
-  </div>
-
-  <div id="discord-popup">
-    <div class="discord-titlebar" id="discord-titlebar"><span>discord</span><div class="panel-close" onclick="hideDiscordPopup()">✕</div></div>
-    <div class="discord-body"><p>ask! (=^･^=)</p><button class="discord-ok" onclick="hideDiscordPopup()">ok</button></div>
   </div>
 
   <div class="panel" id="panel-player" style="width:280px;">
@@ -163,7 +96,7 @@
       <div class="taskbar-pinned" aria-label="quick launch">
         <a class="taskbar-app" href="../index.html" title="home"><img class="taskbar-icon-img" src="../images/ui-icons/home.png" alt="" aria-hidden="true"></a>
         <a class="taskbar-app" href="../now/index.html" title="now"><img class="taskbar-icon-img" src="../images/ui-icons/lately.png" alt="" aria-hidden="true"></a>
-        <a class="taskbar-app is-active" href="index.html" title="info"><img class="taskbar-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../info/index.html" title="info"><img class="taskbar-icon-img" src="../images/ui-icons/info.png" alt="" aria-hidden="true"></a>
         <a class="taskbar-app" href="../archive/index.html" title="archive"><img class="taskbar-icon-img" src="../images/ui-icons/archive.png" alt="" aria-hidden="true"></a>
         <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><img class="taskbar-icon-img" src="../images/ui-icons/player.png" alt="" aria-hidden="true"></button>
         <button class="taskbar-app" type="button" onclick="surpriseMe()" title="surprise me" aria-label="open a random post"><span class="surprise-icon" aria-hidden="true">✦</span></button>

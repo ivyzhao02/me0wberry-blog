@@ -496,7 +496,8 @@
     }
     .surprise-icon,
     .webgarden-nav-icon,
-    .toybox-nav-icon {
+    .toybox-nav-icon,
+    .shrine-nav-icon {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -509,6 +510,7 @@
     .surprise-icon { font-size: 18px; }
     .webgarden-nav-icon { font-size: 19px; }
     .toybox-nav-icon { font-size: 18px; }
+    .shrine-nav-icon { font-size: 18px; }
     .taskbar-app:hover .surprise-icon { transform: translateY(-1px) rotate(12deg) scale(1.08); }
     .start-window {
       position: relative;
