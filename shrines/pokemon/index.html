@@ -44,7 +44,7 @@
         <a class="nav-item" href="../../system/index.html"><span class="nav-icon system-nav-icon" aria-hidden="true">✦</span><span class="nav-item-label">system</span></a>
         <span class="nav-section-label" style="margin-top:4px"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>extras</span>
         <a class="nav-item" href="../../webgarden/index.html"><span class="nav-icon webgarden-nav-icon" aria-hidden="true">✿</span><span class="nav-item-label">webgarden</span></a>
-        <a class="nav-item" href="../../toybox/index.html"><span class="nav-icon toybox-nav-icon" aria-hidden="true">✧</span><span class="nav-item-label">toybox</span></a>
+        <a class="nav-item" href="../../toybox/index.html"><span class="nav-icon toybox-nav-icon" aria-hidden="true">✧</span><span class="nav-item-label">trinkets</span></a>
         <a class="nav-item active" href="../index.html"><span class="nav-icon shrine-nav-icon" aria-hidden="true">♡</span><span class="nav-item-label">shrines</span></a>
         <button class="nav-item nav-item-button" type="button" onclick="surpriseMe()"><span class="nav-icon surprise-icon" aria-hidden="true">✦</span><span class="nav-item-label">surprise me</span></button>
         <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')"><img class="nav-icon nav-icon-img" src="../../images/ui-icons/player.png" alt="" aria-hidden="true"><span class="nav-item-label">player</span></div>
@@ -55,7 +55,7 @@
       <div class="panel open shrine-page-panel" id="panel-pokemon-shrine" data-static-panel>
         <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">／ pokémon room</span></div>
         <div class="panel-body">
-          <a href="../index.html" class="info-home-link">← shrine hallway</a>
+          <a href="../index.html" class="info-home-link">← shrine</a>
           <div class="pixel-tag">／ pokémon shrine</div>
 
           <div class="shrine-room-hero">
@@ -66,31 +66,48 @@
             </div>
           </div>
 
-          <h2 class="shrine-cabinet-heading">cabinets / waiting for their first entries</h2>
+          <h2 class="shrine-cabinet-heading">pc boxes / wip</h2>
           <div class="shrine-cabinet-grid">
-            <div class="shrine-cabinet-card is-future">
-              <span class="shrine-cabinet-status">collecting</span>
-              <strong>shiny cabinet</strong>
-              <p>screenshots + catches in their own little display</p>
+            <div class="shrine-cabinet-card shrine-cabinet-card-with-icon is-future">
+              <span class="shrine-cabinet-icon-frame"><img class="shrine-cabinet-icon" src="../../images/pokemon/shiny-sprigatito.png" alt="" aria-hidden="true"></span>
+              <div>
+                <span class="shrine-cabinet-status">catching</span>
+                <strong>shiny pokémon</strong>
+                <p>screenshots + catches in their own little display</p>
+              </div>
             </div>
-            <div class="shrine-cabinet-card is-future">
-              <span class="shrine-cabinet-status">collecting</span>
-              <strong>tcg binder</strong>
-              <p>favourite cards , art + pages from the collection</p>
+            <div class="shrine-cabinet-card shrine-cabinet-card-with-icon is-future">
+              <span class="shrine-cabinet-icon-frame"><img class="shrine-cabinet-icon" src="../../images/pokemon/snivy.png" alt="" aria-hidden="true"></span>
+              <div>
+                <span class="shrine-cabinet-status">catching</span>
+                <strong>tcg binder</strong>
+                <p>favourite cards , art + pages from the collection</p>
+              </div>
             </div>
-            <div class="shrine-cabinet-card is-future">
-              <span class="shrine-cabinet-status">collecting</span>
-              <strong>teams + favourites</strong>
-              <p>games , generations + the pokémon i keep choosing</p>
+            <div class="shrine-cabinet-card shrine-cabinet-card-with-icon is-future">
+              <span class="shrine-cabinet-icon-frame"><img class="shrine-cabinet-icon" src="../../images/pokemon/leafeon.png" alt="" aria-hidden="true"></span>
+              <div>
+                <span class="shrine-cabinet-status">catching</span>
+                <strong>favourites</strong>
+                <p>games , generations + the pokémon i keep choosing</p>
+              </div>
             </div>
-            <div class="shrine-cabinet-card is-future">
-              <span class="shrine-cabinet-status">collecting</span>
-              <strong>plush shelf</strong>
-              <p>plushies + merch when there is enough to make a proper shelf</p>
+            <div class="shrine-cabinet-card shrine-cabinet-card-with-icon is-future">
+              <span class="shrine-cabinet-icon-frame"><img class="shrine-cabinet-icon" src="../../images/pokemon/sylveon.png" alt="" aria-hidden="true"></span>
+              <div>
+                <span class="shrine-cabinet-status">catching</span>
+                <strong>plush shelf</strong>
+                <p>plushies + merch when there is enough to make a proper shelf</p>
+              </div>
             </div>
           </div>
 
-          <div class="shrine-room-footer"><a class="pixel-btn" href="../index.html">shrine hallway</a></div>
+          <section class="shrine-post-shelf" aria-labelledby="pokemon-posts-title">
+            <h2 class="shrine-cabinet-heading" id="pokemon-posts-title">trainer logs / from the blog</h2>
+            <ul class="shrine-post-list" id="pokemon-post-list"><li>looking through the archive . . .</li></ul>
+          </section>
+
+          <div class="shrine-room-footer"><a class="pixel-btn" href="../index.html">shrine</a></div>
         </div>
       </div>
     </div>
@@ -117,7 +134,7 @@
         <a class="taskbar-app" href="../../info/index.html" title="info"><img class="taskbar-icon-img" src="../../images/ui-icons/info.png" alt="" aria-hidden="true"></a>
         <a class="taskbar-app" href="../../archive/index.html" title="archive"><img class="taskbar-icon-img" src="../../images/ui-icons/archive.png" alt="" aria-hidden="true"></a>
         <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><img class="taskbar-icon-img" src="../../images/ui-icons/player.png" alt="" aria-hidden="true"></button>
-        <button class="taskbar-app" type="button" onclick="surpriseMe()" title="surprise me" aria-label="open a random post"><span class="surprise-icon" aria-hidden="true">✦</span></button>
+        <button class="taskbar-app" type="button" onclick="surpriseMe()" title="surprise me" aria-label="open something random from the site"><span class="surprise-icon" aria-hidden="true">✦</span></button>
       </div>
       <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>
     </div>
@@ -125,5 +142,6 @@
 
   <script src="../../data/search-index.js"></script>
   <script src="../../script.js" data-site-root="../.."></script>
+  <script src="pokemon-shrine.js"></script>
 </body>
 </html>

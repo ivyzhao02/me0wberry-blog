@@ -170,6 +170,13 @@
       font-size: 6px;
     }
 
+    .welcome-meta a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .welcome-meta a:hover { color: var(--pink); }
+
     .welcome-deco-icon {
       position: absolute;
       z-index: 2;
@@ -476,8 +483,9 @@
     .taskbar-start-icon,
     .taskbar-icon-img,
     .taskbar-window-icon {
-      width: 27px;
-      height: 27px;
+      width: 40px;
+      height: 40px;
+      margin-inline: -6px;
       object-fit: contain;
       flex: 0 0 auto;
       filter: drop-shadow(0 2px 3px rgba(122,58,82,0.13));
@@ -485,7 +493,9 @@
     }
     .taskbar-icon-img[src$="/player.png"],
     .taskbar-window-icon[src$="/player.png"] {
-      width: 29px;
+      width: 27px;
+      height: 27px;
+      margin-inline: 0;
     }
     .taskbar-start:hover .taskbar-start-icon,
     .taskbar-app:hover .taskbar-icon-img,
@@ -495,22 +505,43 @@
       filter: drop-shadow(0 4px 5px rgba(107,130,78,0.18));
     }
     .surprise-icon,
+    .system-nav-icon,
     .webgarden-nav-icon,
     .toybox-nav-icon,
     .shrine-nav-icon {
       display: inline-flex;
+      width: 32px;
+      height: 32px;
+      flex: 0 0 auto;
       align-items: center;
       justify-content: center;
-      color: var(--green);
-      font-family: var(--font-heading);
-      font-weight: 700;
-      line-height: 1;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.82);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      color: transparent;
+      font-size: 0;
+      line-height: 0;
+      filter: drop-shadow(0 2px 3px rgba(122,58,82,0.13));
+      transition: transform 0.14s, filter 0.14s;
     }
-    .surprise-icon { font-size: 18px; }
-    .webgarden-nav-icon { font-size: 19px; }
-    .toybox-nav-icon { font-size: 18px; }
-    .shrine-nav-icon { font-size: 18px; }
+    .system-nav-icon { background-image: url('images/ui-icons/system.png'); }
+    .webgarden-nav-icon { background-image: url('images/ui-icons/webgarden.png'); }
+    .toybox-nav-icon { background-image: url('images/ui-icons/trinkets.png'); }
+    .shrine-nav-icon { background-image: url('images/ui-icons/shrines.png'); }
+    .surprise-icon { background-image: url('images/ui-icons/surprise.png'); }
+    .taskbar-app .surprise-icon { width: 27px; height: 27px; }
+    .nav-item:hover .system-nav-icon,
+    .nav-item:hover .webgarden-nav-icon,
+    .nav-item:hover .toybox-nav-icon,
+    .nav-item:hover .shrine-nav-icon,
+    .nav-item:hover .surprise-icon,
+    .nav-item.active .system-nav-icon,
+    .nav-item.active .webgarden-nav-icon,
+    .nav-item.active .toybox-nav-icon,
+    .nav-item.active .shrine-nav-icon {
+      transform: translateY(-1px) rotate(-4deg) scale(1.06);
+      filter: drop-shadow(0 4px 5px rgba(107,130,78,0.18));
+    }
     .taskbar-app:hover .surprise-icon { transform: translateY(-1px) rotate(12deg) scale(1.08); }
     .start-window {
       position: relative;
@@ -772,10 +803,17 @@
       filter: drop-shadow(0 2px 3px rgba(122,58,82,0.12));
       transition: transform 0.14s, filter 0.14s;
     }
+    .nav-icon-img {
+      width: 48px;
+      height: 48px;
+      margin-left: -8px;
+      margin-right: -8px;
+    }
     .nav-icon-img[src$="/player.png"] {
-      width: 38px;
-      margin-left: -2px;
-      margin-right: -2px;
+      width: 34px;
+      height: 34px;
+      margin-left: -1px;
+      margin-right: -1px;
     }
     .nav-item > svg {
       width: 20px;
@@ -1668,10 +1706,17 @@
         width: 30px;
         height: 30px;
       }
+      .nav-icon-img {
+        width: 44px;
+        height: 44px;
+        margin-left: -7px;
+        margin-right: -7px;
+      }
       .nav-icon-img[src$="/player.png"] {
-        width: 34px;
-        margin-left: -2px;
-        margin-right: -2px;
+        width: 32px;
+        height: 32px;
+        margin-left: -1px;
+        margin-right: -1px;
       }
       #sidebar-header { padding: 12px 14px 10px; }
       #topbar-tag { display: none; }
@@ -1974,17 +2019,6 @@
 }
 
 /* ── Info + System Properties ── */
-.system-nav-icon {
-  display: inline-flex;
-  width: 32px;
-  height: 32px;
-  align-items: center;
-  justify-content: center;
-  color: var(--green);
-  font-size: 18px;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.9);
-}
-
 .info-page-panel,
 .system-page-panel,
 .webgarden-page-panel,
@@ -2119,7 +2153,7 @@
   .webgarden-surprise { align-items: flex-start; flex-direction: column; }
 }
 
-/* ── Toybox ── */
+/* ── Trinkets (stable /toybox/ route) ── */
 .toybox-intro {
   max-width: 760px;
   margin: 4px 0 18px;
@@ -2602,6 +2636,53 @@ a.toybox-resource-card:hover {
   margin-bottom: 4px;
 }
 
+.site-map-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.site-map-group {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--theme-border, rgba(192,112,144,0.22));
+  border-radius: 12px;
+  background: var(--theme-control-bg, rgba(255,255,255,0.36));
+  box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.76));
+}
+
+.site-map-group h3 {
+  margin-bottom: 7px;
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  line-height: 1.6;
+}
+
+.site-map-group a {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 2px;
+  color: var(--body);
+  font-size: 11px;
+  text-decoration: none;
+  transition: color 0.14s ease, transform 0.14s ease;
+}
+
+.site-map-group a:hover {
+  color: var(--pink);
+  transform: translateX(2px);
+}
+
+.site-map-group img {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
 .system-resource-list {
   list-style: none;
 }
@@ -2627,10 +2708,13 @@ a.toybox-resource-card:hover {
   .system-overview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .site-map-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 520px) {
   .skin-picker { grid-template-columns: 1fr; }
+  .site-map-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 620px) {

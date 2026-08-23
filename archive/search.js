@@ -86,7 +86,7 @@
       status.textContent = 'searches titles , categories & the words inside posts';
       if (input.value.trim()) runSearch();
     } catch (error) {
-      status.textContent = 'search is taking a little nap right now (ᐢ. .ᐢ)';
+      status.textContent = 'zzz . . . search is taking a little nap right now (ᐢ. .ᐢ)';
       console.error('Could not load the archive search index.', error);
     }
   }

@@ -79,7 +79,7 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
 
 const requiredPages = new Map([
   ['404.html', 'custom not-found page'],
-  ['shrines/index.html', 'shrine hallway'],
+  ['shrines/index.html', 'shrine'],
   ['shrines/stubby/index.html', 'Stubby shrine'],
   ['shrines/pokemon/index.html', 'Pokémon shrine'],
 ]);

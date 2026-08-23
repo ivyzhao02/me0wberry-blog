@@ -164,16 +164,24 @@
 
     function surpriseMe() {
       const posts = window.me0wberrySearchIndex?.posts;
-      if (!Array.isArray(posts) || posts.length === 0) {
-        window.location.href = sitePath('/archive/index.html');
-        return;
-      }
+      const places = [
+        '/info/index.html',
+        '/now/index.html',
+        '/archive/index.html',
+        '/system/index.html',
+        '/webgarden/index.html',
+        '/toybox/index.html',
+        '/shrines/index.html',
+        '/shrines/stubby/index.html',
+        '/shrines/pokemon/index.html',
+      ];
+      const destinations = places.concat(Array.isArray(posts) ? posts.map((post) => post.url) : []);
 
       const currentPath = decodeURIComponent(window.location.pathname).replace(/\\/g, '/');
-      const choices = posts.filter((post) => !currentPath.endsWith(post.url));
-      const pool = choices.length ? choices : posts;
+      const choices = destinations.filter((url) => !currentPath.endsWith(url));
+      const pool = choices.length ? choices : ['/archive/index.html'];
       const pick = pool[Math.floor(Math.random() * pool.length)];
-      window.location.href = sitePath(pick.url);
+      window.location.href = sitePath(pick);
     }
 
     window.surpriseMe = surpriseMe;

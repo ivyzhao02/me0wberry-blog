@@ -228,6 +228,68 @@ a.shrine-cabinet-card:hover {
   line-height: 1.55;
 }
 
+.shrine-cabinet-card-with-icon {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.shrine-cabinet-icon-frame {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--theme-border, rgba(192,112,144,0.24));
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(255,216,228,0.42), rgba(219,239,209,0.38));
+}
+
+.shrine-cabinet-icon {
+  width: 76px;
+  height: 76px;
+  max-width: none;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.shrine-post-shelf {
+  margin-top: 18px;
+}
+
+.shrine-post-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  list-style: none;
+}
+
+.shrine-post-list li {
+  min-width: 0;
+  padding: 9px 11px;
+  border: 1px solid var(--theme-border, rgba(150,180,135,0.32));
+  border-radius: 11px;
+  background: var(--theme-control-bg, rgba(255,255,255,0.34));
+}
+
+.shrine-post-list a {
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.shrine-post-list a:hover { color: var(--pink); }
+
+.shrine-post-list small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
 .shrine-room-footer {
   display: flex;
   flex-wrap: wrap;
@@ -237,7 +299,8 @@ a.shrine-cabinet-card:hover {
 
 @media (max-width: 760px) {
   .shrine-hallway-grid,
-  .shrine-cabinet-grid {
+  .shrine-cabinet-grid,
+  .shrine-post-list {
     grid-template-columns: 1fr;
   }
 

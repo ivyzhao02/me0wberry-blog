@@ -166,7 +166,7 @@
           </div>
           <div class="feed-body">
             <h1 class="feed-heading"><xsl:value-of select="rss/channel/title" /> ♡</h1>
-            <p class="feed-intro">this is the rss feed ! add this page's address to a feed reader , or look through the latest posts below (˶ᵔ ᵕ ᵔ˶)</p>
+          <p class="feed-intro">this is the rss feed ! add this page address to a feed reader , or look through the latest posts below (˶ᵔ ᵕ ᵔ˶)</p>
             <p class="feed-updated">last built : <xsl:value-of select="rss/channel/lastBuildDate" /></p>
             <div class="feed-list">
               <xsl:for-each select="rss/channel/item">
