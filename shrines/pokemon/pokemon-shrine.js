@@ -208,6 +208,13 @@
 
   const histories = [
     {
+      name: 'sprigatito',
+      years: '2022 → now',
+      entries: [
+        ['2022', 'scarlet + violet', 'first partner / Cabo Poco', ['sprigatito-sweet-aroma.jpg', 'sprigatito-plants.jpg'], 'scene-duo']
+      ]
+    },
+    {
       name: 'snivy',
       years: '2010 → 2023',
       entries: [
@@ -286,6 +293,7 @@
     const summary = document.createElement('span');
     const track = document.createElement('div');
     section.className = 'pokemon-history-row';
+    if (history.entries.length === 1) section.classList.add('is-short');
     heading.className = 'pokemon-history-row-heading';
     title.textContent = history.name;
     summary.textContent = `${history.years} · ${history.entries.length} core-series stops`;
@@ -294,29 +302,46 @@
     track.setAttribute('aria-label', `${history.name} core-series game history`);
 
     history.entries.forEach(([year, games, method, file, kind]) => {
-      const card = document.createElement('button');
+      const files = Array.isArray(file) ? file : [file];
+      const card = document.createElement(files.length > 1 ? 'article' : 'button');
       const date = document.createElement('span');
       const visual = document.createElement('span');
-      const image = document.createElement('img');
       const game = document.createElement('strong');
       const note = document.createElement('small');
-      const source = `../../images/pokemon/game-appearances/${file}`;
       card.className = `pokemon-history-card is-${kind}`;
-      card.type = 'button';
+      if (card.tagName === 'BUTTON') card.type = 'button';
       if (historySpriteScale[file]) card.style.setProperty('--pokemon-sprite-scale', historySpriteScale[file]);
-      card.dataset.pokemonFull = source;
-      card.dataset.pokemonCaption = `${history.name} · ${games} · ${method}`;
-      card.setAttribute('aria-label', `open ${history.name} in ${games}`);
       date.className = 'pokemon-history-year';
       date.textContent = year;
       visual.className = 'pokemon-history-visual';
-      image.src = source;
-      image.alt = `${history.name} in ${games}`;
-      image.loading = 'lazy';
-      image.decoding = 'async';
+      files.forEach((imageFile, imageIndex) => {
+        const source = `../../images/pokemon/game-appearances/${imageFile}`;
+        const image = document.createElement('img');
+        const imageLabel = files.length > 1 ? ` scene ${imageIndex + 1}` : '';
+        image.src = source;
+        image.alt = `${history.name} in ${games}${imageLabel}`;
+        image.loading = history.entries.length === 1 ? 'eager' : 'lazy';
+        image.decoding = 'async';
+
+        if (files.length > 1) {
+          const imageButton = document.createElement('button');
+          imageButton.className = 'pokemon-history-scene-button';
+          imageButton.type = 'button';
+          imageButton.dataset.pokemonFull = source;
+          imageButton.dataset.pokemonCaption = `${history.name} · ${games} · official scene ${imageIndex + 1}`;
+          imageButton.setAttribute('aria-label', `open ${history.name} ${games} scene ${imageIndex + 1}`);
+          imageButton.appendChild(image);
+          visual.appendChild(imageButton);
+          return;
+        }
+
+        card.dataset.pokemonFull = source;
+        card.dataset.pokemonCaption = `${history.name} · ${games} · ${method}`;
+        card.setAttribute('aria-label', `open ${history.name} in ${games}`);
+        visual.appendChild(image);
+      });
       game.textContent = games;
       note.textContent = method;
-      visual.appendChild(image);
       card.append(date, visual, game, note);
       track.appendChild(card);
     });
