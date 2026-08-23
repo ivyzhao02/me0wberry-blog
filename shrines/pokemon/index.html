@@ -21,6 +21,9 @@
       #sidebar { display: none; }
       #mobile-back { display: flex !important; }
     }
+    @media (min-width: 1241px) and (max-width: 1500px) {
+      .shrine-page-panel { width: calc(100% - 300px) !important; }
+    }
   </style>
 </head>
 <body>
@@ -68,39 +71,98 @@
 
           <h2 class="shrine-cabinet-heading">pc boxes / wip</h2>
           <div class="shrine-cabinet-grid">
-            <div class="shrine-cabinet-card shrine-cabinet-card-with-icon is-future">
+            <a class="shrine-cabinet-card shrine-cabinet-card-with-icon" href="#shiny-boxes">
               <span class="shrine-cabinet-icon-frame"><img class="shrine-cabinet-icon shrine-cabinet-icon-sprigatito" src="../../images/pokemon/shiny-sprigatito.png" alt="" aria-hidden="true"></span>
               <div>
                 <span class="shrine-cabinet-status">catching</span>
                 <strong>shiny pokémon</strong>
                 <p>screenshots + catches in their own little display</p>
               </div>
-            </div>
-            <div class="shrine-cabinet-card shrine-cabinet-card-with-icon is-future">
+            </a>
+            <a class="shrine-cabinet-card shrine-cabinet-card-with-icon" href="#tcg-binder">
               <span class="shrine-cabinet-icon-frame"><img class="shrine-cabinet-icon shrine-cabinet-icon-snivy" src="../../images/pokemon/snivy.png" alt="" aria-hidden="true"></span>
               <div>
                 <span class="shrine-cabinet-status">catching</span>
                 <strong>tcg binder</strong>
                 <p>favourite cards , art + pages from the collection</p>
               </div>
-            </div>
-            <div class="shrine-cabinet-card shrine-cabinet-card-with-icon is-future">
+            </a>
+            <a class="shrine-cabinet-card shrine-cabinet-card-with-icon" href="#favourite-families">
               <span class="shrine-cabinet-icon-frame"><img class="shrine-cabinet-icon shrine-cabinet-icon-leafeon" src="../../images/pokemon/leafeon.png" alt="" aria-hidden="true"></span>
               <div>
                 <span class="shrine-cabinet-status">catching</span>
                 <strong>favourites</strong>
                 <p>games , generations + the pokémon i keep choosing</p>
               </div>
-            </div>
-            <div class="shrine-cabinet-card shrine-cabinet-card-with-icon is-future">
+            </a>
+            <a class="shrine-cabinet-card shrine-cabinet-card-with-icon" href="#plush-shelf">
               <span class="shrine-cabinet-icon-frame"><img class="shrine-cabinet-icon shrine-cabinet-icon-sylveon" src="../../images/pokemon/sylveon.png" alt="" aria-hidden="true"></span>
               <div>
                 <span class="shrine-cabinet-status">catching</span>
                 <strong>plush shelf</strong>
                 <p>plushies + merch when there is enough to make a proper shelf</p>
               </div>
-            </div>
+            </a>
           </div>
+
+          <section class="pokemon-room-section" id="shiny-boxes" aria-labelledby="shiny-boxes-title">
+            <div class="pokemon-section-heading">
+              <div><div class="pixel-tag">／ shiny pokémon</div><h2 id="shiny-boxes-title">sparkle boxes ✦</h2></div>
+              <p>lucky finds from pokémon go , scarlet + legends z-a</p>
+            </div>
+            <h3 class="shrine-cabinet-heading">new catches / august 2026</h3>
+            <div class="pokemon-shiny-grid pokemon-shiny-grid-featured" id="pokemon-new-shinies"></div>
+            <details class="pokemon-shiny-archive" id="pokemon-shiny-archive">
+              <summary>open the earlier shiny boxes ♡</summary>
+              <div class="pokemon-shiny-grid" id="pokemon-earlier-shinies"></div>
+            </details>
+          </section>
+
+          <section class="pokemon-room-section" id="tcg-binder" aria-labelledby="tcg-binder-title">
+            <div class="pokemon-section-heading">
+              <div><div class="pixel-tag">／ tcg binder</div><h2 id="tcg-binder-title">cards i keep thinking about</h2></div>
+              <p>the collection is small , but very specifically green</p>
+            </div>
+            <div class="pokemon-collection-stats" aria-label="favourite Pokémon card collection snapshot">
+              <a class="pokemon-collection-total" href="https://app.getcollectr.com/showcase/profile/c1611fa8-a5d1-4116-8450-d8061782227c" target="_blank" rel="noopener"><strong>62</strong><span>cards / 3 favourite binders</span></a>
+              <a href="https://app.getcollectr.com/showcase/profile/@me0wberry?collection=6614f954-884f-4d7b-aea4-0ac2beaa451c" target="_blank" rel="noopener"><strong>33</strong><span>leafeon</span></a>
+              <a href="https://app.getcollectr.com/showcase/profile/@me0wberry?collection=eb1a2168-9730-4161-b5d3-20e0d57aa722" target="_blank" rel="noopener"><strong>21</strong><span>sprigatito</span></a>
+              <a href="https://app.getcollectr.com/showcase/profile/@me0wberry?collection=923a4f14-f686-4a10-8ff6-011cd2ec00d9" target="_blank" rel="noopener"><strong>8</strong><span>snivy</span></a>
+            </div>
+            <p class="pokemon-collection-note">collection snapshot / august 2026 · all raw , 0 slabs ♡</p>
+            <div class="pokemon-binder-layout">
+              <article class="pokemon-owned-card">
+                <button class="pokemon-owned-card-photo" type="button" data-pokemon-full="../../images/games/a070a006-4897-4433-a67f-ca68eea2e766.jpg" data-pokemon-caption="French Sprigatito card with my decorated Switch Lite">
+                  <img src="../../images/games/a070a006-4897-4433-a67f-ca68eea2e766.jpg" alt="French Sprigatito card below a decorated pink Switch Lite" loading="lazy">
+                </button>
+                <div><span class="shrine-cabinet-status">in the binder</span><h3>poussacha / sprigatito</h3><p>scarlet &amp; violet · 013/198 · french reverse holo ♡</p><p class="pokemon-owned-note">also here : sprigatito 196/193 in english + japanese , and svp 191 ♡</p><a href="https://www.pokemon.com/us/pokemon-tcg/pokemon-cards/series/sv01/13" target="_blank" rel="noopener">card details ↗</a></div>
+              </article>
+              <div class="pokemon-wishlist">
+                <h3 class="shrine-cabinet-heading">wishlist / dream cards</h3>
+                <a href="https://www.pokecardex.com/en/carte/chn/5458" target="_blank" rel="noopener"><strong>sprigatito</strong><span>gem pack vol. 1 · 0109/09 · horizons full art</span></a>
+                <a href="https://www.pokemon.com/us/pokemon-tcg/pokemon-cards/series/swsh7/205/" target="_blank" rel="noopener"><strong>leafeon vmax</strong><span>evolving skies · 205/203 · alternate art</span></a>
+                <a href="https://bulbapedia.bulbagarden.net/wiki/Leafeon_VSTAR_(Crown_Zenith_GG35)" target="_blank" rel="noopener"><strong>leafeon vstar</strong><span>crown zenith · gg35/gg70 · galarian gallery</span></a>
+                <a href="https://www.pokemon.com/us/pokemon-tcg/pokemon-cards/series/smp/SM229" target="_blank" rel="noopener"><strong>venusaur &amp; snivy-gx</strong><span>sun &amp; moon promo · sm229</span></a>
+              </div>
+            </div>
+            <div class="pokemon-collection-preview-heading"><h3 class="shrine-cabinet-heading">from the binders / a tiny preview</h3><p>three from each · no prices here ♡</p></div>
+            <div class="pokemon-card-preview-grid" id="pokemon-card-preview-grid"></div>
+          </section>
+
+          <section class="pokemon-room-section" id="favourite-families" aria-labelledby="favourite-families-title">
+            <div class="pokemon-section-heading">
+              <div><div class="pixel-tag">／ favourites</div><h2 id="favourite-families-title">favourite families ♡</h2></div>
+              <p>normal + shiny , because choosing one colour is impossible</p>
+            </div>
+            <div class="pokemon-family-grid" id="pokemon-family-grid"></div>
+            <div class="pokemon-lookbook-heading"><h3 class="shrine-cabinet-heading">art + models / closer looks</h3><p>official art + pokémon home models for now , game screenshots next ♡</p></div>
+            <div class="pokemon-lookbook-grid" id="pokemon-lookbook-grid"></div>
+          </section>
+
+          <section class="pokemon-room-section pokemon-plush-placeholder" id="plush-shelf" aria-labelledby="plush-shelf-title">
+            <img src="../../images/pokemon/sylveon.png" alt="Sylveon sprite" aria-hidden="true">
+            <div><div class="pixel-tag">／ plush shelf</div><h2 id="plush-shelf-title">room to grow</h2><p>plushies + merch will move in once there is enough for a proper shelf</p></div>
+          </section>
 
           <section class="shrine-post-shelf" aria-labelledby="pokemon-posts-title">
             <h2 class="shrine-cabinet-heading" id="pokemon-posts-title">trainer logs / from the blog</h2>
@@ -139,6 +201,12 @@
       <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>
     </div>
   </div>
+
+  <dialog class="stubby-memory-dialog" id="pokemon-memory-dialog" aria-label="expanded Pokémon image">
+    <button class="stubby-memory-close" type="button" aria-label="close image">✕</button>
+    <img id="pokemon-memory-large" alt="">
+    <p id="pokemon-memory-caption"></p>
+  </dialog>
 
   <script src="../../data/search-index.js"></script>
   <script src="../../script.js" data-site-root="../.."></script>

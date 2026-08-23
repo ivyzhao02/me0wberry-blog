@@ -21,6 +21,9 @@
       #sidebar { display: none; }
       #mobile-back { display: flex !important; }
     }
+    @media (min-width: 1241px) and (max-width: 1500px) {
+      .shrine-page-panel { width: calc(100% - 300px) !important; }
+    }
   </style>
 </head>
 <body>
@@ -73,11 +76,11 @@
               <strong>monthly scrapbook</strong>
               <p>all of stubby's existing photo posts + updates live here</p>
             </a>
-            <div class="shrine-cabinet-card is-future">
+            <a class="shrine-cabinet-card" href="#through-the-years">
               <span class="shrine-cabinet-status">sharing</span>
               <strong>through the years</strong>
-              <p>a proper timeline once the older pictures have names + dates !</p>
-            </div>
+              <p>fourteen years of photos , little videos + memories ♡</p>
+            </a>
             <div class="shrine-cabinet-card is-future">
               <span class="shrine-cabinet-status">sharing</span>
               <strong>favourite moments</strong>
@@ -89,6 +92,17 @@
               <p>nicknames , habits + stubby lore</p>
             </div>
           </div>
+
+          <section class="stubby-timeline-section" id="through-the-years" aria-labelledby="stubby-timeline-title">
+            <div class="stubby-timeline-heading-row">
+              <div>
+                <div class="pixel-tag">／ through the years</div>
+                <h2 id="stubby-timeline-title">2012—2025 ♡</h2>
+              </div>
+              <p>some exact dates were lost along the way , but the years are all home</p>
+            </div>
+            <div class="stubby-timeline" id="stubby-timeline"></div>
+          </section>
 
           <div class="shrine-room-footer"><a class="pixel-btn" href="../index.html">shrine</a><a class="pixel-btn" href="../../archive/stubby/index.html">stubby archive</a></div>
         </div>
@@ -123,7 +137,14 @@
     </div>
   </div>
 
+  <dialog class="stubby-memory-dialog" id="stubby-memory-dialog" aria-label="expanded Stubby photo">
+    <button class="stubby-memory-close" type="button" aria-label="close photo">✕</button>
+    <img id="stubby-memory-large" alt="">
+    <p id="stubby-memory-caption"></p>
+  </dialog>
+
   <script src="../../data/search-index.js"></script>
   <script src="../../script.js" data-site-root="../.."></script>
+  <script src="stubby-chronology.js"></script>
 </body>
 </html>
