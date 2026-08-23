@@ -236,10 +236,10 @@ a.shrine-cabinet-card:hover {
 }
 
 .shrine-cabinet-icon-frame {
-  display: grid;
+  position: relative;
+  display: block;
   width: 58px;
   height: 58px;
-  place-items: center;
   overflow: hidden;
   border: 1px solid var(--theme-border, rgba(192,112,144,0.24));
   border-radius: 13px;
@@ -247,11 +247,24 @@ a.shrine-cabinet-card:hover {
 }
 
 .shrine-cabinet-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 76px;
   height: 76px;
   max-width: none;
   object-fit: contain;
+  object-position: center;
   image-rendering: pixelated;
+  transform: translate(-50%, -50%);
+}
+
+.shrine-cabinet-icon-sprigatito {
+  transform: translate(-50%, -50%) translateY(-5px);
+}
+
+.shrine-cabinet-icon-sylveon {
+  transform: translate(-50%, -50%) translateX(-1px);
 }
 
 .shrine-post-shelf {

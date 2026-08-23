@@ -8,7 +8,7 @@ Personal static site and blog for [me0wberry.com](https://me0wberry.com).
 - Refresh the homepage now panel, `/now/`, the archive search index, and RSS with `node tools/build-site-data.js`.
 - Check local links, image paths, JSON indexes, duplicate IDs, and JavaScript syntax with `node tools/check-site.js`.
 - Keep the visual appearance and existing interactions unchanged during maintenance unless something is intentionally being fixed.
-- Bump the build shown in `/system/` with every published commit. The format is `v0.<repository commit count>`, so this pass targets `v0.211`.
+- Bump the build shown in `/system/` with every published commit. The format is `v0.<repository commit count>`, so this pass targets `v0.212`.
 
 Post Studio writes posts into `posts/<category>/`, updates the matching `index.json`, stores new gallery images in `images/<category>/`, and refreshes all generated site data automatically. The internal `lately` category name is retained for existing paths, but its visitor-facing name is `now`.
 
@@ -16,6 +16,7 @@ Post Studio writes posts into `posts/<category>/`, updates the matching `index.j
 
 - `/welcome/` is the first-visit entrance into the desktop; the root URL remains the desktop itself.
 - `/info/` is the me0wberry profile, social links, commissioned-art space, projects page, and visible resource shelf.
+- `/persona/` is the growing gallery for commissioned art of me0wberry, with artist credit beside every piece.
 - `/system/` holds the colophon, themes, credits, site map, old-version notes, and changelog.
 - `/webgarden/` holds saved handmade sites, the growing button shelf, and Surprise Me.
 - `/toybox/` keeps its stable address while appearing to visitors as Trinkets; it holds copyable kaomoji, saved graphics, and desktop resources.

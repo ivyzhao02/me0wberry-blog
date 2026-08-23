@@ -166,6 +166,7 @@
       const posts = window.me0wberrySearchIndex?.posts;
       const places = [
         '/info/index.html',
+        '/persona/index.html',
         '/now/index.html',
         '/archive/index.html',
         '/system/index.html',

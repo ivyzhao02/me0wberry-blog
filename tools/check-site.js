@@ -82,6 +82,7 @@ const requiredPages = new Map([
   ['shrines/index.html', 'shrine'],
   ['shrines/stubby/index.html', 'Stubby shrine'],
   ['shrines/pokemon/index.html', 'Pokémon shrine'],
+  ['persona/index.html', 'persona gallery'],
 ]);
 
 for (const [file, label] of requiredPages) {
