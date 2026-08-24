@@ -1,3 +1,5 @@
 exclude:
   - tools/
   - codex-notes/
+  - scripts/
+  - styles/

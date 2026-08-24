@@ -1,6 +1,7 @@
 const path = require('path');
+const { CATEGORY_IDS } = require('../site-config');
 
-const CATEGORIES = new Set(['games', 'music', 'food', 'stubby', 'beauty', 'lately']);
+const CATEGORIES = new Set(CATEGORY_IDS);
 const GALLERY_CATEGORIES = CATEGORIES;
 
 function escapeHtml(value = '') {

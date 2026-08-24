@@ -3,6 +3,7 @@ const http = require('http');
 const path = require('path');
 const { pathToFileURL } = require('url');
 const { chromium } = require('playwright-core');
+const { ARCHIVE_CATEGORIES } = require('./site-config');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONTENT_TYPES = new Map([
@@ -120,6 +121,24 @@ async function run() {
     assert(await archive.locator('.archive-search-result').count() > 0, 'archive search returned no Stubby results');
     await archive.close();
 
+    for (const category of ARCHIVE_CATEGORIES) {
+      const categoryArchive = await openCheckedPage(
+        browser,
+        `${baseUrl}/archive/${category.id}/`,
+        { width: 1280, height: 900 },
+      );
+      assert(
+        await categoryArchive.locator(`body[data-archive-category="${category.id}"]`).count() === 1,
+        `${category.id} archive has the wrong category configuration`,
+      );
+      assert(
+        (await categoryArchive.locator('.panel-heading').textContent()).trim() === `${category.label} archive`,
+        `${category.id} archive has the wrong visible heading`,
+      );
+      assert(await categoryArchive.locator('#archive-list > div').count() > 0, `${category.id} archive loaded no posts`);
+      await categoryArchive.close();
+    }
+
     const post = await openCheckedPage(
       browser,
       `${baseUrl}/posts/beauty/2026-07-29-july-update.html`,
@@ -143,7 +162,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log('browser check passed: desktop, mobile, themes, archive search, post gallery, and direct-file preview.');
+  console.log('browser check passed: desktop, mobile, themes, archive search/categories, post gallery, and direct-file preview.');
 }
 
 run().catch((error) => {

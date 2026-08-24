@@ -90,13 +90,17 @@ const requiredPages = new Map([
   ['shrines/pokemon/index.html', 'Pokémon shrine'],
   ['persona/index.html', 'persona gallery'],
   ['post.css', 'shared post stylesheet'],
+  ['style.css', 'generated shared stylesheet'],
+  ['script.js', 'generated shared script'],
+  ['tools/site-config.js', 'shared category configuration'],
+  ['tools/templates/archive-category.html', 'archive category template'],
 ]);
 
 for (const [file, label] of requiredPages) {
   if (!exactFiles.has(file)) errors.push(`${file}: required ${label} is missing`);
 }
 
-for (const file of relativeFiles.filter(file => file.endsWith('.css') && !file.startsWith('tools/'))) {
+for (const file of relativeFiles.filter(file => file.endsWith('.css') && !file.startsWith('tools/') && !file.startsWith('styles/'))) {
   const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
   for (const match of source.matchAll(/url\(["']?([^"')]+)["']?\)/gi)) {
     checkReference(file, match[1]);

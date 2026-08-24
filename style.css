@@ -602,7 +602,7 @@
       .passport-toast { transition: none; }
     }
 
-    /* ── CSS Variables ── */
+/* ── CSS Variables ── */
     :root {
       --pink:           #e07090;
       --pink-light:     #f4a8b8;
@@ -1404,7 +1404,7 @@
       user-select: none;
     }
 
-    /* ── Panel content typography ── */
+/* ── Panel content typography ── */
     .panel-heading {
       font-family: var(--font-heading);
       font-weight: 600;
@@ -2524,7 +2524,7 @@
   .monthly-poll-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* ── Info + System Properties ── */
+/* ── Secondary pages: info, system, webgarden + trinkets ── */
 .info-page-panel,
 .system-page-panel,
 .webgarden-page-panel,

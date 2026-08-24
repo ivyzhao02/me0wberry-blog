@@ -5,7 +5,7 @@ Personal static site and blog for [me0wberry.com](https://me0wberry.com).
 ## Local tools
 
 - Create monthly posts with `tools/post-studio/server.js`.
-- Refresh the homepage now panel, `/now/`, the archive search index, and RSS with `node tools/build-site-data.js`.
+- Refresh the homepage now panel, `/now/`, archive pages, search data, RSS, and shared CSS/JavaScript bundles with `node tools/build-site-data.js`.
 - Check local links, generated files, browser behavior, themes, mobile controls, and direct-file previews with `pnpm check`.
 - Keep the visual appearance and existing interactions unchanged during maintenance unless something is intentionally being fixed.
 - The build shown in `/system/` is generated as `v0.<repository commit count>` and advances automatically with the next pending commit.
@@ -33,3 +33,5 @@ The four-stamp desktop passport stores progress only in the visitor's browser un
 Shared JavaScript adds skip navigation, page landmarks, keyboard-operable window controls, and accessible player labels to the desktop shell and historical posts. `tools/check-site.js` also guards image descriptions and embedded-frame titles.
 
 Post pages share `post.css`; Post Studio links new posts to the same file so post formatting stays consistent without copying the stylesheet into every page.
+
+The maintainable shared styles live in `styles/`, and shared browser behavior lives in `scripts/`. The build joins them into the stable public files `style.css` and `script.js`, so existing page paths and loading order do not change. Category archive pages are generated from `tools/templates/archive-category.html` using `tools/site-config.js`; edit those sources rather than individual files under `archive/<category>/`.

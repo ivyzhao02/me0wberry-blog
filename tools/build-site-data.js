@@ -1,10 +1,27 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const { ARCHIVE_CATEGORIES, CATEGORY_IDS } = require('./site-config');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_URL = 'https://me0wberry.com';
-const CATEGORIES = ['games', 'music', 'food', 'stubby', 'beauty', 'lately'];
+const CATEGORIES = CATEGORY_IDS;
+const ARCHIVE_TEMPLATE = path.join(ROOT, 'tools', 'templates', 'archive-category.html');
+const STYLE_SOURCES = [
+  'styles/00-welcome.css',
+  'styles/10-shell.css',
+  'styles/20-panels.css',
+  'styles/30-now.css',
+  'styles/40-secondary-pages.css',
+  'styles/50-archive-responsive.css',
+];
+const SCRIPT_SOURCES = [
+  'scripts/00-core.js',
+  'scripts/10-desktop.js',
+  'scripts/20-player.js',
+  'scripts/30-content.js',
+  'scripts/40-atmosphere.js',
+];
 const HOME_START = '<!-- generated-now-summary:start -->';
 const HOME_END = '<!-- generated-now-summary:end -->';
 const NOW_START = '<!-- generated-now-entry:start -->';
@@ -254,6 +271,31 @@ function writeAtomic(filePath, contents) {
   fs.renameSync(tempPath, filePath);
 }
 
+function buildSourceBundle(files, label) {
+  const sections = files.map((file) => {
+    const filePath = path.join(ROOT, file);
+    if (!fs.existsSync(filePath)) throw new Error(`Missing ${label} source ${file}.`);
+    return fs.readFileSync(filePath, 'utf8').trimEnd();
+  });
+  return `${sections.join('\n\n')}\n`;
+}
+
+function buildArchiveCategoryPage(category, template) {
+  const replacements = {
+    PAGE_TITLE: category.label,
+    CATEGORY_ID: category.id,
+    CATEGORY_LABEL: category.label,
+    TITLEBAR_LABEL: category.titlebarLabel || category.label,
+  };
+
+  const output = template.replace(/\{\{([A-Z_]+)\}\}/g, (token, key) => {
+    if (!(key in replacements)) throw new Error(`Unknown archive template token ${token}.`);
+    return replacements[key];
+  });
+  if (/\{\{[A-Z_]+\}\}/.test(output)) throw new Error(`Unresolved archive template token for ${category.id}.`);
+  return output;
+}
+
 function repositoryBuildLabel() {
   const countResult = spawnSync('git', ['rev-list', '--count', 'HEAD'], {
     cwd: ROOT,
@@ -287,7 +329,16 @@ function buildSiteData({ write = true } = {}) {
   const indexSource = fs.readFileSync(indexPath, 'utf8');
   const nowSource = fs.readFileSync(nowPath, 'utf8');
   const systemSource = fs.readFileSync(systemPath, 'utf8');
+  const archiveTemplate = fs.readFileSync(ARCHIVE_TEMPLATE, 'utf8');
   const outputs = [
+    {
+      file: 'style.css',
+      contents: buildSourceBundle(STYLE_SOURCES, 'stylesheet'),
+    },
+    {
+      file: 'script.js',
+      contents: buildSourceBundle(SCRIPT_SOURCES, 'script'),
+    },
     {
       file: 'data/search-index.json',
       contents: buildSearchIndex(posts),
@@ -312,6 +363,10 @@ function buildSiteData({ write = true } = {}) {
       file: 'system/index.html',
       contents: replaceMarkedContent(systemSource, BUILD_START, BUILD_END, `${BUILD_START}${repositoryBuildLabel()}${BUILD_END}`, 'system/index.html'),
     },
+    ...ARCHIVE_CATEGORIES.map((category) => ({
+      file: `archive/${category.id}/index.html`,
+      contents: buildArchiveCategoryPage(category, archiveTemplate),
+    })),
   ];
 
   if (write) {
