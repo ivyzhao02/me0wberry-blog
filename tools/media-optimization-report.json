@@ -1,0 +1,880 @@
+{
+  "settings": {
+    "minimum_source_bytes": 1048576,
+    "maximum_dimension": 2560,
+    "webp_quality": 90,
+    "minimum_psnr": 38.0
+  },
+  "summary": {
+    "files": 96,
+    "original_bytes": 338954151,
+    "optimized_bytes": 83651550,
+    "changed_reference_files": 26
+  },
+  "files": [
+    {
+      "source": "images/food/img-6863.png",
+      "output": "images/food/img-6863.webp",
+      "original_bytes": 20422873,
+      "optimized_bytes": 615362,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.58
+    },
+    {
+      "source": "images/food/img-6592.jpg",
+      "output": "images/food/img-6592.webp",
+      "original_bytes": 6064196,
+      "optimized_bytes": 878282,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.73
+    },
+    {
+      "source": "images/food/img-6550.jpg",
+      "output": "images/food/img-6550.webp",
+      "original_bytes": 5762786,
+      "optimized_bytes": 758786,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.88
+    },
+    {
+      "source": "images/food/img-6511.jpg",
+      "output": "images/food/img-6511.webp",
+      "original_bytes": 5713114,
+      "optimized_bytes": 695652,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.85
+    },
+    {
+      "source": "images/food/img-6549.jpg",
+      "output": "images/food/img-6549.webp",
+      "original_bytes": 5479544,
+      "optimized_bytes": 732972,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 41.07
+    },
+    {
+      "source": "images/food/img-6573.jpg",
+      "output": "images/food/img-6573.webp",
+      "original_bytes": 5374874,
+      "optimized_bytes": 679158,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 41.06
+    },
+    {
+      "source": "images/food/IMG_5255.jpg",
+      "output": "images/food/IMG_5255.webp",
+      "original_bytes": 5326638,
+      "optimized_bytes": 775548,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.79
+    },
+    {
+      "source": "images/food/img-6512.jpg",
+      "output": "images/food/img-6512.webp",
+      "original_bytes": 5321327,
+      "optimized_bytes": 649508,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 41.19
+    },
+    {
+      "source": "images/food/img-6572.jpg",
+      "output": "images/food/img-6572.webp",
+      "original_bytes": 5120665,
+      "optimized_bytes": 526404,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.14
+    },
+    {
+      "source": "images/food/img-6602.jpg",
+      "output": "images/food/img-6602.webp",
+      "original_bytes": 5103876,
+      "optimized_bytes": 649562,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 41.34
+    },
+    {
+      "source": "images/stubby/img-6485.jpg",
+      "output": "images/stubby/img-6485.webp",
+      "original_bytes": 5052168,
+      "optimized_bytes": 1864848,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.27
+    },
+    {
+      "source": "images/food/IMG_5834.jpg",
+      "output": "images/food/IMG_5834.webp",
+      "original_bytes": 5020145,
+      "optimized_bytes": 793696,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 41.32
+    },
+    {
+      "source": "images/food/img-6575.jpg",
+      "output": "images/food/img-6575.webp",
+      "original_bytes": 5012071,
+      "optimized_bytes": 603178,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.1
+    },
+    {
+      "source": "images/games/IMG_1943.JPG",
+      "output": "images/games/IMG_1943.webp",
+      "original_bytes": 5002777,
+      "optimized_bytes": 1482046,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.04
+    },
+    {
+      "source": "images/stubby/img-6266.jpg",
+      "output": "images/stubby/img-6266.webp",
+      "original_bytes": 4756763,
+      "optimized_bytes": 1757920,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.25
+    },
+    {
+      "source": "images/food/img-6574.jpg",
+      "output": "images/food/img-6574.webp",
+      "original_bytes": 4704771,
+      "optimized_bytes": 455494,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 41.64
+    },
+    {
+      "source": "images/stubby/img-6891.jpg",
+      "output": "images/stubby/img-6891.webp",
+      "original_bytes": 4669984,
+      "optimized_bytes": 1696328,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.26
+    },
+    {
+      "source": "images/food/img-6520.jpg",
+      "output": "images/food/img-6520.webp",
+      "original_bytes": 4520022,
+      "optimized_bytes": 375846,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 42.07
+    },
+    {
+      "source": "images/stubby/img-6446.jpg",
+      "output": "images/stubby/img-6446.webp",
+      "original_bytes": 4478288,
+      "optimized_bytes": 1647424,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.27
+    },
+    {
+      "source": "images/food/img-6533.jpg",
+      "output": "images/food/img-6533.webp",
+      "original_bytes": 4407630,
+      "optimized_bytes": 366276,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 42.43
+    },
+    {
+      "source": "images/stubby/img-6307.jpg",
+      "output": "images/stubby/img-6307.webp",
+      "original_bytes": 4363001,
+      "optimized_bytes": 1600008,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.74
+    },
+    {
+      "source": "images/stubby/IMG_5535.JPG",
+      "output": "images/stubby/IMG_5535.webp",
+      "original_bytes": 4085435,
+      "optimized_bytes": 1435340,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.08
+    },
+    {
+      "source": "images/stubby/img-6261.jpg",
+      "output": "images/stubby/img-6261.webp",
+      "original_bytes": 4069779,
+      "optimized_bytes": 1396914,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.81
+    },
+    {
+      "source": "images/stubby/img-6311.jpg",
+      "output": "images/stubby/img-6311.webp",
+      "original_bytes": 4060289,
+      "optimized_bytes": 1417506,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.81
+    },
+    {
+      "source": "images/stubby/img-6616.jpg",
+      "output": "images/stubby/img-6616.webp",
+      "original_bytes": 4035914,
+      "optimized_bytes": 1404756,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.1
+    },
+    {
+      "source": "images/stubby/img-6821.jpg",
+      "output": "images/stubby/img-6821.webp",
+      "original_bytes": 3929792,
+      "optimized_bytes": 1369282,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 39.71
+    },
+    {
+      "source": "images/music/img-6109.png",
+      "output": "images/music/img-6109.webp",
+      "original_bytes": 3829837,
+      "optimized_bytes": 123560,
+      "width": 1425,
+      "height": 2532,
+      "psnr_db": 45.6
+    },
+    {
+      "source": "images/stubby/img-6820.jpg",
+      "output": "images/stubby/img-6820.webp",
+      "original_bytes": 3748643,
+      "optimized_bytes": 1262710,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 39.9
+    },
+    {
+      "source": "images/stubby/img-6101.jpg",
+      "output": "images/stubby/img-6101.webp",
+      "original_bytes": 3734907,
+      "optimized_bytes": 1382052,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.68
+    },
+    {
+      "source": "images/stubby/img-6498.jpg",
+      "output": "images/stubby/img-6498.webp",
+      "original_bytes": 3691951,
+      "optimized_bytes": 1277170,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.05
+    },
+    {
+      "source": "images/stubby/img-6867.jpg",
+      "output": "images/stubby/img-6867.webp",
+      "original_bytes": 3629705,
+      "optimized_bytes": 1251942,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.57
+    },
+    {
+      "source": "images/stubby/img-6880.jpg",
+      "output": "images/stubby/img-6880.webp",
+      "original_bytes": 3622628,
+      "optimized_bytes": 1247122,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.2
+    },
+    {
+      "source": "images/stubby/img-6824.jpg",
+      "output": "images/stubby/img-6824.webp",
+      "original_bytes": 3600710,
+      "optimized_bytes": 1187750,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.13
+    },
+    {
+      "source": "images/stubby/IMG_5163.JPG",
+      "output": "images/stubby/IMG_5163.webp",
+      "original_bytes": 3594805,
+      "optimized_bytes": 1268186,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.98
+    },
+    {
+      "source": "images/stubby/img-6847.jpg",
+      "output": "images/stubby/img-6847.webp",
+      "original_bytes": 3470357,
+      "optimized_bytes": 1163112,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.7
+    },
+    {
+      "source": "images/stubby/img-6483.jpg",
+      "output": "images/stubby/img-6483.webp",
+      "original_bytes": 3431396,
+      "optimized_bytes": 1142566,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.7
+    },
+    {
+      "source": "images/stubby/IMG_5324.JPG",
+      "output": "images/stubby/IMG_5324.webp",
+      "original_bytes": 3411170,
+      "optimized_bytes": 1111170,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.63
+    },
+    {
+      "source": "images/stubby/IMG_5499.JPG",
+      "output": "images/stubby/IMG_5499.webp",
+      "original_bytes": 3383279,
+      "optimized_bytes": 1098776,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.6
+    },
+    {
+      "source": "images/food/img-6223.jpg",
+      "output": "images/food/img-6223.webp",
+      "original_bytes": 3375175,
+      "optimized_bytes": 1061084,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 39.85
+    },
+    {
+      "source": "images/stubby/img-5920.jpg",
+      "output": "images/stubby/img-5920.webp",
+      "original_bytes": 3319593,
+      "optimized_bytes": 1069284,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.53
+    },
+    {
+      "source": "images/stubby/img-6598.jpg",
+      "output": "images/stubby/img-6598.webp",
+      "original_bytes": 3301576,
+      "optimized_bytes": 1044972,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.66
+    },
+    {
+      "source": "images/food/img-6845.jpg",
+      "output": "images/food/img-6845.webp",
+      "original_bytes": 3264988,
+      "optimized_bytes": 977704,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.02
+    },
+    {
+      "source": "images/food/IMG_5286.jpg",
+      "output": "images/food/IMG_5286.webp",
+      "original_bytes": 3264109,
+      "optimized_bytes": 954562,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.55
+    },
+    {
+      "source": "images/stubby/img-6135.jpg",
+      "output": "images/stubby/img-6135.webp",
+      "original_bytes": 3245128,
+      "optimized_bytes": 959932,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.18
+    },
+    {
+      "source": "images/food/img-6257.jpg",
+      "output": "images/food/img-6257.webp",
+      "original_bytes": 3217691,
+      "optimized_bytes": 987176,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.24
+    },
+    {
+      "source": "images/stubby/IMG_5130.JPG",
+      "output": "images/stubby/IMG_5130.webp",
+      "original_bytes": 3216843,
+      "optimized_bytes": 1039046,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.73
+    },
+    {
+      "source": "images/food/IMG_5252.jpg",
+      "output": "images/food/IMG_5252.webp",
+      "original_bytes": 3197074,
+      "optimized_bytes": 975072,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.4
+    },
+    {
+      "source": "images/stubby/IMG_5725.JPG",
+      "output": "images/stubby/IMG_5725.webp",
+      "original_bytes": 3190939,
+      "optimized_bytes": 918110,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.27
+    },
+    {
+      "source": "images/stubby/IMG_5129.JPG",
+      "output": "images/stubby/IMG_5129.webp",
+      "original_bytes": 3168825,
+      "optimized_bytes": 953660,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.91
+    },
+    {
+      "source": "images/stubby/img-6108.jpg",
+      "output": "images/stubby/img-6108.webp",
+      "original_bytes": 3151751,
+      "optimized_bytes": 1019190,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.85
+    },
+    {
+      "source": "images/stubby/img-6599.jpg",
+      "output": "images/stubby/img-6599.webp",
+      "original_bytes": 3129902,
+      "optimized_bytes": 918202,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.22
+    },
+    {
+      "source": "images/stubby/IMG_5843.JPG",
+      "output": "images/stubby/IMG_5843.webp",
+      "original_bytes": 3055633,
+      "optimized_bytes": 912414,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.54
+    },
+    {
+      "source": "images/stubby/IMG_5404.JPG",
+      "output": "images/stubby/IMG_5404.webp",
+      "original_bytes": 3051101,
+      "optimized_bytes": 899632,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.82
+    },
+    {
+      "source": "images/food/img-6580.jpg",
+      "output": "images/food/img-6580.webp",
+      "original_bytes": 3026541,
+      "optimized_bytes": 702560,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.71
+    },
+    {
+      "source": "images/stubby/img-6413.jpg",
+      "output": "images/stubby/img-6413.webp",
+      "original_bytes": 3009474,
+      "optimized_bytes": 910278,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.37
+    },
+    {
+      "source": "images/food/IMG_5241.jpg",
+      "output": "images/food/IMG_5241.webp",
+      "original_bytes": 2993349,
+      "optimized_bytes": 846522,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.72
+    },
+    {
+      "source": "images/stubby/img-6054.jpg",
+      "output": "images/stubby/img-6054.webp",
+      "original_bytes": 2968430,
+      "optimized_bytes": 834186,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.29
+    },
+    {
+      "source": "images/food/img-6258.jpg",
+      "output": "images/food/img-6258.webp",
+      "original_bytes": 2951246,
+      "optimized_bytes": 837072,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.31
+    },
+    {
+      "source": "images/stubby/img-6100.jpg",
+      "output": "images/stubby/img-6100.webp",
+      "original_bytes": 2950053,
+      "optimized_bytes": 1012638,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.65
+    },
+    {
+      "source": "images/stubby/img-6097.jpg",
+      "output": "images/stubby/img-6097.webp",
+      "original_bytes": 2927108,
+      "optimized_bytes": 972802,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.83
+    },
+    {
+      "source": "images/food/img-6386.jpg",
+      "output": "images/food/img-6386.webp",
+      "original_bytes": 2925964,
+      "optimized_bytes": 868732,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 40.78
+    },
+    {
+      "source": "images/food/img-6143.jpg",
+      "output": "images/food/img-6143.webp",
+      "original_bytes": 2862142,
+      "optimized_bytes": 633920,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 41.42
+    },
+    {
+      "source": "images/stubby/img-6093.jpg",
+      "output": "images/stubby/img-6093.webp",
+      "original_bytes": 2855183,
+      "optimized_bytes": 955790,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.91
+    },
+    {
+      "source": "images/stubby/img-6459.jpg",
+      "output": "images/stubby/img-6459.webp",
+      "original_bytes": 2850736,
+      "optimized_bytes": 923526,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.8
+    },
+    {
+      "source": "images/food/IMG_5245.JPG",
+      "output": "images/food/IMG_5245.webp",
+      "original_bytes": 2840403,
+      "optimized_bytes": 808864,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.6
+    },
+    {
+      "source": "images/food/img-6150.jpg",
+      "output": "images/food/img-6150.webp",
+      "original_bytes": 2829854,
+      "optimized_bytes": 788562,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.37
+    },
+    {
+      "source": "images/lately/screenshot-2026-05-18-164501.png",
+      "output": "images/lately/screenshot-2026-05-18-164501.webp",
+      "original_bytes": 2806955,
+      "optimized_bytes": 216228,
+      "width": 2375,
+      "height": 1334,
+      "psnr_db": 40.81
+    },
+    {
+      "source": "images/food/img-6582.jpg",
+      "output": "images/food/img-6582.webp",
+      "original_bytes": 2779356,
+      "optimized_bytes": 564194,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.93
+    },
+    {
+      "source": "images/stubby/img-6106.jpg",
+      "output": "images/stubby/img-6106.webp",
+      "original_bytes": 2776625,
+      "optimized_bytes": 807678,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.95
+    },
+    {
+      "source": "images/stubby/img-6596.jpg",
+      "output": "images/stubby/img-6596.webp",
+      "original_bytes": 2775484,
+      "optimized_bytes": 822380,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.35
+    },
+    {
+      "source": "images/stubby/img-6099.jpg",
+      "output": "images/stubby/img-6099.webp",
+      "original_bytes": 2740913,
+      "optimized_bytes": 877914,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.67
+    },
+    {
+      "source": "images/stubby/img-6802.jpg",
+      "output": "images/stubby/img-6802.webp",
+      "original_bytes": 2676680,
+      "optimized_bytes": 840208,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.19
+    },
+    {
+      "source": "images/food/img-6230.jpg",
+      "output": "images/food/img-6230.webp",
+      "original_bytes": 2625690,
+      "optimized_bytes": 733374,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.18
+    },
+    {
+      "source": "images/stubby/img-6790.jpg",
+      "output": "images/stubby/img-6790.webp",
+      "original_bytes": 2622395,
+      "optimized_bytes": 793506,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.07
+    },
+    {
+      "source": "images/food/img-6062.jpg",
+      "output": "images/food/img-6062.webp",
+      "original_bytes": 2607656,
+      "optimized_bytes": 698432,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.23
+    },
+    {
+      "source": "images/food/img-6168.jpg",
+      "output": "images/food/img-6168.webp",
+      "original_bytes": 2587889,
+      "optimized_bytes": 718186,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.97
+    },
+    {
+      "source": "images/stubby/img-6346.jpg",
+      "output": "images/stubby/img-6346.webp",
+      "original_bytes": 2505587,
+      "optimized_bytes": 726126,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 40.87
+    },
+    {
+      "source": "images/food/img-6862.jpg",
+      "output": "images/food/img-6862.webp",
+      "original_bytes": 2490277,
+      "optimized_bytes": 651588,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.27
+    },
+    {
+      "source": "images/stubby/IMG_5810.JPG",
+      "output": "images/stubby/IMG_5810.webp",
+      "original_bytes": 2435943,
+      "optimized_bytes": 811716,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.26
+    },
+    {
+      "source": "images/stubby/IMG_5157.JPG",
+      "output": "images/stubby/IMG_5157.webp",
+      "original_bytes": 2409430,
+      "optimized_bytes": 821328,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.5
+    },
+    {
+      "source": "images/stubby/img-6697.jpg",
+      "output": "images/stubby/img-6697.webp",
+      "original_bytes": 2399850,
+      "optimized_bytes": 639362,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.46
+    },
+    {
+      "source": "images/stubby/img-6865.jpg",
+      "output": "images/stubby/img-6865.webp",
+      "original_bytes": 2364605,
+      "optimized_bytes": 678484,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.84
+    },
+    {
+      "source": "images/stubby/IMG_5528.JPG",
+      "output": "images/stubby/IMG_5528.webp",
+      "original_bytes": 2314056,
+      "optimized_bytes": 719158,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.81
+    },
+    {
+      "source": "images/beauty/img-6344.jpg",
+      "output": "images/beauty/img-6344.webp",
+      "original_bytes": 2247803,
+      "optimized_bytes": 520204,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.79
+    },
+    {
+      "source": "images/lately/img-6613.jpg",
+      "output": "images/lately/img-6613.webp",
+      "original_bytes": 2214190,
+      "optimized_bytes": 511266,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.39
+    },
+    {
+      "source": "images/food/IMG_5592.jpg",
+      "output": "images/food/IMG_5592.webp",
+      "original_bytes": 2161999,
+      "optimized_bytes": 613988,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 42.26
+    },
+    {
+      "source": "images/music/img-6916.png",
+      "output": "images/music/img-6916.webp",
+      "original_bytes": 2157736,
+      "optimized_bytes": 229728,
+      "width": 1600,
+      "height": 2450,
+      "psnr_db": 40.66
+    },
+    {
+      "source": "images/beauty/img-6343.jpg",
+      "output": "images/beauty/img-6343.webp",
+      "original_bytes": 2153761,
+      "optimized_bytes": 482902,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.96
+    },
+    {
+      "source": "images/food/img-6259.jpg",
+      "output": "images/food/img-6259.webp",
+      "original_bytes": 2065799,
+      "optimized_bytes": 458412,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 42.03
+    },
+    {
+      "source": "images/beauty/img-5909.jpg",
+      "output": "images/beauty/img-5909.webp",
+      "original_bytes": 2038010,
+      "optimized_bytes": 440014,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 42.09
+    },
+    {
+      "source": "images/beauty/img-5910.jpg",
+      "output": "images/beauty/img-5910.webp",
+      "original_bytes": 2025565,
+      "optimized_bytes": 435244,
+      "width": 2560,
+      "height": 1920,
+      "psnr_db": 42.05
+    },
+    {
+      "source": "images/food/img-6142.jpg",
+      "output": "images/food/img-6142.webp",
+      "original_bytes": 1865251,
+      "optimized_bytes": 381094,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 42.9
+    },
+    {
+      "source": "images/stubby/img-6345.jpg",
+      "output": "images/stubby/img-6345.webp",
+      "original_bytes": 1397449,
+      "optimized_bytes": 665926,
+      "width": 1920,
+      "height": 2560,
+      "psnr_db": 41.6
+    },
+    {
+      "source": "images/pokemon/shinies/scarlet-shiny-annihilape.png",
+      "output": "images/pokemon/shinies/scarlet-shiny-annihilape.webp",
+      "original_bytes": 1348144,
+      "optimized_bytes": 124880,
+      "width": 1170,
+      "height": 2532,
+      "psnr_db": 40.31
+    },
+    {
+      "source": "images/games/img-6903.png",
+      "output": "images/games/img-6903.webp",
+      "original_bytes": 1105661,
+      "optimized_bytes": 105362,
+      "width": 1170,
+      "height": 2532,
+      "psnr_db": 44.46
+    },
+    {
+      "source": "images/lately/img-6069-edit.jpg",
+      "output": "images/lately/img-6069-edit.webp",
+      "original_bytes": 1104471,
+      "optimized_bytes": 632964,
+      "width": 2560,
+      "height": 1229,
+      "psnr_db": 39.75
+    }
+  ]
+}

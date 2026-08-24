@@ -5,6 +5,7 @@ const { buildSiteData } = require('./build-site-data');
 
 const ROOT = path.resolve(__dirname, '..');
 const SKIP_DIRS = new Set(['.git', 'codex-notes', 'node_modules']);
+const MAX_PUBLIC_IMAGE_BYTES = 2 * 1024 * 1024;
 
 function walk(dir, files = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -80,6 +81,9 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
     const postStyleLinks = [...source.matchAll(/<link\b[^>]*href=["']\.\.\/\.\.\/post\.css["'][^>]*>/gi)];
     if (postStyleLinks.length !== 1) errors.push(`${file}: expected exactly one shared post.css link`);
     if (source.includes(':root{--pink:#e07090;')) errors.push(`${file}: still contains the copied legacy post stylesheet`);
+    if (source.includes('<div id="panel-player" style="position:fixed;')) errors.push(`${file}: still contains the legacy inline player`);
+    if (!source.includes('<aside id="panel-player" aria-label="music player">')) errors.push(`${file}: shared post player is missing`);
+    if (!source.includes('class="player-controls"')) errors.push(`${file}: modern post player controls are missing`);
   }
 }
 
@@ -98,6 +102,29 @@ const requiredPages = new Map([
 
 for (const [file, label] of requiredPages) {
   if (!exactFiles.has(file)) errors.push(`${file}: required ${label} is missing`);
+}
+
+for (const file of relativeFiles.filter(file => /^images\/.*\.(?:jpe?g|png|webp)$/i.test(file))) {
+  const size = fs.statSync(path.join(ROOT, file)).size;
+  if (size > MAX_PUBLIC_IMAGE_BYTES) {
+    errors.push(`${file}: public still image is over 2 MB (use Post Studio optimization or the media tool)`);
+  }
+}
+
+const mediaReportFile = 'tools/media-optimization-report.json';
+if (exactFiles.has(mediaReportFile)) {
+  try {
+    const report = JSON.parse(fs.readFileSync(path.join(ROOT, mediaReportFile), 'utf8'));
+    for (const item of report.files || []) {
+      if (exactFiles.has(item.source)) errors.push(`${item.source}: pre-optimization source still exists`);
+      if (!exactFiles.has(item.output)) errors.push(`${item.output}: optimized media output is missing`);
+      else if (fs.statSync(path.join(ROOT, item.output)).size !== item.optimized_bytes) {
+        errors.push(`${item.output}: optimized media size no longer matches the verification report`);
+      }
+    }
+  } catch (error) {
+    errors.push(`${mediaReportFile}: invalid media verification report (${error.message})`);
+  }
 }
 
 for (const file of relativeFiles.filter(file => file.endsWith('.css') && !file.startsWith('tools/') && !file.startsWith('styles/'))) {

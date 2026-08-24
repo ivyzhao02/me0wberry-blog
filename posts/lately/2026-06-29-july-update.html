@@ -34,7 +34,7 @@
       <p style="font-family:'Press Start 2P',monospace; font-size:7px; color:var(--pixel-label2); margin-bottom:8px;">♡ a note:</p>
       <p style="font-style:italic; color:var(--muted);">image of an adorable penguin keychain i got from miniso ⸜(｡˃ ᵕ ˂ )⸝♡ i love the mini-pen family</p>
     </div>
-    <img src="../../images/lately/img-6613.jpg" alt="July Update" style="max-width:100%;border:1px solid var(--frosted-border);margin:10px 0;display:block;"/>
+    <img src="../../images/lately/img-6613.webp" alt="July Update" style="max-width:100%;border:1px solid var(--frosted-border);margin:10px 0;display:block;"/>
     <div class="post-footer">
       <div style="display:flex;flex-direction:column;gap:4px;">
         <a href="../../index.html" class="post-back">← back to me0wberry.com</a>
@@ -44,34 +44,32 @@
     </div>
   </div>
 </div>
-<div id="panel-player" style="position:fixed;width:280px;bottom:20px;right:20px;z-index:9000;background:rgba(255,255,255,0.42);backdrop-filter:blur(10px);border:2px solid rgba(255,255,255,0.68);display:flex;flex-direction:column;">
-  <div class="panel-titlebar" style="height:26px;background:rgba(255,255,255,0.55);border-bottom:2px solid rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:space-between;padding:0 8px;cursor:default;flex-shrink:0;">
-    <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#b05a7a;letter-spacing:0.4px;">♪ now playing</span>
+<aside id="panel-player" aria-label="music player">
+  <div class="panel-titlebar">
+    <span class="panel-title">♪ now playing</span>
   </div>
-  <div style="padding:12px 14px 10px;">
-    <div style="overflow:hidden;white-space:nowrap;margin-bottom:10px;padding-bottom:2px;border-bottom:1px dashed rgba(160,144,152,0.3);">
-      <div class="marquee-wrap" id="player-marquee">
-        <span id="player-title" style="font-family:'Quicksand','Nunito Sans',sans-serif;font-weight:600;font-size:12px;color:#b05a7a;display:inline-block;">♪ loading...</span>
-      </div>
+  <div class="panel-body">
+    <div class="player-track-title">
+      <div class="marquee-wrap" id="player-marquee"><span id="player-title">♪ loading...</span></div>
     </div>
-    <div class="player-time-row" style="display:flex;align-items:center;gap:6px;margin-bottom:10px;font-family:'Press Start 2P',monospace;font-size:6px;color:#a09098;">
+    <div class="player-time-row">
       <span id="player-current-time">0:00</span>
-      <input type="range" id="player-progress" class="player-range" min="0" max="100" value="0" step="0.1" style="flex:1;height:4px;background:rgba(224,112,144,0.2);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;">
+      <input type="range" id="player-progress" class="player-range" min="0" max="100" value="0" step="0.1" aria-label="track progress">
       <span id="player-total-time">0:00</span>
     </div>
-    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:10px;">
-      <button class="player-btn" onclick="playerPrev()" style="font-family:'Press Start 2P',monospace;font-size:9px;color:#b05a7a;background:rgba(255,255,255,0.55);border:2px solid rgba(200,150,170,0.55);width:32px;height:28px;cursor:pointer;">◀</button>
-      <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" style="font-family:'Press Start 2P',monospace;font-size:9px;color:#b05a7a;background:rgba(255,255,255,0.55);border:2px solid rgba(200,150,170,0.55);width:40px;height:28px;cursor:pointer;">▶</button>
-      <button class="player-btn" onclick="playerNext()" style="font-family:'Press Start 2P',monospace;font-size:9px;color:#b05a7a;background:rgba(255,255,255,0.55);border:2px solid rgba(200,150,170,0.55);width:32px;height:28px;cursor:pointer;">▶|</button>
+    <div class="player-controls">
+      <button class="player-btn" onclick="playerPrev()" title="prev" aria-label="previous track">◀</button>
+      <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" title="play/pause" aria-label="play or pause">▶</button>
+      <button class="player-btn" onclick="playerNext()" title="next" aria-label="next track">▶|</button>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-      <span style="font-size:13px;line-height:1;">🔊</span>
-      <input type="range" id="player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01" style="flex:1;height:4px;background:rgba(224,112,144,0.2);cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;">
+    <div class="player-volume-row">
+      <span class="player-vol-icon" aria-hidden="true">🔊</span>
+      <input type="range" id="player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01" aria-label="volume">
     </div>
-    <div id="player-counter" style="font-family:'Press Start 2P',monospace;font-size:6px;color:#a09098;text-align:right;">track 1 / 5</div>
+    <div class="player-track-counter" id="player-counter">track 1 / 7</div>
     <audio id="player-audio" preload="none"></audio>
   </div>
-</div>
+</aside>
 <script src="../../script.js" data-site-root="../.."></script>
 </body>
 </html>

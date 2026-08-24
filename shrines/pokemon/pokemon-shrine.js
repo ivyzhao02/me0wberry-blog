@@ -26,7 +26,7 @@
     ['nickit no. 2', '../../images/pokemon/shinies/go-shiny-nickit-02.jpg', 'pokémon go'],
     ['thievul', '../../images/pokemon/shinies/go-shiny-thievul.jpg', 'pokémon go'],
     ['nickit no. 3', '../../images/pokemon/shinies/go-shiny-nickit-03.jpg', 'pokémon go'],
-    ['annihilape', '../../images/pokemon/shinies/scarlet-shiny-annihilape.png', 'pokémon scarlet'],
+    ['annihilape', '../../images/pokemon/shinies/scarlet-shiny-annihilape.webp', 'pokémon scarlet'],
     ['skiddo / mähikel', '../../images/pokemon/shinies/legends-za-shiny-skiddo.png', 'pokémon legends z-a'],
     ['dewpider', '../../images/pokemon/shinies/go-shiny-dewpider.jpg', 'pokémon go']
   ];
@@ -51,7 +51,7 @@
     ['numel', '../../images/games/img-6900.jpg', 'pokémon go'],
     ['roselia', '../../images/games/img-6901.jpg', 'pokémon go'],
     ['deino', '../../images/games/img-6902.jpg', 'pokémon go'],
-    ['jangmo-o', '../../images/games/img-6903.png', 'pokémon go'],
+    ['jangmo-o', '../../images/games/img-6903.webp', 'pokémon go'],
     ['lechonk', '../../images/games/img-6904.jpg', 'pokémon go'],
     ['woobat', '../../images/games/img-6905.jpg', 'pokémon go'],
     ['weedle', '../../images/games/img-6906.jpg', 'pokémon go'],

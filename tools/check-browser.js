@@ -145,9 +145,58 @@ async function run() {
       { width: 1280, height: 900 },
     );
     assert(await post.locator('link[href="../../post.css"]').count() === 1, 'post.css is not linked once');
+    assert(await post.locator('#panel-player .player-controls').isVisible(), 'modern post player controls are not visible');
+    assert(
+      await post.locator('.post-container').evaluate((element) => parseFloat(getComputedStyle(element).borderRadius) >= 14),
+      'post window did not receive the rounded chrome',
+    );
+    const postWindow = await post.locator('.post-container').boundingBox();
+    const postPlayer = await post.locator('#panel-player').boundingBox();
+    assert(postWindow && postPlayer && postWindow.x + postWindow.width < postPlayer.x, 'desktop post player overlaps the post window');
     await post.locator('.slide-next').click();
     assert((await post.locator('#post-slide-track').getAttribute('style') || '').includes('-100%'), 'post gallery did not advance');
     await post.close();
+
+    const mobilePost = await openCheckedPage(
+      browser,
+      `${baseUrl}/posts/beauty/2026-07-29-july-update.html`,
+      { width: 390, height: 844 },
+    );
+    assert(await mobilePost.locator('#panel-player').isVisible(), 'mobile post player is not accessible');
+    assert(
+      await mobilePost.locator('#panel-player').evaluate((element) => getComputedStyle(element).position === 'static'),
+      'mobile post player did not join the page flow',
+    );
+    await mobilePost.close();
+
+    const persona = await openCheckedPage(browser, `${baseUrl}/persona/`, { width: 1440, height: 900 });
+    assert(
+      await persona.locator('.persona-page-panel').evaluate((element) => getComputedStyle(element).position === 'relative'),
+      'persona panel is still using floating-window sizing',
+    );
+    assert(
+      await persona.locator('.persona-page-panel > .panel-body').evaluate((element) => element.scrollHeight <= element.clientHeight + 2),
+      'persona panel still clips its content into an inner scroller',
+    );
+    await persona.close();
+
+    const media = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 1280, height: 900 });
+    const representativeMedia = [
+      '/images/food/img-6863.webp',
+      '/images/stubby/img-6485.webp',
+      '/images/games/IMG_1943.webp',
+      '/images/music/img-6109.webp',
+      '/images/lately/screenshot-2026-05-18-164501.webp',
+      '/images/pokemon/shinies/scarlet-shiny-annihilape.webp',
+    ];
+    const decodedMedia = await media.evaluate(async (urls) => Promise.all(urls.map((url) => new Promise((resolve) => {
+      const image = new Image();
+      image.onload = () => resolve(image.naturalWidth > 0 && image.naturalHeight > 0);
+      image.onerror = () => resolve(false);
+      image.src = url;
+    }))), representativeMedia);
+    assert(decodedMedia.every(Boolean), 'representative optimized media did not decode in Edge');
+    await media.close();
 
     const directFile = await openCheckedPage(
       browser,
@@ -162,7 +211,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log('browser check passed: desktop, mobile, themes, archive search/categories, post gallery, and direct-file preview.');
+  console.log('browser check passed: desktop, mobile, themes, archives, post chrome, persona layout, optimized media, and direct-file preview.');
 }
 
 run().catch((error) => {

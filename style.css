@@ -2528,7 +2528,8 @@
 .info-page-panel,
 .system-page-panel,
 .webgarden-page-panel,
-.toybox-page-panel {
+.toybox-page-panel,
+.persona-page-panel {
   position: relative;
   top: auto;
   left: auto;

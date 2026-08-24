@@ -12,6 +12,8 @@ Personal static site and blog for [me0wberry.com](https://me0wberry.com).
 
 Post Studio writes posts into `posts/<category>/`, updates the matching `index.json`, stores new gallery images in `images/<category>/`, and refreshes all generated site data automatically. The internal `lately` category name is retained for existing paths, but its visitor-facing name is `now`.
 
+Post Studio's recommended image option converts new JPEG/PNG uploads to quality-90 WebP files no larger than 2560px on the longest edge. Historical oversized photos follow the same standard; `tools/check-site.js` keeps public JPEG, PNG, and WebP assets under 2 MB, while GIFs and videos retain their original formats and loading behavior.
+
 ## Public pages
 
 - `/welcome/` is the first-visit entrance into the desktop; the root URL remains the desktop itself.
