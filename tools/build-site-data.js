@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { spawnSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_URL = 'https://me0wberry.com';
@@ -8,6 +9,8 @@ const HOME_START = '<!-- generated-now-summary:start -->';
 const HOME_END = '<!-- generated-now-summary:end -->';
 const NOW_START = '<!-- generated-now-entry:start -->';
 const NOW_END = '<!-- generated-now-entry:end -->';
+const BUILD_START = '<!-- generated-build:start -->';
+const BUILD_END = '<!-- generated-build:end -->';
 const STATIC_HOME_NOTE = "hi ! if you're reading this , thank you for checking out my site (˶ᵔ ᵕ ᵔ˶) i hope you'll enjoy visiting & reading the rest ( ˘ ³˘)♡";
 
 function displayCategory(category) {
@@ -251,6 +254,28 @@ function writeAtomic(filePath, contents) {
   fs.renameSync(tempPath, filePath);
 }
 
+function repositoryBuildLabel() {
+  const countResult = spawnSync('git', ['rev-list', '--count', 'HEAD'], {
+    cwd: ROOT,
+    encoding: 'utf8',
+  });
+  if (countResult.status !== 0) {
+    throw new Error(`Could not read the repository build number (${countResult.stderr.trim() || 'git failed'}).`);
+  }
+
+  const statusResult = spawnSync('git', ['status', '--porcelain', '--untracked-files=normal'], {
+    cwd: ROOT,
+    encoding: 'utf8',
+  });
+  if (statusResult.status !== 0) {
+    throw new Error(`Could not inspect repository changes (${statusResult.stderr.trim() || 'git failed'}).`);
+  }
+
+  const committedCount = Number.parseInt(countResult.stdout.trim(), 10);
+  const pendingCommit = statusResult.stdout.trim() ? 1 : 0;
+  return `v0.${committedCount + pendingCommit}`;
+}
+
 function buildSiteData({ write = true } = {}) {
   const posts = readPosts();
   const latestNow = posts.find((post) => post.category === 'lately');
@@ -258,8 +283,10 @@ function buildSiteData({ write = true } = {}) {
 
   const indexPath = path.join(ROOT, 'index.html');
   const nowPath = path.join(ROOT, 'now', 'index.html');
+  const systemPath = path.join(ROOT, 'system', 'index.html');
   const indexSource = fs.readFileSync(indexPath, 'utf8');
   const nowSource = fs.readFileSync(nowPath, 'utf8');
+  const systemSource = fs.readFileSync(systemPath, 'utf8');
   const outputs = [
     {
       file: 'data/search-index.json',
@@ -281,6 +308,10 @@ function buildSiteData({ write = true } = {}) {
       file: 'now/index.html',
       contents: replaceMarkedContent(nowSource, NOW_START, NOW_END, buildNowEntry(latestNow), 'now/index.html'),
     },
+    {
+      file: 'system/index.html',
+      contents: replaceMarkedContent(systemSource, BUILD_START, BUILD_END, `${BUILD_START}${repositoryBuildLabel()}${BUILD_END}`, 'system/index.html'),
+    },
   ];
 
   if (write) {
@@ -300,4 +331,5 @@ module.exports = {
   displayCategory,
   extractDivInnerHtml,
   htmlToText,
+  repositoryBuildLabel,
 };

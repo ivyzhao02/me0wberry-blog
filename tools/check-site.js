@@ -4,7 +4,7 @@ const { spawnSync } = require('child_process');
 const { buildSiteData } = require('./build-site-data');
 
 const ROOT = path.resolve(__dirname, '..');
-const SKIP_DIRS = new Set(['.git', 'codex-notes']);
+const SKIP_DIRS = new Set(['.git', 'codex-notes', 'node_modules']);
 
 function walk(dir, files = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -75,6 +75,12 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
   for (const match of source.matchAll(/<iframe\b[^>]*>/gi)) {
     if (!/\btitle=["'][^"']+["']/i.test(match[0])) errors.push(`${file}: iframe is missing a title`);
   }
+
+  if (file.startsWith('posts/')) {
+    const postStyleLinks = [...source.matchAll(/<link\b[^>]*href=["']\.\.\/\.\.\/post\.css["'][^>]*>/gi)];
+    if (postStyleLinks.length !== 1) errors.push(`${file}: expected exactly one shared post.css link`);
+    if (source.includes(':root{--pink:#e07090;')) errors.push(`${file}: still contains the copied legacy post stylesheet`);
+  }
 }
 
 const requiredPages = new Map([
@@ -83,6 +89,7 @@ const requiredPages = new Map([
   ['shrines/stubby/index.html', 'Stubby shrine'],
   ['shrines/pokemon/index.html', 'Pokémon shrine'],
   ['persona/index.html', 'persona gallery'],
+  ['post.css', 'shared post stylesheet'],
 ]);
 
 for (const [file, label] of requiredPages) {
@@ -105,6 +112,10 @@ for (const file of relativeFiles.filter(file => file.endsWith('.json'))) {
 }
 
 for (const file of relativeFiles.filter(file => file.endsWith('.js'))) {
+  const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  if (!file.startsWith('tools/') && /fetch\s*\(\s*[`"']\//.test(source)) {
+    errors.push(`${file}: root-relative fetch breaks direct file previews`);
+  }
   const result = spawnSync(process.execPath, ['--check', path.join(ROOT, file)], { encoding: 'utf8' });
   if (result.status !== 0) errors.push(`${file}: invalid JavaScript\n${result.stderr.trim()}`);
 }

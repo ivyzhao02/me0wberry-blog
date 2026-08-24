@@ -1,0 +1,13 @@
+{
+  "name": "me0wberry-blog",
+  "private": true,
+  "scripts": {
+    "build": "node tools/build-site-data.js",
+    "check": "node tools/check-site.js && node tools/check-browser.js",
+    "check:site": "node tools/check-site.js",
+    "check:browser": "node tools/check-browser.js"
+  },
+  "devDependencies": {
+    "playwright-core": "1.62.1"
+  }
+}

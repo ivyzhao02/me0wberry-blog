@@ -6,9 +6,9 @@ Personal static site and blog for [me0wberry.com](https://me0wberry.com).
 
 - Create monthly posts with `tools/post-studio/server.js`.
 - Refresh the homepage now panel, `/now/`, the archive search index, and RSS with `node tools/build-site-data.js`.
-- Check local links, image paths, JSON indexes, duplicate IDs, and JavaScript syntax with `node tools/check-site.js`.
+- Check local links, generated files, browser behavior, themes, mobile controls, and direct-file previews with `pnpm check`.
 - Keep the visual appearance and existing interactions unchanged during maintenance unless something is intentionally being fixed.
-- Bump the build shown in `/system/` with every published commit. The format is `v0.<repository commit count>`, so this pass targets `v0.214`.
+- The build shown in `/system/` is generated as `v0.<repository commit count>` and advances automatically with the next pending commit.
 
 Post Studio writes posts into `posts/<category>/`, updates the matching `index.json`, stores new gallery images in `images/<category>/`, and refreshes all generated site data automatically. The internal `lately` category name is retained for existing paths, but its visitor-facing name is `now`.
 
@@ -31,3 +31,5 @@ The fixed-choice poll below `/now/` uses anonymous shared counters from CounterA
 The four-stamp desktop passport stores progress only in the visitor's browser under `me0wberry_passport_v1`. `passport.js` owns stamp collection, Welcome progress, and the reward postcard; discovery targets use `data-passport-stamp`, while Surprise Me records its stamp from `script.js` before navigating.
 
 Shared JavaScript adds skip navigation, page landmarks, keyboard-operable window controls, and accessible player labels to the desktop shell and historical posts. `tools/check-site.js` also guards image descriptions and embedded-frame titles.
+
+Post pages share `post.css`; Post Studio links new posts to the same file so post formatting stays consistent without copying the stylesheet into every page.

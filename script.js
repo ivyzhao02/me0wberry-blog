@@ -947,10 +947,19 @@
       );
       if (!hasPostTargets) return;
 
+      const bundledPosts = window.me0wberrySearchIndex?.posts;
+      if (Array.isArray(bundledPosts)) {
+        categories.forEach((category) => {
+          const displayCategory = category === 'lately' ? 'now' : category;
+          updateCategoryPanel(category, bundledPosts.filter((post) => post.category === displayCategory));
+        });
+        return;
+      }
+
       const cacheBust = Date.now();
       await Promise.all(categories.map(async (cat) => {
         try {
-          const res = await fetch(`/posts/${cat}/index.json?t=${cacheBust}`);
+          const res = await fetch(sitePath(`/posts/${cat}/index.json?t=${cacheBust}`));
           if (!res.ok) return;
           const posts = await res.json();
           updateCategoryPanel(cat, posts);
