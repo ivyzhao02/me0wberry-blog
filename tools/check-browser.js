@@ -180,6 +180,49 @@ async function run() {
     );
     await persona.close();
 
+    const toybox = await openCheckedPage(browser, `${baseUrl}/toybox/`, { width: 1280, height: 900 });
+    assert(await toybox.locator('.toybox-kaomoji').count() === 129, 'complete kaomoji catalogue did not render');
+    const expectedKaomojiCounts = { cats: 12, happy: 50, sweet: 30, moods: 37 };
+    for (const [group, expectedCount] of Object.entries(expectedKaomojiCounts)) {
+      const shelf = toybox.locator(`[data-kaomoji-group="${group}"]`);
+      assert(await shelf.locator('.toybox-kaomoji').count() === expectedCount, `${group} kaomoji shelf count drifted`);
+      assert(await shelf.locator('.toybox-kaomoji:visible').count() === 8, `${group} kaomoji preview is not compact`);
+    }
+    const sweetFaces = await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji-value').allTextContents();
+    const catFaces = await toybox.locator('[data-kaomoji-group="cats"] .toybox-kaomoji-value').allTextContents();
+    const allFaces = await toybox.locator('.toybox-kaomoji-value').allTextContents();
+    const removedFaces = ['₍⸍⸌̣ʷ̣̫⸍̣⸌₎', '꒰(ू•‧̫•ू )꒱', 'Ꮚ♡ꈊ♡Ꮚ', 'ʜîʚ₍⑅ᐢ.ˬ.ᐢ₎♡', '⧫(◕ ˑ̫ ◕)⧫'];
+    assert(removedFaces.every((face) => !allFaces.includes(face)), 'removed kaomojis are still present');
+    assert(allFaces.includes('( •́ ω•́ )✧') && !allFaces.includes('( • ̀ω•́ )✧'), 'corrected happy kaomoji is missing');
+    assert(sweetFaces.includes('𐔌՞ ܸ.ˬ.ܸ՞𐦯') && sweetFaces.includes('𐔌՞. .՞𐦯') && sweetFaces.includes('₍⑅ᐢ..ᐢ₎♡'), 'sweet kaomoji moves are missing');
+    assert(!catFaces.includes('𐔌՞ ܸ.ˬ.ܸ՞𐦯') && !catFaces.includes('𐔌՞. .՞𐦯') && !catFaces.includes('₍⑅ᐢ..ᐢ₎♡'), 'moved sweet kaomojis remain in cats');
+    await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji-toggle').click();
+    assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 30, 'sweet kaomoji shelf did not expand');
+    await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji-toggle').click();
+    assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 8, 'sweet kaomoji shelf did not collapse');
+    assert(
+      await toybox.locator('body').evaluate((element) => getComputedStyle(element).cursor.includes('luna-heart.gif')),
+      'Luna Town heart cursor did not load',
+    );
+    assert(
+      await toybox.locator('a').first().evaluate((element) => getComputedStyle(element).cursor.includes('luna-cake-slice.gif')),
+      'Luna Town cake cursor did not load for links',
+    );
+    assert(
+      await toybox.locator('.toybox-kaomoji').first().evaluate((element) => getComputedStyle(element).cursor.includes('luna-cake-slice.gif')),
+      'copyable kaomoji still overrides the Luna Town cake cursor',
+    );
+    assert(
+      await toybox.locator('#toybox-blinkie-shelf .toybox-collected-graphic:visible').count() === 6,
+      'default trinkets view did not keep the blinkie preview compact',
+    );
+    await toybox.locator('[data-filter="blinkie"]').click();
+    assert(
+      await toybox.locator('#toybox-blinkie-shelf .toybox-collected-graphic:visible').count() === 12,
+      'blinkie filter did not reveal the full collection',
+    );
+    await toybox.close();
+
     const media = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 1280, height: 900 });
     const representativeMedia = [
       '/images/food/img-6863.webp',
@@ -206,6 +249,14 @@ async function run() {
     await directFile.waitForTimeout(150);
     assert(await directFile.locator('#posts-games li').count() > 0, 'direct-file homepage did not load bundled post data');
     await directFile.close();
+
+    const directToybox = await openCheckedPage(
+      browser,
+      pathToFileURL(path.join(ROOT, 'toybox', 'index.html')).href,
+      { width: 1280, height: 900 },
+    );
+    assert(await directToybox.locator('.toybox-kaomoji').count() >= 80, 'direct-file trinkets did not load its kaomoji data');
+    await directToybox.close();
   } finally {
     await browser.close();
     await new Promise((resolve) => server.close(resolve));

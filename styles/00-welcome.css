@@ -558,13 +558,13 @@
       color: inherit;
       border: 0;
       font: inherit;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
     }
 
     button.toybox-sticker-preview.passport-stamp-trigger:hover,
     button.toybox-sticker-preview.passport-stamp-trigger:focus-visible { box-shadow: inset 0 0 0 1px var(--pink); }
 
-    .bg-cat[data-passport-stamp] { pointer-events: auto; cursor: pointer; }
+    .bg-cat[data-passport-stamp] { pointer-events: auto; cursor: var(--cursor-pointer); }
     .bg-cat[data-passport-stamp]:hover { opacity: 0.7; filter: drop-shadow(0 3px 4px rgba(122,58,82,0.18)); }
     .bg-cat[data-passport-stamp]:focus-visible { outline: 2px dotted var(--pink); outline-offset: 3px; opacity: 0.7; }
 

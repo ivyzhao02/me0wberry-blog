@@ -85,7 +85,7 @@
       font-size: 8px;
       color: var(--muted);
       padding: 5px 8px 4px;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       background: linear-gradient(180deg, rgba(255,255,255,0.48), rgba(255,235,242,0.34));
       border: 1px solid rgba(255,255,255,0.62);
       margin-right: 0;
@@ -256,7 +256,7 @@
         linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,239,244,0.44)),
         linear-gradient(90deg, rgba(229,242,223,0.28), rgba(255,208,222,0.18));
       border: 1px solid rgba(200,150,170,0.52);
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       border-radius: var(--control-radius);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,0.82),
@@ -397,7 +397,7 @@
       border: 1px solid rgba(200,150,170,0.52);
       border-radius: var(--control-radius);
       padding: 6px 20px;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       color: #7a3a5a;
     }
     .discord-ok:hover { background: rgba(255,255,255,0.88); border-color: var(--pink); }
@@ -503,7 +503,7 @@
       background:
         linear-gradient(180deg, rgba(255,255,255,0.52), rgba(255,255,255,0.12)),
         linear-gradient(90deg, rgba(168,216,160,0.34), rgba(224,112,144,0.24));
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       outline: none;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.58);
@@ -517,7 +517,7 @@
       background:
         linear-gradient(180deg, rgba(255,255,255,0.65), rgba(244,168,184,0.22)),
         var(--pink);
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       border: 1px solid rgba(255,255,255,0.72);
       border-radius: 50%;
       box-shadow:
@@ -529,7 +529,7 @@
       background:
         linear-gradient(180deg, rgba(255,255,255,0.65), rgba(244,168,184,0.22)),
         var(--pink);
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.72);
       box-shadow: 0 2px 5px rgba(122,58,82,0.18);
@@ -554,7 +554,7 @@
         inset 0 1px 0 rgba(255,255,255,0.86),
         0 2px 5px rgba(122,58,82,0.08);
       width: 32px; height: 28px;
-      cursor: pointer;
+      cursor: var(--cursor-pointer);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -679,7 +679,7 @@
           linear-gradient(90deg, rgba(168,216,160,0.16), rgba(244,168,184,0.18));
         border-bottom: 1px solid rgba(255,255,255,0.7);
         box-shadow: inset 0 -1px 0 rgba(200,150,170,0.22);
-        cursor: pointer;
+        cursor: var(--cursor-pointer);
         letter-spacing: 0.4px;
       }
       body.mobile-panel #mobile-back { display: flex; }
@@ -719,19 +719,19 @@
     }
     @media (min-width: 769px) { #mobile-back { display: none !important; } }
 
-    /* ── Custom heart cursor ── */
+    /* ── Luna Town cursor pair ── */
     body {
-      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 17 C10 17 2 11 2 6 C2 3 4 1 7 1 C8.5 1 9.5 2 10 3 C10.5 2 11.5 1 13 1 C16 1 18 3 18 6 C18 11 10 17 10 17Z' fill='white' stroke='%23e07090' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, auto;
+      cursor: var(--cursor-default);
     }
     a, button, [onclick], .nav-item, .tab-btn, .panel-close, .panel-resize, .taskbar-start, .taskbar-app, .taskbar-window {
-      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 17 C10 17 2 11 2 6 C2 3 4 1 7 1 C8.5 1 9.5 2 10 3 C10.5 2 11.5 1 13 1 C16 1 18 3 18 6 C18 11 10 17 10 17Z' fill='white' stroke='%23e07090' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, pointer;
+      cursor: var(--cursor-pointer);
     }
 
     /* ── ilmbf trigger ── */
     .ilmbf-trigger {
       text-decoration: none;
       color: inherit;
-      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M10 17 C10 17 2 11 2 6 C2 3 4 1 7 1 C8.5 1 9.5 2 10 3 C10.5 2 11.5 1 13 1 C16 1 18 3 18 6 C18 11 10 17 10 17Z' fill='white' stroke='%23e07090' stroke-width='1.5'/%3E%3C/svg%3E") 10 10, pointer;
+      cursor: var(--cursor-pointer);
       transition: color 0.15s;
     }
     .ilmbf-trigger:hover { color: var(--pink); text-decoration: none; }
@@ -850,7 +850,7 @@
   background: rgba(255,255,255,0.36);
   border: 1px solid rgba(200,150,170,0.24);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.58);
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   width: 18px;
   height: 18px;
   padding: 0;

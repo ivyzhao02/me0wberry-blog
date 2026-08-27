@@ -60,43 +60,39 @@
           <p class="toybox-intro">little graphics , kaomoji + downloads i keep coming back to . click a face to copy it ♡</p>
 
           <section class="toybox-section" aria-labelledby="kaomoji-title">
-            <h2 class="toybox-section-title" id="kaomoji-title">kaomoji shelf / click to copy</h2>
+            <div class="toybox-section-heading-row">
+              <h2 class="toybox-section-title" id="kaomoji-title">kaomoji shelf / click to copy</h2>
+              <span class="toybox-filter-status" id="toybox-kaomoji-count" aria-live="polite"></span>
+            </div>
+            <p class="toybox-source-note">faces found around the site + a few new favourites from <a href="https://thuvien.org/kaomojis" target="_blank" rel="noopener">luna town's kaomoji shrine ↗</a></p>
             <div class="toybox-kaomoji-groups">
-              <div class="toybox-kaomoji-group">
-              <h3>cats</h3>
-                <div class="toybox-kaomoji-grid">
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">₍^. .^₎⟆</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(=^･^=)</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">₍ᐢ•ᴗ•ᐢ₎</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">𐔌՞. .՞𐦯</span><span class="toybox-copy-label">copy</span></button>
+              <div class="toybox-kaomoji-group" data-kaomoji-group="cats">
+                <div class="toybox-kaomoji-group-heading">
+                  <h3>cats <span class="toybox-group-count"></span></h3>
+                  <button class="toybox-kaomoji-toggle" type="button" aria-expanded="false" aria-controls="kaomoji-cats">open shelf ↓</button>
                 </div>
+                <div class="toybox-kaomoji-grid" id="kaomoji-cats"></div>
               </div>
-              <div class="toybox-kaomoji-group">
-                <h3>happy</h3>
-                <div class="toybox-kaomoji-grid">
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(˶ᵔ ᵕ ᵔ˶)</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(˶ˆᗜˆ˵)</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">⸜(｡˃ ᵕ ˂ )⸝♡</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">ヾ(=`ω´=)ノ”</span><span class="toybox-copy-label">copy</span></button>
+              <div class="toybox-kaomoji-group" data-kaomoji-group="happy">
+                <div class="toybox-kaomoji-group-heading">
+                  <h3>happy <span class="toybox-group-count"></span></h3>
+                  <button class="toybox-kaomoji-toggle" type="button" aria-expanded="false" aria-controls="kaomoji-happy">open shelf ↓</button>
                 </div>
+                <div class="toybox-kaomoji-grid" id="kaomoji-happy"></div>
               </div>
-              <div class="toybox-kaomoji-group">
-                <h3>sweet</h3>
-                <div class="toybox-kaomoji-grid">
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">( ˘ ³˘)♡</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">૮ ˶ᵔ ᵕ ᵔ˶ ა</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">૮꒰ ˶• ༝ •˶꒱ა ♡</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">ദ്ദി◝ ⩊ ◜.ᐟ</span><span class="toybox-copy-label">copy</span></button>
+              <div class="toybox-kaomoji-group" data-kaomoji-group="sweet">
+                <div class="toybox-kaomoji-group-heading">
+                  <h3>sweet <span class="toybox-group-count"></span></h3>
+                  <button class="toybox-kaomoji-toggle" type="button" aria-expanded="false" aria-controls="kaomoji-sweet">open shelf ↓</button>
                 </div>
+                <div class="toybox-kaomoji-grid" id="kaomoji-sweet"></div>
               </div>
-              <div class="toybox-kaomoji-group">
-              <h3>moods</h3>
-                <div class="toybox-kaomoji-grid">
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(ᐢ. .ᐢ)</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(–⩊–)</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">╮ (. ❛ ᴗ ❛.) ╭</span><span class="toybox-copy-label">copy</span></button>
-                  <button class="toybox-kaomoji" type="button"><span class="toybox-kaomoji-value">(｡•́︿•̀｡)</span><span class="toybox-copy-label">copy</span></button>
+              <div class="toybox-kaomoji-group" data-kaomoji-group="moods">
+                <div class="toybox-kaomoji-group-heading">
+                  <h3>moods <span class="toybox-group-count"></span></h3>
+                  <button class="toybox-kaomoji-toggle" type="button" aria-expanded="false" aria-controls="kaomoji-moods">open shelf ↓</button>
                 </div>
+                <div class="toybox-kaomoji-grid" id="kaomoji-moods"></div>
               </div>
             </div>
           </section>
@@ -109,6 +105,7 @@
             <div class="toybox-filters" aria-label="filter graphics">
               <button class="toybox-filter is-active" type="button" data-filter="all">all</button>
               <button class="toybox-filter" type="button" data-filter="button">88 × 31</button>
+              <button class="toybox-filter" type="button" data-filter="blinkie">blinkies</button>
               <button class="toybox-filter" type="button" data-filter="pixel">pixels</button>
               <button class="toybox-filter" type="button" data-filter="adoption">adoptions</button>
             </div>
@@ -130,6 +127,49 @@
                   <span><strong>site button</strong><small>made here ♡</small></span>
                   <span class="webgarden-button">me0wberry<br>.com</span>
                 </div>
+              </article>
+              <article class="toybox-sticker toybox-graphic-collection" data-toybox-kind="button">
+                <div class="toybox-button-collection-heading">
+                  <div>
+                    <div class="toybox-sticker-name">graphics collective picks / buttons</div>
+                    <a class="toybox-sticker-source" href="https://graphics-collective.neocities.org/" target="_blank" rel="noopener">found through Graphics Collective ↗</a>
+                  </div>
+                  <span class="toybox-button-count">3 saved ♡</span>
+                </div>
+                <div class="toybox-graphic-shelf" data-randomize-graphics role="list" aria-label="selected 88 by 31 buttons from Graphics Collective">
+                  <a class="toybox-collected-graphic is-button" href="https://lockheartlove.neocities.org/graphics/buttons" target="_blank" rel="noopener" role="listitem" aria-label="I'm bored right now button by Lockheartlove"><img src="../images/trinkets/graphics-collective/im-bored-rn.png" alt="I'm bored rn" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-button" href="https://lockheartlove.neocities.org/graphics/buttons" target="_blank" rel="noopener" role="listitem" aria-label="You should make a site button by Lockheartlove"><img src="../images/trinkets/graphics-collective/make-a-site.png" alt="you should make a site" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-button" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Powered by autism button by Transbro"><img src="../images/trinkets/graphics-collective/powered-by-autism.png" alt="powered by autism" loading="lazy"></a>
+                </div>
+                <p class="toybox-graphic-credit">original makers are linked on each button ♡</p>
+              </article>
+              <article class="toybox-sticker toybox-graphic-collection toybox-blinkie-collection" data-toybox-kind="blinkie">
+                <div class="toybox-button-collection-heading">
+                  <div>
+                    <div class="toybox-sticker-name">graphics collective picks / blinkies</div>
+                    <a class="toybox-sticker-source" href="https://graphics-collective.neocities.org/" target="_blank" rel="noopener">found through Graphics Collective ↗</a>
+                  </div>
+                  <span class="toybox-button-count">12 saved ♡</span>
+                </div>
+                <div class="toybox-graphic-shelf" id="toybox-blinkie-shelf" data-randomize-graphics role="list" aria-label="selected blinkies from Graphics Collective">
+                  <a class="toybox-collected-graphic is-blinkie" href="https://cyber-rot.neocities.org/mine" target="_blank" rel="noopener" role="listitem" aria-label="Despite everything, it's still you blinkie by Cyber Rot"><img src="../images/trinkets/graphics-collective/despite-everything.gif" alt="despite everything, it's still you" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I'm doing my best blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/doing-my-best.gif" alt="I'm doing my best" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Enter a hex code, nerd blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/enter-a-hex-code.gif" alt="enter a hex code, nerd" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I'll take a potato chip blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/potato-chip.gif" alt="I'll take a potato chip and eat it" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I only work under pressure blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/work-under-pressure.gif" alt="I only work under pressure" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Tikki, spots on blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/tikki-spots-on.gif" alt="Tikki, spots on" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Too kawaii to live blinkie by Transbro"><img src="../images/trinkets/graphics-collective/too-kawaii-to-live.gif" alt="too kawaii to live" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I love my computer blinkie by Transbro"><img src="../images/trinkets/graphics-collective/love-my-computer.gif" alt="I love my computer" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Ow ow ow Kirby blinkie by Transbro"><img src="../images/trinkets/graphics-collective/ow-ow-ow.gif" alt="ow ow ow" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I'm walking here Kirby blinkie by Transbro"><img src="../images/trinkets/graphics-collective/walking-here.gif" alt="I'm walking here" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Pastel Angel blinkie by Transbro"><img src="../images/trinkets/graphics-collective/pastel-angel.gif" alt="pastel angel" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I love you guys blinkie by Transbro"><img src="../images/trinkets/graphics-collective/love-you-guys.gif" alt="I love you guys" loading="lazy"></a>
+                </div>
+                <div class="toybox-button-preview" id="toybox-blinkie-preview">
+                  <span>showing 6 of 12</span>
+                  <button type="button" id="toybox-open-all-blinkies">open all blinkies ↗</button>
+                </div>
+                <p class="toybox-graphic-credit">original makers are linked on each blinkie ♡</p>
               </article>
               <article class="toybox-sticker" data-toybox-kind="pixel">
                 <div class="toybox-sticker-preview"><img src="../images/cats/cat-0363.gif" alt="small walking pixel cat"></div>
@@ -157,7 +197,7 @@
                 <a class="toybox-sticker-source" href="https://cinni.net/adopt" target="_blank" rel="noopener">adopted from Cinni ↗</a>
               </article>
             </div>
-            <p class="toybox-small-note">blinkies + stamps get their own filters once i actually collect some !</p>
+            <p class="toybox-small-note">stamps get their own filter once i actually collect some !</p>
           </section>
 
           <section class="toybox-section" aria-labelledby="desktop-title">
@@ -205,6 +245,7 @@
   <script src="../script.js" data-site-root=".."></script>
   <script src="buttons.js"></script>
   <script src="buttons-batch-02.js"></script>
+  <script src="kaomojis.js"></script>
   <script src="toybox.js"></script>
 </body>
 </html>

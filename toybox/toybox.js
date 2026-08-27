@@ -20,9 +20,68 @@
     return fallbackCopy(value);
   }
 
+  function shuffle(items) {
+    const randomized = [...items];
+    for (let index = randomized.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [randomized[index], randomized[swapIndex]] = [randomized[swapIndex], randomized[index]];
+    }
+    return randomized;
+  }
+
+  const kaomojiGroups = Array.isArray(window.MEOWBERRY_KAOMOJI_GROUPS)
+    ? window.MEOWBERRY_KAOMOJI_GROUPS
+    : [];
+  const kaomojiPreviewLimit = 8;
+  let kaomojiTotal = 0;
+
+  kaomojiGroups.forEach((group) => {
+    const container = document.querySelector(`[data-kaomoji-group="${group.id}"]`);
+    if (!container) return;
+    const grid = container.querySelector('.toybox-kaomoji-grid');
+    const count = container.querySelector('.toybox-group-count');
+    const toggle = container.querySelector('.toybox-kaomoji-toggle');
+    const buttons = shuffle(group.faces).map((face, index) => {
+      const button = document.createElement('button');
+      const value = document.createElement('span');
+      const label = document.createElement('span');
+      button.className = 'toybox-kaomoji';
+      button.type = 'button';
+      button.dataset.kaomojiSource = face.source;
+      button.hidden = index >= kaomojiPreviewLimit;
+      value.className = 'toybox-kaomoji-value';
+      value.textContent = face.value;
+      label.className = 'toybox-copy-label';
+      label.textContent = 'copy';
+      button.append(value, label);
+      return button;
+    });
+    if (grid) grid.replaceChildren(...buttons);
+    if (count) count.textContent = `/ ${group.faces.length}`;
+    if (toggle) {
+      if (group.faces.length <= kaomojiPreviewLimit) {
+        toggle.hidden = true;
+      } else {
+        toggle.addEventListener('click', () => {
+          const expanded = toggle.getAttribute('aria-expanded') !== 'true';
+          toggle.setAttribute('aria-expanded', String(expanded));
+          toggle.textContent = expanded ? 'tuck away ↑' : 'open shelf ↓';
+          buttons.forEach((button, index) => {
+            button.hidden = !expanded && index >= kaomojiPreviewLimit;
+          });
+        });
+      }
+    }
+    kaomojiTotal += group.faces.length;
+  });
+
+  const kaomojiCount = document.getElementById('toybox-kaomoji-count');
+  if (kaomojiCount) kaomojiCount.textContent = `${kaomojiTotal} faces saved ♡`;
+
   document.querySelectorAll('.toybox-kaomoji').forEach((button) => {
     const value = button.querySelector('.toybox-kaomoji-value').textContent;
-    button.setAttribute('aria-label', `${value} — copy`);
+    const sourceLabel = button.dataset.kaomojiSource === 'luna-town' ? ', from Luna Town' : '';
+    button.setAttribute('aria-label', `${value} — copy${sourceLabel}`);
 
     button.addEventListener('click', async () => {
       const label = button.querySelector('.toybox-copy-label');
@@ -55,11 +114,7 @@
   const collectedButtons = Array.isArray(window.MEOWBERRY_TRINKET_BUTTONS)
     ? window.MEOWBERRY_TRINKET_BUTTONS
     : [];
-  const randomizedButtons = [...collectedButtons];
-  for (let index = randomizedButtons.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(Math.random() * (index + 1));
-    [randomizedButtons[index], randomizedButtons[swapIndex]] = [randomizedButtons[swapIndex], randomizedButtons[index]];
-  }
+  const randomizedButtons = shuffle(collectedButtons);
   let buttonElements = [];
 
   if (buttonShelf) {
@@ -88,6 +143,15 @@
     buttonPreviewCount.textContent = `showing ${Math.min(buttonPreviewLimit, collectedButtons.length)} of ${collectedButtons.length}`;
   }
 
+  document.querySelectorAll('[data-randomize-graphics]').forEach((shelf) => {
+    shelf.replaceChildren(...shuffle(shelf.children));
+  });
+
+  const blinkiePreview = document.getElementById('toybox-blinkie-preview');
+  const openAllBlinkies = document.getElementById('toybox-open-all-blinkies');
+  const blinkieElements = [...document.querySelectorAll('#toybox-blinkie-shelf .toybox-collected-graphic')];
+  const blinkiePreviewLimit = 6;
+
   const filters = [...document.querySelectorAll('.toybox-filter')];
   const stickers = [...document.querySelectorAll('.toybox-sticker')];
   const status = document.getElementById('toybox-filter-status');
@@ -103,6 +167,11 @@
       item.hidden = !showFullButtonDrawer && index >= buttonPreviewLimit;
     });
     if (buttonPreview) buttonPreview.hidden = showFullButtonDrawer || collectedButtons.length <= buttonPreviewLimit;
+    const showFullBlinkieDrawer = filter === 'blinkie';
+    blinkieElements.forEach((item, index) => {
+      item.hidden = !showFullBlinkieDrawer && index >= blinkiePreviewLimit;
+    });
+    if (blinkiePreview) blinkiePreview.hidden = showFullBlinkieDrawer || blinkieElements.length <= blinkiePreviewLimit;
     if (status) status.textContent = filter === 'all' ? 'showing all' : `showing ${button.textContent.trim()}`;
   }
 
@@ -114,6 +183,13 @@
     openAllButtons.addEventListener('click', () => {
       const buttonFilter = filters.find((button) => button.dataset.filter === 'button');
       if (buttonFilter) selectFilter(buttonFilter);
+    });
+  }
+
+  if (openAllBlinkies) {
+    openAllBlinkies.addEventListener('click', () => {
+      const blinkieFilter = filters.find((button) => button.dataset.filter === 'blinkie');
+      if (blinkieFilter) selectFilter(blinkieFilter);
     });
   }
 
