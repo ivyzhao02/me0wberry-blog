@@ -168,6 +168,65 @@
     familyGrid?.appendChild(card);
   });
 
+  const honourableMentions = [
+    {
+      title: 'spheal',
+      note: 'round friend comes first , always ♡',
+      species: [
+        { name: 'spheal', file: 'spheal.png', alt: 'Spheal sprite' },
+        { name: 'spheal · shiny', file: 'spheal-shiny.png', alt: 'Shiny Spheal sprite' }
+      ]
+    },
+    {
+      title: 'lechonk + oinkologne',
+      note: 'caught in pokémon scarlet ♡',
+      species: [
+        { name: 'lechonk', file: 'lechonk-shiny.png', alt: 'Shiny Lechonk sprite' },
+        { name: 'oinkologne', file: 'oinkologne-shiny.png', alt: 'Shiny Oinkologne sprite' }
+      ]
+    },
+    {
+      title: 'marill + azumarill',
+      note: 'caught in pokémon scarlet ♡',
+      species: [
+        { name: 'marill', file: 'marill-shiny.png', alt: 'Shiny Marill sprite' },
+        { name: 'azumarill', file: 'azumarill-shiny.png', alt: 'Shiny Azumarill sprite' }
+      ]
+    },
+    {
+      title: 'chikorita → bayleef',
+      note: 'my friend in pokémon legends z-a ♡',
+      species: [
+        { name: 'chikorita', file: 'chikorita.png', alt: 'Chikorita sprite' },
+        { name: 'bayleef', file: 'bayleef.png', alt: 'Bayleef sprite' }
+      ]
+    }
+  ];
+  const honourableGrid = document.getElementById('pokemon-honourable-grid');
+  honourableMentions.forEach((mention) => {
+    const card = document.createElement('article');
+    const title = document.createElement('h4');
+    const sprites = document.createElement('div');
+    const note = document.createElement('p');
+    card.className = 'pokemon-honourable-card';
+    title.textContent = mention.title;
+    sprites.className = 'pokemon-honourable-sprite-row';
+    mention.species.forEach((species) => {
+      const figure = document.createElement('figure');
+      const image = document.createElement('img');
+      const caption = document.createElement('figcaption');
+      image.src = `../../images/pokemon/favourites/${species.file}`;
+      image.alt = species.alt;
+      image.loading = 'lazy';
+      caption.textContent = species.name;
+      figure.append(image, caption);
+      sprites.appendChild(figure);
+    });
+    note.textContent = mention.note;
+    card.append(title, sprites, note);
+    honourableGrid?.appendChild(card);
+  });
+
   const lookbook = [
     { name: 'sprigatito', artwork: 'sprigatito-artwork.png', model: 'sprigatito-home.png', game: 'sprigatito-scarlet-violet.png', gameLabel: 'scarlet + violet' },
     { name: 'snivy', artwork: 'snivy-artwork.png', model: 'snivy-home.png', game: 'snivy-black-white.png', gameLabel: 'black + white' },

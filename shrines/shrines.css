@@ -951,6 +951,77 @@ a.shrine-cabinet-card:hover {
   font-size: 14px;
 }
 
+.pokemon-honourable-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 17px 0 8px;
+}
+
+.pokemon-honourable-heading .shrine-cabinet-heading { margin: 0; }
+
+.pokemon-honourable-heading p {
+  color: var(--muted);
+  font-size: 9px;
+  text-align: right;
+}
+
+.pokemon-honourable-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.pokemon-honourable-card {
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--theme-border, rgba(192,112,144,0.28));
+  border-radius: 15px;
+  background: linear-gradient(145deg, rgba(255,216,228,0.25), rgba(219,239,209,0.34));
+}
+
+.pokemon-honourable-card h4 {
+  margin-bottom: 5px;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 13px;
+}
+
+.pokemon-honourable-card > p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 8px;
+}
+
+.pokemon-honourable-sprite-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 92px));
+  gap: 6px;
+}
+
+.pokemon-honourable-sprite-row figure {
+  padding: 3px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.34);
+  text-align: center;
+}
+
+.pokemon-honourable-sprite-row img {
+  display: block;
+  width: 68px;
+  height: 68px;
+  max-width: 100%;
+  margin: 0 auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.pokemon-honourable-sprite-row figcaption {
+  color: var(--muted);
+  font-size: 7px;
+}
+
 .pokemon-sprite-row {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -1398,7 +1469,7 @@ a.shrine-cabinet-card:hover {
 
 .pokemon-merch-dream-card h3,
 .pokemon-merch-card h3,
-.pokemon-merch-sylveon h3 {
+.pokemon-merch-spontaneous h3 {
   margin: 5px 0 3px;
   color: var(--heading);
   font-family: var(--font-heading);
@@ -1408,7 +1479,7 @@ a.shrine-cabinet-card:hover {
 
 .pokemon-merch-dream-card p,
 .pokemon-merch-card header p,
-.pokemon-merch-sylveon p {
+.pokemon-merch-spontaneous p {
   color: var(--muted);
   font-size: 9px;
   line-height: 1.5;
@@ -1532,7 +1603,7 @@ a.shrine-cabinet-card:hover {
   text-decoration: underline;
 }
 
-.pokemon-merch-sylveon {
+.pokemon-merch-spontaneous {
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr) auto;
   align-items: center;
@@ -1544,15 +1615,29 @@ a.shrine-cabinet-card:hover {
   background: var(--theme-surface-bg, linear-gradient(145deg, rgba(255,216,228,0.28), rgba(255,255,255,0.46), rgba(219,239,209,0.24)));
 }
 
-.pokemon-merch-sylveon > img {
+.pokemon-merch-spontaneous > img {
   width: 68px;
   height: 68px;
   object-fit: contain;
   filter: drop-shadow(0 4px 5px rgba(122,58,82,0.12));
 }
 
-.pokemon-merch-sylveon h3 { font-size: 16px; }
-.pokemon-merch-sylveon .pokemon-merch-search { margin-top: 0; padding-top: 0; }
+.pokemon-merch-spontaneous h3 { font-size: 16px; }
+.pokemon-merch-spontaneous .pokemon-merch-search { margin-top: 0; padding-top: 0; }
+
+.pokemon-merch-spontaneous .pokemon-merch-regi-list {
+  margin-top: 4px;
+  color: var(--matcha-dark);
+  font-family: var(--font-pixel);
+  font-size: 6px;
+}
+
+.pokemon-merch-search-list {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 6px;
+}
 
 @media (max-width: 760px) {
   .shrine-hallway-grid,
@@ -1592,10 +1677,13 @@ a.shrine-cabinet-card:hover {
   }
 
   .pokemon-section-heading > p { text-align: left; }
+  .pokemon-honourable-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .pokemon-honourable-heading p { text-align: left; }
   .pokemon-shiny-grid,
   .pokemon-shiny-grid-featured { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .pokemon-binder-layout,
   .pokemon-family-grid,
+  .pokemon-honourable-grid,
   .pokemon-music-grid,
   .pokemon-merch-overview,
   .pokemon-merch-shelf-grid { grid-template-columns: 1fr; }
@@ -1611,11 +1699,12 @@ a.shrine-cabinet-card:hover {
     height: 96px;
     margin-bottom: 7px;
   }
-  .pokemon-merch-sylveon {
+  .pokemon-merch-spontaneous {
     grid-template-columns: 64px minmax(0, 1fr);
   }
-  .pokemon-merch-sylveon > img { width: 60px; height: 60px; }
-  .pokemon-merch-sylveon .pokemon-merch-search { grid-column: 2; }
+  .pokemon-merch-spontaneous > img { width: 60px; height: 60px; }
+  .pokemon-merch-spontaneous > .pokemon-merch-search,
+  .pokemon-merch-spontaneous > .pokemon-merch-search-list { grid-column: 2; }
 }
 
 @media (max-width: 430px) {

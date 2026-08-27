@@ -113,10 +113,23 @@
               <button class="toybox-filter" type="button" data-filter="adoption">adoptions</button>
             </div>
             <div class="toybox-sticker-grid">
-              <article class="toybox-sticker" data-toybox-kind="button">
-                <div class="toybox-sticker-preview"><span class="webgarden-button">me0wberry<br>.com</span></div>
-                <div class="toybox-sticker-name">site button</div>
-                <div class="toybox-sticker-source">made here ♡</div>
+              <article class="toybox-sticker toybox-button-collection" data-toybox-kind="button">
+                <div class="toybox-button-collection-heading">
+                  <div>
+                    <div class="toybox-sticker-name">88x31db button drawer</div>
+                    <a class="toybox-sticker-source" href="https://88x31db.com/" target="_blank" rel="noopener">visit the button database ↗</a>
+                  </div>
+                  <span class="toybox-button-count" id="toybox-button-count">loading . .</span>
+                </div>
+                <div class="toybox-button-shelf" id="toybox-button-shelf" role="list" aria-label="collected 88 by 31 site buttons"></div>
+                <div class="toybox-button-preview" id="toybox-button-preview">
+                  <span id="toybox-button-preview-count">showing a small preview</span>
+                  <button type="button" id="toybox-open-all-buttons">open all 88 × 31 ↗</button>
+                </div>
+                <div class="toybox-own-button-row">
+                  <span><strong>site button</strong><small>made here ♡</small></span>
+                  <span class="webgarden-button">me0wberry<br>.com</span>
+                </div>
               </article>
               <article class="toybox-sticker" data-toybox-kind="pixel">
                 <div class="toybox-sticker-preview"><img src="../images/cats/cat-0363.gif" alt="small walking pixel cat"></div>
@@ -190,6 +203,8 @@
 
   <script src="../data/search-index.js"></script>
   <script src="../script.js" data-site-root=".."></script>
+  <script src="buttons.js"></script>
+  <script src="buttons-batch-02.js"></script>
   <script src="toybox.js"></script>
 </body>
 </html>

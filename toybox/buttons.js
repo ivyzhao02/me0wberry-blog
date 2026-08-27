@@ -1,0 +1,40 @@
+window.MEOWBERRY_BUTTON_ENTRY = (name, databaseDate, page, file) => ({
+  name,
+  databaseDate,
+  asset: `../images/trinkets/88x31db/${file}`,
+  sourcePage: `https://88x31db.com/${page}`,
+  sourceAsset: `https://88x31imgs.blob.core.windows.net/images/${file}`
+});
+
+window.MEOWBERRY_TRINKET_BUTTONS = [
+  window.MEOWBERRY_BUTTON_ENTRY('caged fox CatObsessButton', '2025-07-12', 's/cat', 'caged_fox_CatObsessButton.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('cat', '2025-07-12', 's/cat', 'cat.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('Academy catlover', '2025-07-12', 's/cat', 'Academy_catlover.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('meowcatsrule', '2025-07-03', 's/cat', 'meowcatsrule.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('lookatmycat', '2025-07-03', 's/cat', 'lookatmycat.png'),
+  window.MEOWBERRY_BUTTON_ENTRY('meowwoof', '2025-07-03', 'm', 'meowwoof.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('meowclover', '2025-07-03', 'm', 'meowclover.png'),
+  window.MEOWBERRY_BUTTON_ENTRY('88x31pinkmarble', '2025-07-03', '8', '88x31pinkmarble.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('88x31 3', '2025-07-03', '8', '88x31-3.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('8831 copy 1', '2025-07-03', '8', '8831-copy-1.png'),
+  window.MEOWBERRY_BUTTON_ENTRY('6zGt83a', '2025-07-03', '6', '6zGt83a.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('5srvdSo', '2025-07-03', '5', '5srvdSo.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('2001', '2025-07-03', '2', '2001.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('25nightcord', '2025-07-03', '2', '25nightcord.png'),
+  window.MEOWBERRY_BUTTON_ENTRY('12511814114431851205', '2025-07-03', '1', '12511814114431851205.png'),
+  window.MEOWBERRY_BUTTON_ENTRY('zoneoverimagination', '2025-07-03', 'z', 'zoneoverimagination.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('zoneoverimagination 3', '2025-07-03', 'z', 'zoneoverimagination-3.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('zoneoverimagination 2', '2025-07-03', 'z', 'zoneoverimagination-2.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('yamatosora Gatobutn2', '2025-07-12', 'y', 'yamatosora_Gatobutn2.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('y2k2', '2025-07-03', 'y', 'y2k2.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('wokitty', '2025-07-12', 'w', 'wokitty.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('wokitty2', '2025-07-12', 'w', 'wokitty2.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('westlakeqi 30', '2025-07-12', 'w', 'westlakeqi_30.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('wormsworld', '2025-07-03', 'w', 'wormsworld.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('wing1', '2025-07-03', 'w', 'wing1.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('web3no', '2025-07-03', 'w', 'web3no.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('vivid fantasia button9', '2025-07-12', 'v', 'vivid_fantasia_button9.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('valentines', '2025-07-03', 'v', 'valentines.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('valentines button', '2025-07-03', 'v', 'valentines-button.gif'),
+  window.MEOWBERRY_BUTTON_ENTRY('toray tayler chibisp', '2025-07-12', 't', 'toray_tayler_chibisp.gif')
+];

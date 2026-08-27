@@ -13,6 +13,18 @@ The cabinet sprites are hosted by the PokeAPI sprite repository:
 
 The normal and shiny sprites in `favourites/` use the same PokeAPI sprite repository. Its `official-artwork` and `home` renders supply the non-sprite favourite Pokémon lookbook. The files in `shinies/` are metadata-clean copies of me0wberry's own game screenshots.
 
+The honourable-mention shiny sprites also come from PokeAPI:
+
+- `spheal.png`: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/363.png
+- `spheal-shiny.png`: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/363.png
+- `spheal-artwork.png`: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/363.png
+- `lechonk-shiny.png`: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/915.png
+- `oinkologne-shiny.png`: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/916.png
+- `marill-shiny.png`: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/183.png
+- `azumarill-shiny.png`: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/184.png
+- `chikorita.png`: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/152.png
+- `bayleef.png`: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/153.png
+
 The in-game lookbook and core-series timeline images in `game-appearances/` are archived by Bulbagarden:
 
 - `sprigatito-scarlet-violet.png`: https://archives.bulbagarden.net/wiki/File:Leafage_IX.png

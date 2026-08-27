@@ -2808,6 +2808,119 @@
 
 .toybox-sticker[hidden] { display: none; }
 
+.toybox-button-collection {
+  grid-column: 1 / -1;
+}
+
+.toybox-button-collection-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.toybox-button-count {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font: 5px/1.5 var(--font-pixel);
+}
+
+.toybox-button-shelf {
+  min-height: 31px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  padding: 10px;
+  border: 1px dashed rgba(192,112,144,0.26);
+  border-radius: 9px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,0.86) 0 1px, transparent 2px),
+    linear-gradient(135deg, rgba(220,239,212,0.34), rgba(248,214,226,0.38));
+}
+
+.toybox-collected-button {
+  width: 88px;
+  height: 31px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(255,255,255,0.5);
+  box-shadow: 0 2px 5px rgba(122,58,82,0.12);
+}
+
+.toybox-collected-button[hidden] { display: none; }
+
+.toybox-collected-button img {
+  max-width: 88px;
+  max-height: 31px;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.toybox-collected-button:hover,
+.toybox-collected-button:focus-visible {
+  outline: 2px solid rgba(192,112,144,0.5);
+  outline-offset: 2px;
+}
+
+.toybox-button-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.toybox-button-preview[hidden] { display: none; }
+
+.toybox-button-preview button {
+  padding: 0;
+  color: var(--link);
+  border: 0;
+  background: none;
+  font: 700 10px var(--font-heading);
+  cursor: pointer;
+}
+
+.toybox-button-preview button:hover,
+.toybox-button-preview button:focus-visible {
+  color: var(--heading);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.toybox-own-button-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  margin-top: 8px;
+  padding-top: 8px;
+  color: var(--muted);
+  border-top: 1px dashed rgba(192,112,144,0.22);
+  text-align: right;
+}
+
+.toybox-own-button-row strong,
+.toybox-own-button-row small {
+  display: block;
+}
+
+.toybox-own-button-row strong {
+  color: var(--heading);
+  font: 700 11px var(--font-heading);
+}
+
+.toybox-own-button-row small {
+  margin-top: 1px;
+  font-size: 9px;
+}
+
 .toybox-sticker-preview {
   height: 70px;
   display: flex;
@@ -2903,6 +3016,8 @@ a.toybox-resource-card:hover {
 @media (max-width: 430px) {
   .toybox-kaomoji-grid { grid-template-columns: 1fr; }
   .toybox-section-heading-row { align-items: flex-start; flex-direction: column; gap: 2px; }
+  .toybox-button-collection-heading { align-items: flex-start; flex-direction: column; gap: 3px; }
+  .toybox-button-preview { align-items: flex-start; flex-direction: column; gap: 2px; }
 }
 
 .info-profile-grid {
