@@ -98,13 +98,94 @@ async function run() {
     const desktop = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 1440, height: 900 });
     assert(await desktop.locator('#topbar').isVisible(), 'desktop topbar is not visible');
     assert(await desktop.locator('#sidebar').isVisible(), 'desktop sidebar is not visible');
+    for (const category of ['games', 'music', 'food', 'stubby', 'beauty']) {
+      const categoryLinks = desktop.locator(`#latest-${category} a[href], #posts-${category} a[href]`);
+      assert(await categoryLinks.count() > 0, `${category} homepage panel has no post links`);
+      const hrefs = await categoryLinks.evaluateAll((links) => links.map((link) => link.href));
+      assert(
+        hrefs.every((href) => href && !href.includes('undefined') && href.includes(`/posts/${category}/`)),
+        `${category} homepage panel contains an invalid post link`,
+      );
+    }
+    const playerPanel = desktop.locator('#panel-player');
+    await playerPanel.locator('.panel-pin').click();
+    assert(await playerPanel.locator('.panel-pin').getAttribute('aria-pressed') === 'true', 'player window did not pin');
+    await desktop.locator('#sidebar .nav-item').filter({ hasText: 'gifypets' }).click();
+    const gifypetsPanel = desktop.locator('#panel-gifypet');
+    assert(await gifypetsPanel.isVisible(), 'desktop Gifypets window did not open');
+    assert(await gifypetsPanel.locator('[data-gifypet-stage="stubby"]').isVisible(), 'Stubby GifyPet is not the default tab');
+    await gifypetsPanel.locator('[data-gifypet-tab="cactus"]').click();
+    assert(await gifypetsPanel.locator('[data-gifypet-stage="cactus"]').isVisible(), 'Cactus GifyPet tab did not open');
+    await gifypetsPanel.locator('.panel-pin').click();
+    assert(await gifypetsPanel.locator('.panel-pin').getAttribute('aria-pressed') === 'true', 'Gifypets window did not pin');
+    await desktop.locator('#sidebar [data-opens="panel-games"]').click();
+    assert(await gifypetsPanel.isVisible(), 'pinned Gifypets window closed behind a content panel');
+    const gamePanelZ = Number(await desktop.locator('#panel-games').evaluate((panel) => getComputedStyle(panel).zIndex));
+    const playerPanelZ = Number(await playerPanel.evaluate((panel) => getComputedStyle(panel).zIndex));
+    const gifypetsPanelZ = Number(await gifypetsPanel.evaluate((panel) => getComputedStyle(panel).zIndex));
+    assert(playerPanelZ > gamePanelZ && gifypetsPanelZ > gamePanelZ, 'pinned utility windows did not stay above normal panels');
+
+    const [gifypetsPopup] = await Promise.all([
+      desktop.waitForEvent('popup'),
+      gifypetsPanel.locator('.panel-popout').click(),
+    ]);
+    await gifypetsPopup.waitForLoadState('domcontentloaded');
+    assert(gifypetsPopup.url().includes('/popout/index.html?app=gifypets'), 'Gifypets popup opened the wrong page');
+    assert(await gifypetsPopup.locator('body.popout-page').count() === 1, 'Gifypets popup is missing site theming');
+    assert(await gifypetsPopup.locator('[data-popout-app="gifypets"]').isVisible(), 'Gifypets popup content is not visible');
+    assert(await gifypetsPopup.locator('[data-popout-gifypet-stage="cactus"]').isVisible(), 'selected GifyPet did not carry into the popup');
+    assert(await gifypetsPanel.locator('[data-popout-indicator="gifypets"]').isVisible(), 'Gifypets panel did not collapse into an indicator');
+    await gifypetsPopup.close();
+    await desktop.waitForTimeout(500);
+    assert(await gifypetsPanel.locator('[data-utility-content="gifypets"]').isVisible(), 'Gifypets panel did not restore after its popup closed');
+
+    await desktop.evaluate(() => window.me0wberryPlayer.applyState({
+      trackId: 'forever-and',
+      currentTime: 0,
+      volume: 0.42,
+      playing: false,
+    }));
+    const [playerPopup] = await Promise.all([
+      desktop.waitForEvent('popup'),
+      playerPanel.locator('.panel-popout').click(),
+    ]);
+    await playerPopup.waitForLoadState('domcontentloaded');
+    assert(playerPopup.url().includes('/popout/index.html?app=player'), 'player popup opened the wrong page');
+    assert(await playerPopup.locator('body.popout-page').count() === 1, 'player popup is missing site theming');
+    assert(await playerPopup.locator('#popout-player-playpause').isVisible(), 'popped-out player controls are not visible');
+    assert((await playerPopup.locator('#popout-player-title').textContent()).includes('forever &'), 'player track did not carry into the popup');
+    assert(await playerPopup.locator('#popout-player-volume').inputValue() === '0.42', 'player volume did not carry into the popup');
+    assert(await playerPanel.locator('[data-popout-indicator="player"]').isVisible(), 'player panel did not collapse into an indicator');
+    await playerPanel.locator('[data-popout-indicator="player"] button').filter({ hasText: 'bring back' }).click();
+    await desktop.waitForTimeout(100);
+    assert(playerPopup.isClosed(), 'player popup did not close when docked');
+    assert(await playerPanel.locator('[data-utility-content="player"]').isVisible(), 'player panel did not restore after docking');
+    assert((await playerPanel.locator('#player-title').textContent()).includes('forever &'), 'player track did not return after docking');
+    assert(await playerPanel.locator('#player-volume').inputValue() === '0.42', 'player volume did not return after docking');
+
     await desktop.locator('#sidebar [data-opens="panel-player"]').click();
     assert(await desktop.locator('#panel-player').isVisible(), 'desktop player did not open');
     await desktop.close();
 
     const mobile = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 390, height: 844 });
-    await mobile.locator('#sidebar [data-opens="panel-player"]').click();
-    assert(await mobile.locator('#panel-player').isVisible(), 'mobile player did not open');
+    const [mobileGifypetsPopup] = await Promise.all([
+      mobile.waitForEvent('popup'),
+      mobile.locator('#sidebar .nav-item').filter({ hasText: 'gifypets' }).click(),
+    ]);
+    await mobileGifypetsPopup.waitForLoadState('domcontentloaded');
+    assert(await mobileGifypetsPopup.locator('body.popout-page').count() === 1, 'mobile Gifypets page is not themed');
+    assert(await mobileGifypetsPopup.locator('[data-popout-app="gifypets"]').isVisible(), 'mobile Gifypets content is not visible');
+    await mobileGifypetsPopup.close();
+    await mobile.waitForTimeout(500);
+
+    const [mobilePlayerPopup] = await Promise.all([
+      mobile.waitForEvent('popup'),
+      mobile.locator('#sidebar [data-opens="panel-player"]').click(),
+    ]);
+    await mobilePlayerPopup.waitForLoadState('domcontentloaded');
+    assert(await mobilePlayerPopup.locator('body.popout-page').count() === 1, 'mobile player page is not themed');
+    assert(await mobilePlayerPopup.locator('#popout-player-playpause').isVisible(), 'mobile popped-out player controls are not visible');
+    await mobilePlayerPopup.close();
     await mobile.close();
 
     const themed = await openCheckedPage(browser, `${baseUrl}/system/`, { width: 1280, height: 900 });
@@ -248,6 +329,11 @@ async function run() {
     );
     await directFile.waitForTimeout(150);
     assert(await directFile.locator('#posts-games li').count() > 0, 'direct-file homepage did not load bundled post data');
+    const directPostHref = await directFile.locator('#latest-games a[href]').first().evaluate((link) => link.href);
+    assert(
+      directPostHref.startsWith('file:') && !directPostHref.includes('undefined'),
+      'direct-file homepage generated an invalid post link',
+    );
     await directFile.close();
 
     const directToybox = await openCheckedPage(

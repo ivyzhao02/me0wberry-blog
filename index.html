@@ -692,9 +692,13 @@
       <div class="panel" id="panel-player" style="width:280px;">
         <div class="panel-titlebar">
           <span class="panel-title">♪ now playing</span>
-          <div class="panel-close" onclick="closePanel('panel-player')">✕</div>
+          <div class="panel-window-actions">
+            <button class="panel-pin" type="button" onclick="togglePanelPin('panel-player')" aria-label="keep window on top" aria-pressed="false" title="keep window on top">📌</button>
+            <button class="panel-popout" type="button" onclick="toggleUtilityPopout('player')" aria-label="pop player out" aria-pressed="false" title="pop player out">↗</button>
+            <div class="panel-close" onclick="closePanel('panel-player')">✕</div>
+          </div>
         </div>
-        <div class="panel-body" style="padding:12px 14px 10px;">
+        <div class="panel-body" data-utility-content="player" style="padding:12px 14px 10px;">
 
           <!-- track title (marquee) -->
           <div class="player-track-title">
@@ -729,28 +733,48 @@
           <!-- hidden audio element -->
           <audio id="player-audio" preload="none"></audio>
         </div>
+        <div class="panel-body popout-indicator" data-popout-indicator="player">
+          <div class="popout-indicator-icon" aria-hidden="true">♫</div>
+          <strong>player is popped out</strong>
+          <span>it has its own little window right now ♡</span>
+          <div class="popout-indicator-actions">
+            <button class="pixel-btn" type="button" onclick="focusUtilityPopout('player')">find window ↗</button>
+            <button class="pixel-btn" type="button" onclick="dockUtilityPopout('player')">bring back ↙</button>
+          </div>
+        </div>
         <!-- no resize handle for player -->
       </div><!-- /panel-player -->
 
-      <!-- ── GifyPet Panel: Josh ── -->
-      <div class="panel" id="panel-josh" style="width:330px; height:auto;">
+      <!-- ── GifyPets Panel ── -->
+      <div class="panel" id="panel-gifypet" style="width:370px; height:auto;">
         <div class="panel-titlebar">
-          <span class="panel-title">🌵 cactus</span>
-          <div class="panel-close" onclick="closePanel('panel-josh')">✕</div>
+          <span class="panel-title">🐾 gifypets</span>
+          <div class="panel-window-actions">
+            <button class="panel-pin" type="button" onclick="togglePanelPin('panel-gifypet')" aria-label="keep window on top" aria-pressed="false" title="keep window on top">📌</button>
+            <button class="panel-popout" type="button" onclick="toggleUtilityPopout('gifypets')" aria-label="pop Gifypets out" aria-pressed="false" title="pop Gifypets out">↗</button>
+            <div class="panel-close" onclick="closePanel('panel-gifypet')">✕</div>
+          </div>
         </div>
-        <div class="panel-body" style="padding:8px; display:flex; align-items:center; justify-content:center;">
-          <iframe width="314" height="321" scrolling="no" title="Cactus virtual GifyPet" src="https://me0wberry.com/gifypet/pet.html?name=Cactus&dob=1775772452&gender=m&element=Earth&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fcactus-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgingham-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42" frameborder="0"></iframe>
+        <div class="panel-body gifypet-panel-body" data-utility-content="gifypets">
+          <div class="gifypet-tabs" role="tablist" aria-label="choose a GifyPet">
+            <button class="gifypet-tab is-active" id="gifypet-tab-stubby" type="button" role="tab" data-gifypet-tab="stubby" aria-controls="gifypet-stage-stubby" aria-selected="true" onclick="showGifypet('stubby')">🐾 stubby</button>
+            <button class="gifypet-tab" id="gifypet-tab-cactus" type="button" role="tab" data-gifypet-tab="cactus" aria-controls="gifypet-stage-cactus" aria-selected="false" onclick="showGifypet('cactus')">🌵 cactus</button>
+          </div>
+          <div class="gifypet-stage is-active" id="gifypet-stage-stubby" role="tabpanel" data-gifypet-stage="stubby" aria-labelledby="gifypet-tab-stubby">
+            <iframe width="314" height="321" scrolling="no" title="Stubby virtual GifyPet" src="https://me0wberry.com/gifypet/pet.html?name=Stubby&dob=1775770472&gender=f&element=Fire&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fstubby-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgrass-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42" frameborder="0"></iframe>
+          </div>
+          <div class="gifypet-stage" id="gifypet-stage-cactus" role="tabpanel" data-gifypet-stage="cactus" aria-labelledby="gifypet-tab-cactus">
+            <iframe width="314" height="321" scrolling="no" title="Cactus virtual GifyPet" src="https://me0wberry.com/gifypet/pet.html?name=Cactus&dob=1775772452&gender=m&element=Earth&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fcactus-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgingham-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42" frameborder="0"></iframe>
+          </div>
         </div>
-      </div>
-      
-      <!-- ── GifyPet Panel ── -->
-      <div class="panel" id="panel-gifypet" style="width:330px; height:auto;">
-        <div class="panel-titlebar">
-          <span class="panel-title">🐾 stubby</span>
-          <div class="panel-close" onclick="closePanel('panel-gifypet')">✕</div>
-        </div>
-        <div class="panel-body" style="padding:8px; display:flex; align-items:center; justify-content:center;">
-          <iframe width="314" height="321" scrolling="no" title="Stubby virtual GifyPet" src="https://me0wberry.com/gifypet/pet.html?name=Stubby&dob=1775770472&gender=f&element=Fire&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fstubby-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgrass-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42" frameborder="0"></iframe>
+        <div class="panel-body popout-indicator" data-popout-indicator="gifypets">
+          <div class="popout-indicator-icon" aria-hidden="true">🐾</div>
+          <strong>gifypets are popped out</strong>
+          <span>they have their own little window right now ♡</span>
+          <div class="popout-indicator-actions">
+            <button class="pixel-btn" type="button" onclick="focusUtilityPopout('gifypets')">find window ↗</button>
+            <button class="pixel-btn" type="button" onclick="dockUtilityPopout('gifypets')">bring back ↙</button>
+          </div>
         </div>
       </div>
   

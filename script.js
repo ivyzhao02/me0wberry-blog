@@ -225,8 +225,15 @@
 
     const MOBILE_BREAKPOINT = 768;
     const UTILITY_PANEL_BOTTOM_OFFSET = 72;
+    const PINNED_Z_INDEX_BASE = 9000;
+    const PLAYER_HANDOFF_KEY = 'me0wberry_player_handoff_v1';
     const PERSISTENT_PANEL_IDS = new Set(['panel-player']);
-    const GIFYPET_PANEL_IDS = new Set(['panel-gifypet', 'panel-josh']);
+    const GIFYPET_PANEL_IDS = new Set(['panel-gifypet']);
+    const UTILITY_POPOUT_META = {
+      gifypets: { panelId: 'panel-gifypet', width: 370, rightOffset: 310, popupWidth: 410, popupHeight: 560 },
+      player: { panelId: 'panel-player', width: 280, rightOffset: 20, popupWidth: 340, popupHeight: 330 },
+    };
+    const utilityPopouts = new Map();
     const TASKBAR_PANEL_META = {
       'panel-bio': { label: 'hello', icon: sitePath('/images/ui-icons/hello.png'), order: 10 },
       'panel-lately': { label: 'now', icon: sitePath('/images/ui-icons/lately.png'), order: 20 },
@@ -237,17 +244,35 @@
       'panel-food': { label: 'food', icon: sitePath('/images/ui-icons/food.png'), order: 60 },
       'panel-stubby': { label: 'stubby', icon: sitePath('/images/ui-icons/stubby.png'), order: 70 },
       'panel-beauty': { label: 'beauty', icon: sitePath('/images/ui-icons/beauty.png'), order: 80 },
-      'panel-gifypet': { label: 'stubby pet', icon: sitePath('/images/ui-icons/gifypets.png'), order: 90 },
-      'panel-josh': { label: 'cactus pet', icon: sitePath('/images/ui-icons/gifypets.png'), order: 100 },
+      'panel-gifypet': { label: 'gifypets', icon: sitePath('/images/ui-icons/gifypets.png'), order: 90 },
       'panel-player': { label: 'player', icon: sitePath('/images/ui-icons/player.png'), order: 110 }
     };
 
     // ── Z-index ──
     let zTop = 10;
+    let pinnedZTop = PINNED_Z_INDEX_BASE;
 
     function bringToFront(panel) {
-      zTop++;
-      panel.style.zIndex = zTop;
+      if (panel.classList.contains('is-pinned')) {
+        panel.style.zIndex = ++pinnedZTop;
+        return;
+      }
+
+      panel.style.zIndex = ++zTop;
+    }
+
+    function togglePanelPin(id) {
+      const panel = document.getElementById(id);
+      if (!panel) return;
+
+      const isPinned = panel.classList.toggle('is-pinned');
+      const pin = panel.querySelector('.panel-pin');
+      if (pin) {
+        pin.setAttribute('aria-pressed', isPinned ? 'true' : 'false');
+        pin.setAttribute('aria-label', isPinned ? 'unpin window' : 'keep window on top');
+        pin.title = isPinned ? 'unpin window' : 'keep window on top';
+      }
+      bringToFront(panel);
     }
 
     function isMobileViewport() {
@@ -268,6 +293,7 @@
       document.querySelectorAll('.panel.open').forEach(p => {
         if (p.hasAttribute('data-static-panel')) return;
         if (isPersistentPanel(p)) return;
+        if (p.classList.contains('is-pinned')) return;
         if (keepGifypets && isGifypetPanel(p)) return;
         p.classList.remove('open');
       });
@@ -289,16 +315,184 @@
       panel.style.top = Math.max(12, refHeight - panel.offsetHeight - bottomOffset) + 'px';
     }
 
-    function openGifypetPanel(id, options = {}) {
-      const panel = document.getElementById(id);
+    function utilityKindForPanel(panel) {
+      if (!panel) return null;
+      return Object.keys(UTILITY_POPOUT_META).find(kind => UTILITY_POPOUT_META[kind].panelId === panel.id) || null;
+    }
+
+    function liveUtilityPopout(kind) {
+      const entry = utilityPopouts.get(kind);
+      if (!entry || entry.popup.closed) return null;
+      return entry;
+    }
+
+    function writePlayerHandoff() {
+      const state = window.me0wberryPlayer?.getState();
+      if (!state) return;
+      try { window.localStorage.setItem(PLAYER_HANDOFF_KEY, JSON.stringify(state)); } catch (error) {}
+    }
+
+    function readPlayerHandoff() {
+      try { return JSON.parse(window.localStorage.getItem(PLAYER_HANDOFF_KEY) || 'null'); }
+      catch (error) { return null; }
+    }
+
+    function setUtilityPopoutState(kind, poppedOut) {
+      const meta = UTILITY_POPOUT_META[kind];
+      const panel = meta && document.getElementById(meta.panelId);
       if (!panel) return;
+
+      panel.classList.toggle('is-popped-out', poppedOut);
+      const control = panel.querySelector('.panel-popout');
+      if (control) {
+        control.setAttribute('aria-pressed', poppedOut ? 'true' : 'false');
+        control.setAttribute('aria-label', poppedOut ? `bring ${kind} back` : `pop ${kind} out`);
+        control.title = poppedOut ? `bring ${kind} back` : `pop ${kind} out`;
+        control.textContent = poppedOut ? '↙' : '↗';
+      }
+    }
+
+    function clearUtilityPopout(kind) {
+      const entry = utilityPopouts.get(kind);
+      if (entry?.timer) window.clearInterval(entry.timer);
+      utilityPopouts.delete(kind);
+      return entry;
+    }
+
+    function restoreUtilityPanel(kind, options = {}) {
+      const meta = UTILITY_POPOUT_META[kind];
+      const panel = meta && document.getElementById(meta.panelId);
+      if (!panel) return;
+
+      setUtilityPopoutState(kind, false);
+      if (kind === 'player') {
+        window.me0wberryPlayer?.applyState(readPlayerHandoff(), { resume: !!options.resume });
+      }
+
+      if (isMobileViewport()) {
+        panel.classList.remove('open');
+        document.body.classList.remove('mobile-panel');
+        updateTaskbar();
+        return;
+      }
+
+      if (options.open !== false) {
+        panel.classList.add('open');
+        positionUtilityPanel(panel, {
+          width: meta.width,
+          rightOffset: meta.rightOffset,
+          bottomOffset: UTILITY_PANEL_BOTTOM_OFFSET,
+        });
+        bringToFront(panel);
+      }
+      updateTaskbar();
+    }
+
+    function focusUtilityPopout(kind) {
+      const entry = liveUtilityPopout(kind);
+      if (!entry) return false;
+      entry.popup.focus();
+      return true;
+    }
+
+    function watchUtilityPopout(kind, popup) {
+      const timer = window.setInterval(() => {
+        if (!popup.closed) return;
+        const panel = document.getElementById(UTILITY_POPOUT_META[kind].panelId);
+        const shouldReopen = !!panel?.classList.contains('open');
+        clearUtilityPopout(kind);
+        restoreUtilityPanel(kind, { open: shouldReopen, resume: false });
+      }, 400);
+      utilityPopouts.set(kind, { popup, timer });
+    }
+
+    function popoutUtility(kind) {
+      const meta = UTILITY_POPOUT_META[kind];
+      if (!meta) return false;
+      if (focusUtilityPopout(kind)) return true;
+
+      if (kind === 'player') writePlayerHandoff();
+      const panel = document.getElementById(meta.panelId);
+      const activePet = kind === 'gifypets'
+        ? panel?.querySelector('[data-gifypet-tab].is-active')?.dataset.gifypetTab
+        : null;
+      const petQuery = activePet ? `&pet=${encodeURIComponent(activePet)}` : '';
+      const url = `${sitePath('/popout/index.html')}?app=${encodeURIComponent(kind)}${petQuery}`;
+      const popup = isMobileViewport()
+        ? window.open(url, '_blank')
+        : window.open(
+          url,
+          `me0wberry_${kind}`,
+          `popup=yes,width=${meta.popupWidth},height=${meta.popupHeight},resizable=yes,scrollbars=yes`,
+        );
+      if (!popup) return false;
+
+      if (kind === 'player') window.me0wberryPlayer?.pause();
+      if (panel) {
+        panel.classList.add('open');
+        setUtilityPopoutState(kind, true);
+        if (!isMobileViewport()) bringToFront(panel);
+      }
+      watchUtilityPopout(kind, popup);
+      updateTaskbar();
+      return true;
+    }
+
+    function dockUtilityPopout(kind) {
+      const entry = clearUtilityPopout(kind);
+      if (entry && !entry.popup.closed) entry.popup.close();
+      restoreUtilityPanel(kind, { open: !isMobileViewport(), resume: true });
+      window.focus();
+    }
+
+    function toggleUtilityPopout(kind) {
+      if (liveUtilityPopout(kind)) dockUtilityPopout(kind);
+      else popoutUtility(kind);
+    }
+
+    window.me0wberryDockUtility = dockUtilityPopout;
+
+    function showGifypet(pet) {
+      const panel = document.getElementById('panel-gifypet');
+      if (!panel) return;
+
+      panel.querySelectorAll('[data-gifypet-tab]').forEach(tab => {
+        const isActive = tab.dataset.gifypetTab === pet;
+        tab.classList.toggle('is-active', isActive);
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+      panel.querySelectorAll('[data-gifypet-stage]').forEach(stage => {
+        stage.classList.toggle('is-active', stage.dataset.gifypetStage === pet);
+      });
+    }
+
+    function openGifypetPanel(pet = 'stubby') {
+      const panel = document.getElementById('panel-gifypet');
+      if (!panel) return;
+
+      const popout = liveUtilityPopout('gifypets');
+      if (popout) {
+        panel.classList.add('open');
+        focusUtilityPopout('gifypets');
+        try { popout.popup.me0wberryShowGifypet?.(pet); } catch (error) {}
+        if (!isMobileViewport()) bringToFront(panel);
+        updateTaskbar();
+        return;
+      }
+
+      showGifypet(pet);
+
+      if (isMobileViewport()) {
+        openPanel('panel-gifypet');
+        return;
+      }
 
       closeTransientPanels({ keepGifypets: true });
       panel.classList.add('open');
       bringToFront(panel);
       positionUtilityPanel(panel, {
-        width: 330,
-        rightOffset: options.rightOffset || 310,
+        width: 370,
+        rightOffset: 310,
         bottomOffset: UTILITY_PANEL_BOTTOM_OFFSET
       });
       updateTaskbar();
@@ -310,7 +504,17 @@
       const panel = document.getElementById(id);
       if (!panel) return;
 
+      const utilityKind = utilityKindForPanel(panel);
+      if (utilityKind && liveUtilityPopout(utilityKind)) {
+        panel.classList.add('open');
+        focusUtilityPopout(utilityKind);
+        if (!isMobileViewport()) bringToFront(panel);
+        updateTaskbar();
+        return;
+      }
+
       if (isMobileViewport()) {
+        if (utilityKind && popoutUtility(utilityKind)) return;
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
         panel.classList.add('open');
         document.body.classList.add('mobile-panel');
@@ -362,6 +566,15 @@
       const panel = document.getElementById(id);
       if (!panel) return;
 
+      const utilityKind = utilityKindForPanel(panel);
+      if (utilityKind && liveUtilityPopout(utilityKind)) {
+        panel.classList.add('open');
+        focusUtilityPopout(utilityKind);
+        bringToFront(panel);
+        updateTaskbar();
+        return;
+      }
+
       if (panel.classList.contains('open')) {
         bringToFront(panel);
         updateTaskbar();
@@ -369,7 +582,7 @@
       }
 
       if (isGifypetPanel(panel)) {
-        openGifypetPanel(id, { rightOffset: id === 'panel-josh' ? 650 : 310 });
+        openGifypetPanel();
         return;
       }
 
@@ -400,35 +613,16 @@
       }).join('');
     }
 
-    const STUBBY_GIFYPET_URL = 'https://me0wberry.com/gifypet/pet.html?name=Stubby&dob=1775770472&gender=f&element=Fire&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fstubby-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgrass-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42';
-    const CACTUS_GIFYPET_URL = 'https://me0wberry.com/gifypet/pet.html?name=Cactus&dob=1775772452&gender=m&element=Earth&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fcactus-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgingham-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42';
-
     function openStubbyGifypet() {
-      if (isMobileViewport()) {
-        window.open(STUBBY_GIFYPET_URL, '_blank');
-        return;
-      }
-
-      openGifypetPanel('panel-gifypet');
+      openGifypetPanel('stubby');
     }
 
     function openCactusGifypet() {
-      if (isMobileViewport()) {
-        window.open(CACTUS_GIFYPET_URL, '_blank');
-        return;
-      }
-
-      openGifypetPanel('panel-josh');
+      openGifypetPanel('cactus');
     }
 
     function openGifypetsExperience() {
-      if (isMobileViewport()) {
-        window.open(STUBBY_GIFYPET_URL, '_blank');
-        return;
-      }
-
-      openGifypetPanel('panel-gifypet', { rightOffset: 310 });
-      openGifypetPanel('panel-josh', { rightOffset: 650 });
+      openGifypetPanel('stubby');
     }
 
     // click panel → bring to front
@@ -474,7 +668,7 @@
 
       document.addEventListener('mousedown', function(e) {
         const tb = e.target.closest('.panel-titlebar');
-        if (!tb || e.target.closest('.panel-close')) return;
+        if (!tb || e.target.closest('.panel-window-actions')) return;
         if (isMobileViewport()) return;
 
         const panel = tb.closest('.panel');
@@ -594,16 +788,21 @@
       updateTaskbar();
     });
 
-    // ── Audio Player ──
-    const tracks = [
-      { id: 'lace', src: sitePath('/audio/please-dont-stop.mp3'), title: "please don't stop being sweet to me · lace" },
-      { id: 'forever-and', src: sitePath('/audio/forever-and.mp3'), title: 'forever & · EJEAN' },
-      { id: 'meteor-rain', src: sitePath('/audio/huayuan-meteor-rain.mp3'), title: '花园裡的流星雨 · Karencici' },
-      { id: 'angel-loading', src: sitePath('/audio/tianshi-jiazaizhong.mp3'), title: '天使加载中...^_−☆ · Angels of Delusion' },
-      { id: 'redreaming-angel', src: sitePath('/audio/redreaming-angel.mp3'), title: 'ReDreaming Angel · Angels of Delusion' },
+    window.me0wberryTrackCatalog = Object.freeze([
+      { id: 'lace', src: '/audio/please-dont-stop.mp3', title: "please don't stop being sweet to me · lace" },
+      { id: 'forever-and', src: '/audio/forever-and.mp3', title: 'forever & · EJEAN' },
+      { id: 'meteor-rain', src: '/audio/huayuan-meteor-rain.mp3', title: '花园裡的流星雨 · Karencici' },
+      { id: 'angel-loading', src: '/audio/tianshi-jiazaizhong.mp3', title: '天使加载中...^_−☆ · Angels of Delusion' },
+      { id: 'redreaming-angel', src: '/audio/redreaming-angel.mp3', title: 'ReDreaming Angel · Angels of Delusion' },
       { id: 'national-park-gsc', src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/e9/06/f7/e906f78d-1e80-0e1b-e616-93a116c705cb/mzaf_6047781193972057181.plus.aac.p.m4a', title: 'national park (gold / silver) · GAME FREAK' },
       { id: 'national-park-hgss', src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/1e/9b/24/1e9b2416-0656-a1a7-8acf-7196022d36b6/mzaf_5043987050176404935.plus.aac.p.m4a', title: 'national park (heartgold / soulsilver) · GAME FREAK' },
-    ];
+    ]);
+
+    // ── Audio Player ──
+    const tracks = (window.me0wberryTrackCatalog || []).map(track => ({
+      ...track,
+      src: track.src.startsWith('/') ? sitePath(track.src) : track.src,
+    }));
     let currentTrack = 0;
     const audio       = document.getElementById('player-audio');
     const progressEl  = document.getElementById('player-progress');
@@ -662,6 +861,50 @@
       requestAnimationFrame(checkMarquee);
     }
 
+    function seekPlayer(time) {
+      const target = Number.isFinite(Number(time)) ? Math.max(0, Number(time)) : 0;
+      const applySeek = function() {
+        audio.currentTime = audio.duration ? Math.min(target, audio.duration) : target;
+      };
+      if (audio.readyState >= 1) applySeek();
+      else audio.addEventListener('loadedmetadata', applySeek, { once: true });
+    }
+
+    function getPlayerState() {
+      return {
+        trackId: tracks[currentTrack]?.id || tracks[0]?.id || '',
+        currentTime: Number.isFinite(audio.currentTime) ? audio.currentTime : 0,
+        volume: audio.volume,
+        playing: !audio.paused,
+        updatedAt: Date.now(),
+      };
+    }
+
+    function applyPlayerState(state, options = {}) {
+      if (!state || !tracks.length) return;
+      const trackIndex = tracks.findIndex(track => track.id === state.trackId);
+      loadTrack(trackIndex >= 0 ? trackIndex : 0);
+
+      const volume = Number(state.volume);
+      if (Number.isFinite(volume)) {
+        audio.volume = Math.min(1, Math.max(0, volume));
+        volumeEl.value = audio.volume;
+      }
+      seekPlayer(state.currentTime);
+
+      if (state.playing && options.resume) {
+        const resume = function() {
+          audio.play().then(function() {
+            setPlayPauseState(true);
+          }).catch(function() {
+            setPlayPauseState(false);
+          });
+        };
+        if (audio.readyState >= 2) resume();
+        else audio.addEventListener('canplay', resume, { once: true });
+      }
+    }
+
     function playerToggle() {
       if (audio.paused) {
         audio.play().catch(function() {}); // handle missing file gracefully
@@ -698,6 +941,14 @@
     }
 
     window.playerPlayTrack = playerPlayTrack;
+    window.me0wberryPlayer = {
+      applyState: applyPlayerState,
+      getState: getPlayerState,
+      pause: function() {
+        audio.pause();
+        setPlayPauseState(false);
+      },
+    };
 
     audio.addEventListener('timeupdate', function() {
       if (!audio.duration) return;
@@ -834,9 +1085,13 @@
 
     // ── Update category panel after post ──
     function updateCategoryPanel(category, posts) {
-      if (!posts.length) return;
+      const linkedPosts = posts.map((post) => {
+        const path = post.url || post.file;
+        return path ? { ...post, href: sitePath(path) } : null;
+      }).filter(Boolean);
+      if (!linkedPosts.length) return;
 
-      const latest = posts[0];
+      const latest = linkedPosts[0];
       const latestEl = document.getElementById(`latest-${category}`);
       const postsEl  = document.getElementById(`posts-${category}`);
 
@@ -845,13 +1100,13 @@
           <div class="panel-px-label" style="margin-bottom:6px;">latest ✦</div>
           <div style="font-size:13px;font-weight:500;color:var(--heading);margin-bottom:2px;">${latest.title}</div>
           <div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:10px;">${latest.date}</div>
-          <a href="${latest.file}" class="pixel-btn" style="font-size:11px;">read ↗</a>
+          <a href="${latest.href}" class="pixel-btn" style="font-size:11px;">read ↗</a>
         `;
       }
 
-      if (postsEl && posts.length > 1) {
-        postsEl.innerHTML = posts.slice(1).map(p =>
-          `<li><a href="${p.file}" style="color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);">${p.title}</a> <span style="color:var(--muted);font-size:11px;">· ${p.date}</span></li>`
+      if (postsEl && linkedPosts.length > 1) {
+        postsEl.innerHTML = linkedPosts.slice(1).map(p =>
+          `<li><a href="${p.href}" style="color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);">${p.title}</a> <span style="color:var(--muted);font-size:11px;">· ${p.date}</span></li>`
         ).join('');
       }
     }

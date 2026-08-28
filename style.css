@@ -1296,7 +1296,15 @@
       letter-spacing: 0.4px;
       text-shadow: 1px 1px 0 rgba(255,255,255,0.85);
     }
-    .panel-close {
+    .panel-window-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .panel-close,
+    .panel-pin,
+    .panel-popout {
       width: 14px; height: 14px;
       border: 1px solid rgba(200,150,170,0.58);
       border-radius: 5px;
@@ -1313,13 +1321,40 @@
       color: var(--muted);
       cursor: var(--cursor-pointer);
       flex-shrink: 0;
+      padding: 0;
+      line-height: 1;
       transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.12s;
     }
-    .panel-close:hover {
+    .panel-close:hover,
+    .panel-pin:hover,
+    .panel-popout:hover {
       background: linear-gradient(180deg, rgba(255,245,248,0.96), rgba(255,200,216,0.82));
       border-color: var(--pink);
       color: var(--heading);
       transform: translateY(-1px);
+    }
+    .panel-pin {
+      appearance: none;
+      font-size: 8px;
+      filter: grayscale(0.25);
+    }
+    .panel-popout {
+      appearance: none;
+      font-family: var(--font-pixel);
+      font-size: 7px;
+    }
+    .panel-pin[aria-pressed="true"] {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,208,222,0.72)),
+        linear-gradient(90deg, rgba(199,223,189,0.4), transparent);
+      border-color: var(--pink);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.6), 0 0 7px rgba(224,112,144,0.24);
+      filter: none;
+    }
+    .panel-popout[aria-pressed="true"] {
+      border-color: var(--green);
+      color: var(--green-text);
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(229,242,223,0.62));
     }
 
     .panel-close[role="button"] {
@@ -1860,8 +1895,94 @@
         0 6px 18px rgba(107,130,78,0.08);
     }
 
-    /* ── GifyPet Panel ── */
-    #panel-gifypet { height: auto; }
+    /* ── GifyPets Panel ── */
+    #panel-gifypet {
+      height: auto;
+      max-width: calc(100% - 24px);
+    }
+    .gifypet-panel-body {
+      padding: 10px 12px 12px;
+      overflow: hidden;
+    }
+    .gifypet-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .gifypet-tab {
+      flex: 1;
+      padding: 6px 8px 5px;
+      border: 1px solid rgba(200,150,170,0.35);
+      border-radius: 9px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,235,242,0.34));
+      color: var(--muted);
+      font-family: var(--font-pixel);
+      font-size: 7px;
+      cursor: var(--cursor-pointer);
+    }
+    .gifypet-tab:hover,
+    .gifypet-tab.is-active {
+      border-color: rgba(224,112,144,0.42);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,246,249,0.56)),
+        linear-gradient(90deg, rgba(199,223,189,0.42), rgba(255,208,222,0.2));
+      color: var(--pixel-label);
+    }
+    .gifypet-stage {
+      display: none;
+      min-height: 321px;
+      align-items: center;
+      justify-content: center;
+    }
+    .gifypet-stage.is-active { display: flex; }
+    .gifypet-stage iframe {
+      display: block;
+      width: 314px;
+      height: 321px;
+      max-width: 100%;
+    }
+
+    .popout-indicator {
+      display: none;
+      min-height: 132px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 16px 14px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,0.72) 0 2px, transparent 3px),
+        radial-gradient(circle at 84% 74%, rgba(255,255,255,0.66) 0 2px, transparent 3px),
+        linear-gradient(135deg, rgba(229,242,223,0.36), rgba(255,208,222,0.3));
+    }
+    .popout-indicator-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+    .popout-indicator strong {
+      color: var(--heading);
+      font-family: var(--font-pixel);
+      font-size: 8px;
+    }
+    .popout-indicator span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .popout-indicator-actions {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 5px;
+    }
+    .popout-indicator-actions .pixel-btn { font-size: 6px; }
+    .panel.is-popped-out {
+      width: 260px !important;
+      height: auto !important;
+    }
+    .panel.is-popped-out [data-utility-content] { display: none !important; }
+    .panel.is-popped-out .popout-indicator { display: flex; }
+    .panel.is-popped-out .panel-pin { display: none; }
 
     /* ── Cactus Panel ── */
     #panel-cactus { height: auto; }
@@ -2119,8 +2240,10 @@
       #bottom-taskbar { display: none !important; }
       #cat-strip { display: none !important; }
       #panel-player:not(.open) { display: none !important; }
-      #panel-gifypet { display: none !important; }
-      #panel-josh { display: none !important; }
+      #panel-gifypet:not(.open) { display: none !important; }
+      #panel-gifypet .panel-pin,
+      #panel-player .panel-pin { display: none; }
+      .gifypet-panel-body { padding: 10px 2px 12px; }
       .kitten-corner { width: 45%; margin: 0 0 6px 10px; }
       .tab-bar { flex-wrap: wrap; gap: 2px; }
       .tab-btn { font-size: 7px; padding: 4px 6px 3px; }
@@ -2131,7 +2254,7 @@
     body {
       cursor: var(--cursor-default);
     }
-    a, button, [onclick], .nav-item, .tab-btn, .panel-close, .panel-resize, .taskbar-start, .taskbar-app, .taskbar-window {
+    a, button, [onclick], .nav-item, .tab-btn, .panel-close, .panel-pin, .panel-popout, .panel-resize, .taskbar-start, .taskbar-app, .taskbar-window {
       cursor: var(--cursor-pointer);
     }
 
@@ -2602,13 +2725,6 @@
   line-height: 1.5;
 }
 
-.webgarden-button-shelf {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 9px;
-}
-
 .webgarden-button {
   width: 88px;
   height: 31px;
@@ -2628,12 +2744,6 @@
     radial-gradient(circle at 14% 24%, rgba(255,255,255,0.9) 0 1px, transparent 2px),
     linear-gradient(135deg, rgba(208,232,198,0.9), rgba(255,211,224,0.92));
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.82), 0 3px 7px rgba(122,58,82,0.1);
-}
-
-.webgarden-button.is-empty {
-  color: var(--muted);
-  border-style: dashed;
-  background: rgba(255,255,255,0.34);
 }
 
 .webgarden-surprise {
@@ -3639,6 +3749,81 @@ a.toybox-resource-card:hover {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
   font-size: 7px;
+}
+
+/* Focused utility popouts */
+.popout-page {
+  min-height: 100vh;
+  height: auto;
+  overflow: auto;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  background: var(--theme-desktop-bg, linear-gradient(135deg, #a8e6a3 0%, #e8ddd5 50%, #f4a8b8 100%));
+}
+
+.popout-page::before {
+  content: "♡       ✦             ♡        ·       ✧";
+  position: fixed;
+  inset: 10% 6% auto;
+  color: rgba(255,255,255,0.62);
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  word-spacing: 30px;
+  pointer-events: none;
+}
+
+.popout-window {
+  position: relative;
+  z-index: 1;
+  width: min(370px, 100%);
+  overflow: hidden;
+  border: 1px solid var(--frosted-border);
+  border-radius: 17px;
+  background: var(--theme-panel-bg, linear-gradient(145deg, rgba(255,255,255,0.65), rgba(255,226,235,0.38)));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.84),
+    0 18px 44px rgba(122,58,82,0.18);
+  backdrop-filter: blur(14px);
+}
+
+.popout-page #main {
+  display: block !important;
+  flex: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.popout-titlebar { height: 28px; }
+.popout-app[hidden] { display: none; }
+.popout-app .gifypet-panel-body { padding: 10px 12px 8px; }
+.popout-player .panel-body { padding: 14px 15px 12px; }
+
+.popout-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 10px 10px;
+  border-top: 1px solid rgba(255,255,255,0.72);
+  background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,226,235,0.28));
+  color: var(--muted);
+  font-size: 10px;
+  text-align: center;
+}
+
+.popout-footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.popout-footer .pixel-btn { font-size: 6px; }
+
+@media (max-width: 360px) {
+  .popout-page { padding: 4px; }
+  .popout-app .gifypet-panel-body { padding-inline: 0; }
 }
 
 @media (max-width: 900px) {

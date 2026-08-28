@@ -90,9 +90,13 @@
 
     // ── Update category panel after post ──
     function updateCategoryPanel(category, posts) {
-      if (!posts.length) return;
+      const linkedPosts = posts.map((post) => {
+        const path = post.url || post.file;
+        return path ? { ...post, href: sitePath(path) } : null;
+      }).filter(Boolean);
+      if (!linkedPosts.length) return;
 
-      const latest = posts[0];
+      const latest = linkedPosts[0];
       const latestEl = document.getElementById(`latest-${category}`);
       const postsEl  = document.getElementById(`posts-${category}`);
 
@@ -101,13 +105,13 @@
           <div class="panel-px-label" style="margin-bottom:6px;">latest ✦</div>
           <div style="font-size:13px;font-weight:500;color:var(--heading);margin-bottom:2px;">${latest.title}</div>
           <div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:10px;">${latest.date}</div>
-          <a href="${latest.file}" class="pixel-btn" style="font-size:11px;">read ↗</a>
+          <a href="${latest.href}" class="pixel-btn" style="font-size:11px;">read ↗</a>
         `;
       }
 
-      if (postsEl && posts.length > 1) {
-        postsEl.innerHTML = posts.slice(1).map(p =>
-          `<li><a href="${p.file}" style="color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);">${p.title}</a> <span style="color:var(--muted);font-size:11px;">· ${p.date}</span></li>`
+      if (postsEl && linkedPosts.length > 1) {
+        postsEl.innerHTML = linkedPosts.slice(1).map(p =>
+          `<li><a href="${p.href}" style="color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);">${p.title}</a> <span style="color:var(--muted);font-size:11px;">· ${p.date}</span></li>`
         ).join('');
       }
     }

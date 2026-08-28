@@ -1,13 +1,8 @@
     // ── Audio Player ──
-    const tracks = [
-      { id: 'lace', src: sitePath('/audio/please-dont-stop.mp3'), title: "please don't stop being sweet to me · lace" },
-      { id: 'forever-and', src: sitePath('/audio/forever-and.mp3'), title: 'forever & · EJEAN' },
-      { id: 'meteor-rain', src: sitePath('/audio/huayuan-meteor-rain.mp3'), title: '花园裡的流星雨 · Karencici' },
-      { id: 'angel-loading', src: sitePath('/audio/tianshi-jiazaizhong.mp3'), title: '天使加载中...^_−☆ · Angels of Delusion' },
-      { id: 'redreaming-angel', src: sitePath('/audio/redreaming-angel.mp3'), title: 'ReDreaming Angel · Angels of Delusion' },
-      { id: 'national-park-gsc', src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview117/v4/e9/06/f7/e906f78d-1e80-0e1b-e616-93a116c705cb/mzaf_6047781193972057181.plus.aac.p.m4a', title: 'national park (gold / silver) · GAME FREAK' },
-      { id: 'national-park-hgss', src: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview127/v4/1e/9b/24/1e9b2416-0656-a1a7-8acf-7196022d36b6/mzaf_5043987050176404935.plus.aac.p.m4a', title: 'national park (heartgold / soulsilver) · GAME FREAK' },
-    ];
+    const tracks = (window.me0wberryTrackCatalog || []).map(track => ({
+      ...track,
+      src: track.src.startsWith('/') ? sitePath(track.src) : track.src,
+    }));
     let currentTrack = 0;
     const audio       = document.getElementById('player-audio');
     const progressEl  = document.getElementById('player-progress');
@@ -66,6 +61,50 @@
       requestAnimationFrame(checkMarquee);
     }
 
+    function seekPlayer(time) {
+      const target = Number.isFinite(Number(time)) ? Math.max(0, Number(time)) : 0;
+      const applySeek = function() {
+        audio.currentTime = audio.duration ? Math.min(target, audio.duration) : target;
+      };
+      if (audio.readyState >= 1) applySeek();
+      else audio.addEventListener('loadedmetadata', applySeek, { once: true });
+    }
+
+    function getPlayerState() {
+      return {
+        trackId: tracks[currentTrack]?.id || tracks[0]?.id || '',
+        currentTime: Number.isFinite(audio.currentTime) ? audio.currentTime : 0,
+        volume: audio.volume,
+        playing: !audio.paused,
+        updatedAt: Date.now(),
+      };
+    }
+
+    function applyPlayerState(state, options = {}) {
+      if (!state || !tracks.length) return;
+      const trackIndex = tracks.findIndex(track => track.id === state.trackId);
+      loadTrack(trackIndex >= 0 ? trackIndex : 0);
+
+      const volume = Number(state.volume);
+      if (Number.isFinite(volume)) {
+        audio.volume = Math.min(1, Math.max(0, volume));
+        volumeEl.value = audio.volume;
+      }
+      seekPlayer(state.currentTime);
+
+      if (state.playing && options.resume) {
+        const resume = function() {
+          audio.play().then(function() {
+            setPlayPauseState(true);
+          }).catch(function() {
+            setPlayPauseState(false);
+          });
+        };
+        if (audio.readyState >= 2) resume();
+        else audio.addEventListener('canplay', resume, { once: true });
+      }
+    }
+
     function playerToggle() {
       if (audio.paused) {
         audio.play().catch(function() {}); // handle missing file gracefully
@@ -102,6 +141,14 @@
     }
 
     window.playerPlayTrack = playerPlayTrack;
+    window.me0wberryPlayer = {
+      applyState: applyPlayerState,
+      getState: getPlayerState,
+      pause: function() {
+        audio.pause();
+        setPlayPauseState(false);
+      },
+    };
 
     audio.addEventListener('timeupdate', function() {
       if (!audio.duration) return;

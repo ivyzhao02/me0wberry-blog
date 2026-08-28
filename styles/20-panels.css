@@ -452,8 +452,94 @@
         0 6px 18px rgba(107,130,78,0.08);
     }
 
-    /* ── GifyPet Panel ── */
-    #panel-gifypet { height: auto; }
+    /* ── GifyPets Panel ── */
+    #panel-gifypet {
+      height: auto;
+      max-width: calc(100% - 24px);
+    }
+    .gifypet-panel-body {
+      padding: 10px 12px 12px;
+      overflow: hidden;
+    }
+    .gifypet-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .gifypet-tab {
+      flex: 1;
+      padding: 6px 8px 5px;
+      border: 1px solid rgba(200,150,170,0.35);
+      border-radius: 9px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,235,242,0.34));
+      color: var(--muted);
+      font-family: var(--font-pixel);
+      font-size: 7px;
+      cursor: var(--cursor-pointer);
+    }
+    .gifypet-tab:hover,
+    .gifypet-tab.is-active {
+      border-color: rgba(224,112,144,0.42);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,246,249,0.56)),
+        linear-gradient(90deg, rgba(199,223,189,0.42), rgba(255,208,222,0.2));
+      color: var(--pixel-label);
+    }
+    .gifypet-stage {
+      display: none;
+      min-height: 321px;
+      align-items: center;
+      justify-content: center;
+    }
+    .gifypet-stage.is-active { display: flex; }
+    .gifypet-stage iframe {
+      display: block;
+      width: 314px;
+      height: 321px;
+      max-width: 100%;
+    }
+
+    .popout-indicator {
+      display: none;
+      min-height: 132px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 16px 14px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,0.72) 0 2px, transparent 3px),
+        radial-gradient(circle at 84% 74%, rgba(255,255,255,0.66) 0 2px, transparent 3px),
+        linear-gradient(135deg, rgba(229,242,223,0.36), rgba(255,208,222,0.3));
+    }
+    .popout-indicator-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+    .popout-indicator strong {
+      color: var(--heading);
+      font-family: var(--font-pixel);
+      font-size: 8px;
+    }
+    .popout-indicator span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .popout-indicator-actions {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 5px;
+    }
+    .popout-indicator-actions .pixel-btn { font-size: 6px; }
+    .panel.is-popped-out {
+      width: 260px !important;
+      height: auto !important;
+    }
+    .panel.is-popped-out [data-utility-content] { display: none !important; }
+    .panel.is-popped-out .popout-indicator { display: flex; }
+    .panel.is-popped-out .panel-pin { display: none; }
 
     /* ── Cactus Panel ── */
     #panel-cactus { height: auto; }
@@ -711,8 +797,10 @@
       #bottom-taskbar { display: none !important; }
       #cat-strip { display: none !important; }
       #panel-player:not(.open) { display: none !important; }
-      #panel-gifypet { display: none !important; }
-      #panel-josh { display: none !important; }
+      #panel-gifypet:not(.open) { display: none !important; }
+      #panel-gifypet .panel-pin,
+      #panel-player .panel-pin { display: none; }
+      .gifypet-panel-body { padding: 10px 2px 12px; }
       .kitten-corner { width: 45%; margin: 0 0 6px 10px; }
       .tab-bar { flex-wrap: wrap; gap: 2px; }
       .tab-btn { font-size: 7px; padding: 4px 6px 3px; }
@@ -723,7 +811,7 @@
     body {
       cursor: var(--cursor-default);
     }
-    a, button, [onclick], .nav-item, .tab-btn, .panel-close, .panel-resize, .taskbar-start, .taskbar-app, .taskbar-window {
+    a, button, [onclick], .nav-item, .tab-btn, .panel-close, .panel-pin, .panel-popout, .panel-resize, .taskbar-start, .taskbar-app, .taskbar-window {
       cursor: var(--cursor-pointer);
     }
 

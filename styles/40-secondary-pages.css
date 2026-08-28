@@ -74,13 +74,6 @@
   line-height: 1.5;
 }
 
-.webgarden-button-shelf {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 9px;
-}
-
 .webgarden-button {
   width: 88px;
   height: 31px;
@@ -100,12 +93,6 @@
     radial-gradient(circle at 14% 24%, rgba(255,255,255,0.9) 0 1px, transparent 2px),
     linear-gradient(135deg, rgba(208,232,198,0.9), rgba(255,211,224,0.92));
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.82), 0 3px 7px rgba(122,58,82,0.1);
-}
-
-.webgarden-button.is-empty {
-  color: var(--muted);
-  border-style: dashed;
-  background: rgba(255,255,255,0.34);
 }
 
 .webgarden-surprise {
@@ -1111,6 +1098,81 @@ a.toybox-resource-card:hover {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
   font-size: 7px;
+}
+
+/* Focused utility popouts */
+.popout-page {
+  min-height: 100vh;
+  height: auto;
+  overflow: auto;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  background: var(--theme-desktop-bg, linear-gradient(135deg, #a8e6a3 0%, #e8ddd5 50%, #f4a8b8 100%));
+}
+
+.popout-page::before {
+  content: "♡       ✦             ♡        ·       ✧";
+  position: fixed;
+  inset: 10% 6% auto;
+  color: rgba(255,255,255,0.62);
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  word-spacing: 30px;
+  pointer-events: none;
+}
+
+.popout-window {
+  position: relative;
+  z-index: 1;
+  width: min(370px, 100%);
+  overflow: hidden;
+  border: 1px solid var(--frosted-border);
+  border-radius: 17px;
+  background: var(--theme-panel-bg, linear-gradient(145deg, rgba(255,255,255,0.65), rgba(255,226,235,0.38)));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.84),
+    0 18px 44px rgba(122,58,82,0.18);
+  backdrop-filter: blur(14px);
+}
+
+.popout-page #main {
+  display: block !important;
+  flex: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.popout-titlebar { height: 28px; }
+.popout-app[hidden] { display: none; }
+.popout-app .gifypet-panel-body { padding: 10px 12px 8px; }
+.popout-player .panel-body { padding: 14px 15px 12px; }
+
+.popout-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 10px 10px;
+  border-top: 1px solid rgba(255,255,255,0.72);
+  background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,226,235,0.28));
+  color: var(--muted);
+  font-size: 10px;
+  text-align: center;
+}
+
+.popout-footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.popout-footer .pixel-btn { font-size: 6px; }
+
+@media (max-width: 360px) {
+  .popout-page { padding: 4px; }
+  .popout-app .gifypet-panel-body { padding-inline: 0; }
 }
 
 @media (max-width: 900px) {

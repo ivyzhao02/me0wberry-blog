@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>popped out · me0wberry.com</title>
+  <script>
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem('me0wberry_theme') || 'main';
+    } catch (error) {
+      document.documentElement.dataset.theme = 'main';
+    }
+  </script>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../themes.css">
+</head>
+<body class="popout-page">
+  <main class="popout-window" id="main">
+    <div class="panel-titlebar popout-titlebar">
+      <span class="panel-title" id="popout-title">↗ popped out</span>
+      <button class="panel-close" id="popout-close" type="button" aria-label="close this window">✕</button>
+    </div>
+
+    <section class="popout-app" id="popout-gifypets" data-popout-app="gifypets" hidden>
+      <div class="gifypet-panel-body">
+        <div class="gifypet-tabs" role="tablist" aria-label="choose a GifyPet">
+          <button class="gifypet-tab is-active" id="popout-gifypet-tab-stubby" type="button" role="tab" data-popout-gifypet-tab="stubby" aria-controls="popout-gifypet-stage-stubby" aria-selected="true">🐾 stubby</button>
+          <button class="gifypet-tab" id="popout-gifypet-tab-cactus" type="button" role="tab" data-popout-gifypet-tab="cactus" aria-controls="popout-gifypet-stage-cactus" aria-selected="false">🌵 cactus</button>
+        </div>
+        <div class="gifypet-stage is-active" id="popout-gifypet-stage-stubby" role="tabpanel" data-popout-gifypet-stage="stubby" aria-labelledby="popout-gifypet-tab-stubby">
+          <iframe width="314" height="321" scrolling="no" title="Stubby virtual GifyPet" src="https://me0wberry.com/gifypet/pet.html?name=Stubby&dob=1775770472&gender=f&element=Fire&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fstubby-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgrass-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42" frameborder="0"></iframe>
+        </div>
+        <div class="gifypet-stage" id="popout-gifypet-stage-cactus" role="tabpanel" data-popout-gifypet-stage="cactus" aria-labelledby="popout-gifypet-tab-cactus">
+          <iframe width="314" height="321" scrolling="no" title="Cactus virtual GifyPet" src="https://me0wberry.com/gifypet/pet.html?name=Cactus&dob=1775772452&gender=m&element=Earth&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fcactus-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgingham-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42" frameborder="0"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="popout-app popout-player" id="popout-player" data-popout-app="player" hidden>
+      <div class="panel-body">
+        <div class="player-track-title">
+          <div class="marquee-wrap" id="popout-player-marquee">
+            <span id="popout-player-title">loading playlist . .</span>
+          </div>
+        </div>
+        <div class="player-time-row">
+          <span id="popout-player-current-time">0:00</span>
+          <input type="range" id="popout-player-progress" class="player-range" min="0" max="100" value="0" step="0.1" aria-label="track progress">
+          <span id="popout-player-total-time">0:00</span>
+        </div>
+        <div class="player-controls">
+          <button class="player-btn" id="popout-player-prev" type="button" aria-label="previous track">◀</button>
+          <button class="player-btn player-btn-main" id="popout-player-playpause" type="button" aria-label="play or pause">▶</button>
+          <button class="player-btn" id="popout-player-next" type="button" aria-label="next track">▶|</button>
+        </div>
+        <div class="player-volume-row">
+          <span class="player-vol-icon" aria-hidden="true">🔊</span>
+          <input type="range" id="popout-player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01" aria-label="volume">
+        </div>
+        <div class="player-track-counter" id="popout-player-counter">track 1 / 7</div>
+        <audio id="popout-player-audio" preload="metadata"></audio>
+      </div>
+    </section>
+
+    <footer class="popout-footer">
+      <span>still connected to me0wberry.com ♡</span>
+      <div class="popout-footer-actions">
+        <button class="pixel-btn" id="popout-return" type="button">↙ return to desktop</button>
+        <a class="pixel-btn" href="../index.html?entered=1">open home</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../scripts/15-player-catalog.js"></script>
+  <script src="../popout.js"></script>
+</body>
+</html>
