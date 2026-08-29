@@ -37,8 +37,10 @@ function updateImageList() {
   imageList.innerHTML = '';
   Array.from(imageInput.files).forEach((file) => {
     const item = document.createElement('li');
+    const isHeic = /\.(?:heic|heif)$/i.test(file.name) || /image\/hei[cf]/i.test(file.type);
     const willOptimize = optimizeImagesEl.checked && /image\/(?:jpeg|png)/i.test(file.type);
-    item.textContent = `${file.name}${willOptimize ? ' → optimized webp' : ''}`;
+    const conversionNote = isHeic ? ' → converted webp' : (willOptimize ? ' → optimized webp' : '');
+    item.textContent = `${file.name}${conversionNote}`;
     imageList.appendChild(item);
   });
 }

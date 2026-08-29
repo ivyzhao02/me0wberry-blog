@@ -22,6 +22,12 @@
   }
 
   const newShinies = [
+    ['skiddo', '../../images/games/img-7131.webp', 'pokémon legends z-a'],
+    ['registeel', '../../images/games/img-7159.webp', 'pokémon go'],
+    ['regice', '../../images/games/img-7160.webp', 'pokémon go'],
+    ['pikachu', '../../images/games/img-7169.webp', 'pokémon go'],
+    ['drifloon', '../../images/games/img-7170.webp', 'pokémon go'],
+    ['regirock', '../../images/games/img-7171.webp', 'pokémon go'],
     ['nickit no. 1', '../../images/pokemon/shinies/go-shiny-nickit-01.jpg', 'pokémon go'],
     ['nickit no. 2', '../../images/pokemon/shinies/go-shiny-nickit-02.jpg', 'pokémon go'],
     ['thievul', '../../images/pokemon/shinies/go-shiny-thievul.jpg', 'pokémon go'],

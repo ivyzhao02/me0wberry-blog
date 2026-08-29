@@ -1,6 +1,8 @@
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
+const decodeHeic = require('heic-decode');
+const sharp = require('sharp');
 const {
   CATEGORIES,
   buildPostHtml,
@@ -12,6 +14,9 @@ const { buildSiteData } = require('../build-site-data');
 const PORT = Number(process.env.PORT || 8124);
 const ROOT = path.resolve(__dirname, '..', '..');
 const IMAGE_EXTENSIONS = new Set(['.gif', '.jpeg', '.jpg', '.png', '.webp']);
+const HEIC_EXTENSIONS = new Set(['.heic', '.heif']);
+const MAX_IMAGE_DIMENSION = 2560;
+const WEBP_QUALITY = 90;
 const PUBLIC_FILES = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
@@ -99,17 +104,55 @@ function readBody(req) {
   });
 }
 
-function writeUploadedImages(category, uploadedImages) {
+async function convertHeicToWebp(buffer) {
+  const decoded = await decodeHeic({ buffer });
+  return sharp(Buffer.from(decoded.data), {
+    raw: {
+      width: decoded.width,
+      height: decoded.height,
+      channels: 4,
+    },
+  })
+    .resize({
+      width: MAX_IMAGE_DIMENSION,
+      height: MAX_IMAGE_DIMENSION,
+      fit: 'inside',
+      withoutEnlargement: true,
+    })
+    .webp({ quality: WEBP_QUALITY })
+    .toBuffer();
+}
+
+async function writeUploadedImages(category, uploadedImages) {
   const targetDir = path.join(ROOT, 'images', category);
   fs.mkdirSync(targetDir, { recursive: true });
+  const writtenImages = [];
 
-  return uploadedImages.map((image) => {
-    const desiredName = safeImageName(image.name);
-    const finalName = uniqueName(targetDir, desiredName);
-    const base64 = String(image.data || '').split(',').pop();
-    fs.writeFileSync(path.join(targetDir, finalName), Buffer.from(base64, 'base64'));
-    return { fileName: finalName, sitePath: `/images/${category}/${finalName}` };
-  });
+  try {
+    for (const image of uploadedImages) {
+      const sourceName = safeImageName(image.name);
+      const sourceExtension = path.extname(sourceName).toLowerCase();
+      const base64 = String(image.data || '').split(',').pop();
+      const sourceBuffer = Buffer.from(base64, 'base64');
+      const isHeic = HEIC_EXTENSIONS.has(sourceExtension);
+      const desiredName = isHeic
+        ? `${path.basename(sourceName, sourceExtension)}.webp`
+        : sourceName;
+      const finalName = uniqueName(targetDir, desiredName);
+      const outputBuffer = isHeic ? await convertHeicToWebp(sourceBuffer) : sourceBuffer;
+      const sitePath = `/images/${category}/${finalName}`;
+
+      fs.writeFileSync(path.join(targetDir, finalName), outputBuffer);
+      writtenImages.push({ fileName: finalName, sitePath });
+    }
+
+    return writtenImages;
+  } catch (error) {
+    writtenImages.forEach((image) => {
+      removeFileIfExists(path.join(ROOT, image.sitePath.replace(/^\//, '').replace(/\//g, path.sep)));
+    });
+    throw error;
+  }
 }
 
 function removeFileIfExists(filePath) {
@@ -124,7 +167,7 @@ function writeTextFileAtomic(filePath, contents) {
   fs.renameSync(tempPath, filePath);
 }
 
-function createPost(payload) {
+async function createPost(payload) {
   const category = String(payload.category || '').trim();
   const title = String(payload.title || '').trim();
   const date = String(payload.date || '').trim();
@@ -166,7 +209,7 @@ function createPost(payload) {
 
   let writtenImages = [];
   try {
-    writtenImages = writeUploadedImages(category, uploadedImages);
+    writtenImages = await writeUploadedImages(category, uploadedImages);
     const galleryImages = [...existingImages, ...writtenImages.map((image) => image.fileName)];
     const postHtml = buildPostHtml({
       category,
@@ -218,7 +261,7 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === 'POST' && req.url === '/api/create-post') {
       const payload = JSON.parse(await readBody(req));
-      sendJson(res, 200, createPost(payload));
+      sendJson(res, 200, await createPost(payload));
       return;
     }
 
@@ -236,6 +279,7 @@ if (require.main === module) {
 
 module.exports = {
   createPost,
+  convertHeicToWebp,
   readExistingImages,
   writeUploadedImages,
 };

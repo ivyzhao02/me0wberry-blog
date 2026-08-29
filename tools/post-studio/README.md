@@ -22,7 +22,8 @@ Image behavior:
 
 - Selected images become gallery images in `images/<category>/`.
 - Large JPEG and PNG uploads are optimized to WebP by default, up to 2560px on the longest edge. Uncheck the optimization option to keep an original file.
-- GIFs and unsupported browser image formats are left untouched.
+- HEIC and HEIF photos are always converted to WebP so they display reliably in browsers.
+- GIFs and other unsupported browser image formats are left untouched.
 - Existing images can be reused by entering their exact filenames, one per line.
 - Existing filenames are resolved inside the selected category folder and are not copied again.
 - An explicit image URL can still be used instead of selecting a file.

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>September Update — me0wberry</title>
+<link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../../feed.xml">
+<script src="../../theme-loader.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../themes.css" data-site-themes>
+<link rel="stylesheet" href="../../post.css">
+</head>
+<body>
+<a class="skip-link" href="#main">skip to content</a>
+<main class="post-container" id="main" tabindex="-1">
+  <div class="post-titlebar" style="display:flex;align-items:center;justify-content:space-between;"><span class="post-titlebar-text">now · September Update</span><button id="cat-toggle" onclick="toggleCats()" title="hide cats" style="cursor:pointer;">🐱</button></div>
+  <div class="post-body">
+    <div class="post-pixel-tag">/ now</div>
+    <h1 class="post-heading">September Update</h1>
+    <div class="post-date">september 2026</div>
+    <div class="post-content">
+      <div class="post-lately-title">September Update</div>
+      <p class="post-section-label">where i'm at (ᐢ. .ᐢ):</p>
+      <ul class="post-list post-list-lately">
+        <li>– august was very busy , but also very fun ! i went outside my comfort zone and it was worth it ∠(^ー^)</li>
+        <li>– attended the 3rd toronto games industry picnic on august 1st , it was so nice to meet people in every facet of game development , creating and publishing ! having icy nuka colas was also an excellent way to cool down in the summer heat (..＞◡＜..)</li>
+        <li>– work trip to visit the office &amp; summer soirée went well , getting to put a real face behind the people i work with on my computer every day was exciting (⁠ ⁠ˊ⁠v⁠ˋ⁠ ⁠)♡ the august wedding i attended was also very sweet and memorable ଘ(੭ˊᵕˋ)੭</li>
+        <li>– looking forward to visiting bf &amp; la again in mid september through early october ⋆｡ʚ(&gt; ᗢ &lt;)ɞ ⋆ﾟ☾⋆ i always feel so blessed to have so many opportunities to spend time w him in person</li>
+      </ul>
+      <div class="post-heart-divider">♡ · ♡ · ♡</div>
+      <p class="post-section-label">what i'm into:</p>
+      <ul class="post-list post-list-lately">
+        <li>– pokemon go is a staple in my life now , i love participating in the event passes and collecting new pokemon - like regice , regirock and registeel ! fingers crossed i will get the other 3 regi as well</li>
+        <li>– playing through pokemon black with some urgency ( ｡ •̀ ᴖ •́ ｡) check out this month's games post for details ~</li>
+        <li>– aram mayhem with friends new &amp; old is always fun ໒꒰ྀིᵔ ᵕ ᵔ ꒱ྀི১</li>
+      </ul>
+      <div class="post-note-divider"></div>
+      <p class="post-section-label">♡ a note:</p>
+      <p class="post-note">picture of my basket line to send bf a care package of his favourite canadian celebration cookies - apparently they are better than anything america can offer ╮ (. ❛ ᴗ ❛.) ╭ they will definitely arrive in la before i do !</p>
+    </div>
+    <img class="post-image" src="../../images/lately/img-7088.webp" alt="September Update" loading="lazy" decoding="async"/>
+    <div class="post-footer">
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <a href="../../index.html" class="post-back">← back to me0wberry.com</a>
+        <a href="../../archive/index.html" class="post-back">← back to archive</a>
+      </div>
+      <span style="font-size:11px;color:var(--muted)">september 2026</span>
+    </div>
+  </div>
+</main>
+<aside id="panel-player" aria-label="music player">
+  <div class="panel-titlebar">
+    <span class="panel-title">♪ now playing</span>
+  </div>
+  <div class="panel-body">
+    <div class="player-track-title">
+      <div class="marquee-wrap" id="player-marquee"><span id="player-title">♪ loading...</span></div>
+    </div>
+    <div class="player-time-row">
+      <span id="player-current-time">0:00</span>
+      <input type="range" id="player-progress" class="player-range" min="0" max="100" value="0" step="0.1" aria-label="track progress">
+      <span id="player-total-time">0:00</span>
+    </div>
+    <div class="player-controls">
+      <button class="player-btn" onclick="playerPrev()" title="prev" aria-label="previous track">◀</button>
+      <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" title="play/pause" aria-label="play or pause">▶</button>
+      <button class="player-btn" onclick="playerNext()" title="next" aria-label="next track">▶|</button>
+    </div>
+    <div class="player-volume-row">
+      <span class="player-vol-icon" aria-hidden="true">🔊</span>
+      <input type="range" id="player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01" aria-label="volume">
+    </div>
+    <div class="player-track-counter" id="player-counter">track 1 / 7</div>
+    <audio id="player-audio" preload="none"></audio>
+  </div>
+</aside>
+<script src="../../script.js" data-site-root="../.."></script>
+</body>
+</html>

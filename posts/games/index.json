@@ -1,5 +1,19 @@
 [
   {
+    "title": "another pokémonth",
+    "date": "september 2026",
+    "file": "posts/games/2026-08-28-another-pok-month.html",
+    "slug": "another-pok-month",
+    "images": [
+      "img-7131.webp",
+      "img-7159.webp",
+      "img-7160.webp",
+      "img-7169.webp",
+      "img-7170.webp",
+      "img-7171.webp"
+    ]
+  },
+  {
     "title": "too many games , too little time",
     "date": "august 2026",
     "file": "posts/games/2026-07-29-too-many-games-too-little-time.html",

@@ -76,14 +76,14 @@
 
         <label>
           <span>image files</span>
-          <input id="images" name="images" type="file" accept="image/*,.gif" multiple>
+          <input id="images" name="images" type="file" accept="image/*,.gif,.heic,.heif" multiple>
         </label>
 
         <label class="optimization-option">
           <input id="optimize-images" type="checkbox" checked>
           <span>optimize new photos for the site</span>
         </label>
-        <small class="field-note optimization-note">recommended : large jpeg/png uploads become smaller webp files , up to 2560px on the longest edge . gifs stay untouched ˖°</small>
+        <small class="field-note optimization-note">recommended : large jpeg/png uploads become smaller webp files , up to 2560px on the longest edge . heic/heif photos are always converted to webp ; gifs stay untouched ˖°</small>
 
         <div id="image-help" class="studio-help"></div>
         <ul id="image-list" class="image-list"></ul>

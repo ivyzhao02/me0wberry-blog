@@ -104,6 +104,10 @@ for (const [file, label] of requiredPages) {
   if (!exactFiles.has(file)) errors.push(`${file}: required ${label} is missing`);
 }
 
+for (const file of relativeFiles.filter(file => /^images\/.*\.(?:heic|heif)$/i.test(file))) {
+  errors.push(`${file}: HEIC/HEIF photos must be converted to a browser-safe format`);
+}
+
 for (const file of relativeFiles.filter(file => /^images\/.*\.(?:jpe?g|png|webp)$/i.test(file))) {
   const size = fs.statSync(path.join(ROOT, file)).size;
   if (size > MAX_PUBLIC_IMAGE_BYTES) {

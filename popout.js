@@ -4,11 +4,15 @@
   const supportedApps = new Set(['gifypets', 'player']);
   const activeApp = supportedApps.has(app) ? app : 'gifypets';
   const title = document.getElementById('popout-title');
+  const footerNote = document.getElementById('popout-footer-note');
 
   document.querySelectorAll('[data-popout-app]').forEach(section => {
     section.hidden = section.dataset.popoutApp !== activeApp;
   });
-  title.textContent = activeApp === 'player' ? '♪ popped out player' : '🐾 popped out gifypets';
+  title.textContent = activeApp === 'player' ? '♪ popped out player' : 'gifypets';
+  footerNote.textContent = activeApp === 'gifypets'
+    ? 'take good care of them ♡'
+    : 'still connected to me0wberry.com ♡';
   document.title = `${activeApp} · me0wberry.com`;
 
   function showGifypet(pet) {

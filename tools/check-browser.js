@@ -133,6 +133,8 @@ async function run() {
     assert(gifypetsPopup.url().includes('/popout/index.html?app=gifypets'), 'Gifypets popup opened the wrong page');
     assert(await gifypetsPopup.locator('body.popout-page').count() === 1, 'Gifypets popup is missing site theming');
     assert(await gifypetsPopup.locator('[data-popout-app="gifypets"]').isVisible(), 'Gifypets popup content is not visible');
+    assert(await gifypetsPopup.locator('#popout-title').textContent() === 'gifypets', 'Gifypets popup title is incorrect');
+    assert(await gifypetsPopup.locator('#popout-footer-note').textContent() === 'take good care of them ♡', 'Gifypets popup care note is incorrect');
     assert(await gifypetsPopup.locator('[data-popout-gifypet-stage="cactus"]').isVisible(), 'selected GifyPet did not carry into the popup');
     assert(await gifypetsPanel.locator('[data-popout-indicator="gifypets"]').isVisible(), 'Gifypets panel did not collapse into an indicator');
     await gifypetsPopup.close();

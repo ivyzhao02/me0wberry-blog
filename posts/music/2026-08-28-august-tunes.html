@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>august tunes — me0wberry</title>
+<link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../../feed.xml">
+<script src="../../theme-loader.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../themes.css" data-site-themes>
+<link rel="stylesheet" href="../../post.css">
+</head>
+<body>
+<a class="skip-link" href="#main">skip to content</a>
+<main class="post-container" id="main" tabindex="-1">
+  <div class="post-titlebar" style="display:flex;align-items:center;justify-content:space-between;"><span class="post-titlebar-text">music · august tunes</span><button id="cat-toggle" onclick="toggleCats()" title="hide cats" style="cursor:pointer;">🐱</button></div>
+  <div class="post-body">
+    <div class="post-pixel-tag">/ music</div>
+    <h1 class="post-heading">august tunes</h1>
+    <div class="post-date">september 2026</div>
+    <div class="post-content"><p>not much to report on the music side this month, but mosi mosi is such a lovely song and i am pretty obsessed :D i think my last.fm stats are more accurate though - it includes local file tracks i play through spotify and i have listened to a lot of national park from pokémon gold / silver and heartgold / soulsilver ପ(๑•ᴗ•๑)ଓ ♡ both can be found on the info page !</p></div>
+    <img class="post-image" src="../../images/music/img-7173.webp" alt="august tunes" loading="lazy" decoding="async"/>
+    <div class="post-footer">
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <a href="../../index.html" class="post-back">← back to me0wberry.com</a>
+        <a href="../../archive/index.html" class="post-back">← back to archive</a>
+      </div>
+      <span style="font-size:11px;color:var(--muted)">september 2026</span>
+    </div>
+  </div>
+</main>
+<aside id="panel-player" aria-label="music player">
+  <div class="panel-titlebar">
+    <span class="panel-title">♪ now playing</span>
+  </div>
+  <div class="panel-body">
+    <div class="player-track-title">
+      <div class="marquee-wrap" id="player-marquee"><span id="player-title">♪ loading...</span></div>
+    </div>
+    <div class="player-time-row">
+      <span id="player-current-time">0:00</span>
+      <input type="range" id="player-progress" class="player-range" min="0" max="100" value="0" step="0.1" aria-label="track progress">
+      <span id="player-total-time">0:00</span>
+    </div>
+    <div class="player-controls">
+      <button class="player-btn" onclick="playerPrev()" title="prev" aria-label="previous track">◀</button>
+      <button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" title="play/pause" aria-label="play or pause">▶</button>
+      <button class="player-btn" onclick="playerNext()" title="next" aria-label="next track">▶|</button>
+    </div>
+    <div class="player-volume-row">
+      <span class="player-vol-icon" aria-hidden="true">🔊</span>
+      <input type="range" id="player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01" aria-label="volume">
+    </div>
+    <div class="player-track-counter" id="player-counter">track 1 / 7</div>
+    <audio id="player-audio" preload="none"></audio>
+  </div>
+</aside>
+<script src="../../script.js" data-site-root="../.."></script>
+</body>
+</html>
