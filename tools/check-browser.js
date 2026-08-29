@@ -199,6 +199,11 @@ async function run() {
     await themed.close();
 
     const archive = await openCheckedPage(browser, `${baseUrl}/archive/`, { width: 1280, height: 900 });
+    assert(await archive.locator('.page-nav-link').count() === 1, 'archive does not use the shared page navigation bubble');
+    assert(
+      await archive.locator('.page-nav-link').evaluate((element) => getComputedStyle(element).borderRadius === '999px'),
+      'archive page navigation bubble styling did not load',
+    );
     await archive.locator('#archive-search').fill('stubby');
     await archive.waitForTimeout(100);
     assert(await archive.locator('.archive-search-result').count() > 0, 'archive search returned no Stubby results');
@@ -218,6 +223,7 @@ async function run() {
         (await categoryArchive.locator('.panel-heading').textContent()).trim() === `${category.label} archive`,
         `${category.id} archive has the wrong visible heading`,
       );
+      assert(await categoryArchive.locator('.page-nav-link').count() === 2, `${category.id} archive navigation is inconsistent`);
       assert(await categoryArchive.locator('#archive-list > div').count() > 0, `${category.id} archive loaded no posts`);
       await categoryArchive.close();
     }
@@ -232,6 +238,10 @@ async function run() {
     assert(
       await post.locator('.post-container').evaluate((element) => parseFloat(getComputedStyle(element).borderRadius) >= 14),
       'post window did not receive the rounded chrome',
+    );
+    assert(
+      await post.locator('.post-back').first().evaluate((element) => getComputedStyle(element).borderRadius === '999px'),
+      'post footer navigation did not receive the shared bubble shape',
     );
     const postWindow = await post.locator('.post-container').boundingBox();
     const postPlayer = await post.locator('#panel-player').boundingBox();
@@ -264,6 +274,11 @@ async function run() {
     await persona.close();
 
     const toybox = await openCheckedPage(browser, `${baseUrl}/toybox/`, { width: 1280, height: 900 });
+    assert(await toybox.locator('.page-nav-link').count() === 1, 'trinkets does not use the shared page navigation bubble');
+    assert(
+      await toybox.locator('.page-nav-link').evaluate((element) => getComputedStyle(element).borderRadius === '999px'),
+      'trinkets page navigation bubble styling did not load',
+    );
     assert(await toybox.locator('.toybox-kaomoji').count() === 129, 'complete kaomoji catalogue did not render');
     const expectedKaomojiCounts = { cats: 12, happy: 50, sweet: 30, moods: 37 };
     for (const [group, expectedCount] of Object.entries(expectedKaomojiCounts)) {

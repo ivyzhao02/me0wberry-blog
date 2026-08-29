@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 const { buildSiteData } = require('./build-site-data');
+const { ARCHIVE_CATEGORIES } = require('./site-config');
 
 const ROOT = path.resolve(__dirname, '..');
 const SKIP_DIRS = new Set(['.git', 'codex-notes', 'node_modules']);
@@ -85,6 +86,10 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
     if (!source.includes('<aside id="panel-player" aria-label="music player">')) errors.push(`${file}: shared post player is missing`);
     if (!source.includes('class="player-controls"')) errors.push(`${file}: modern post player controls are missing`);
   }
+
+  if (/\b(?:page-back-link|info-home-link|shrine-back-link)\b/.test(source)) {
+    errors.push(`${file}: legacy page navigation class is still present`);
+  }
 }
 
 const requiredPages = new Map([
@@ -102,6 +107,29 @@ const requiredPages = new Map([
 
 for (const [file, label] of requiredPages) {
   if (!exactFiles.has(file)) errors.push(`${file}: required ${label} is missing`);
+}
+
+const pageNavigationRequirements = new Map([
+  ['archive/index.html', 1],
+  ...ARCHIVE_CATEGORIES.map(category => [`archive/${category.id}/index.html`, 2]),
+  ['info/index.html', 1],
+  ['now/index.html', 1],
+  ['persona/index.html', 1],
+  ['shrines/index.html', 1],
+  ['shrines/pokemon/index.html', 1],
+  ['shrines/stubby/index.html', 1],
+  ['system/index.html', 1],
+  ['toybox/index.html', 1],
+  ['webgarden/index.html', 1],
+]);
+
+for (const [file, expectedLinks] of pageNavigationRequirements) {
+  if (!exactFiles.has(file)) continue;
+  const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const links = [...source.matchAll(/class=["'][^"']*\bpage-nav-link\b[^"']*["']/gi)];
+  if (links.length !== expectedLinks) {
+    errors.push(`${file}: expected ${expectedLinks} shared page navigation link${expectedLinks === 1 ? '' : 's'}, found ${links.length}`);
+  }
 }
 
 for (const file of relativeFiles.filter(file => /^images\/.*\.(?:heic|heif)$/i.test(file))) {

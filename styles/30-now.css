@@ -41,14 +41,6 @@
   height: auto;
 }
 
-.page-back-link {
-  display: block;
-  margin-bottom: 12px;
-  color: var(--muted);
-  font-size: 11px;
-  text-decoration: underline dotted;
-}
-
 .now-entry .panel-heading {
   margin-bottom: 2px;
 }
