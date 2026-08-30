@@ -439,11 +439,15 @@ a.shrine-cabinet-card:hover {
 }
 
 .stubby-year-details summary {
+  min-height: 28px;
+  padding: 6px 8px;
+  border-radius: 9px;
   color: var(--heading);
+  background: rgba(255,255,255,0.28);
   font-family: var(--font-heading);
   font-size: 10px;
   font-weight: 700;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
   user-select: none;
 }
 
@@ -677,11 +681,15 @@ a.shrine-cabinet-card:hover {
 }
 
 .pokemon-shiny-archive summary {
+  min-height: 30px;
+  padding: 6px 8px;
+  border-radius: 9px;
   color: var(--heading);
+  background: rgba(255,255,255,0.28);
   font-family: var(--font-heading);
   font-size: 11px;
   font-weight: 700;
-  cursor: pointer;
+  cursor: var(--cursor-pointer);
 }
 
 .pokemon-shiny-archive[open] summary { margin-bottom: 11px; }
@@ -1554,9 +1562,14 @@ a.shrine-cabinet-card:hover {
 .pokemon-merch-search {
   display: inline-flex;
   width: fit-content;
+  min-height: 24px;
+  align-items: center;
   margin-top: auto;
-  padding-top: 13px;
+  padding: 4px 8px;
+  border: 1px solid var(--theme-border, rgba(192,112,144,0.28));
+  border-radius: 999px;
   color: var(--link);
+  background: rgba(255,255,255,0.38);
   font-family: var(--font-pixel);
   font-size: 6px;
   line-height: 1.5;
@@ -1566,6 +1579,8 @@ a.shrine-cabinet-card:hover {
 .pokemon-merch-search:hover,
 .pokemon-merch-search:focus-visible {
   color: var(--heading);
+  border-color: rgba(192,112,144,0.52);
+  background: rgba(255,240,245,0.72);
   text-decoration: underline;
 }
 
@@ -1589,7 +1604,7 @@ a.shrine-cabinet-card:hover {
 }
 
 .pokemon-merch-spontaneous h3 { font-size: 16px; }
-.pokemon-merch-spontaneous .pokemon-merch-search { margin-top: 0; padding-top: 0; }
+.pokemon-merch-spontaneous .pokemon-merch-search { margin-top: 0; }
 
 .pokemon-merch-spontaneous .pokemon-merch-regi-list {
   margin-top: 4px;

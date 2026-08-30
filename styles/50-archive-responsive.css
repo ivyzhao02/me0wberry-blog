@@ -108,11 +108,9 @@
   .marquee-wrap.scrolling { animation: none !important; }
 }
 
-@media (max-width: 768px) {
-  body.welcome-page #main.welcome-shell {
-    display: block;
-    height: auto;
-    padding: 0;
-    overflow: visible;
-  }
+body.welcome-page #main.welcome-shell {
+  display: block;
+  height: auto;
+  padding: 0;
+  overflow: visible;
 }

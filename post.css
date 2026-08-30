@@ -222,11 +222,18 @@ body::before {
   box-shadow: inset 0 1px 0 var(--chrome-inset), 0 6px 14px rgba(107,130,78,0.06);
 }
 
+.post-footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
 .post-back {
   display: inline-flex;
   align-self: flex-start;
   align-items: center;
-  padding: 6px 11px;
+  gap: 5px;
+  padding: 4px 11px 4px 6px;
   color: var(--heading);
   font-family: var(--font-heading);
   font-size: 10px;
@@ -239,6 +246,12 @@ body::before {
     linear-gradient(120deg, rgba(219,239,209,0.42), rgba(255,216,228,0.34));
   box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.9)), 0 3px 0 var(--theme-border, rgba(150,180,135,0.22));
   transition: color 0.16s ease, transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.post-back img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .post-back:hover,
@@ -313,23 +326,34 @@ body::before {
 .slide-dots {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 0;
   margin-top: 8px;
 }
 
 .slide-dot {
-  display: block;
+  position: relative;
+  display: flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: var(--cursor-pointer);
+}
+
+.slide-dot::before {
   width: 8px;
   height: 8px;
-  padding: 0;
   border: 1px solid var(--pink);
   border-radius: 50%;
   background: var(--pink-pale);
   box-shadow: inset 0 1px 0 var(--chrome-inset);
-  cursor: var(--cursor-pointer);
+  content: '';
 }
 
-.slide-dot.active { background: var(--pink); }
+.slide-dot.active::before { background: var(--pink); }
 
 #cat-strip {
   position: fixed;
@@ -356,8 +380,8 @@ body::before {
 
 #cat-toggle {
   display: flex;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   align-items: center;
   justify-content: center;
   padding: 0;
@@ -657,6 +681,11 @@ body::before {
 
   .slide-track-wrapper,
   .slide-img { max-height: 330px; }
+
+  #cat-strip {
+    position: absolute;
+    z-index: 0;
+  }
 
   #panel-player { width: 100% !important; }
 }

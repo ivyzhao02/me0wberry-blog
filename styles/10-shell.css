@@ -695,15 +695,15 @@
     .panel-window-actions {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       flex-shrink: 0;
     }
     .panel-close,
     .panel-pin,
     .panel-popout {
-      width: 14px; height: 14px;
+      width: 20px; height: 20px;
       border: 1px solid rgba(200,150,170,0.58);
-      border-radius: 5px;
+      border-radius: 6px;
       background:
         linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,226,235,0.68)),
         linear-gradient(90deg, rgba(229,242,223,0.28), transparent);
@@ -731,7 +731,7 @@
     }
     .panel-pin {
       appearance: none;
-      font-size: 8px;
+      font-size: 9px;
       filter: grayscale(0.25);
     }
     .panel-popout {

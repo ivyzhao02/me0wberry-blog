@@ -1178,8 +1178,6 @@
         const dot = document.createElement('button');
         dot.type = 'button';
         dot.className = 'slide-dot';
-        dot.style.padding = '0';
-        dot.style.display = 'block';
         dot.setAttribute('aria-label', `show photo ${index + 1}`);
         dot.addEventListener('click', function() {
           goToPostSlide(index);

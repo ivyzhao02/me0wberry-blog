@@ -1299,15 +1299,15 @@
     .panel-window-actions {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       flex-shrink: 0;
     }
     .panel-close,
     .panel-pin,
     .panel-popout {
-      width: 14px; height: 14px;
+      width: 20px; height: 20px;
       border: 1px solid rgba(200,150,170,0.58);
-      border-radius: 5px;
+      border-radius: 6px;
       background:
         linear-gradient(180deg, rgba(255,255,255,0.86), rgba(255,226,235,0.68)),
         linear-gradient(90deg, rgba(229,242,223,0.28), transparent);
@@ -1335,7 +1335,7 @@
     }
     .panel-pin {
       appearance: none;
-      font-size: 8px;
+      font-size: 9px;
       filter: grayscale(0.25);
     }
     .panel-popout {
@@ -1863,7 +1863,7 @@
     }
     .discord-titlebar:active { cursor: grabbing; }
     .discord-titlebar .panel-close {
-      width: 14px; height: 14px;
+      width: 20px; height: 20px;
       background: rgba(255,255,255,0.44);
       border-color: rgba(255,255,255,0.72);
       color: white;
@@ -2360,20 +2360,30 @@
     .slide-dots {
       display: flex;
       justify-content: center;
-      gap: 5px;
+      gap: 0;
       margin-top: 6px;
     }
     .slide-dot {
-      width: 6px;
-      height: 6px;
-      display: block;
+      position: relative;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 0;
-      border-radius: 50%;
-      background: var(--pink-pale);
-      border: 1px solid var(--pink);
+      border: 0;
+      background: transparent;
       cursor: inherit;
     }
-    .slide-dot.active {
+    .slide-dot::before {
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--pink);
+      border-radius: 50%;
+      background: var(--pink-pale);
+      content: '';
+    }
+    .slide-dot.active::before {
       background: var(--pink);
     }
 
@@ -2423,8 +2433,9 @@
   border: 1px solid rgba(200,150,170,0.24);
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.58);
   cursor: var(--cursor-pointer);
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
   padding: 0;
   color: var(--muted);
   opacity: 0.78;
@@ -2894,9 +2905,10 @@
 
 .toybox-kaomoji-toggle {
   flex: 0 0 auto;
-  padding: 4px 7px;
+  min-height: 24px;
+  padding: 5px 8px;
   color: var(--link);
-  font: 5px/1.5 var(--font-pixel);
+  font: 6px/1.35 var(--font-pixel);
   border: 1px solid rgba(192,112,144,0.26);
   border-radius: 999px;
   background: rgba(255,255,255,0.48);
@@ -4006,11 +4018,9 @@ a.toybox-resource-card:hover {
   .marquee-wrap.scrolling { animation: none !important; }
 }
 
-@media (max-width: 768px) {
-  body.welcome-page #main.welcome-shell {
-    display: block;
-    height: auto;
-    padding: 0;
-    overflow: visible;
-  }
+body.welcome-page #main.welcome-shell {
+  display: block;
+  height: auto;
+  padding: 0;
+  overflow: visible;
 }

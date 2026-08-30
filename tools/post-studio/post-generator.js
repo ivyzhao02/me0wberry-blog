@@ -210,9 +210,9 @@ function buildPostHtml(post) {
     <div class="post-date">${safeDate}</div>
     ${mainContent}
 ${mediaHtml ? `${mediaHtml}\n` : ''}    <div class="post-footer">
-      <div style="display:flex;flex-direction:column;gap:4px;">
-        <a href="../../index.html" class="post-back">← back to me0wberry.com</a>
-        <a href="../../archive/index.html" class="post-back">← back to archive</a>
+      <div class="post-footer-nav">
+        <a href="../../index.html" class="post-back"><img src="../../images/ui-icons/home.png" alt="" aria-hidden="true"><span>home</span></a>
+        <a href="../../archive/index.html" class="post-back"><img src="../../images/ui-icons/archive.png" alt="" aria-hidden="true"><span>archive</span></a>
       </div>
       <span style="font-size:11px;color:var(--muted)">${safeDate}</span>
     </div>

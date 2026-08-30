@@ -210,9 +210,10 @@
 
 .toybox-kaomoji-toggle {
   flex: 0 0 auto;
-  padding: 4px 7px;
+  min-height: 24px;
+  padding: 5px 8px;
   color: var(--link);
-  font: 5px/1.5 var(--font-pixel);
+  font: 6px/1.35 var(--font-pixel);
   border: 1px solid rgba(192,112,144,0.26);
   border-radius: 999px;
   background: rgba(255,255,255,0.48);
