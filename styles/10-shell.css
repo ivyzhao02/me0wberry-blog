@@ -665,8 +665,6 @@
       overflow: hidden;
     }
     .panel.open { display: flex; }
-    #panel-bio { width: 420px; }
-
     .panel-titlebar {
       height: 26px;
       background:

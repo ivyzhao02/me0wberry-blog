@@ -73,7 +73,7 @@ function browserOptions() {
   return options;
 }
 
-async function openCheckedPage(browser, url, viewport) {
+async function openCheckedPage(browser, url, viewport, setup) {
   const page = await browser.newPage({ viewport });
   const problems = [];
   page.on('pageerror', (error) => problems.push(error.message));
@@ -82,6 +82,7 @@ async function openCheckedPage(browser, url, viewport) {
       problems.push(`${response.status()} ${response.url()}`);
     }
   });
+  if (setup) await setup(page);
   await page.goto(url, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(250);
   assert(problems.length === 0, `${url} reported browser problems:\n${problems.join('\n')}`);
@@ -95,9 +96,67 @@ async function run() {
   const browser = await chromium.launch(browserOptions());
 
   try {
+    const welcome = await openCheckedPage(browser, `${baseUrl}/`, { width: 1280, height: 800 });
+    assert(new URL(welcome.url()).pathname === '/welcome/index.html', 'a fresh session did not begin on the welcome page');
+    await welcome.evaluate(() => {
+      localStorage.setItem('me0wberry_passport_v1', JSON.stringify({
+        stamps: ['wander', 'naranya', 'love-ball', 'pixel-cat'],
+      }));
+    });
+    await welcome.reload({ waitUntil: 'domcontentloaded' });
+    assert(await welcome.locator('[data-passport-progress]').isVisible(), 'completed passport progress is hidden on welcome');
+    assert(await welcome.locator('[data-passport-slot].is-stamped').count() === 4, 'passport did not render all saved stamps');
+    await welcome.locator('[data-passport-reward]').click();
+    assert(await welcome.locator('[data-passport-dialog]').evaluate((dialog) => dialog.open), 'passport reward did not open');
+    await welcome.locator('[data-passport-envelope]').click();
+    await welcome.locator('[data-passport-postcard-stage].is-revealed').waitFor({ state: 'visible' });
+    await welcome.locator('[data-passport-postcard]').click();
+    assert(await welcome.locator('[data-passport-postcard]').getAttribute('aria-pressed') === 'true', 'passport postcard did not flip');
+    await welcome.locator('[data-passport-close]').click();
+    await Promise.all([
+      welcome.waitForURL(`${baseUrl}/`),
+      welcome.locator('#welcome-enter').click(),
+    ]);
+    assert(
+      await welcome.evaluate(() => sessionStorage.getItem('me0wberry_entered')) === '1',
+      'entering the site did not persist for the current tab session',
+    );
+    await welcome.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded' });
+    await welcome.waitForTimeout(100);
+    assert(new URL(welcome.url()).pathname === '/', 'an entered session was sent back to welcome');
+    await welcome.close();
+
     const desktop = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 1440, height: 900 });
     assert(await desktop.locator('#topbar').isVisible(), 'desktop topbar is not visible');
     assert(await desktop.locator('#sidebar').isVisible(), 'desktop sidebar is not visible');
+    const bioMetrics = await desktop.locator('#panel-bio').evaluate((panel) => {
+      const panelRect = panel.getBoundingClientRect();
+      const mainRect = panel.parentElement.getBoundingClientRect();
+      return {
+        widthGap: mainRect.width - panelRect.width,
+        heightGap: mainRect.height - panelRect.height,
+        resizeVisible: getComputedStyle(panel.querySelector('.panel-resize')).display !== 'none',
+      };
+    });
+    assert(bioMetrics.widthGap <= 26, 'desktop Hello window does not fill the workspace width');
+    assert(bioMetrics.heightGap <= 26, 'desktop Hello window does not fill the workspace height');
+    assert(!bioMetrics.resizeVisible, 'full-sized Hello window still exposes its resize handle');
+    await desktop.locator('#bio-tabbar .tab-btn').filter({ hasText: 'find me' }).click();
+    assert(await desktop.locator('#bio-findme').isVisible(), 'Hello window tab did not switch');
+    await desktop.locator('#bio-findme button').filter({ hasText: 'discord' }).click();
+    assert(await desktop.locator('#discord-popup').isVisible(), 'Discord popup did not open');
+    await desktop.locator('#discord-popup .discord-ok').click();
+    assert(!await desktop.locator('#discord-popup').isVisible(), 'Discord popup did not close');
+    await desktop.locator('#bio-tabbar .tab-btn').filter({ hasText: 'about' }).click();
+    const gamesNav = desktop.locator('#sidebar [data-opens="panel-games"]');
+    await gamesNav.focus();
+    await gamesNav.press('Enter');
+    assert(await desktop.locator('#panel-games').isVisible(), 'keyboard navigation did not open a content window');
+    assert(!await desktop.locator('#panel-bio').isVisible(), 'opening a content window did not close the previous one');
+    await desktop.locator('#panel-games .panel-close').click();
+    assert(!await desktop.locator('#panel-games').isVisible(), 'content window did not close');
+    await desktop.locator('.taskbar-start').click();
+    assert(await desktop.locator('#panel-bio').isVisible(), 'taskbar Start did not restore the Hello window');
     for (const category of ['games', 'music', 'food', 'stubby', 'beauty']) {
       const categoryLinks = desktop.locator(`#latest-${category} a[href], #posts-${category} a[href]`);
       assert(await categoryLinks.count() > 0, `${category} homepage panel has no post links`);
@@ -108,6 +167,8 @@ async function run() {
       );
     }
     const playerPanel = desktop.locator('#panel-player');
+    await desktop.locator('#sidebar .nav-item').filter({ hasText: 'player' }).click();
+    assert(await playerPanel.isVisible(), 'desktop player window did not come to the front');
     await playerPanel.locator('.panel-pin').click();
     assert(await playerPanel.locator('.panel-pin').getAttribute('aria-pressed') === 'true', 'player window did not pin');
     await desktop.locator('#sidebar .nav-item').filter({ hasText: 'gifypets' }).click();
@@ -165,8 +226,42 @@ async function run() {
     assert((await playerPanel.locator('#player-title').textContent()).includes('forever &'), 'player track did not return after docking');
     assert(await playerPanel.locator('#player-volume').inputValue() === '0.42', 'player volume did not return after docking');
 
+    await playerPanel.locator('.panel-close').click();
+    assert(!await playerPanel.isVisible(), 'player did not close');
+    assert(
+      await desktop.evaluate(() => sessionStorage.getItem('me0wberry_player_visibility_v1')) === 'closed',
+      'closed player state was not saved for the current tab session',
+    );
+    await desktop.locator('#sidebar [data-opens="panel-games"]').click();
+    assert(!await playerPanel.isVisible(), 'opening another desktop section reopened the player');
+
+    const [closedStateGifypetsPopup] = await Promise.all([
+      desktop.waitForEvent('popup'),
+      gifypetsPanel.locator('.panel-popout').click(),
+    ]);
+    await closedStateGifypetsPopup.waitForLoadState('domcontentloaded');
+    assert(!await playerPanel.isVisible(), 'opening a GifyPet popup reopened the player');
+    await closedStateGifypetsPopup.close();
+    await desktop.waitForTimeout(500);
+
+    const [sessionPost] = await Promise.all([
+      desktop.waitForEvent('popup'),
+      desktop.evaluate((url) => window.open(url, '_blank'), `${baseUrl}/posts/beauty/2026-07-29-july-update.html`),
+    ]);
+    await sessionPost.waitForLoadState('domcontentloaded');
+    await sessionPost.waitForTimeout(100);
+    assert(!await sessionPost.locator('#panel-player').isVisible(), 'a new post tab ignored the closed player state');
+
     await desktop.locator('#sidebar [data-opens="panel-player"]').click();
     assert(await desktop.locator('#panel-player').isVisible(), 'desktop player did not open');
+    await sessionPost.waitForTimeout(100);
+    assert(await sessionPost.locator('#panel-player').isVisible(), 'reopening the player did not sync to another tab');
+    await playerPanel.locator('.panel-close').click();
+    await sessionPost.waitForTimeout(100);
+    assert(!await sessionPost.locator('#panel-player').isVisible(), 'closing the player did not sync to another tab');
+    await sessionPost.close();
+    await desktop.locator('#sidebar [data-opens="panel-player"]').click();
+    assert(await desktop.locator('#panel-player').isVisible(), 'desktop player did not reopen after a session close');
     await desktop.close();
 
     const mobile = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 390, height: 844 });
@@ -188,7 +283,26 @@ async function run() {
     assert(await mobilePlayerPopup.locator('body.popout-page').count() === 1, 'mobile player page is not themed');
     assert(await mobilePlayerPopup.locator('#popout-player-playpause').isVisible(), 'mobile popped-out player controls are not visible');
     await mobilePlayerPopup.close();
+    await mobile.waitForTimeout(500);
+    await mobile.locator('#sidebar [data-opens="panel-games"]').click();
+    assert(await mobile.locator('#panel-games').isVisible(), 'mobile content window did not open');
+    assert(!await mobile.locator('#sidebar').isVisible(), 'mobile sidebar stayed visible behind a content window');
+    await mobile.locator('#panel-games .panel-close').click();
+    assert(await mobile.locator('#sidebar').isVisible(), 'closing a mobile content window did not restore navigation');
+    await mobile.locator('#sidebar [data-opens="panel-games"]').click();
+    await mobile.locator('#mobile-back').click();
+    assert(await mobile.locator('#sidebar').isVisible(), 'mobile Back did not restore navigation');
     await mobile.close();
+
+    const directMobileInfo = await openCheckedPage(browser, `${baseUrl}/info/`, { width: 390, height: 844 });
+    assert(await directMobileInfo.locator('#mobile-back').evaluate((element) => element.tagName === 'A'), 'mobile page Back is not a reliable link');
+    assert(await directMobileInfo.locator('#mobile-back').getAttribute('href') === '../index.html', 'mobile page Back has the wrong fallback destination');
+    await Promise.all([
+      directMobileInfo.waitForURL('**/welcome/index.html'),
+      directMobileInfo.locator('#mobile-back').click(),
+    ]);
+    assert(new URL(directMobileInfo.url()).pathname === '/welcome/index.html', 'direct-entry mobile Back did not return to the site entrance');
+    await directMobileInfo.close();
 
     const themed = await openCheckedPage(browser, `${baseUrl}/system/`, { width: 1280, height: 900 });
     await themed.locator('[data-theme-choice="matcha-cream"]').click();
@@ -207,7 +321,70 @@ async function run() {
     await archive.locator('#archive-search').fill('stubby');
     await archive.waitForTimeout(100);
     assert(await archive.locator('.archive-search-result').count() > 0, 'archive search returned no Stubby results');
+    await archive.locator('#archive-search').fill('a query that cannot match any post');
+    assert((await archive.locator('#archive-search-status').textContent()).startsWith('0 posts found'), 'archive search did not report no results');
+    await archive.locator('#archive-search-clear').click();
+    assert(await archive.locator('#archive-search-results').isHidden(), 'archive clear did not hide old results');
+    assert(await archive.locator('#archive-search').evaluate((input) => input === document.activeElement), 'archive clear did not return focus to search');
     await archive.close();
+
+    const pollValues = new Map();
+    const poll = await openCheckedPage(
+      browser,
+      `${baseUrl}/now/`,
+      { width: 1280, height: 900 },
+      async (page) => {
+        await page.route('https://counterapi.com/**', async (route) => {
+          const url = new URL(route.request().url());
+          const key = decodeURIComponent(url.pathname.split('/').pop());
+          let value = pollValues.get(key) || 1;
+          if (!url.searchParams.has('readOnly')) {
+            value += 1;
+            pollValues.set(key, value);
+          }
+          await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            headers: { 'Access-Control-Allow-Origin': '*' },
+            body: JSON.stringify({ value }),
+          });
+        });
+      },
+    );
+    await poll.waitForFunction(() => document.querySelector('[data-poll-status]')?.textContent.includes('pick one answer'));
+    const gamesPollOption = poll.locator('[data-poll-option="games"]');
+    await gamesPollOption.click();
+    await poll.waitForFunction(() => document.querySelector('[data-poll-status]')?.textContent.includes('you picked games'));
+    assert(await gamesPollOption.getAttribute('class').then((value) => value.includes('is-selected')), 'monthly poll did not mark the saved choice');
+    assert(await poll.locator('[data-poll-option]:not(:disabled)').count() === 0, 'monthly poll allowed a second vote');
+    assert(
+      await poll.evaluate(() => localStorage.getItem('me0wberry_poll_2026-08')) === 'games',
+      'monthly poll did not save the vote locally',
+    );
+    await poll.reload({ waitUntil: 'domcontentloaded' });
+    await poll.waitForFunction(() => document.querySelector('[data-poll-status]')?.textContent.includes('you picked games'));
+    assert(await poll.locator('[data-poll-option="games"].is-selected').count() === 1, 'monthly poll choice did not survive a reload');
+    await poll.close();
+
+    const feed = await openCheckedPage(browser, `${baseUrl}/feed.xml`, { width: 1000, height: 900 });
+    assert(await feed.locator('.feed-entry').count() > 0, 'RSS reading view did not render entries');
+    await feed.locator('[data-feed-filter="stubby"]').click();
+    const visibleFeedCategories = await feed.locator('.feed-entry:visible').evaluateAll((entries) => entries.map((entry) => entry.dataset.category));
+    assert(visibleFeedCategories.length > 0 && visibleFeedCategories.every((category) => category === 'stubby'), 'RSS category filter showed the wrong posts');
+    assert((await feed.locator('#feed-filter-status').textContent()).includes('in stubby'), 'RSS category filter did not update its status');
+    await feed.close();
+
+    const wanderer = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 1280, height: 800 });
+    await wanderer.evaluate(() => { Math.random = () => 0; });
+    await Promise.all([
+      wanderer.waitForURL(`${baseUrl}/info/index.html`),
+      wanderer.locator('#sidebar button').filter({ hasText: 'surprise me' }).click(),
+    ]);
+    assert(
+      await wanderer.evaluate(() => JSON.parse(localStorage.getItem('me0wberry_passport_v1') || '{}').stamps?.includes('wander')),
+      'Surprise Me did not record its passport stamp',
+    );
+    await wanderer.close();
 
     for (const category of ARCHIVE_CATEGORIES) {
       const categoryArchive = await openCheckedPage(
@@ -365,7 +542,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log('browser check passed: desktop, mobile, themes, archives, post chrome, persona layout, optimized media, and direct-file preview.');
+  console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, archives, poll, RSS, passport, post chrome, persona layout, optimized media, and direct-file preview.');
 }
 
 run().catch((error) => {

@@ -411,6 +411,14 @@ body::before {
   user-select: none;
 }
 
+html:not(.player-visibility-ready) #panel-player {
+  visibility: hidden;
+}
+
+#panel-player[hidden] {
+  display: none !important;
+}
+
 #panel-player {
   position: fixed;
   right: 20px;

@@ -2,6 +2,8 @@
     const UTILITY_PANEL_BOTTOM_OFFSET = 72;
     const PINNED_Z_INDEX_BASE = 9000;
     const PLAYER_HANDOFF_KEY = 'me0wberry_player_handoff_v1';
+    const PLAYER_VISIBILITY_KEY = 'me0wberry_player_visibility_v1';
+    const PLAYER_VISIBILITY_CHANNEL = 'me0wberry_session_ui_v1';
     const PERSISTENT_PANEL_IDS = new Set(['panel-player']);
     const GIFYPET_PANEL_IDS = new Set(['panel-gifypet']);
     const UTILITY_POPOUT_META = {
@@ -9,6 +11,11 @@
       player: { panelId: 'panel-player', width: 280, rightOffset: 20, popupWidth: 340, popupHeight: 330 },
     };
     const utilityPopouts = new Map();
+    const playerVisibilitySubscribers = new Set();
+    let playerVisibility = null;
+    let playerVisibilityReady = false;
+    let playerVisibilityChannel = null;
+    let playerVisibilityFallbackTimer = null;
     const TASKBAR_PANEL_META = {
       'panel-bio': { label: 'hello', icon: sitePath('/images/ui-icons/hello.png'), order: 10 },
       'panel-lately': { label: 'now', icon: sitePath('/images/ui-icons/lately.png'), order: 20 },
@@ -26,6 +33,86 @@
     // ── Z-index ──
     let zTop = 10;
     let pinnedZTop = PINNED_Z_INDEX_BASE;
+
+    function readPlayerVisibility() {
+      try {
+        const value = window.sessionStorage.getItem(PLAYER_VISIBILITY_KEY);
+        return value === 'open' || value === 'closed' ? value : null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function storePlayerVisibility(value) {
+      try { window.sessionStorage.setItem(PLAYER_VISIBILITY_KEY, value); }
+      catch (error) {}
+    }
+
+    function publishPlayerVisibility(value, options = {}) {
+      playerVisibility = value;
+      playerVisibilityReady = true;
+      storePlayerVisibility(value);
+      if (playerVisibilityFallbackTimer) {
+        window.clearTimeout(playerVisibilityFallbackTimer);
+        playerVisibilityFallbackTimer = null;
+      }
+      playerVisibilitySubscribers.forEach(callback => callback(value === 'open'));
+      if (options.broadcast !== false) {
+        try {
+          playerVisibilityChannel?.postMessage({ type: 'player-visibility', value });
+        } catch (error) {}
+      }
+    }
+
+    function rememberPlayerVisibility(isOpen) {
+      publishPlayerVisibility(isOpen ? 'open' : 'closed');
+    }
+
+    function subscribeToPlayerVisibility(callback) {
+      playerVisibilitySubscribers.add(callback);
+      if (playerVisibilityReady) callback(playerVisibility === 'open');
+      return function unsubscribe() {
+        playerVisibilitySubscribers.delete(callback);
+      };
+    }
+
+    (function initPlayerVisibilitySession() {
+      const savedVisibility = readPlayerVisibility();
+
+      try {
+        playerVisibilityChannel = new BroadcastChannel(PLAYER_VISIBILITY_CHANNEL);
+        playerVisibilityChannel.addEventListener('message', event => {
+          const message = event.data || {};
+          if (message.type === 'request-player-visibility' && playerVisibilityReady) {
+            playerVisibilityChannel.postMessage({
+              type: 'player-visibility',
+              value: playerVisibility,
+            });
+            return;
+          }
+          if (message.type === 'player-visibility' && (message.value === 'open' || message.value === 'closed')) {
+            publishPlayerVisibility(message.value, { broadcast: false });
+          }
+        });
+      } catch (error) {
+        playerVisibilityChannel = null;
+      }
+
+      if (savedVisibility) {
+        publishPlayerVisibility(savedVisibility, { broadcast: false });
+        return;
+      }
+
+      if (!playerVisibilityChannel) {
+        publishPlayerVisibility('open', { broadcast: false });
+        return;
+      }
+
+      playerVisibilityChannel.postMessage({ type: 'request-player-visibility' });
+      playerVisibilityFallbackTimer = window.setTimeout(() => {
+        if (!playerVisibilityReady) publishPlayerVisibility('open', { broadcast: false });
+      }, 80);
+    })();
 
     function bringToFront(panel) {
       if (panel.classList.contains('is-pinned')) {
@@ -186,7 +273,10 @@
       if (!meta) return false;
       if (focusUtilityPopout(kind)) return true;
 
-      if (kind === 'player') writePlayerHandoff();
+      if (kind === 'player') {
+        rememberPlayerVisibility(true);
+        writePlayerHandoff();
+      }
       const panel = document.getElementById(meta.panelId);
       const activePet = kind === 'gifypets'
         ? panel?.querySelector('[data-gifypet-tab].is-active')?.dataset.gifypetTab
@@ -214,6 +304,7 @@
     }
 
     function dockUtilityPopout(kind) {
+      if (kind === 'player') rememberPlayerVisibility(true);
       const entry = clearUtilityPopout(kind);
       if (entry && !entry.popup.closed) entry.popup.close();
       restoreUtilityPanel(kind, { open: !isMobileViewport(), resume: true });
@@ -278,6 +369,8 @@
     function openPanel(id) {
       const panel = document.getElementById(id);
       if (!panel) return;
+      if (id === 'panel-player') rememberPlayerVisibility(true);
+      panel.removeAttribute('hidden');
 
       const utilityKind = utilityKindForPanel(panel);
       if (utilityKind && liveUtilityPopout(utilityKind)) {
@@ -303,9 +396,18 @@
 
       // Desktop: reset position for main content panels.
       if (!isPersistentPanel(panel)) {
-        panel.style.top  = id === 'panel-cactus' ? '60px' : '20px';
-        panel.style.left = id === 'panel-cactus' ? '60px' : '18px';
-        if (id !== 'panel-bio') panel.style.width = '';
+        if (panel.classList.contains('panel-fullsize')) {
+          panel.style.top = '';
+          panel.style.right = '';
+          panel.style.bottom = '';
+          panel.style.left = '';
+          panel.style.width = '';
+          panel.style.height = '';
+        } else {
+          panel.style.top = id === 'panel-cactus' ? '60px' : '20px';
+          panel.style.left = id === 'panel-cactus' ? '60px' : '18px';
+          panel.style.width = '';
+        }
       }
       panel.classList.add('open');
       bringToFront(panel);
@@ -320,7 +422,9 @@
     function closePanel(id) {
       const panel = document.getElementById(id);
       if (!panel) return;
+      if (id === 'panel-player') rememberPlayerVisibility(false);
       panel.classList.remove('open');
+      if (isMobileViewport()) document.body.classList.remove('mobile-panel');
       // restore bio highlight if needed
       const wasActive = document.querySelector(`.nav-item[data-opens="${id}"].active`);
       if (wasActive) {
@@ -447,6 +551,7 @@
         if (isMobileViewport()) return;
 
         const panel = tb.closest('.panel');
+        if (panel.classList.contains('panel-fullsize')) return;
         if (getComputedStyle(panel).position === 'relative') return;
         bringToFront(panel);
         dragging = panel;
@@ -496,6 +601,7 @@
         if (!handle) return;
         if (isMobileViewport()) return;
         const panel = handle.closest('.panel');
+        if (panel.classList.contains('panel-fullsize')) return;
         resizing = panel;
         startY = e.clientY;
         startH = panel.offsetHeight;

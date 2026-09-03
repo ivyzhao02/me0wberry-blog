@@ -155,6 +155,23 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
+    @media (min-width: 769px) {
+      #panel-bio {
+        inset: 12px;
+        width: auto;
+        height: auto;
+      }
+
+      #panel-bio .panel-titlebar { cursor: default; }
+      #panel-bio .panel-body { padding: clamp(20px, 3vw, 36px); }
+      #panel-bio .tab-content {
+        width: min(760px, 100%);
+        margin: 0 auto;
+      }
+      #panel-bio .kitten-corner { width: min(42%, 300px); }
+      #panel-bio .panel-resize { display: none; }
+    }
+
     /* ── Bio: About ── */
     .stat-block { font-size: 14px; line-height: 1.9; color: var(--body); }
     .stat-flags { font-size: 18px; line-height: 1.6; margin: 2px 0; }
@@ -479,6 +496,14 @@
     }
 
     /* ── Music Player Panel ── */
+    html:not(.player-visibility-ready) #panel-player {
+      visibility: hidden;
+    }
+
+    #panel-player[hidden] {
+      display: none !important;
+    }
+
     #panel-player {
       height: auto;
       border-radius: 16px;

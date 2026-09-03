@@ -66,27 +66,34 @@
     if (!isMobileViewport()) {
       // bio opens at top-left
       openPanel('panel-bio');
-
-      // player opens at bottom-right of #main (or viewport if #main absent)
-      (function() {
-        const player  = document.getElementById('panel-player');
-        const mainEl  = document.getElementById('main');
-        const playerW = 280;
-        player.style.width = playerW + 'px';
-        player.classList.add('open');
-        bringToFront(player);
-        // measure rendered height then position
-        const playerH   = player.offsetHeight;
-        const isInMain  = mainEl && mainEl.contains(player);
-        const mainRect  = isInMain ? mainEl.getBoundingClientRect() : null;
-        const refWidth  = mainRect ? mainRect.width  : window.innerWidth;
-        const refHeight = mainRect ? mainRect.height : window.innerHeight;
-        if (!isInMain) player.style.position = 'fixed';
-        player.style.left = Math.max(12, refWidth  - playerW - 20) + 'px';
-        player.style.top  = Math.max(12, refHeight - playerH - UTILITY_PANEL_BOTTOM_OFFSET) + 'px';
-      })();
-      updateTaskbar();
     }
+
+    // The player defaults open, but an explicit close remains in effect for this browser session.
+    subscribeToPlayerVisibility(function(isOpen) {
+      const player = document.getElementById('panel-player');
+      document.documentElement.classList.add('player-visibility-ready');
+      if (!player) return;
+
+      player.toggleAttribute('hidden', !isOpen);
+      if (!isOpen) {
+        player.classList.remove('open');
+        const popout = clearUtilityPopout('player');
+        if (popout && !popout.popup.closed) popout.popup.close();
+        updateTaskbar();
+        return;
+      }
+
+      if (!isMobileViewport()) {
+        player.classList.add('open');
+        positionUtilityPanel(player, {
+          width: 280,
+          rightOffset: 20,
+          bottomOffset: UTILITY_PANEL_BOTTOM_OFFSET,
+        });
+        bringToFront(player);
+      }
+      updateTaskbar();
+    });
 
     // ── Update category panel after post ──
     function updateCategoryPanel(category, posts) {
