@@ -35,6 +35,10 @@ const gpsExifFixture = Buffer.from(
   'hex',
 );
 
+function normalizeNewlines(value = '') {
+  return String(value).replace(/\r\n?/g, '\n');
+}
+
 if (!hasGpsCoordinatesInExif(gpsExifFixture)) {
   errors.push('image metadata privacy detector failed its GPS fixture check');
 }
@@ -203,7 +207,7 @@ try {
     const filePath = path.join(ROOT, output.file);
     if (!fs.existsSync(filePath)) {
       errors.push(`${output.file}: generated file is missing (run node tools/build-site-data.js)`);
-    } else if (fs.readFileSync(filePath, 'utf8') !== output.contents) {
+    } else if (normalizeNewlines(fs.readFileSync(filePath, 'utf8')) !== normalizeNewlines(output.contents)) {
       errors.push(`${output.file}: generated content is stale (run node tools/build-site-data.js)`);
     }
   }
