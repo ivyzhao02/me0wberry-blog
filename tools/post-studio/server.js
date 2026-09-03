@@ -3,6 +3,7 @@ const http = require('http');
 const path = require('path');
 const decodeHeic = require('heic-decode');
 const sharp = require('sharp');
+const { stripWebpPrivateMetadata } = require('../image-metadata');
 const {
   CATEGORIES,
   buildPostHtml,
@@ -123,6 +124,29 @@ async function convertHeicToWebp(buffer) {
     .toBuffer();
 }
 
+async function sanitizeUploadedImage(buffer, extension) {
+  if (HEIC_EXTENSIONS.has(extension)) return convertHeicToWebp(buffer);
+  if (extension === '.gif') return buffer;
+
+  const metadata = await sharp(buffer, { failOn: 'error' }).metadata();
+  if (extension === '.webp' && (!metadata.orientation || metadata.orientation === 1)) {
+    return stripWebpPrivateMetadata(buffer);
+  }
+
+  const pipeline = sharp(buffer, { failOn: 'error' }).rotate();
+  if (extension === '.jpg' || extension === '.jpeg') {
+    return pipeline.jpeg({ quality: 95, chromaSubsampling: '4:4:4' }).toBuffer();
+  }
+  if (extension === '.png') {
+    return pipeline.png({ compressionLevel: 9 }).toBuffer();
+  }
+  if (extension === '.webp') {
+    return pipeline.webp({ quality: 95 }).toBuffer();
+  }
+
+  throw new Error('Unsupported image type: ' + (extension || 'unknown'));
+}
+
 async function writeUploadedImages(category, uploadedImages) {
   const targetDir = path.join(ROOT, 'images', category);
   fs.mkdirSync(targetDir, { recursive: true });
@@ -139,7 +163,7 @@ async function writeUploadedImages(category, uploadedImages) {
         ? `${path.basename(sourceName, sourceExtension)}.webp`
         : sourceName;
       const finalName = uniqueName(targetDir, desiredName);
-      const outputBuffer = isHeic ? await convertHeicToWebp(sourceBuffer) : sourceBuffer;
+      const outputBuffer = await sanitizeUploadedImage(sourceBuffer, sourceExtension);
       const sitePath = `/images/${category}/${finalName}`;
 
       fs.writeFileSync(path.join(targetDir, finalName), outputBuffer);
@@ -281,5 +305,6 @@ module.exports = {
   createPost,
   convertHeicToWebp,
   readExistingImages,
+  sanitizeUploadedImage,
   writeUploadedImages,
 };

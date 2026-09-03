@@ -6,13 +6,13 @@ Personal static site and blog for [me0wberry.com](https://me0wberry.com).
 
 - Create monthly posts with `tools/post-studio/server.js`.
 - Refresh the homepage now panel, `/now/`, archive pages, search data, RSS, and shared CSS/JavaScript bundles with `node tools/build-site-data.js`.
-- Check local links, generated files, browser behavior, themes, mobile controls, and direct-file previews with `pnpm check`.
+- Check local links, generated files, image privacy, browser behavior, themes, mobile controls, and direct-file previews with `pnpm check`.
 - Keep the visual appearance and existing interactions unchanged during maintenance unless something is intentionally being fixed.
 - The build shown in `/system/` is generated as `v0.<repository commit count>` and advances automatically with the next pending commit.
 
 Post Studio writes posts into `posts/<category>/`, updates the matching `index.json`, stores new gallery images in `images/<category>/`, and refreshes all generated site data automatically. The internal `lately` category name is retained for existing paths, but its visitor-facing name is `now`.
 
-Post Studio's recommended image option converts new JPEG/PNG uploads to quality-90 WebP files no larger than 2560px on the longest edge. Historical oversized photos follow the same standard; `tools/check-site.js` keeps public JPEG, PNG, and WebP assets under 2 MB, while GIFs and videos retain their original formats and loading behavior.
+Post Studio's recommended image option converts new JPEG/PNG uploads to quality-90 WebP files no larger than 2560px on the longest edge. Uploaded still images and historically optimized photos have private EXIF/XMP metadata removed; `tools/check-site.js` rejects public images containing GPS coordinates and keeps JPEG, PNG, and WebP assets under 2 MB. GIFs and videos retain their original formats and loading behavior.
 
 ## Public pages
 
@@ -28,11 +28,11 @@ Post Studio's recommended image option converts new JPEG/PNG uploads to quality-
 
 Visitor desktop skins are selected in `/system/` and saved in the browser. New public pages should load `theme-loader.js` before the main stylesheet and `themes.css` after it; Post Studio adds both files to future posts automatically.
 
-The fixed-choice poll below `/now/` uses anonymous shared counters from CounterAPI. Change both its visible month and `data-poll-id` in `now/index.html` when starting a new poll; the new ID creates a fresh result set while preserving older totals.
+The fixed-choice poll below `/now/` uses anonymous shared counters from CounterAPI. Its visible month and `data-poll-id` are generated from the latest Now post date, so publishing a new monthly Now entry creates a fresh result set while preserving older totals.
 
 The four-stamp desktop passport stores progress only in the visitor's browser under `me0wberry_passport_v1`. `passport.js` owns stamp collection, Welcome progress, and the reward postcard; discovery targets use `data-passport-stamp`, while Surprise Me records its stamp from `script.js` before navigating.
 
-Shared JavaScript adds skip navigation, page landmarks, keyboard-operable window controls, and accessible player labels to the desktop shell and historical posts. `tools/check-site.js` also guards image descriptions and embedded-frame titles.
+Shared JavaScript adds skip navigation, page landmarks, keyboard-operable tabs and window controls, focus restoration, dialog behavior, and accessible player labels to the desktop shell and historical posts. `tools/check-site.js` also guards image descriptions and embedded-frame titles.
 
 Post pages share `post.css`; Post Studio links new posts to the same file so post formatting stays consistent without copying the stylesheet into every page.
 

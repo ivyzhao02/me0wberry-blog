@@ -39,8 +39,11 @@ function startServer() {
   const server = http.createServer((request, response) => {
     const filePath = localFileForRequest(request.url);
     if (!filePath || !fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
-      response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-      response.end('Not found.');
+      response.writeHead(404, {
+        'Cache-Control': 'no-store',
+        'Content-Type': 'text/html; charset=utf-8',
+      });
+      fs.createReadStream(path.join(ROOT, '404.html')).pipe(response);
       return;
     }
 
@@ -96,6 +99,33 @@ async function run() {
   const browser = await chromium.launch(browserOptions());
 
   try {
+    const missing = await browser.newPage({ viewport: { width: 1000, height: 760 } });
+    const missingAssetProblems = [];
+    missing.on('response', (response) => {
+      if (response.url().startsWith(baseUrl)
+          && response.request().resourceType() !== 'document'
+          && response.status() >= 400) {
+        missingAssetProblems.push(response.status() + ' ' + response.url());
+      }
+    });
+    const missingResponse = await missing.goto(baseUrl + '/missing/deeper/page', { waitUntil: 'domcontentloaded' });
+    await missing.waitForTimeout(250);
+    assert(missingResponse.status() === 404, 'nested missing route did not return the custom 404 status');
+    assert(await missing.locator('#error-heading').isVisible(), 'custom 404 content did not render at a nested URL');
+    assert(missingAssetProblems.length === 0, 'custom 404 requested broken nested assets:\n' + missingAssetProblems.join('\n'));
+    assert(
+      await missing.locator('.error-avatar img').evaluate((image) => image.complete && image.naturalWidth > 0),
+      'custom 404 image did not load at a nested URL',
+    );
+    assert(
+      await missing.locator('.error-actions a').first().evaluate((link) => {
+        const pathname = new URL(link.href).pathname;
+        return pathname === '/' || pathname === '/index.html';
+      }),
+      'custom 404 home link did not resolve to the site root',
+    );
+    await missing.close();
+
     const welcome = await openCheckedPage(browser, `${baseUrl}/`, { width: 1280, height: 800 });
     assert(new URL(welcome.url()).pathname === '/welcome/index.html', 'a fresh session did not begin on the welcome page');
     await welcome.evaluate(() => {
@@ -141,13 +171,25 @@ async function run() {
     assert(bioMetrics.widthGap <= 26, 'desktop Hello window does not fill the workspace width');
     assert(bioMetrics.heightGap <= 26, 'desktop Hello window does not fill the workspace height');
     assert(!bioMetrics.resizeVisible, 'full-sized Hello window still exposes its resize handle');
-    await desktop.locator('#bio-tabbar .tab-btn').filter({ hasText: 'find me' }).click();
+    const aboutTab = desktop.locator('#bio-tab-about');
+    assert(await aboutTab.getAttribute('role') === 'tab', 'Hello navigation is missing tab semantics');
+    await aboutTab.focus();
+    await aboutTab.press('ArrowRight');
+    assert(await desktop.locator('#bio-tab-likes').getAttribute('aria-selected') === 'true', 'Hello tabs did not support arrow-key selection');
+    assert(await desktop.locator('#bio-likes').isVisible(), 'Hello tab panel did not follow arrow-key selection');
+    await desktop.locator('#bio-tab-findme').click();
     assert(await desktop.locator('#bio-findme').isVisible(), 'Hello window tab did not switch');
-    await desktop.locator('#bio-findme button').filter({ hasText: 'discord' }).click();
+    const discordTrigger = desktop.locator('#bio-findme button').filter({ hasText: 'discord' });
+    await discordTrigger.click();
     assert(await desktop.locator('#discord-popup').isVisible(), 'Discord popup did not open');
-    await desktop.locator('#discord-popup .discord-ok').click();
+    assert(await desktop.locator('#discord-popup').getAttribute('role') === 'dialog', 'Discord popup is missing dialog semantics');
+    assert(await desktop.locator('#discord-popup').getAttribute('aria-hidden') === 'false', 'open Discord popup remained hidden from assistive technology');
+    await desktop.waitForFunction(() => document.activeElement?.classList.contains('discord-ok'));
+    assert(await desktop.locator('#discord-popup .discord-ok').evaluate((button) => button === document.activeElement), 'Discord popup did not receive focus');
+    await desktop.keyboard.press('Escape');
     assert(!await desktop.locator('#discord-popup').isVisible(), 'Discord popup did not close');
-    await desktop.locator('#bio-tabbar .tab-btn').filter({ hasText: 'about' }).click();
+    assert(await discordTrigger.evaluate((button) => button === document.activeElement), 'closing Discord did not restore focus');
+    await aboutTab.click();
     const gamesNav = desktop.locator('#sidebar [data-opens="panel-games"]');
     await gamesNav.focus();
     await gamesNav.press('Enter');
@@ -155,8 +197,17 @@ async function run() {
     assert(!await desktop.locator('#panel-bio').isVisible(), 'opening a content window did not close the previous one');
     await desktop.locator('#panel-games .panel-close').click();
     assert(!await desktop.locator('#panel-games').isVisible(), 'content window did not close');
+    assert(await gamesNav.evaluate((item) => item === document.activeElement), 'closing a content window did not restore focus');
     await desktop.locator('.taskbar-start').click();
     assert(await desktop.locator('#panel-bio').isVisible(), 'taskbar Start did not restore the Hello window');
+    const bioGamesLink = desktop.locator('#bio-about button.bio-topic-link').first();
+    await bioGamesLink.click();
+    assert(await desktop.locator('#panel-games').isVisible(), 'Hello topic link did not open its content window');
+    await desktop.locator('#panel-games .panel-close').click();
+    assert(
+      await gamesNav.evaluate((item) => item === document.activeElement),
+      'closing a window whose original opener became hidden did not focus its visible sidebar control',
+    );
     for (const category of ['games', 'music', 'food', 'stubby', 'beauty']) {
       const categoryLinks = desktop.locator(`#latest-${category} a[href], #posts-${category} a[href]`);
       assert(await categoryLinks.count() > 0, `${category} homepage panel has no post links`);
@@ -175,8 +226,10 @@ async function run() {
     const gifypetsPanel = desktop.locator('#panel-gifypet');
     assert(await gifypetsPanel.isVisible(), 'desktop Gifypets window did not open');
     assert(await gifypetsPanel.locator('[data-gifypet-stage="stubby"]').isVisible(), 'Stubby GifyPet is not the default tab');
-    await gifypetsPanel.locator('[data-gifypet-tab="cactus"]').click();
+    await gifypetsPanel.locator('[data-gifypet-tab="stubby"]').focus();
+    await gifypetsPanel.locator('[data-gifypet-tab="stubby"]').press('ArrowRight');
     assert(await gifypetsPanel.locator('[data-gifypet-stage="cactus"]').isVisible(), 'Cactus GifyPet tab did not open');
+    assert(await gifypetsPanel.locator('[data-gifypet-tab="cactus"]').getAttribute('aria-selected') === 'true', 'GifyPet arrow-key selection did not update tab state');
     await gifypetsPanel.locator('.panel-pin').click();
     assert(await gifypetsPanel.locator('.panel-pin').getAttribute('aria-pressed') === 'true', 'Gifypets window did not pin');
     await desktop.locator('#sidebar [data-opens="panel-games"]').click();
@@ -263,6 +316,25 @@ async function run() {
     await desktop.locator('#sidebar [data-opens="panel-player"]').click();
     assert(await desktop.locator('#panel-player').isVisible(), 'desktop player did not reopen after a session close');
     await desktop.close();
+
+    const blockedAudio = await openCheckedPage(
+      browser,
+      `${baseUrl}/?entered=1`,
+      { width: 1000, height: 760 },
+      (page) => page.addInitScript(() => {
+        HTMLMediaElement.prototype.play = function() {
+          return Promise.reject(new DOMException('Playback blocked for test.', 'NotAllowedError'));
+        };
+      }),
+    );
+    await blockedAudio.locator('#player-playpause').click();
+    await blockedAudio.waitForTimeout(50);
+    assert(
+      !await blockedAudio.locator('#player-playpause').evaluate((button) => button.classList.contains('is-playing')),
+      'player showed a playing state after audio playback was rejected',
+    );
+    assert(await blockedAudio.locator('#player-playpause').textContent() === '▶', 'blocked player did not restore its play control');
+    await blockedAudio.close();
 
     const mobile = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 390, height: 844 });
     const [mobileGifypetsPopup] = await Promise.all([
@@ -352,13 +424,23 @@ async function run() {
       },
     );
     await poll.waitForFunction(() => document.querySelector('[data-poll-status]')?.textContent.includes('pick one answer'));
+    const pollIdentity = await poll.evaluate(() => ({
+      id: document.querySelector('[data-monthly-poll]').dataset.pollId,
+      heading: document.querySelector('#monthly-poll-title').textContent.trim(),
+      nowDate: document.querySelector('.now-entry .panel-updated').textContent.trim(),
+    }));
+    const pollMonths = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+    const [pollMonth, pollYear] = pollIdentity.nowDate.toLowerCase().split(/\s+/);
+    const expectedPollId = pollYear + '-' + String(pollMonths.indexOf(pollMonth) + 1).padStart(2, '0');
+    assert(pollIdentity.id === expectedPollId, 'monthly poll ID is not synchronized with the current Now entry');
+    assert(pollIdentity.heading.startsWith(pollMonth + ' '), 'monthly poll heading is not synchronized with the current Now entry');
     const gamesPollOption = poll.locator('[data-poll-option="games"]');
     await gamesPollOption.click();
     await poll.waitForFunction(() => document.querySelector('[data-poll-status]')?.textContent.includes('you picked games'));
     assert(await gamesPollOption.getAttribute('class').then((value) => value.includes('is-selected')), 'monthly poll did not mark the saved choice');
     assert(await poll.locator('[data-poll-option]:not(:disabled)').count() === 0, 'monthly poll allowed a second vote');
     assert(
-      await poll.evaluate(() => localStorage.getItem('me0wberry_poll_2026-08')) === 'games',
+      await poll.evaluate((key) => localStorage.getItem(key), 'me0wberry_poll_' + pollIdentity.id) === 'games',
       'monthly poll did not save the vote locally',
     );
     await poll.reload({ waitUntil: 'domcontentloaded' });
@@ -537,6 +619,25 @@ async function run() {
     );
     assert(await directToybox.locator('.toybox-kaomoji').count() >= 80, 'direct-file trinkets did not load its kaomoji data');
     await directToybox.close();
+
+    const direct404 = await openCheckedPage(
+      browser,
+      pathToFileURL(path.join(ROOT, '404.html')).href,
+      { width: 1000, height: 760 },
+    );
+    assert(
+      await direct404.locator('.error-avatar img').evaluate((image) => image.complete && image.naturalWidth > 0),
+      'direct-file custom 404 image did not load',
+    );
+    assert(
+      await direct404.locator('.error-window').evaluate((element) => getComputedStyle(element).borderRadius !== '0px'),
+      'direct-file custom 404 styling did not load',
+    );
+    assert(
+      await direct404.locator('.error-actions a').first().evaluate((link) => link.href.startsWith('file:')),
+      'direct-file custom 404 home link did not stay local',
+    );
+    await direct404.close();
   } finally {
     await browser.close();
     await new Promise((resolve) => server.close(resolve));

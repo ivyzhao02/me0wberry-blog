@@ -27,6 +27,8 @@ const HOME_START = '<!-- generated-now-summary:start -->';
 const HOME_END = '<!-- generated-now-summary:end -->';
 const NOW_START = '<!-- generated-now-entry:start -->';
 const NOW_END = '<!-- generated-now-entry:end -->';
+const POLL_START = '<!-- generated-monthly-poll:start -->';
+const POLL_END = '<!-- generated-monthly-poll:end -->';
 const BUILD_START = '<!-- generated-build:start -->';
 const BUILD_END = '<!-- generated-build:end -->';
 const STATIC_HOME_NOTE = "hi ! if you're reading this , thank you for checking out my site (˶ᵔ ᵕ ᵔ˶) i hope you'll enjoy visiting & reading the rest ( ˘ ³˘)♡";
@@ -255,6 +257,39 @@ ${post.contentHtml}
 ${NOW_END}`;
 }
 
+function buildMonthlyPoll(post) {
+  const months = [
+    'january', 'february', 'march', 'april', 'may', 'june',
+    'july', 'august', 'september', 'october', 'november', 'december',
+  ];
+  const match = /^([a-z]+)\s+(\d{4})$/i.exec(String(post.date).trim());
+  const monthName = match ? match[1].toLowerCase() : '';
+  const monthIndex = months.indexOf(monthName);
+  if (!match || monthIndex < 0) {
+    throw new Error('The latest Now date must use the format "month year" to build the monthly poll.');
+  }
+
+  const pollId = match[2] + '-' + String(monthIndex + 1).padStart(2, '0');
+  const options = ['now', 'games', 'music', 'food', 'stubby', 'beauty']
+    .map((option) => '              <button class="monthly-poll-option" type="button" data-poll-option="' + option + '"><span class="monthly-poll-label">' + option + '</span><span class="monthly-poll-count" data-poll-count>...</span><span class="monthly-poll-bar" aria-hidden="true"><span data-poll-fill></span></span></button>')
+    .join('\n');
+
+  return [
+    POLL_START,
+    '          <section class="monthly-poll" data-monthly-poll data-poll-id="' + pollId + '" aria-labelledby="monthly-poll-title">',
+    '            <div class="pixel-tag">/ tiny poll</div>',
+    '            <h2 id="monthly-poll-title">' + monthName + ' question ♡</h2>',
+    '            <p class="monthly-poll-question">what do you like reading most on me0wberry.com ?</p>',
+    '            <div class="monthly-poll-options">',
+    options,
+    '            </div>',
+    '            <p class="monthly-poll-status" data-poll-status aria-live="polite">counting votes . . .</p>',
+    '            <p class="monthly-poll-note">one choice per browser · anonymous counts by <a href="https://counterapi.com/" target="_blank" rel="noopener">counterapi ↗</a></p>',
+    '          </section>',
+    POLL_END,
+  ].join('\n');
+}
+
 function replaceMarkedContent(source, start, end, replacement, fileName) {
   const startIndex = source.indexOf(start);
   const endIndex = source.indexOf(end);
@@ -331,6 +366,14 @@ function buildSiteData({ write = true } = {}) {
   const nowSource = fs.readFileSync(nowPath, 'utf8');
   const systemSource = fs.readFileSync(systemPath, 'utf8');
   const archiveTemplate = fs.readFileSync(ARCHIVE_TEMPLATE, 'utf8');
+  const nowWithEntry = replaceMarkedContent(nowSource, NOW_START, NOW_END, buildNowEntry(latestNow), 'now/index.html');
+  const builtNowPage = replaceMarkedContent(
+    nowWithEntry,
+    POLL_START,
+    POLL_END,
+    buildMonthlyPoll(latestNow),
+    'now/index.html',
+  );
   const outputs = [
     {
       file: 'style.css',
@@ -358,7 +401,7 @@ function buildSiteData({ write = true } = {}) {
     },
     {
       file: 'now/index.html',
-      contents: replaceMarkedContent(nowSource, NOW_START, NOW_END, buildNowEntry(latestNow), 'now/index.html'),
+      contents: builtNowPage,
     },
     {
       file: 'system/index.html',

@@ -8,7 +8,7 @@
   "summary": {
     "files": 96,
     "original_bytes": 338954151,
-    "optimized_bytes": 83651550,
+    "optimized_bytes": 83645930,
     "changed_reference_files": 26
   },
   "files": [
@@ -16,7 +16,7 @@
       "source": "images/food/img-6863.png",
       "output": "images/food/img-6863.webp",
       "original_bytes": 20422873,
-      "optimized_bytes": 615362,
+      "optimized_bytes": 612546,
       "width": 1920,
       "height": 2560,
       "psnr_db": 41.58
@@ -835,7 +835,7 @@
       "source": "images/food/img-6142.jpg",
       "output": "images/food/img-6142.webp",
       "original_bytes": 1865251,
-      "optimized_bytes": 381094,
+      "optimized_bytes": 378290,
       "width": 1920,
       "height": 2560,
       "psnr_db": 42.9

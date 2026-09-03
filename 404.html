@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>page not found — me0wberry</title>
+  <base id="page-base" href="/">
+  <script>
+    if (window.location.protocol === 'file:') {
+      document.getElementById('page-base').setAttribute('href', './');
+    }
+  </script>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script src="theme-loader.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">

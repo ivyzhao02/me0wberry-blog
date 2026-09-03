@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 const { buildSiteData } = require('./build-site-data');
+const { hasGpsCoordinatesInExif, imageHasGpsCoordinates } = require('./image-metadata');
 const { ARCHIVE_CATEGORIES } = require('./site-config');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -26,7 +27,17 @@ const files = walk(ROOT);
 const relativeFiles = files.map(relativePath);
 const exactFiles = new Set(relativeFiles);
 const caseMap = new Map(relativeFiles.map(file => [file.toLowerCase(), file]));
+const publicStillFiles = relativeFiles.filter(file =>
+  /\.(?:jpe?g|png|webp)$/i.test(file) && !file.startsWith('tools/'));
 const errors = [];
+const gpsExifFixture = Buffer.from(
+  '4d4d002a00000008000188250004000000010000001a00000000000100020005000000030000002c00000000',
+  'hex',
+);
+
+if (!hasGpsCoordinatesInExif(gpsExifFixture)) {
+  errors.push('image metadata privacy detector failed its GPS fixture check');
+}
 
 function resolveLocalReference(sourceFile, reference) {
   const cleanReference = reference.split(/[?#]/)[0];
@@ -64,7 +75,11 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
 
   for (const match of source.matchAll(/\b(?:src|href|data-src)=["']([^"']+)["']/gi)) {
     const reference = match[1];
-    if (reference.startsWith('/') && !reference.startsWith('//')) {
+    const tagStart = source.lastIndexOf('<', match.index);
+    const tagEnd = source.indexOf('>', match.index);
+    const containingTag = tagStart >= 0 && tagEnd >= 0 ? source.slice(tagStart, tagEnd + 1) : '';
+    const isBaseReference = /^<base\b/i.test(containingTag);
+    if (reference.startsWith('/') && !reference.startsWith('//') && !isBaseReference) {
       errors.push(`${file}: root-relative local reference ${reference} breaks direct file previews`);
     }
     checkReference(file, reference);
@@ -136,7 +151,7 @@ for (const file of relativeFiles.filter(file => /^images\/.*\.(?:heic|heif)$/i.t
   errors.push(`${file}: HEIC/HEIF photos must be converted to a browser-safe format`);
 }
 
-for (const file of relativeFiles.filter(file => /^images\/.*\.(?:jpe?g|png|webp)$/i.test(file))) {
+for (const file of publicStillFiles) {
   const size = fs.statSync(path.join(ROOT, file)).size;
   if (size > MAX_PUBLIC_IMAGE_BYTES) {
     errors.push(`${file}: public still image is over 2 MB (use Post Studio optimization or the media tool)`);
@@ -196,10 +211,35 @@ try {
   errors.push(`generated site data could not be checked (${error.message})`);
 }
 
-if (errors.length) {
-  console.error(`site check found ${errors.length} problem${errors.length === 1 ? '' : 's'}:\n`);
-  console.error(errors.map(error => `- ${error}`).join('\n'));
-  process.exitCode = 1;
-} else {
-  console.log(`site check passed: ${relativeFiles.filter(file => file.endsWith('.html')).length} HTML pages, ${relativeFiles.filter(file => file.endsWith('.json')).length} JSON indexes, and ${relativeFiles.filter(file => file.endsWith('.js')).length} scripts checked.`);
+async function checkImagePrivacy() {
+  const metadataErrors = [];
+  const batchSize = 16;
+
+  for (let index = 0; index < publicStillFiles.length; index += batchSize) {
+    const batch = publicStillFiles.slice(index, index + batchSize);
+    await Promise.all(batch.map(async (file) => {
+      try {
+        if (await imageHasGpsCoordinates(path.join(ROOT, file))) {
+          metadataErrors.push(file + ': public image contains GPS location metadata');
+        }
+      } catch (error) {
+        metadataErrors.push(file + ': image metadata could not be inspected (' + error.message + ')');
+      }
+    }));
+  }
+
+  errors.push(...metadataErrors.sort());
 }
+
+checkImagePrivacy().then(() => {
+  if (errors.length) {
+    console.error(`site check found ${errors.length} problem${errors.length === 1 ? '' : 's'}:\n`);
+    console.error(errors.map(error => `- ${error}`).join('\n'));
+    process.exitCode = 1;
+  } else {
+    console.log(`site check passed: ${relativeFiles.filter(file => file.endsWith('.html')).length} HTML pages, ${relativeFiles.filter(file => file.endsWith('.json')).length} JSON indexes, and ${relativeFiles.filter(file => file.endsWith('.js')).length} scripts checked.`);
+  }
+}).catch((error) => {
+  console.error(`site check could not finish (${error.message})`);
+  process.exitCode = 1;
+});

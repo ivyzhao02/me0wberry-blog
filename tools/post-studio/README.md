@@ -21,7 +21,8 @@ The tool writes post HTML into `posts/<category>/`, updates the matching `index.
 Image behavior:
 
 - Selected images become gallery images in `images/<category>/`.
-- Large JPEG and PNG uploads are optimized to WebP by default, up to 2560px on the longest edge. Uncheck the optimization option to keep an original file.
+- Large JPEG and PNG uploads are optimized to WebP by default, up to 2560px on the longest edge. Uncheck the optimization option to keep the original dimensions and file type.
+- Embedded EXIF/XMP data is removed from uploaded still images so location and device metadata are not published.
 - HEIC and HEIF photos are always converted to WebP so they display reliably in browsers.
 - GIFs and other unsupported browser image formats are left untouched.
 - Existing images can be reused by entering their exact filenames, one per line.

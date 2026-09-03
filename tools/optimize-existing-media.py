@@ -64,9 +64,6 @@ def encode_candidate(source_path):
         if image.mode == "RGBA":
             save_options["exact"] = True
 
-        exif = image.getexif()
-        if exif:
-            save_options["exif"] = exif.tobytes()
         icc_profile = source.info.get("icc_profile")
         if icc_profile:
             save_options["icc_profile"] = icc_profile

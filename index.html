@@ -250,17 +250,17 @@
         </div>
 
         <!-- Windows-style tab bar -->
-        <div class="tab-bar" id="bio-tabbar">
-          <button class="tab-btn active" onclick="switchTab(this,'bio-about','bio-tabbar')">✦ about</button>
-          <button class="tab-btn" onclick="switchTab(this,'bio-likes','bio-tabbar')">♡ likes</button>
-          <button class="tab-btn" onclick="switchTab(this,'bio-dni','bio-tabbar')">✿ dni</button>
-          <button class="tab-btn" onclick="switchTab(this,'bio-findme','bio-tabbar')">★ find me</button>
+        <div class="tab-bar" id="bio-tabbar" role="tablist" aria-label="hello sections">
+          <button class="tab-btn active" id="bio-tab-about" type="button" role="tab" aria-selected="true" aria-controls="bio-about" onclick="switchTab(this,'bio-about','bio-tabbar')">✦ about</button>
+          <button class="tab-btn" id="bio-tab-likes" type="button" role="tab" aria-selected="false" aria-controls="bio-likes" tabindex="-1" onclick="switchTab(this,'bio-likes','bio-tabbar')">♡ likes</button>
+          <button class="tab-btn" id="bio-tab-dni" type="button" role="tab" aria-selected="false" aria-controls="bio-dni" tabindex="-1" onclick="switchTab(this,'bio-dni','bio-tabbar')">✿ dni</button>
+          <button class="tab-btn" id="bio-tab-findme" type="button" role="tab" aria-selected="false" aria-controls="bio-findme" tabindex="-1" onclick="switchTab(this,'bio-findme','bio-tabbar')">★ find me</button>
         </div>
 
         <div class="panel-body">
 
           <!-- Tab 1: about -->
-          <div class="tab-content active" id="bio-about">
+          <div class="tab-content active" id="bio-about" role="tabpanel" aria-labelledby="bio-tab-about">
             <div class="kitten-corner">
               <a class="kitten-profile-link" href="info/index.html" title="open the full me0wberry profile">
                 <img src="images/cat-avatar_2.png" alt="cat avatar" style="width:100%; height:auto; display:block;"/>
@@ -306,7 +306,7 @@
           </div><!-- /bio-about -->
 
           <!-- Tab 2: likes -->
-          <div class="tab-content" id="bio-likes">
+          <div class="tab-content" id="bio-likes" role="tabpanel" aria-labelledby="bio-tab-likes" hidden>
             <div class="likes-cols">
               <div class="likes-col">
                 <div class="likes-col-title">likes ♡</div>
@@ -339,7 +339,7 @@
           </div><!-- /bio-likes -->
 
           <!-- Tab 3: dni -->
-          <div class="tab-content" id="bio-dni">
+          <div class="tab-content" id="bio-dni" role="tabpanel" aria-labelledby="bio-tab-dni" hidden>
             <div class="pixel-tag">/ dni</div>
             <ul class="dni-list">
               <li>minors (under 18)</li>
@@ -360,7 +360,7 @@
           </div><!-- /bio-dni -->
 
           <!-- Tab 4: find me -->
-          <div class="tab-content" id="bio-findme">
+          <div class="tab-content" id="bio-findme" role="tabpanel" aria-labelledby="bio-tab-findme" hidden>
             <div class="find-me-grid">
             <a class="pixel-btn" href="info/index.html">view info page ↗</a>
               <button class="pixel-btn" onclick="showDiscordPopup()">discord</button>
@@ -758,12 +758,12 @@
         <div class="panel-body gifypet-panel-body" data-utility-content="gifypets">
           <div class="gifypet-tabs" role="tablist" aria-label="choose a GifyPet">
             <button class="gifypet-tab is-active" id="gifypet-tab-stubby" type="button" role="tab" data-gifypet-tab="stubby" aria-controls="gifypet-stage-stubby" aria-selected="true" onclick="showGifypet('stubby')">🐾 stubby</button>
-            <button class="gifypet-tab" id="gifypet-tab-cactus" type="button" role="tab" data-gifypet-tab="cactus" aria-controls="gifypet-stage-cactus" aria-selected="false" onclick="showGifypet('cactus')">🌵 cactus</button>
+            <button class="gifypet-tab" id="gifypet-tab-cactus" type="button" role="tab" data-gifypet-tab="cactus" aria-controls="gifypet-stage-cactus" aria-selected="false" tabindex="-1" onclick="showGifypet('cactus')">🌵 cactus</button>
           </div>
           <div class="gifypet-stage is-active" id="gifypet-stage-stubby" role="tabpanel" data-gifypet-stage="stubby" aria-labelledby="gifypet-tab-stubby">
             <iframe width="314" height="321" scrolling="no" title="Stubby virtual GifyPet" src="https://me0wberry.com/gifypet/pet.html?name=Stubby&dob=1775770472&gender=f&element=Fire&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fstubby-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgrass-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42" frameborder="0"></iframe>
           </div>
-          <div class="gifypet-stage" id="gifypet-stage-cactus" role="tabpanel" data-gifypet-stage="cactus" aria-labelledby="gifypet-tab-cactus">
+          <div class="gifypet-stage" id="gifypet-stage-cactus" role="tabpanel" data-gifypet-stage="cactus" aria-labelledby="gifypet-tab-cactus" hidden>
             <iframe width="314" height="321" scrolling="no" title="Cactus virtual GifyPet" src="https://me0wberry.com/gifypet/pet.html?name=Cactus&dob=1775772452&gender=m&element=Earth&pet=https%3A%2F%2Fme0wberry.com%2Fimages%2Fcactus-gifypet.png&map=https%3A%2F%2Fme0wberry.com%2Fimages%2Fgingham-map-200.jpg&background=&tablecolor=%23ffffff&textcolor=%234a3a42" frameborder="0"></iframe>
           </div>
         </div>
@@ -885,9 +885,9 @@
 
   
   <!-- ── Discord Mini Popup ── -->
-  <div id="discord-popup">
+  <div id="discord-popup" role="dialog" aria-modal="true" aria-labelledby="discord-popup-title" aria-hidden="true">
     <div class="discord-titlebar" id="discord-titlebar">
-      <span>discord</span>
+      <span id="discord-popup-title">discord</span>
       <div class="panel-close" onclick="hideDiscordPopup()">✕</div>
     </div>
     <div class="discord-body">

@@ -26,6 +26,24 @@
       playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
     }
 
+    function tryPlay() {
+      let playRequest;
+      try {
+        playRequest = audio.play();
+      } catch (error) {
+        setPlayPauseState(false);
+        return Promise.resolve(false);
+      }
+
+      return Promise.resolve(playRequest).then(function() {
+        setPlayPauseState(true);
+        return true;
+      }).catch(function() {
+        setPlayPauseState(false);
+        return false;
+      });
+    }
+
     function checkMarquee() {
       const container = marqueeWrap.parentElement;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -93,13 +111,7 @@
       seekPlayer(state.currentTime);
 
       if (state.playing && options.resume) {
-        const resume = function() {
-          audio.play().then(function() {
-            setPlayPauseState(true);
-          }).catch(function() {
-            setPlayPauseState(false);
-          });
-        };
+        const resume = function() { tryPlay(); };
         if (audio.readyState >= 2) resume();
         else audio.addEventListener('canplay', resume, { once: true });
       }
@@ -107,8 +119,7 @@
 
     function playerToggle() {
       if (audio.paused) {
-        audio.play().catch(function() {}); // handle missing file gracefully
-        setPlayPauseState(true);
+        tryPlay();
       } else {
         audio.pause();
         setPlayPauseState(false);
@@ -118,14 +129,14 @@
     function playerNext() {
       const wasPlaying = !audio.paused;
       loadTrack((currentTrack + 1) % tracks.length);
-      if (wasPlaying) { audio.play().catch(function(){}); setPlayPauseState(true); }
+      if (wasPlaying) tryPlay();
     }
 
     function playerPrev() {
       if (audio.currentTime > 3) { audio.currentTime = 0; return; }
       const wasPlaying = !audio.paused;
       loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
-      if (wasPlaying) { audio.play().catch(function(){}); setPlayPauseState(true); }
+      if (wasPlaying) tryPlay();
     }
 
     function playerPlayTrack(trackId) {
@@ -133,11 +144,7 @@
       if (trackIndex < 0) return;
       loadTrack(trackIndex);
       openPanel('panel-player');
-      audio.play().then(function() {
-        setPlayPauseState(true);
-      }).catch(function() {
-        setPlayPauseState(false);
-      });
+      tryPlay();
     }
 
     window.playerPlayTrack = playerPlayTrack;
@@ -160,6 +167,9 @@
       totalTimeEl.textContent = fmtTime(audio.duration);
     });
 
+    audio.addEventListener('play', function() { setPlayPauseState(true); });
+    audio.addEventListener('pause', function() { setPlayPauseState(false); });
+    audio.addEventListener('error', function() { setPlayPauseState(false); });
     audio.addEventListener('ended', playerNext);
 
     progressEl.addEventListener('input', function() {

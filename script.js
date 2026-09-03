@@ -236,7 +236,9 @@
       player: { panelId: 'panel-player', width: 280, rightOffset: 20, popupWidth: 340, popupHeight: 330 },
     };
     const utilityPopouts = new Map();
+    const panelOpeners = new Map();
     const playerVisibilitySubscribers = new Set();
+    let discordPopupOpener = null;
     let playerVisibility = null;
     let playerVisibilityReady = false;
     let playerVisibilityChannel = null;
@@ -551,15 +553,19 @@
         const isActive = tab.dataset.gifypetTab === pet;
         tab.classList.toggle('is-active', isActive);
         tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        tab.tabIndex = isActive ? 0 : -1;
       });
       panel.querySelectorAll('[data-gifypet-stage]').forEach(stage => {
-        stage.classList.toggle('is-active', stage.dataset.gifypetStage === pet);
+        const isActive = stage.dataset.gifypetStage === pet;
+        stage.classList.toggle('is-active', isActive);
+        stage.hidden = !isActive;
       });
     }
 
     function openGifypetPanel(pet = 'stubby') {
       const panel = document.getElementById('panel-gifypet');
       if (!panel) return;
+      rememberPanelOpener('panel-gifypet', panel);
 
       const popout = liveUtilityPopout('gifypets');
       if (popout) {
@@ -591,9 +597,27 @@
 
     // ── Panel widths ──
     // ── Open / Close ──
+    function rememberPanelOpener(id, panel) {
+      const opener = document.activeElement;
+      if (!opener || opener === document.body || panel.contains(opener) || typeof opener.focus !== 'function') return;
+      panelOpeners.set(id, opener);
+    }
+
+    function restorePanelFocus(id) {
+      let opener = panelOpeners.get(id);
+      panelOpeners.delete(id);
+      if (!opener?.isConnected || opener.getClientRects().length === 0) {
+        opener = Array.from(document.querySelectorAll('[data-opens="' + id + '"]'))
+          .find(element => element.getClientRects().length > 0);
+      }
+      if (!opener || typeof opener.focus !== 'function') return;
+      opener.focus({ preventScroll: true });
+    }
+
     function openPanel(id) {
       const panel = document.getElementById(id);
       if (!panel) return;
+      rememberPanelOpener(id, panel);
       if (id === 'panel-player') rememberPlayerVisibility(true);
       panel.removeAttribute('hidden');
 
@@ -658,12 +682,16 @@
         if (bio) bio.classList.add('active');
       }
       updateTaskbar();
+      restorePanelFocus(id);
     }
 
     function mobileBack() {
+      const openPanelIds = Array.from(document.querySelectorAll('.panel.open')).map(panel => panel.id);
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
       document.body.classList.remove('mobile-panel');
       updateTaskbar();
+      const lastOpenedId = [...openPanelIds].reverse().find(id => panelOpeners.has(id));
+      if (lastOpenedId) restorePanelFocus(lastOpenedId);
     }
 
     function focusTaskbarPanel(id) {
@@ -680,6 +708,7 @@
       }
 
       if (panel.classList.contains('open')) {
+        rememberPanelOpener(id, panel);
         bringToFront(panel);
         updateTaskbar();
         return;
@@ -764,7 +793,11 @@
       });
     }
 
-    document.addEventListener('DOMContentLoaded', initKeyboardControls);
+    document.addEventListener('DOMContentLoaded', function() {
+      initKeyboardControls();
+      initTabLists();
+      initDiscordDialog();
+    });
 
     // ── Drag (from reference) ──
     (function() {
@@ -845,22 +878,108 @@
     // ── Tab switching ──
     function switchTab(btn, targetId, tabbarId) {
       const tabbar = document.getElementById(tabbarId);
-      tabbar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      if (!tabbar) return;
+      tabbar.querySelectorAll('[role="tab"]').forEach(tab => {
+        const isActive = tab === btn;
+        tab.classList.toggle('active', isActive);
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        tab.tabIndex = isActive ? 0 : -1;
+      });
       const body = tabbar.nextElementSibling; // .panel-body
-      body.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-      document.getElementById(targetId).classList.add('active');
+      if (!body) return;
+      body.querySelectorAll('[role="tabpanel"]').forEach(panel => {
+        const isActive = panel.id === targetId;
+        panel.classList.toggle('active', isActive);
+        panel.hidden = !isActive;
+      });
+    }
+
+    function initTabLists() {
+      document.querySelectorAll('[role="tablist"]').forEach(tablist => {
+        tablist.addEventListener('keydown', event => {
+          const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+          const currentIndex = tabs.indexOf(event.target.closest('[role="tab"]'));
+          if (currentIndex < 0) return;
+
+          let nextIndex = null;
+          if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (currentIndex + 1) % tabs.length;
+          if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+          if (event.key === 'Home') nextIndex = 0;
+          if (event.key === 'End') nextIndex = tabs.length - 1;
+          if (nextIndex === null) return;
+
+          event.preventDefault();
+          tabs[nextIndex].click();
+          tabs[nextIndex].focus();
+        });
+      });
     }
 
     // ── Discord popup ──
+    function initDiscordDialog() {
+      const popup = document.getElementById('discord-popup');
+      if (!popup) return;
+      const title = popup.querySelector('.discord-titlebar span');
+      if (title && !title.id) title.id = 'discord-popup-title';
+      popup.setAttribute('role', 'dialog');
+      popup.setAttribute('aria-modal', 'true');
+      popup.setAttribute('aria-hidden', popup.classList.contains('open') ? 'false' : 'true');
+      if (title) popup.setAttribute('aria-labelledby', title.id);
+    }
+
     function showDiscordPopup() {
       const popup = document.getElementById('discord-popup');
+      if (!popup) return;
+      const opener = document.activeElement;
+      if (opener && opener !== document.body && typeof opener.focus === 'function') {
+        discordPopupOpener = opener;
+      }
       popup.classList.add('open');
+      popup.setAttribute('aria-hidden', 'false');
       popup.style.zIndex = ++zTop;
+      requestAnimationFrame(() => {
+        const initialFocus = popup.querySelector('.discord-ok') || popup.querySelector('.panel-close');
+        initialFocus?.focus();
+      });
     }
+
     function hideDiscordPopup() {
-      document.getElementById('discord-popup').classList.remove('open');
+      const popup = document.getElementById('discord-popup');
+      if (!popup) return;
+      popup.classList.remove('open');
+      popup.setAttribute('aria-hidden', 'true');
+      const opener = discordPopupOpener;
+      discordPopupOpener = null;
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
     }
+
+    document.addEventListener('keydown', function(event) {
+      const popup = document.getElementById('discord-popup');
+      if (!popup?.classList.contains('open')) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        hideDiscordPopup();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const focusable = Array.from(popup.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'))
+        .filter(element => element.getClientRects().length > 0);
+      if (!focusable.length) {
+        event.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
 
     // discord popup draggable
     (function() {
@@ -932,6 +1051,24 @@
       playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
     }
 
+    function tryPlay() {
+      let playRequest;
+      try {
+        playRequest = audio.play();
+      } catch (error) {
+        setPlayPauseState(false);
+        return Promise.resolve(false);
+      }
+
+      return Promise.resolve(playRequest).then(function() {
+        setPlayPauseState(true);
+        return true;
+      }).catch(function() {
+        setPlayPauseState(false);
+        return false;
+      });
+    }
+
     function checkMarquee() {
       const container = marqueeWrap.parentElement;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -999,13 +1136,7 @@
       seekPlayer(state.currentTime);
 
       if (state.playing && options.resume) {
-        const resume = function() {
-          audio.play().then(function() {
-            setPlayPauseState(true);
-          }).catch(function() {
-            setPlayPauseState(false);
-          });
-        };
+        const resume = function() { tryPlay(); };
         if (audio.readyState >= 2) resume();
         else audio.addEventListener('canplay', resume, { once: true });
       }
@@ -1013,8 +1144,7 @@
 
     function playerToggle() {
       if (audio.paused) {
-        audio.play().catch(function() {}); // handle missing file gracefully
-        setPlayPauseState(true);
+        tryPlay();
       } else {
         audio.pause();
         setPlayPauseState(false);
@@ -1024,14 +1154,14 @@
     function playerNext() {
       const wasPlaying = !audio.paused;
       loadTrack((currentTrack + 1) % tracks.length);
-      if (wasPlaying) { audio.play().catch(function(){}); setPlayPauseState(true); }
+      if (wasPlaying) tryPlay();
     }
 
     function playerPrev() {
       if (audio.currentTime > 3) { audio.currentTime = 0; return; }
       const wasPlaying = !audio.paused;
       loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
-      if (wasPlaying) { audio.play().catch(function(){}); setPlayPauseState(true); }
+      if (wasPlaying) tryPlay();
     }
 
     function playerPlayTrack(trackId) {
@@ -1039,11 +1169,7 @@
       if (trackIndex < 0) return;
       loadTrack(trackIndex);
       openPanel('panel-player');
-      audio.play().then(function() {
-        setPlayPauseState(true);
-      }).catch(function() {
-        setPlayPauseState(false);
-      });
+      tryPlay();
     }
 
     window.playerPlayTrack = playerPlayTrack;
@@ -1066,6 +1192,9 @@
       totalTimeEl.textContent = fmtTime(audio.duration);
     });
 
+    audio.addEventListener('play', function() { setPlayPauseState(true); });
+    audio.addEventListener('pause', function() { setPlayPauseState(false); });
+    audio.addEventListener('error', function() { setPlayPauseState(false); });
     audio.addEventListener('ended', playerNext);
 
     progressEl.addEventListener('input', function() {

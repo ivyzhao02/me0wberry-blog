@@ -158,8 +158,8 @@
     </div>
   </div>
 
-  <div id="discord-popup">
-    <div class="discord-titlebar" id="discord-titlebar"><span>discord</span><div class="panel-close" onclick="hideDiscordPopup()">✕</div></div>
+  <div id="discord-popup" role="dialog" aria-modal="true" aria-labelledby="discord-popup-title" aria-hidden="true">
+    <div class="discord-titlebar" id="discord-titlebar"><span id="discord-popup-title">discord</span><div class="panel-close" onclick="hideDiscordPopup()">✕</div></div>
     <div class="discord-body"><p>ask! (=^･^=)</p><button class="discord-ok" onclick="hideDiscordPopup()">ok</button></div>
   </div>
 
