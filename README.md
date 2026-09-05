@@ -12,6 +12,8 @@ Personal static site and blog for [me0wberry.com](https://me0wberry.com).
 
 Post Studio writes posts into `posts/<category>/`, updates the matching `index.json`, stores new gallery images in `images/<category>/`, and refreshes all generated site data automatically. The internal `lately` category name is retained for existing paths, but its visitor-facing name is `now`.
 
+`tools/google-tag.js` owns the site's Google Analytics tag. The build adds it to new visitor-facing HTML files, Post Studio includes it in future posts, and `tools/check-site.js` requires exactly one copy per public page. The local Post Studio interface is intentionally excluded from analytics.
+
 Post Studio's recommended image option converts new JPEG/PNG uploads to quality-90 WebP files no larger than 2560px on the longest edge. Uploaded still images and historically optimized photos have private EXIF/XMP metadata removed; `tools/check-site.js` rejects public images containing GPS coordinates and keeps JPEG, PNG, and WebP assets under 2 MB. GIFs and videos retain their original formats and loading behavior.
 
 ## Public pages

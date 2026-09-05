@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 const { buildSiteData } = require('./build-site-data');
+const { googleTagErrors } = require('./google-tag');
 const { hasGpsCoordinatesInExif, imageHasGpsCoordinates } = require('./image-metadata');
 const { ARCHIVE_CATEGORIES } = require('./site-config');
 
@@ -68,7 +69,9 @@ function checkReference(sourceFile, reference) {
 }
 
 for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.startsWith('tools/'))) {
-  const source = fs.readFileSync(path.join(ROOT, file), 'utf8').replace(/<!--[\s\S]*?-->/g, '');
+  const rawSource = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  for (const error of googleTagErrors(rawSource)) errors.push(`${file}: ${error}`);
+  const source = rawSource.replace(/<!--[\s\S]*?-->/g, '');
   const ids = [...source.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]);
   const seenIds = new Set();
 
@@ -109,6 +112,11 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
   if (/\b(?:page-back-link|info-home-link|shrine-back-link)\b/.test(source)) {
     errors.push(`${file}: legacy page navigation class is still present`);
   }
+}
+
+const archiveTemplateSource = fs.readFileSync(path.join(ROOT, 'tools', 'templates', 'archive-category.html'), 'utf8');
+for (const error of googleTagErrors(archiveTemplateSource)) {
+  errors.push(`tools/templates/archive-category.html: ${error}`);
 }
 
 const requiredPages = new Map([

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 const { ARCHIVE_CATEGORIES, CATEGORY_IDS } = require('./site-config');
+const { tagPublicHtmlFiles } = require('./google-tag');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_URL = 'https://me0wberry.com';
@@ -355,6 +356,8 @@ function repositoryBuildLabel() {
 }
 
 function buildSiteData({ write = true } = {}) {
+  if (write) tagPublicHtmlFiles(ROOT);
+
   const posts = readPosts();
   const latestNow = posts.find((post) => post.category === 'lately');
   if (!latestNow) throw new Error('No now post is available to build the current page.');

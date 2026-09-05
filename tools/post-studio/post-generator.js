@@ -1,5 +1,6 @@
 const path = require('path');
 const { CATEGORY_IDS } = require('../site-config');
+const { GOOGLE_TAG_SNIPPET } = require('../google-tag');
 
 const CATEGORIES = new Set(CATEGORY_IDS);
 const GALLERY_CATEGORIES = CATEGORIES;
@@ -189,6 +190,7 @@ function buildPostHtml(post) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
+${GOOGLE_TAG_SNIPPET}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${safeTitle} — me0wberry</title>
