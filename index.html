@@ -270,47 +270,81 @@
 
           <!-- Tab 1: about -->
           <div class="tab-content active" id="bio-about" role="tabpanel" aria-labelledby="bio-tab-about">
-            <div class="kitten-corner">
-              <a class="kitten-profile-link" href="info/index.html" title="open the full me0wberry profile">
-                <img src="images/cat-avatar_2.png" alt="cat avatar" style="width:100%; height:auto; display:block;"/>
-                <span>full profile ↗</span>
-              </a>
-              <div class="ilmbf-trigger" onclick="openStubbyGifypet()" style="display:block; width:100%; text-align:center; margin-top:6px; font-size:11px; color:var(--muted);">play with the gifypet cat! ↗</div>
-            </div>
+            <div class="bio-about-stage">
+              <div class="bio-profile-card">
+                <div class="stat-block">
+                  <div>she/her</div>
+                  <div>24 · aries · 🐴</div>
+                  <div class="stat-flags">🇨🇦 🇨🇳</div>
+                  <div>eng / 中文</div>
+                  <div>INFP-T ₊˚ʚ ᗢ₊˚✧</div>
+                </div>
 
-            <div class="stat-block">
-              <div>she/her</div>
-              <div>24 · aries · 🐴</div>
-              <div class="stat-flags">🇨🇦 🇨🇳</div>
-              <div>eng / 中文</div>
-              <div>INFP-T ₊˚ʚ ᗢ₊˚✧</div>
-            </div>
+                <div class="kitten-corner">
+                  <a class="kitten-profile-link" href="info/index.html" title="open the full me0wberry profile">
+                    <img src="images/cat-avatar_2.png" alt="cat avatar" width="300" height="300"/>
+                    <span>full profile ↗</span>
+                  </a>
+                  <div class="ilmbf-trigger" onclick="openStubbyGifypet()" style="display:block; width:100%; text-align:center; margin-top:6px; font-size:11px; color:var(--muted);">play with the gifypet cat! ↗</div>
+                </div>
+              </div>
 
-            <hr class="dashed-divider" style="clear:both;"/>
+              <div class="bio-current-card">
+                <div class="currently-header">Currently</div>
+                <div class="currently-row">
+                  <span class="currently-label">playing</span>
+                  <button class="bio-topic-link" onclick="openPanel('panel-games')">
+                    <span>tomodachi life / pokemon go / pk scarlet</span>
+                    <span class="bio-topic-hint">games ↗</span>
+                  </button>
+                </div>
+                <div class="currently-row">
+                  <span class="currently-label">listening</span>
+                  <button class="bio-topic-link" onclick="openPanel('panel-music')">
+                    <span>cykim / PRYVT / other favs</span>
+                    <span class="bio-topic-hint">music ↗</span>
+                  </button>
+                </div>
+                <div class="currently-row">
+                  <span class="currently-label">planning</span>
+                  <span>activities w my <span class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')">♡</span></span>
+                  <a class="bio-topic-hint" href="now/index.html">now ↗</a>
+                </div>
+                <div class="currently-row">
+                  <span class="currently-label">helping</span>
+                  <span class="project-inline-link" onclick="openPanel('panel-projects')">blightfall ˖°</span>
+                </div>
+              </div>
 
-            <div class="currently-header">Currently</div>
-            <div class="currently-row">
-              <span class="currently-label">playing</span>
-              <button class="bio-topic-link" onclick="openPanel('panel-games')">
-                <span>tomodachi life / pokemon go / pk scarlet</span>
-                <span class="bio-topic-hint">games ↗</span>
-              </button>
-            </div>
-            <div class="currently-row">
-              <span class="currently-label">listening</span>
-              <button class="bio-topic-link" onclick="openPanel('panel-music')">
-                <span>cykim / PRYVT / other favs</span>
-                <span class="bio-topic-hint">music ↗</span>
-              </button>
-            </div>
-            <div class="currently-row">
-              <span class="currently-label">planning</span>
-              <span>activities w my <span class="ilmbf-trigger him-trigger" onclick="openPanel('panel-cactus')">♡</span></span>
-              <a class="bio-topic-hint" href="now/index.html">now ↗</a>
-            </div>
-            <div class="currently-row">
-              <span class="currently-label">helping</span>
-              <span class="project-inline-link" onclick="openPanel('panel-projects')">blightfall ˖°</span>
+              <div class="bio-memory-scene" aria-hidden="true">
+                <div class="memory-window memory-window-viewer">
+                  <div class="memory-window-shell">
+                    <div class="memory-window-bar">
+                      <span class="memory-window-badge">▧</span>
+                      <span class="memory-window-title">image viewer</span>
+                      <span class="memory-window-lights"><i></i><i></i><i></i></span>
+                    </div>
+                    <div class="memory-window-viewport">
+                      <img src="images/decor/memory-windows/stubby-viewer.webp" alt="" width="600" height="338" loading="lazy" decoding="async"/>
+                    </div>
+                    <div class="memory-window-status"><span>stubby.jpg</span><span>100%</span></div>
+                  </div>
+                </div>
+
+                <div class="memory-window memory-window-folder">
+                  <div class="memory-folder-tab"><span>▰</span> stubby</div>
+                  <div class="memory-folder-body">
+                    <img src="images/decor/memory-windows/stubby-folder.webp" alt="" width="360" height="270" loading="lazy" decoding="async"/>
+                    <div class="memory-folder-rail"><span>1 image</span><span>♡</span></div>
+                  </div>
+                </div>
+
+                <div class="memory-window memory-window-widget">
+                  <span class="memory-widget-badge">img</span>
+                  <img src="images/decor/memory-windows/stubby-widget.webp" alt="" width="300" height="300" loading="lazy" decoding="async"/>
+                  <div class="memory-widget-rail"><span>♡</span><span>···</span></div>
+                </div>
+              </div>
             </div>
           </div><!-- /bio-about -->
 

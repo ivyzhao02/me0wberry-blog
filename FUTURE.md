@@ -1,25 +1,30 @@
 # Future Layout and Commissioned Art Checklist
 
-Status: approved for future implementation, but not scheduled yet.
+Status: the first memory-window foundation is implemented locally; commissioned artwork remains future work.
 
 ## Full-Sized Hello Window
 
-- Keep the full-sized desktop window and leave the existing mobile layout unchanged.
-- Recompose the desktop About tab around a centered content stage of roughly 900px rather than stretching content edge to edge.
-- Use a two-column desktop arrangement: profile information in one area and current activities/topic links in the other.
-- Increase the avatar only modestly, approximately 15-20%, so it remains crisp and does not dominate the window.
-- Use subtle frosted cards or grouped surfaces to give the larger window structure without making it visually heavy.
-- Give Likes, DNI, and Find Me centered layouts that suit the larger window instead of leaving each tab top-heavy.
+- [x] Keep the full-sized desktop window.
+- [x] Recompose the desktop About tab around a centered content stage rather than stretching content edge to edge.
+- [x] Use a two-part desktop arrangement for profile information and current activities/topic links.
+- [x] Add subtle frosted grouping without making the window visually heavy.
+- [x] Add a responsive memory-window layer that simplifies on mobile.
+- [ ] Give Likes, DNI, and Find Me centered layouts that suit the larger window instead of leaving each tab top-heavy.
+- [ ] Add selected commissioned artwork without blocking navigation, text, the player, or responsive layouts.
+- [ ] Replace or rebalance the current avatar only when final commissioned assets make that worthwhile.
 - Preserve useful negative space. Do not add copy solely to fill the window.
-- Decorative commissioned artwork may eventually occupy selected empty areas without blocking navigation, text, the player, or responsive layouts.
 
-## Commissioned Art Frames
+## Memory Windows and Commissioned Art
 
-- Begin with a small number of deliberate frames rather than adding placeholders to every open area.
-- Treat each placeholder as a finished gallery object: consistent frame styling, a reserved aspect ratio, and the Stubby pixel cat as the temporary curator.
-- Use generic public copy such as `reserved for something special ♡` or `art coming someday`.
+- Use the site's fictional interface as the framing language: image viewers, folder previews, floating widgets, translucent window stacks, and pixel-cut viewports.
+- Keep Stubby keepsakes small, tightly cropped, non-clickable, and caption-free so they remain distinct from post galleries and shrine chronology.
+- Keep commissioned artwork larger and focal, with artist credit clearly adjacent to the final piece.
+- Begin with a small number of deliberate placements rather than filling every open area.
+- Treat each future placeholder as a finished interface object with a stable aspect ratio and generic public copy such as `reserved for something special ♡`.
 - Never reveal the intended subject, pose, mood, brief, or other planned contents of a frame on the public site.
 - Do not make frames clickable to reveal planning details.
+- Do not add fake close or minimize controls, arbitrary photo rotation, or continuous decorative motion.
+- Let unusual silhouettes come from tabs, stacked panes, pixel cut-outs, status rails, and docked badges.
 - Keep detailed commission briefs private and outside the public website/repository.
 - Ensure every placeholder still looks intentional if it remains visible for a long time.
 - Preserve layout dimensions when replacing a placeholder so commissioned art does not cause a large layout shift.
@@ -28,21 +33,23 @@ Status: approved for future implementation, but not scheduled yet.
 ## Possible Placement Areas
 
 - Full-sized Hello workspace.
+- Favs panel: use a restrained right-side cluster of selected favourite images where the text column naturally ends; reduce the number on compact desktop and stack one image or omit the decoration on mobile.
 - Info and Persona areas.
 - Selected Welcome, 404, System, or category corners where decorations will not compete with content.
 - Shrine headers or other collection spaces with a clear compositional gap.
 
 These locations identify only possible frame placement. Planned artwork contents remain private.
 
-## Reusable Frame Component
+## Reusable Memory-Window Component
 
-- Create one reusable frame style rather than custom placeholder markup on every page.
-- Support landscape, portrait, square, and transparent-corner artwork variants.
+- Extend the shared memory-window family rather than inventing unrelated custom framing on every page.
+- Support landscape, portrait, square, and transparent-corner artwork variants through a small set of consistent interface treatments.
 - Provide responsive crops and safe areas for desktop and mobile.
 - Include accessible placeholder text without exposing the private brief.
 - Add lazy loading for final artwork where appropriate.
 - Keep artist credit adjacent to the final piece or link it clearly to the site credits.
-- Verify every frame in all four desktop themes before publication.
+- Use existing theme variables so every frame works in all four desktop themes.
+- Verify desktop, compact desktop, and mobile layouts before each new placement is published.
 
 ## Artist and Service Review
 

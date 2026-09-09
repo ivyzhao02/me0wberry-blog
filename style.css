@@ -1607,13 +1607,53 @@
       #panel-bio .panel-body { padding: clamp(20px, 3vw, 36px); }
       #panel-bio .tab-content {
         width: min(760px, 100%);
+        min-height: 100%;
         margin: 0 auto;
       }
-      #panel-bio .kitten-corner { width: min(42%, 300px); }
+      #panel-bio #bio-about { width: min(980px, 100%); }
+      #panel-bio #bio-about.active {
+        display: flex;
+        align-items: center;
+      }
+      #panel-bio .kitten-corner { width: 100%; }
       #panel-bio .panel-resize { display: none; }
     }
 
     /* ── Bio: About ── */
+    .bio-about-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 18px 20px;
+      width: 100%;
+    }
+
+    .bio-profile-card,
+    .bio-current-card {
+      min-width: 0;
+      padding: 18px 20px;
+      border: 1px solid var(--theme-border, rgba(150,180,135,0.34));
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.67), rgba(255,255,255,0.26)),
+        linear-gradient(130deg, rgba(229,242,223,0.28), rgba(255,208,222,0.2));
+      box-shadow:
+        inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.82)),
+        0 8px 20px var(--theme-shadow, rgba(107,130,78,0.07));
+    }
+
+    .bio-profile-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(130px, 180px);
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bio-current-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
     .stat-block { font-size: 14px; line-height: 1.9; color: var(--body); }
     .stat-flags { font-size: 18px; line-height: 1.6; margin: 2px 0; }
 
@@ -1683,9 +1723,8 @@
     }
 
     .kitten-corner {
-      float: right;
-      width: 70%;
-      margin: 0 0 8px 12px;
+      width: 100%;
+      margin: 0;
     }
     .kitten-profile-link {
       display: block;
@@ -1693,6 +1732,12 @@
       font-size: 11px;
       text-align: center;
       text-decoration: none;
+    }
+    .kitten-profile-link img {
+      display: block;
+      width: min(100%, 170px);
+      height: auto;
+      margin: 0 auto;
     }
     .kitten-profile-link span {
       display: block;
@@ -1708,6 +1753,273 @@
       margin-top: 4px;
       font-style: italic;
       text-align: center;
+    }
+
+    /* ── Bio: decorative memory windows ── */
+    .bio-memory-scene {
+      position: relative;
+      grid-column: 1 / -1;
+      min-height: 305px;
+      isolation: isolate;
+    }
+
+    .bio-memory-scene::before {
+      content: '';
+      position: absolute;
+      inset: 18px 7% 24px;
+      z-index: -3;
+      opacity: 0.5;
+      background-image: radial-gradient(circle, var(--theme-border, rgba(192,112,144,0.28)) 1px, transparent 1.5px);
+      background-size: 17px 17px;
+      -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 72%);
+      mask-image: radial-gradient(ellipse at center, black 20%, transparent 72%);
+    }
+
+    .memory-window {
+      position: absolute;
+      pointer-events: none;
+      color: var(--muted);
+      font-family: var(--font-pixel);
+      filter: drop-shadow(0 12px 18px var(--theme-shadow, rgba(122,58,82,0.11)));
+    }
+
+    .memory-window-viewer {
+      top: 28px;
+      left: 1%;
+      z-index: 2;
+      width: min(38%, 360px);
+      isolation: isolate;
+    }
+
+    .memory-window-viewer::before,
+    .memory-window-viewer::after {
+      content: '';
+      position: absolute;
+      border: 1px solid var(--theme-border, rgba(150,180,135,0.34));
+      border-radius: 15px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.56), rgba(255,255,255,0.16)),
+        var(--frosted-bg);
+    }
+
+    .memory-window-viewer::before {
+      inset: -12px 18px 22px -9px;
+      z-index: -2;
+      opacity: 0.54;
+    }
+
+    .memory-window-viewer::after {
+      inset: -6px 9px 12px -4px;
+      z-index: -1;
+      opacity: 0.74;
+    }
+
+    .memory-window-shell {
+      overflow: hidden;
+      border: 1px solid var(--theme-border, rgba(192,112,144,0.42));
+      border-radius: 15px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.28)),
+        var(--frosted-bg);
+      box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.9));
+    }
+
+    .memory-window-bar,
+    .memory-window-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 9px;
+    }
+
+    .memory-window-bar {
+      min-height: 28px;
+      border-bottom: 1px solid var(--theme-border, rgba(192,112,144,0.24));
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.34)),
+        linear-gradient(90deg, rgba(199,223,189,0.3), rgba(255,208,222,0.24));
+    }
+
+    .memory-window-badge {
+      color: var(--green-text, var(--green));
+      font-size: 8px;
+    }
+
+    .memory-window-title {
+      color: var(--pixel-label2);
+      font-size: 6px;
+      letter-spacing: 0.2px;
+    }
+
+    .memory-window-lights {
+      display: inline-flex;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .memory-window-lights i {
+      display: block;
+      width: 5px;
+      height: 5px;
+      border: 1px solid rgba(255,255,255,0.74);
+      border-radius: 2px;
+      background: var(--pink-light);
+      box-shadow: 0 0 0 1px rgba(192,112,144,0.18);
+    }
+
+    .memory-window-lights i:nth-child(2) { background: var(--sage-soft); }
+    .memory-window-lights i:nth-child(3) { background: var(--pink-pale); }
+
+    .memory-window-viewport {
+      margin: 8px;
+      overflow: hidden;
+      border: 1px solid var(--theme-border, rgba(150,180,135,0.3));
+      border-radius: 9px;
+      background: rgba(255,255,255,0.32);
+      box-shadow: inset 0 1px 4px rgba(74,58,66,0.08);
+    }
+
+    .memory-window-viewport img,
+    .memory-folder-body img,
+    .memory-window-widget > img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .memory-window-status {
+      justify-content: space-between;
+      min-height: 21px;
+      border-top: 1px solid rgba(255,255,255,0.72);
+      font-size: 5px;
+    }
+
+    .memory-window-folder {
+      top: 61px;
+      left: 41%;
+      z-index: 3;
+      width: min(27%, 255px);
+    }
+
+    .memory-folder-tab {
+      width: 58%;
+      min-height: 27px;
+      padding: 7px 13px 5px;
+      color: var(--green-text, var(--green));
+      font-size: 6px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.76), rgba(229,242,223,0.54)),
+        var(--frosted-bg);
+      border: 1px solid var(--theme-border, rgba(150,180,135,0.38));
+      border-bottom: 0;
+      border-radius: 12px 15px 0 0;
+      clip-path: polygon(0 0, 78% 0, 100% 100%, 0 100%);
+    }
+
+    .memory-folder-tab span {
+      margin-right: 5px;
+      color: var(--pink);
+    }
+
+    .memory-folder-body {
+      overflow: hidden;
+      padding: 9px 9px 0;
+      border: 1px solid var(--theme-border, rgba(150,180,135,0.38));
+      border-radius: 0 15px 15px 15px;
+      background:
+        linear-gradient(150deg, rgba(255,255,255,0.72), rgba(255,255,255,0.26)),
+        linear-gradient(130deg, rgba(229,242,223,0.28), rgba(255,208,222,0.18));
+      box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.82));
+    }
+
+    .memory-folder-body img {
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: 8px;
+      box-shadow: 0 2px 7px rgba(74,58,66,0.1);
+    }
+
+    .memory-folder-rail,
+    .memory-widget-rail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 25px;
+      color: var(--muted);
+      font-size: 5px;
+    }
+
+    .memory-window-widget {
+      top: 17px;
+      right: 1%;
+      z-index: 1;
+      width: min(23%, 220px);
+      padding: 9px 9px 0;
+      clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
+      background:
+        linear-gradient(150deg, rgba(255,255,255,0.78), rgba(255,255,255,0.3)),
+        linear-gradient(130deg, rgba(229,242,223,0.28), rgba(255,208,222,0.2));
+      border: 1px solid var(--theme-border, rgba(192,112,144,0.36));
+      box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.86));
+    }
+
+    .memory-window-widget > img {
+      aspect-ratio: 1;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: 8px;
+      box-shadow: inset 0 1px 4px rgba(74,58,66,0.08);
+    }
+
+    .memory-widget-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 3px 5px 2px;
+      border: 1px solid rgba(255,255,255,0.74);
+      border-radius: 5px;
+      color: white;
+      font-size: 5px;
+      background: rgba(176,90,122,0.74);
+      box-shadow: 0 2px 5px rgba(74,58,66,0.14);
+    }
+
+    .memory-widget-rail span:last-child {
+      color: var(--pink);
+      letter-spacing: 2px;
+    }
+
+    @media (min-width: 769px) and (max-width: 1050px) {
+      #panel-bio #bio-about { width: min(650px, 100%); }
+      .bio-about-stage { grid-template-columns: 1fr; }
+      .bio-profile-card,
+      .bio-current-card { padding: 14px 16px; }
+      .bio-profile-card .stat-block { line-height: 1.7; }
+      .bio-memory-scene { min-height: 230px; }
+      .memory-window-viewer {
+        top: 14px;
+        width: min(40%, 245px);
+      }
+      .memory-window-folder {
+        top: 35px;
+        left: 39%;
+        width: min(26%, 168px);
+      }
+      .memory-window-widget {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      #bio-about.active .memory-window {
+        animation: memory-window-arrive 0.42s ease-out both;
+      }
+      #bio-about.active .memory-window-folder { animation-delay: 0.06s; }
+      #bio-about.active .memory-window-widget { animation-delay: 0.12s; }
+    }
+
+    @keyframes memory-window-arrive {
+      from { opacity: 0; transform: translateY(7px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* ── Bio: Likes ── */
@@ -2308,7 +2620,34 @@
       #panel-gifypet .panel-pin,
       #panel-player .panel-pin { display: none; }
       .gifypet-panel-body { padding: 10px 2px 12px; }
-      .kitten-corner { width: 45%; margin: 0 0 6px 10px; }
+      #bio-about.active { display: block; }
+      .bio-about-stage { display: block; }
+      .bio-profile-card,
+      .bio-current-card {
+        padding: 14px;
+        border-radius: 14px;
+      }
+      .bio-profile-card {
+        grid-template-columns: minmax(0, 1fr) minmax(105px, 38%);
+        gap: 10px;
+      }
+      .bio-current-card { margin-top: 12px; }
+      .kitten-corner { width: 100%; margin: 0; }
+      .kitten-profile-link img { width: min(100%, 135px); }
+      .bio-memory-scene {
+        min-height: 220px;
+        margin-top: 18px;
+      }
+      .bio-memory-scene::before,
+      .memory-window-folder,
+      .memory-window-widget { display: none; }
+      .memory-window-viewer {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: min(100%, 330px);
+        margin: 10px auto 0;
+      }
       .tab-bar { flex-wrap: wrap; gap: 2px; }
       .tab-btn { font-size: 7px; padding: 4px 6px 3px; }
     }
