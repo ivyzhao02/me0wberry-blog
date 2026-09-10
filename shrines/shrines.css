@@ -108,12 +108,12 @@ body > #mobile-back {
   height: 188px;
   object-fit: cover;
   object-position: center;
-  filter: saturate(0.58) brightness(1.08) contrast(0.94);
+  filter: saturate(0.9) brightness(1.01) contrast(0.98);
   transition: filter 0.18s ease, transform 0.18s ease;
 }
 
 .shrine-door-warframe:hover .shrine-door-preview img {
-  filter: saturate(0.76) brightness(1.05) contrast(0.98);
+  filter: saturate(1) brightness(1.01) contrast(1);
   transform: scale(1.018);
 }
 
@@ -1645,6 +1645,8 @@ a.shrine-cabinet-card:hover {
 
   .shrine-door-warframe {
     grid-column: 1 / -1;
+    width: calc(50% - 8px);
+    justify-self: center;
   }
 }
 
@@ -1658,7 +1660,11 @@ a.shrine-cabinet-card:hover {
     grid-template-columns: 1fr;
   }
 
-  .shrine-door-warframe { grid-column: auto; }
+  .shrine-door-warframe {
+    grid-column: auto;
+    width: auto;
+    justify-self: stretch;
+  }
 
   .stubby-facts-grid > div:last-child { grid-column: auto; }
 
