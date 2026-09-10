@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2R8SRC1EFS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-2R8SRC1EFS');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tenno home — me0wberry</title>
+  <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="me0wberry.com posts" href="../../feed.xml">
+  <script src="../../theme-loader.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Press+Start+2P&amp;family=Quicksand:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../../themes.css" data-site-themes>
+  <link rel="stylesheet" href="../shrines.css">
+  <style>
+    #main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
+    @media (max-width: 768px) {
+      #layout { height: calc(100dvh - 59px); min-height: 0; overflow: hidden; }
+      #main { display: block !important; flex: 1 1 0; height: 100%; max-height: 100%; min-height: 0; overflow-y: auto; padding-bottom: 0; }
+      #sidebar { display: none; }
+      #mobile-back { display: flex !important; }
+    }
+    @media (min-width: 1241px) and (max-width: 1500px) {
+      .shrine-page-panel { width: calc(100% - 300px) !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="topbar">
+    <span id="topbar-title">© me0wberry 2026</span>
+    <span id="topbar-tag">(=^･^=) · me0wberry.com</span>
+    <div id="topbar-btns"><button id="cat-toggle" onclick="toggleCats()" title="hide cats">🐱</button><div class="tb-btn">_</div><div class="tb-btn">□</div><div class="tb-btn">✕</div></div>
+  </div>
+
+  <a id="mobile-back" href="../index.html" style="display:none;">← shrine</a>
+
+  <div id="layout">
+    <div id="sidebar">
+      <div id="sidebar-header"><div id="sidebar-name">me0wberry</div><div id="sidebar-sub">₍^. .^₎⟆ · markham · she/her · ilmbf ♡✧˚.</div></div>
+      <div id="sidebar-nav">
+        <span class="nav-section-label"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>pages</span>
+        <a class="nav-item" href="../../index.html"><img class="nav-icon nav-icon-img" src="../../images/ui-icons/home.png" alt="" aria-hidden="true"><span class="nav-item-label">home</span></a>
+        <a class="nav-item" href="../../now/index.html"><img class="nav-icon nav-icon-img" src="../../images/ui-icons/lately.png" alt="" aria-hidden="true"><span class="nav-item-label">now</span></a>
+        <a class="nav-item" href="../../info/index.html"><img class="nav-icon nav-icon-img" src="../../images/ui-icons/info.png" alt="" aria-hidden="true"><span class="nav-item-label">info</span></a>
+        <a class="nav-item" href="../../archive/index.html"><img class="nav-icon nav-icon-img" src="../../images/ui-icons/archive.png" alt="" aria-hidden="true"><span class="nav-item-label">archive</span></a>
+        <a class="nav-item" href="../../system/index.html"><span class="nav-icon system-nav-icon" aria-hidden="true">✦</span><span class="nav-item-label">system</span></a>
+        <span class="nav-section-label" style="margin-top:4px"><svg width="8" height="8" viewBox="0 0 8 8"><rect x="3" y="0" width="2" height="8" fill="#c07090"/><rect x="0" y="3" width="8" height="2" fill="#c07090"/><rect x="1" y="1" width="2" height="2" fill="#c07090"/><rect x="5" y="1" width="2" height="2" fill="#c07090"/><rect x="1" y="5" width="2" height="2" fill="#c07090"/><rect x="5" y="5" width="2" height="2" fill="#c07090"/></svg>extras</span>
+        <a class="nav-item" href="../../webgarden/index.html"><span class="nav-icon webgarden-nav-icon" aria-hidden="true">✿</span><span class="nav-item-label">webgarden</span></a>
+        <a class="nav-item" href="../../toybox/index.html"><span class="nav-icon toybox-nav-icon" aria-hidden="true">✧</span><span class="nav-item-label">trinkets</span></a>
+        <a class="nav-item active" href="../index.html"><span class="nav-icon shrine-nav-icon" aria-hidden="true">♡</span><span class="nav-item-label">shrines</span></a>
+        <button class="nav-item nav-item-button" type="button" onclick="surpriseMe()"><span class="nav-icon surprise-icon" aria-hidden="true">✦</span><span class="nav-item-label">surprise me</span></button>
+        <div class="nav-item" data-opens="panel-player" onclick="openPanel('panel-player')"><img class="nav-icon nav-icon-img" src="../../images/ui-icons/player.png" alt="" aria-hidden="true"><span class="nav-item-label">player</span></div>
+      </div>
+    </div>
+
+    <div id="main">
+      <div class="panel open shrine-page-panel" id="panel-warframe-shrine" data-static-panel>
+        <div class="panel-titlebar" style="cursor:default;"><span class="panel-title">／ tenno home</span></div>
+        <div class="panel-body">
+          <nav class="page-nav-row" aria-label="page navigation">
+            <a href="../index.html" class="page-nav-link"><img src="../../images/ui-icons/shrines.png" alt="" aria-hidden="true"><span>shrine</span></a>
+          </nav>
+          <div class="pixel-tag">／ warframe shrine</div>
+
+          <div class="shrine-room-hero warframe-room-hero">
+            <button class="warframe-hero-viewer" type="button" data-warframe-full="../../images/warframe/warframe0008.webp" data-warframe-caption="Yareli Prime · forest Captura · May 2025">
+              <img src="../../images/warframe/warframe0008.webp" alt="Yareli Prime in pink and green in a sunlit forest Captura scene">
+              <span>captura / yareli prime</span>
+            </button>
+            <div class="warframe-hero-copy">
+              <span class="shrine-cabinet-status">operator online</span>
+              <h1 class="shrine-room-title">tenno home ✦</h1>
+              <p class="shrine-room-copy">a home for fashionframe , captura + the parts of the origin system i keep coming back to</p>
+              <div class="warframe-profile-strip" aria-label="Warframe profile highlights">
+                <span><small>play style</small><strong>support / healer</strong></span>
+                <span><small>favourites</small><strong>trinity / harrow</strong></span>
+                <span><small>showcase</small><strong>yareli prime</strong></span>
+                <span><small>mastery</small><strong>rank 30</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="shrine-cabinet-heading">origin system</h2>
+          <div class="shrine-cabinet-grid">
+            <a class="shrine-cabinet-card" href="#backroom-fashionframe">
+              <span class="shrine-cabinet-status">equipped</span>
+              <strong>backroom fashionframe</strong>
+              <p>pink + green loadouts , favourite frames + looks i wanted to keep</p>
+            </a>
+            <a class="shrine-cabinet-card" href="#captura-scenes">
+              <span class="shrine-cabinet-status">saved</span>
+              <strong>captura scenes</strong>
+              <p>portraits + scenes photographed in-game from 2025 onward</p>
+            </a>
+            <a class="shrine-cabinet-card" href="#dormizone-archive">
+              <span class="shrine-cabinet-status">at home</span>
+              <strong>dormizone archive</strong>
+              <p>looks , pets + the people beside me in the origin system</p>
+            </a>
+            <a class="shrine-cabinet-card" href="#tenno-logs">
+              <span class="shrine-cabinet-status">reading</span>
+              <strong>tenno logs</strong>
+              <p>warframe mentions gathered from my monthly posts</p>
+            </a>
+          </div>
+
+          <section class="warframe-room-section" id="captura-scenes" aria-labelledby="captura-scenes-title">
+            <div class="warframe-section-heading">
+              <div><div class="pixel-tag">／ captura scenes</div><h2 id="captura-scenes-title">moments frozen in eternalism</h2></div>
+              <p>one preview from each saved set ♡</p>
+            </div>
+            <div class="warframe-frame-shelf-grid" id="warframe-captura-groups"></div>
+          </section>
+
+          <section class="warframe-room-section" id="backroom-fashionframe" aria-labelledby="backroom-fashionframe-title">
+            <div class="warframe-section-heading">
+              <div><div class="pixel-tag">／ backroom fashionframe</div><h2 id="backroom-fashionframe-title">backroom fashionframe</h2></div>
+              <p>one folder for each frame ♡</p>
+            </div>
+            <div class="warframe-frame-shelf-grid" id="warframe-backroom-groups"></div>
+          </section>
+
+          <section class="warframe-room-section" id="dormizone-archive" aria-labelledby="dormizone-archive-title">
+            <div class="warframe-section-heading">
+              <div><div class="pixel-tag">／ dormizone archive</div><h2 id="dormizone-archive-title">dormizone archive</h2></div>
+              <p>drifter looks , companions + shared scenes</p>
+            </div>
+            <div class="warframe-frame-shelf-grid" id="warframe-dormizone-groups"></div>
+          </section>
+
+          <section class="shrine-post-shelf warframe-post-shelf" id="tenno-logs" aria-labelledby="warframe-posts-title">
+            <div class="warframe-section-heading">
+              <div><div class="pixel-tag">／ from the blog</div><h2 id="warframe-posts-title">tenno logs</h2></div>
+              <p>monthly notes where warframe wandered in</p>
+            </div>
+            <ul class="shrine-post-list" id="warframe-post-list"><li>looking through the archive . . .</li></ul>
+          </section>
+
+          <div class="shrine-room-footer"><a class="pixel-btn" href="../index.html">shrine</a><a class="pixel-btn" href="../../archive/index.html?q=warframe">search warframe posts</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-player" style="width:280px;">
+    <div class="panel-titlebar"><span class="panel-title">♪ now playing</span><div class="panel-close" onclick="closePanel('panel-player')">✕</div></div>
+    <div class="panel-body" style="padding:12px 14px 10px;">
+      <div class="player-track-title"><div class="marquee-wrap" id="player-marquee"><span id="player-title">please don't stop being sweet to me · lace</span></div></div>
+      <div class="player-time-row"><span id="player-current-time">0:00</span><input type="range" id="player-progress" class="player-range" min="0" max="100" value="0" step="0.1"><span id="player-total-time">0:00</span></div>
+      <div class="player-controls"><button class="player-btn" onclick="playerPrev()" title="prev">◀</button><button class="player-btn player-btn-main" id="player-playpause" onclick="playerToggle()" title="play/pause">▶</button><button class="player-btn" onclick="playerNext()" title="next">▶|</button></div>
+      <div class="player-volume-row"><span class="player-vol-icon">🔊</span><input type="range" id="player-volume" class="player-range" min="0" max="1" value="0.75" step="0.01"></div>
+      <div class="player-track-counter" id="player-counter">track 1 / 5</div>
+      <audio id="player-audio" preload="none"></audio>
+    </div>
+  </div>
+
+  <div id="bottom-taskbar" aria-label="desktop taskbar">
+    <div class="taskbar-inner">
+      <a class="taskbar-start" href="../../index.html" title="start"><img class="taskbar-start-icon" src="../../images/ui-icons/favs.png" alt="" aria-hidden="true"></a>
+      <div class="taskbar-pinned" aria-label="quick launch">
+        <a class="taskbar-app" href="../../index.html" title="home"><img class="taskbar-icon-img" src="../../images/ui-icons/home.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../../now/index.html" title="now"><img class="taskbar-icon-img" src="../../images/ui-icons/lately.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../../info/index.html" title="info"><img class="taskbar-icon-img" src="../../images/ui-icons/info.png" alt="" aria-hidden="true"></a>
+        <a class="taskbar-app" href="../../archive/index.html" title="archive"><img class="taskbar-icon-img" src="../../images/ui-icons/archive.png" alt="" aria-hidden="true"></a>
+        <button class="taskbar-app" data-opens="panel-player" onclick="openPanel('panel-player')" title="player"><img class="taskbar-icon-img" src="../../images/ui-icons/player.png" alt="" aria-hidden="true"></button>
+        <button class="taskbar-app" type="button" onclick="surpriseMe()" title="surprise me" aria-label="open something random from the site"><span class="surprise-icon" aria-hidden="true">✦</span></button>
+      </div>
+      <div id="taskbar-open-apps" class="taskbar-open-apps" aria-label="open windows"></div>
+    </div>
+  </div>
+
+  <dialog class="stubby-memory-dialog" id="warframe-memory-dialog" aria-label="expanded Warframe screenshot">
+    <button class="stubby-memory-close" type="button" aria-label="close image">✕</button>
+    <img id="warframe-memory-large" alt="">
+    <p id="warframe-memory-caption"></p>
+  </dialog>
+
+  <script src="../../data/search-index.js"></script>
+  <script src="../../script.js" data-site-root="../.."></script>
+  <script src="warframe-shrine.js"></script>
+</body>
+</html>

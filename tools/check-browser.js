@@ -459,6 +459,55 @@ async function run() {
     assert(await archive.locator('#archive-search').evaluate((input) => input === document.activeElement), 'archive clear did not return focus to search');
     await archive.close();
 
+    const warframe = await openCheckedPage(browser, `${baseUrl}/shrines/warframe/`, { width: 1280, height: 900 });
+    assert(await warframe.locator('.warframe-frame-shelf').count() === 15, 'Warframe shrine did not render all frame folders');
+    assert(await warframe.locator('.warframe-captura-card').count() === 47, 'Warframe shrine did not render all curated screenshots');
+    assert(await warframe.locator('#warframe-post-list li').count() > 0, 'Warframe shrine did not gather related posts');
+    assert(
+      await warframe.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Warframe shrine overflowed horizontally on desktop',
+    );
+    assert(
+      await warframe.locator('.warframe-captura-card img[src]').count() === 0,
+      'closed Warframe folders loaded full images too early',
+    );
+    await warframe.locator('.warframe-frame-summary').first().click();
+    await warframe.waitForFunction(() => {
+      const folder = document.querySelector('.warframe-frame-shelf');
+      return folder && [...folder.querySelectorAll('.warframe-captura-card img')]
+        .every((image) => image.complete && image.naturalWidth > 0);
+    })
+      .catch(() => { throw new Error('first Warframe folder images did not decode'); });
+    await warframe.locator('.warframe-frame-shelf').first().locator('.warframe-captura-card').first().click();
+    assert(await warframe.locator('#warframe-memory-dialog').isVisible(), 'Warframe Captura viewer did not open');
+    assert(
+      await warframe.locator('#warframe-memory-large').evaluate((image) => image.complete && image.naturalWidth > 0),
+      'Warframe Captura viewer image did not decode',
+    );
+    await warframe.locator('#warframe-memory-dialog .stubby-memory-close').click();
+    await warframe.locator('.warframe-frame-shelf').evaluateAll((folders) => folders.forEach((folder) => {
+      folder.querySelectorAll('img[data-src]').forEach((image) => {
+        image.loading = 'eager';
+      });
+      folder.open = true;
+      folder.dispatchEvent(new Event('toggle'));
+    }));
+    await warframe.waitForFunction(() => [...document.querySelectorAll('.warframe-captura-card img')]
+      .every((image) => image.complete && image.naturalWidth > 0))
+      .catch(() => { throw new Error('expanded Warframe folder images did not decode'); });
+    await warframe.close();
+
+    const mobileWarframe = await openCheckedPage(browser, `${baseUrl}/shrines/warframe/`, { width: 390, height: 844 });
+    assert(
+      await mobileWarframe.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Warframe shrine overflowed horizontally on mobile',
+    );
+    assert(
+      await mobileWarframe.locator('.warframe-profile-strip').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length === 2),
+      'Warframe profile strip did not keep its compact mobile layout',
+    );
+    await mobileWarframe.close();
+
     const pollValues = new Map();
     const poll = await openCheckedPage(
       browser,
@@ -702,7 +751,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, archives, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.');
+  console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, archives, Warframe shrine, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.');
 }
 
 run().catch((error) => {
