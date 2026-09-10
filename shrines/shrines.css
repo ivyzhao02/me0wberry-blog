@@ -20,7 +20,7 @@ body > #mobile-back {
 
 .shrine-hallway-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -97,6 +97,24 @@ body > #mobile-back {
   height: 112px;
   object-fit: contain;
   filter: drop-shadow(0 11px 13px rgba(91,113,78,0.16));
+}
+
+.shrine-door-warframe .shrine-door-preview {
+  background: linear-gradient(145deg, rgba(255,255,255,0.86), rgba(238,242,235,0.62));
+}
+
+.shrine-door-warframe .shrine-door-preview img {
+  width: 100%;
+  height: 188px;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.58) brightness(1.08) contrast(0.94);
+  transition: filter 0.18s ease, transform 0.18s ease;
+}
+
+.shrine-door-warframe:hover .shrine-door-preview img {
+  filter: saturate(0.76) brightness(1.05) contrast(0.98);
+  transform: scale(1.018);
 }
 
 .shrine-door-label-row {
@@ -1620,6 +1638,16 @@ a.shrine-cabinet-card:hover {
   gap: 6px;
 }
 
+@media (max-width: 1100px) and (min-width: 761px) {
+  .shrine-hallway-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shrine-door-warframe {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 760px) {
   .shrine-hallway-grid,
   .shrine-cabinet-grid,
@@ -1629,6 +1657,8 @@ a.shrine-cabinet-card:hover {
   .stubby-facts-grid {
     grid-template-columns: 1fr;
   }
+
+  .shrine-door-warframe { grid-column: auto; }
 
   .stubby-facts-grid > div:last-child { grid-column: auto; }
 

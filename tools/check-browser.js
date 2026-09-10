@@ -459,6 +459,24 @@ async function run() {
     assert(await archive.locator('#archive-search').evaluate((input) => input === document.activeElement), 'archive clear did not return focus to search');
     await archive.close();
 
+    const shrineHallway = await openCheckedPage(browser, `${baseUrl}/shrines/`, { width: 1280, height: 900 });
+    assert(await shrineHallway.locator('.shrine-door').count() === 3, 'shrine hallway did not render all public rooms');
+    const warframeDoor = shrineHallway.locator('.shrine-door-warframe');
+    assert(await warframeDoor.count() === 1, 'shrine hallway did not render the Warframe room');
+    assert(
+      await warframeDoor.evaluate((link) => new URL(link.href).pathname === '/shrines/warframe/index.html'),
+      'Warframe room link did not resolve to the shrine',
+    );
+    assert(
+      await warframeDoor.locator('img').evaluate((image) => image.complete && image.naturalWidth > 0),
+      'Warframe room preview did not decode',
+    );
+    assert(
+      await shrineHallway.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'shrine hallway overflowed horizontally after adding the Warframe room',
+    );
+    await shrineHallway.close();
+
     const warframe = await openCheckedPage(browser, `${baseUrl}/shrines/warframe/`, { width: 1280, height: 900 });
     assert(await warframe.locator('.warframe-frame-shelf').count() === 15, 'Warframe shrine did not render all frame folders');
     assert(await warframe.locator('.warframe-captura-card').count() === 47, 'Warframe shrine did not render all curated screenshots');

@@ -124,7 +124,7 @@ const requiredPages = new Map([
   ['shrines/index.html', 'shrine'],
   ['shrines/stubby/index.html', 'Stubby shrine'],
   ['shrines/pokemon/index.html', 'Pokémon shrine'],
-  ['shrines/warframe/index.html', 'Warframe shrine draft'],
+  ['shrines/warframe/index.html', 'Warframe shrine'],
   ['persona/index.html', 'persona gallery'],
   ['post.css', 'shared post stylesheet'],
   ['style.css', 'generated shared stylesheet'],

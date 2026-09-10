@@ -45,7 +45,7 @@ These locations identify only possible frame placement. Planned artwork contents
 
 ## Future Shrines
 
-- [ ] Finish and publish the Warframe shrine; an unlisted first pass now includes personal Captura, favourite-frame notes, companions, profile highlights, and automatically gathered post links.
+- [x] Publish the Warframe shrine with personal Captura, favourite-frame notes, companions, profile highlights, and automatically gathered post links.
 - [ ] Add a Sanrio shrine for favourite characters, collected items, official artwork, and links to relevant posts.
 - [ ] Decide whether a focused League of Legends shrine belongs on the site. If approved, keep it centred on the Sona, Soraka, Nami, and Seraphine skin collections plus useful public profile statistics.
 - [ ] Revisit a broader plush collection shrine after the collection is unpacked and can be photographed properly; include the MINISO PenPen penguins among its possible subjects.
