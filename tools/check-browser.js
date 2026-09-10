@@ -436,12 +436,49 @@ async function run() {
     await directMobileInfo.close();
 
     const themed = await openCheckedPage(browser, `${baseUrl}/system/`, { width: 1280, height: 900 });
+    const changelogMonths = themed.locator('.changelog-month');
+    assert(await changelogMonths.count() === 7, 'System changelog did not render all month drawers');
+    assert(
+      await changelogMonths.evaluateAll((months) => months.every((month) => {
+        const shownCount = Number.parseInt(month.querySelector('.changelog-month-meta')?.textContent || '', 10);
+        return shownCount === month.querySelectorAll('.changelog-month-list > li').length;
+      })),
+      'System changelog update counts do not match their month entries',
+    );
+    assert(await themed.locator('.changelog-month[open]').count() === 1, 'System changelog did not start with only the current month open');
+    assert(await themed.locator('[data-changelog-month="2026-09"]').getAttribute('open') !== null, 'current System changelog month did not start open');
+    const augustChangelog = themed.locator('[data-changelog-month="2026-08"]');
+    await augustChangelog.locator('summary').click();
+    assert(await augustChangelog.getAttribute('open') !== null, 'System changelog month did not expand');
+    assert(
+      await augustChangelog.locator('.changelog-month-list').evaluate((element) => getComputedStyle(element).columnCount === '2'),
+      'long System changelog month did not use two columns on a wide screen',
+    );
+    await augustChangelog.locator('summary').click();
+    assert(await augustChangelog.getAttribute('open') === null, 'System changelog month did not collapse');
+    assert(
+      await themed.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'System changelog overflowed horizontally on desktop',
+    );
     await themed.locator('[data-theme-choice="matcha-cream"]').click();
     assert(await themed.evaluate(() => document.documentElement.dataset.theme) === 'matcha-cream', 'theme control did not apply');
     await themed.goto(`${baseUrl}/info/`, { waitUntil: 'domcontentloaded' });
     assert(await themed.evaluate(() => document.documentElement.dataset.theme) === 'matcha-cream', 'theme did not persist');
     await themed.evaluate(() => window.setSiteTheme('main'));
     await themed.close();
+
+    const mobileSystem = await openCheckedPage(browser, `${baseUrl}/system/#changelog`, { width: 390, height: 844 });
+    const mobileAugustChangelog = mobileSystem.locator('[data-changelog-month="2026-08"]');
+    await mobileAugustChangelog.locator('summary').click();
+    assert(
+      await mobileAugustChangelog.locator('.changelog-month-list').evaluate((element) => getComputedStyle(element).columnCount === 'auto'),
+      'long System changelog month did not return to one column on mobile',
+    );
+    assert(
+      await mobileSystem.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'System changelog overflowed horizontally on mobile',
+    );
+    await mobileSystem.close();
 
     const archive = await openCheckedPage(browser, `${baseUrl}/archive/`, { width: 1280, height: 900 });
     assert(await archive.locator('.page-nav-link').count() === 1, 'archive does not use the shared page navigation bubble');
@@ -769,7 +806,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, archives, Warframe shrine, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.');
+    console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, changelog drawers, archives, Warframe shrine, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.');
 }
 
 run().catch((error) => {
