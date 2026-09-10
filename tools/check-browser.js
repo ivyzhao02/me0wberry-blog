@@ -177,8 +177,14 @@ async function run() {
     await aboutTab.press('ArrowRight');
     assert(await desktop.locator('#bio-tab-likes').getAttribute('aria-selected') === 'true', 'Hello tabs did not support arrow-key selection');
     assert(await desktop.locator('#bio-likes').isVisible(), 'Hello tab panel did not follow arrow-key selection');
+    assert(await desktop.locator('#bio-likes .bio-reserved-window').isVisible(), 'Likes tab is missing its reserved picture window');
+    await desktop.locator('#bio-tab-dni').click();
+    assert(await desktop.locator('#bio-dni .bio-reserved-window').isVisible(), 'DNI tab is missing its reserved picture window');
     await desktop.locator('#bio-tab-findme').click();
     assert(await desktop.locator('#bio-findme').isVisible(), 'Hello window tab did not switch');
+    assert(await desktop.locator('#bio-findme .bio-reserved-window').isVisible(), 'Find Me tab is missing its reserved picture window');
+    await desktop.waitForFunction(() => Array.from(document.querySelectorAll('.bio-reserved-window img'))
+      .every((image) => image.complete && image.naturalWidth > 0));
     const discordTrigger = desktop.locator('#bio-findme button').filter({ hasText: 'discord' });
     await discordTrigger.click();
     assert(await desktop.locator('#discord-popup').isVisible(), 'Discord popup did not open');
@@ -217,6 +223,41 @@ async function run() {
         `${category} homepage panel contains an invalid post link`,
       );
     }
+    await desktop.locator('#sidebar [data-opens="panel-favs"]').click();
+    const favsPanel = desktop.locator('#panel-favs');
+    const favsCaptura = favsPanel.locator('.favs-keepsake-captura img');
+    const favsPlush = favsPanel.locator('.favs-keepsake-plush img');
+    const favsPlaceholder = favsPanel.locator('.favs-keepsake-placeholder');
+    await favsCaptura.waitFor({ state: 'visible' });
+    await favsPlush.waitFor({ state: 'visible' });
+    assert(await favsPlaceholder.isVisible(), 'wide Favs layout did not show its reserved third frame');
+    await desktop.waitForFunction(() => Array.from(document.querySelectorAll('#panel-favs .favs-keepsake img'))
+      .filter((image) => image.getClientRects().length > 0)
+      .every((image) => image.complete && image.naturalWidth > 0));
+    const favsBounds = await favsPanel.evaluate((panel) => {
+      const bodyRect = panel.querySelector('.panel-body').getBoundingClientRect();
+      const capturaRect = panel.querySelector('.favs-keepsake-captura').getBoundingClientRect();
+      const plushRect = panel.querySelector('.favs-keepsake-plush').getBoundingClientRect();
+      const placeholderRect = panel.querySelector('.favs-keepsake-placeholder').getBoundingClientRect();
+      return {
+        bodyBottom: bodyRect.bottom,
+        capturaBottom: capturaRect.bottom,
+        plushTop: plushRect.top,
+        plushRight: plushRect.right,
+        plushBottom: plushRect.bottom,
+        placeholderTop: placeholderRect.top,
+        placeholderLeft: placeholderRect.left,
+        placeholderBottom: placeholderRect.bottom,
+      };
+    });
+    assert(favsBounds.capturaBottom <= favsBounds.plushTop, 'Favs keepsakes overlap vertically on the default desktop');
+    assert(favsBounds.plushRight <= favsBounds.placeholderLeft, 'Favs secondary keepsakes overlap each other');
+    assert(Math.abs(favsBounds.plushTop - favsBounds.placeholderTop) <= 1, 'Favs secondary keepsakes are misaligned');
+    assert(
+      Math.max(favsBounds.plushBottom, favsBounds.placeholderBottom) <= favsBounds.bodyBottom + 1,
+      'Favs keepsake tray overflowed the default desktop window',
+    );
+    await favsPanel.locator('.panel-close').click();
     const playerPanel = desktop.locator('#panel-player');
     await desktop.locator('#sidebar .nav-item').filter({ hasText: 'player' }).click();
     assert(await playerPanel.isVisible(), 'desktop player window did not come to the front');
@@ -336,7 +377,25 @@ async function run() {
     assert(await blockedAudio.locator('#player-playpause').textContent() === '▶', 'blocked player did not restore its play control');
     await blockedAudio.close();
 
+    const compactFavs = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 900, height: 760 });
+    await compactFavs.locator('#bio-tab-likes').click();
+    assert(await compactFavs.locator('#bio-likes .bio-reserved-window').isVisible(), 'compact Hello layout hid its reserved picture window');
+    const compactBioLayout = await compactFavs.locator('#bio-likes .bio-secondary-stage').evaluate((stage) => {
+      const copyRect = stage.querySelector('.bio-secondary-copy').getBoundingClientRect();
+      const windowRect = stage.querySelector('.bio-reserved-window').getBoundingClientRect();
+      return { copyRight: copyRect.right, windowLeft: windowRect.left };
+    });
+    assert(compactBioLayout.copyRight <= compactBioLayout.windowLeft, 'compact Hello picture window overlaps its copy');
+    await compactFavs.locator('#sidebar [data-opens="panel-favs"]').click();
+    assert(await compactFavs.locator('.favs-keepsake-captura').isVisible(), 'compact Favs layout hid its primary keepsake');
+    assert(!await compactFavs.locator('.favs-keepsake-tray').isVisible(), 'compact Favs layout showed its secondary keepsake tray');
+    await compactFavs.close();
+
     const mobile = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 390, height: 844 });
+    await mobile.locator('#sidebar [data-opens="panel-favs"]').click();
+    assert(await mobile.locator('.favs-keepsake-captura').isVisible(), 'mobile Favs layout hid its primary keepsake');
+    assert(!await mobile.locator('.favs-keepsake-tray').isVisible(), 'mobile Favs layout showed its secondary keepsake tray');
+    await mobile.locator('#mobile-back').click();
     const [mobileGifypetsPopup] = await Promise.all([
       mobile.waitForEvent('popup'),
       mobile.locator('#sidebar .nav-item').filter({ hasText: 'gifypets' }).click(),
@@ -643,7 +702,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, archives, poll, RSS, passport, post chrome, persona layout, optimized media, and direct-file preview.');
+  console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, archives, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.');
 }
 
 run().catch((error) => {

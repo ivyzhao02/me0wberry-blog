@@ -1,6 +1,6 @@
 # Future Layout and Commissioned Art Checklist
 
-Status: the first memory-window foundation is implemented locally; commissioned artwork remains future work.
+Status: the first memory-window foundation, reserved Hello frames, and Favs keepsake cluster are implemented; commissioned artwork remains future work.
 
 ## Full-Sized Hello Window
 
@@ -9,7 +9,7 @@ Status: the first memory-window foundation is implemented locally; commissioned 
 - [x] Use a two-part desktop arrangement for profile information and current activities/topic links.
 - [x] Add subtle frosted grouping without making the window visually heavy.
 - [x] Add a responsive memory-window layer that simplifies on mobile.
-- [ ] Give Likes, DNI, and Find Me centered layouts that suit the larger window instead of leaving each tab top-heavy.
+- [x] Give Likes, DNI, and Find Me centered layouts with reserved picture windows instead of leaving each tab top-heavy.
 - [ ] Add selected commissioned artwork without blocking navigation, text, the player, or responsive layouts.
 - [ ] Replace or rebalance the current avatar only when final commissioned assets make that worthwhile.
 - Preserve useful negative space. Do not add copy solely to fill the window.
@@ -20,6 +20,7 @@ Status: the first memory-window foundation is implemented locally; commissioned 
 - Keep Stubby keepsakes small, tightly cropped, non-clickable, and caption-free so they remain distinct from post galleries and shrine chronology.
 - Keep commissioned artwork larger and focal, with artist credit clearly adjacent to the final piece.
 - Begin with a small number of deliberate placements rather than filling every open area.
+- [x] Add a restrained Favs panel cluster using an original Captura image, a personal collection photo, and one neutral future frame.
 - Treat each future placeholder as a finished interface object with a stable aspect ratio and generic public copy such as `reserved for something special ♡`.
 - Never reveal the intended subject, pose, mood, brief, or other planned contents of a frame on the public site.
 - Do not make frames clickable to reveal planning details.
@@ -32,13 +33,30 @@ Status: the first memory-window foundation is implemented locally; commissioned 
 
 ## Possible Placement Areas
 
-- Full-sized Hello workspace.
-- Favs panel: use a restrained right-side cluster of selected favourite images where the text column naturally ends; reduce the number on compact desktop and stack one image or omit the decoration on mobile.
-- Info and Persona areas.
-- Selected Welcome, 404, System, or category corners where decorations will not compete with content.
-- Shrine headers or other collection spaces with a clear compositional gap.
+- [x] Full-sized Hello workspace: About uses Stubby keepsakes; Likes, DNI, and Find Me have neutral reserved windows.
+- [x] Favs panel: use a restrained right-side cluster where the text column naturally ends; hide the secondary tray on compact desktop and mobile.
+- [ ] Info and Persona areas: add one small companion placement without competing with commissioned-art credits or the gallery itself.
+- [ ] Shrine index or individual shrine headers: use a transparent mascot pose only where the header has a real compositional gap.
+- [ ] Now or System: consider one small contextual helper placement after final mascot assets exist and only if the page still feels unbalanced.
+- [ ] Welcome and 404 corners: keep to one restrained illustration each so the entry and error actions remain dominant.
+- Avoid mascot placeholders in monthly posts, archive results, RSS entries, and content-dense collection grids; those areas should remain focused on their changing content.
 
 These locations identify only possible frame placement. Planned artwork contents remain private.
+
+## Future Shrines
+
+- [ ] Add a Warframe shrine using personal Captura images, favourite frames, collections, and links to relevant posts.
+- [ ] Add a Sanrio shrine for favourite characters, collected items, official artwork, and links to relevant posts.
+- [ ] Decide whether a focused League of Legends shrine belongs on the site. If approved, keep it centred on the Sona, Soraka, Nami, and Seraphine skin collections plus useful public profile statistics.
+- [ ] Revisit a broader plush collection shrine after the collection is unpacked and can be photographed properly; include the MINISO PenPen penguins among its possible subjects.
+- Keep future shrine cards off the public shrine index until each room has enough material to feel intentional.
+
+## Copy Maintenance
+
+- Review evergreen and static copy once every three months; the next planned review is December 2026.
+- Recheck the Hello `Currently` rows, favourite lists, social links, project descriptions, shrine status language, placeholders, and credits against current site content.
+- Keep monthly posts and the Now excerpt in their existing publishing workflow rather than treating them as part of the quarterly static-copy review.
+- Remove stale `wip` language when a section already has useful published content; use a specific status only when it adds information.
 
 ## Reusable Memory-Window Component
 
