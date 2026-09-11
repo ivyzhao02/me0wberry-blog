@@ -515,8 +515,18 @@ async function run() {
     await shrineHallway.close();
 
     const warframe = await openCheckedPage(browser, `${baseUrl}/shrines/warframe/`, { width: 1280, height: 900 });
-    assert(await warframe.locator('.warframe-frame-shelf').count() === 15, 'Warframe shrine did not render all frame folders');
-    assert(await warframe.locator('.warframe-captura-card').count() === 47, 'Warframe shrine did not render all curated screenshots');
+    assert(await warframe.locator('.warframe-frame-shelf').count() === 25, 'Warframe shrine did not render all frame folders');
+    assert(await warframe.locator('.warframe-captura-card').count() === 113, 'Warframe shrine did not render all curated screenshots');
+    assert(
+      await warframe.locator('[data-warframe-full$="warframe0048.webp"], [data-warframe-full$="warframe0105.webp"]').count() === 2,
+      'Warframe shrine did not include both added shared moments',
+    );
+    await warframe.locator('.warframe-frame-preview img').evaluateAll((images) => images.forEach((image) => {
+      image.loading = 'eager';
+    }));
+    await warframe.waitForFunction(() => [...document.querySelectorAll('.warframe-frame-preview img')]
+      .every((image) => image.complete && image.naturalWidth > 0))
+      .catch(() => { throw new Error('Warframe folder previews did not all decode'); });
     assert(await warframe.locator('#warframe-post-list li').count() > 0, 'Warframe shrine did not gather related posts');
     assert(
       await warframe.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),

@@ -35,6 +35,116 @@
       viewer: 'captura viewer'
     },
     {
+      container: 'warframe-captura-groups',
+      title: 'trinity prime',
+      look: 'knightess skin',
+      date: 'september 2026',
+      source: 'Warframe0112–0116',
+      preview: '0115',
+      files: ['0112', '0113', '0114', '0115', '0116'],
+      alt: 'Trinity Prime wearing her Knightess skin in a luminous green Captura scene',
+      viewer: 'captura viewer'
+    },
+    {
+      container: 'warframe-captura-groups',
+      title: 'dante',
+      look: 'tytonis skin',
+      date: 'september 2026',
+      source: 'Warframe0117–0124',
+      preview: '0120',
+      files: ['0117', '0118', '0119', '0120', '0121', '0122', '0123', '0124'],
+      alt: 'Dante wearing his Tytonis skin in blue, violet and gold',
+      viewer: 'captura viewer'
+    },
+    {
+      container: 'warframe-captura-groups',
+      title: 'khora prime / green set',
+      look: 'default prime skin',
+      date: 'september 2026',
+      source: 'Warframe0125–0129',
+      preview: '0126',
+      files: ['0125', '0126', '0127', '0128', '0129'],
+      alt: 'Khora Prime wearing her default Prime skin in green and gold',
+      viewer: 'captura viewer'
+    },
+    {
+      container: 'warframe-captura-groups',
+      title: 'koumei',
+      look: 'default skin',
+      date: 'september 2026',
+      source: 'Warframe0130–0133',
+      preview: '0132',
+      files: ['0130', '0131', '0132', '0133'],
+      alt: 'Koumei wearing her default skin in a cool green Captura scene',
+      viewer: 'captura viewer'
+    },
+    {
+      container: 'warframe-captura-groups',
+      title: 'mesa prime',
+      look: 'heirloom skin',
+      date: 'september 2026',
+      source: 'Warframe0134–0144',
+      preview: '0138',
+      files: ['0134', '0135', '0136', '0137', '0138', '0139', '0140', '0141', '0142', '0143', '0144'],
+      alt: 'Mesa Prime wearing her Heirloom skin in a violet neon Captura scene',
+      viewer: 'captura viewer'
+    },
+    {
+      container: 'warframe-captura-groups',
+      title: 'caliban prime',
+      look: 'orfeo skin',
+      date: 'september 2026',
+      source: 'Warframe0145–0149',
+      preview: '0146',
+      files: ['0145', '0146', '0147', '0148', '0149'],
+      alt: 'Caliban Prime wearing his Orfeo skin in green and gold',
+      viewer: 'captura viewer'
+    },
+    {
+      container: 'warframe-captura-groups',
+      title: 'mag prime',
+      look: 'pneuma skin',
+      date: 'september 2026',
+      source: 'Warframe0150–0153',
+      preview: '0152',
+      files: ['0150', '0151', '0152', '0153'],
+      alt: 'Mag Prime wearing her Pneuma skin in white, black and blue',
+      viewer: 'captura viewer'
+    },
+    {
+      container: 'warframe-captura-groups',
+      title: 'mag prime / green set',
+      look: 'pneuma skin',
+      date: 'september 2026',
+      source: 'Warframe0154–0159',
+      preview: '0154',
+      files: ['0154', '0155', '0156', '0157', '0158', '0159'],
+      alt: 'Mag Prime wearing her Pneuma skin in green, black and white',
+      viewer: 'captura viewer'
+    },
+    {
+      container: 'warframe-captura-groups',
+      title: 'nova prime',
+      look: 'aozakura skin',
+      date: 'september 2026',
+      source: 'Warframe0160–0164',
+      preview: '0163',
+      files: ['0160', '0161', '0162', '0163', '0164'],
+      alt: 'Nova Prime wearing her Aozakura skin in pink and green',
+      viewer: 'captura viewer'
+    },
+    {
+      container: 'warframe-captura-groups',
+      title: 'titania prime',
+      look: 'default prime skin / green + pink sets',
+      date: 'september 2026',
+      source: 'Warframe0165–0175',
+      preview: '0170',
+      files: ['0165', '0166', '0167', '0168', '0169', '0170', '0171', '0172', '0173', '0174', '0175'],
+      alt: 'Titania Prime wearing her default Prime skin in green and pink variations',
+      viewer: 'captura viewer'
+    },
+    {
       container: 'warframe-backroom-groups',
       title: 'khora prime',
       look: 'default prime skin',
@@ -147,15 +257,20 @@
     {
       container: 'warframe-dormizone-groups',
       title: 'companion moments',
-      look: 'aoi + my drifter with their companions',
+      look: 'aoi , my drifter + orbiter companions',
       date: '2025',
-      source: 'Warframe0012 / 0076',
+      source: 'Warframe0012 / 0048 / 0076',
       preview: '0012',
       files: [
         {
           id: '0012',
           title: 'aoi + kubrow',
           alt: 'Aoi, the Mag Prime protoframe, sitting beside a Kubrow companion'
+        },
+        {
+          id: '0048',
+          title: 'petting a smeeta kavat',
+          alt: 'A Warframe petting a red and blue Smeeta Kavat aboard a pink and green Orbiter'
         },
         {
           id: '0076',
@@ -169,8 +284,8 @@
       container: 'warframe-dormizone-groups',
       title: 'shared scenes',
       look: 'tenno together across old looks',
-      date: 'may 2025',
-      source: 'Warframe0009 / 0011',
+      date: '2025–2026',
+      source: 'Warframe0009 / 0011 / 0105',
       preview: '0011',
       files: [
         {
@@ -182,6 +297,11 @@
           id: '0011',
           title: 'my drifter + aoi',
           alt: 'An older version of my Drifter pictured with Aoi, the Mag Prime protoframe'
+        },
+        {
+          id: '0105',
+          title: 'left + right hands of eros',
+          alt: "My boyfriend's Warframe and mine using the Left and Right Hands of Eros emotes to form a heart"
         }
       ],
       viewer: 'dormizone viewer'
