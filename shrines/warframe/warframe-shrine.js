@@ -73,7 +73,7 @@
       look: 'default skin',
       date: 'september 2026',
       source: 'Warframe0130–0133',
-      preview: '0132',
+      preview: '0130',
       files: ['0130', '0131', '0132', '0133'],
       alt: 'Koumei wearing her default skin in a cool green Captura scene',
       viewer: 'captura viewer'
@@ -139,7 +139,7 @@
       look: 'default prime skin / green + pink sets',
       date: 'september 2026',
       source: 'Warframe0165–0175',
-      preview: '0170',
+      preview: '0169',
       files: ['0165', '0166', '0167', '0168', '0169', '0170', '0171', '0172', '0173', '0174', '0175'],
       alt: 'Titania Prime wearing her default Prime skin in green and pink variations',
       viewer: 'captura viewer'
