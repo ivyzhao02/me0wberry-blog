@@ -26,11 +26,20 @@ function relativePath(filePath) {
 
 const files = walk(ROOT);
 const relativeFiles = files.map(relativePath);
+const errors = [];
 const exactFiles = new Set(relativeFiles);
-const caseMap = new Map(relativeFiles.map(file => [file.toLowerCase(), file]));
+const caseMap = new Map();
+for (const file of relativeFiles) {
+  const foldedPath = file.toLowerCase();
+  const existingPath = caseMap.get(foldedPath);
+  if (existingPath && existingPath !== file) {
+    errors.push(`case-insensitive path collision: ${existingPath} and ${file}`);
+  } else {
+    caseMap.set(foldedPath, file);
+  }
+}
 const publicStillFiles = relativeFiles.filter(file =>
   /\.(?:jpe?g|png|webp)$/i.test(file) && !file.startsWith('tools/'));
-const errors = [];
 const gpsExifFixture = Buffer.from(
   '4d4d002a00000008000188250004000000010000001a00000000000100020005000000030000002c00000000',
   'hex',
@@ -68,8 +77,48 @@ function checkReference(sourceFile, reference) {
   else errors.push(`${sourceFile}: missing local reference ${reference}`);
 }
 
-for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.startsWith('tools/'))) {
-  const rawSource = fs.readFileSync(path.join(ROOT, file), 'utf8');
+const publicHtmlFiles = relativeFiles.filter(file => file.endsWith('.html') && !file.startsWith('tools/'));
+const publicHtmlSources = new Map(publicHtmlFiles.map(file => [
+  file,
+  fs.readFileSync(path.join(ROOT, file), 'utf8'),
+]));
+const publicHtmlIds = new Map([...publicHtmlSources].map(([file, source]) => [
+  file,
+  new Set([...source.replace(/<!--[\s\S]*?-->/g, '').matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1])),
+]));
+const trackCatalogSource = fs.readFileSync(path.join(ROOT, 'scripts', '15-player-catalog.js'), 'utf8');
+const expectedTrackCount = [...trackCatalogSource.matchAll(/\{\s*id:\s*["'][^"']+["']/g)].length;
+
+if (!expectedTrackCount) errors.push('scripts/15-player-catalog.js: no player tracks were found');
+
+function checkFragmentReference(sourceFile, reference) {
+  const hashIndex = reference.indexOf('#');
+  if (hashIndex < 0 || /^(?:https?:|mailto:|tel:|javascript:|data:)/i.test(reference)) return;
+
+  const pathReference = reference.slice(0, hashIndex);
+  const rawFragment = reference.slice(hashIndex + 1);
+  if (!rawFragment) return;
+
+  const target = pathReference ? resolveLocalReference(sourceFile, pathReference) : sourceFile;
+  if (!target || !target.endsWith('.html') || !exactFiles.has(target)) return;
+
+  let fragment = rawFragment;
+  try { fragment = decodeURIComponent(rawFragment); } catch (error) {}
+  if (!publicHtmlIds.get(target)?.has(fragment)) {
+    errors.push(`${sourceFile}: missing fragment target ${reference}`);
+  }
+}
+
+function checkPlayerCounters(source, file) {
+  for (const match of source.matchAll(/\bid=["'](?:popout-)?player-counter["'][^>]*>\s*track\s+\d+\s*\/\s*(\d+)/gi)) {
+    if (Number.parseInt(match[1], 10) !== expectedTrackCount) {
+      errors.push(`${file}: player counter expects ${match[1]} tracks, catalog has ${expectedTrackCount}`);
+    }
+  }
+}
+
+for (const file of publicHtmlFiles) {
+  const rawSource = publicHtmlSources.get(file);
   for (const error of googleTagErrors(rawSource)) errors.push(`${file}: ${error}`);
   const source = rawSource.replace(/<!--[\s\S]*?-->/g, '');
   const ids = [...source.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]);
@@ -90,7 +139,19 @@ for (const file of relativeFiles.filter(file => file.endsWith('.html') && !file.
       errors.push(`${file}: root-relative local reference ${reference} breaks direct file previews`);
     }
     checkReference(file, reference);
+    checkFragmentReference(file, reference);
   }
+
+  for (const match of source.matchAll(/<a\b[^>]*>/gi)) {
+    const tag = match[0];
+    if (!/\btarget=["']_blank["']/i.test(tag)) continue;
+    const rel = /\brel=["']([^"']*)["']/i.exec(tag)?.[1] || '';
+    if (!rel.split(/\s+/).includes('noopener')) {
+      errors.push(`${file}: target="_blank" link is missing rel="noopener"`);
+    }
+  }
+
+  checkPlayerCounters(source, file);
 
   for (const match of source.matchAll(/<img\b[^>]*>/gi)) {
     if (!/\balt=["'][^"']*["']/i.test(match[0])) errors.push(`${file}: image is missing alt text`);
@@ -118,6 +179,7 @@ const archiveTemplateSource = fs.readFileSync(path.join(ROOT, 'tools', 'template
 for (const error of googleTagErrors(archiveTemplateSource)) {
   errors.push(`tools/templates/archive-category.html: ${error}`);
 }
+checkPlayerCounters(archiveTemplateSource, 'tools/templates/archive-category.html');
 
 const requiredPages = new Map([
   ['404.html', 'custom not-found page'],
@@ -200,6 +262,66 @@ for (const file of relativeFiles.filter(file => file.endsWith('.json'))) {
     JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
   } catch (error) {
     errors.push(`${file}: invalid JSON (${error.message})`);
+  }
+}
+
+for (const category of ARCHIVE_CATEGORIES) {
+  const indexFile = `posts/${category.id}/index.json`;
+  if (!exactFiles.has(indexFile)) {
+    errors.push(`${indexFile}: category post index is missing`);
+    continue;
+  }
+
+  try {
+    const records = JSON.parse(fs.readFileSync(path.join(ROOT, indexFile), 'utf8'));
+    if (!Array.isArray(records)) throw new Error('top-level value is not an array');
+
+    const indexedFiles = new Set();
+    const indexedSlugs = new Set();
+    let previousDateKey = '9999-99-99';
+
+    for (const record of records) {
+      const recordFile = String(record.file || '').replace(/\\/g, '/');
+      const slug = String(record.slug || '');
+      if (!recordFile) {
+        errors.push(`${indexFile}: post record is missing its file path`);
+        continue;
+      }
+      if (indexedFiles.has(recordFile)) errors.push(`${indexFile}: duplicate post file ${recordFile}`);
+      indexedFiles.add(recordFile);
+      if (slug && indexedSlugs.has(slug)) errors.push(`${indexFile}: duplicate post slug ${slug}`);
+      if (slug) indexedSlugs.add(slug);
+      if (!recordFile.startsWith(`posts/${category.id}/`)) {
+        errors.push(`${indexFile}: post belongs outside its category (${recordFile})`);
+      }
+      if (!exactFiles.has(recordFile)) errors.push(`${indexFile}: indexed post is missing (${recordFile})`);
+
+      const dateKey = /(?:^|\/)(\d{4}-\d{2}-\d{2})-/.exec(recordFile)?.[1];
+      if (dateKey && dateKey > previousDateKey) {
+        errors.push(`${indexFile}: posts are not ordered newest first near ${recordFile}`);
+      }
+      if (dateKey) previousDateKey = dateKey;
+
+      for (const image of Array.isArray(record.images) ? record.images : []) {
+        const imageReference = String(image);
+        if (/^(?:https?:|data:)/i.test(imageReference)) continue;
+        const imageFile = imageReference.startsWith('/')
+          ? imageReference.slice(1)
+          : `images/${category.id}/${imageReference}`;
+        if (!exactFiles.has(imageFile)) {
+          errors.push(`${indexFile}: indexed image is missing (${imageFile})`);
+        }
+      }
+    }
+
+    const actualPosts = relativeFiles.filter(file => (
+      file.startsWith(`posts/${category.id}/`) && file.endsWith('.html')
+    ));
+    for (const postFile of actualPosts) {
+      if (!indexedFiles.has(postFile)) errors.push(`${indexFile}: post is not indexed (${postFile})`);
+    }
+  } catch (error) {
+    errors.push(`${indexFile}: category index could not be audited (${error.message})`);
   }
 }
 

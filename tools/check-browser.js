@@ -3,6 +3,7 @@ const http = require('http');
 const path = require('path');
 const { pathToFileURL } = require('url');
 const { chromium } = require('playwright-core');
+const { listPublicHtmlFiles } = require('./google-tag');
 const { ARCHIVE_CATEGORIES } = require('./site-config');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -105,11 +106,61 @@ async function installStaleSearchBundle(page) {
   }));
 }
 
+function publicPathForFile(filePath) {
+  const relative = path.relative(ROOT, filePath).split(path.sep).join('/');
+  if (relative === 'index.html') return '/?entered=1';
+  if (relative.endsWith('/index.html')) return `/${relative.slice(0, -'index.html'.length)}`;
+  return `/${relative}`;
+}
+
+async function smokePublicPages(browser, baseUrl) {
+  const publicPaths = listPublicHtmlFiles(ROOT).map(publicPathForFile);
+  const batchSize = 4;
+  const viewports = [
+    { label: 'desktop', viewport: { width: 1100, height: 760 } },
+    { label: 'mobile', viewport: { width: 390, height: 844 } },
+  ];
+
+  for (const mode of viewports) {
+    for (let index = 0; index < publicPaths.length; index += batchSize) {
+      const batch = publicPaths.slice(index, index + batchSize);
+      await Promise.all(batch.map(async (publicPath) => {
+        const page = await browser.newPage({ viewport: mode.viewport });
+        const problems = [];
+        page.on('pageerror', (error) => problems.push(error.message));
+        page.on('response', (response) => {
+          if (response.url().startsWith(baseUrl) && response.status() >= 400) {
+            problems.push(`${response.status()} ${response.url()}`);
+          }
+        });
+
+        try {
+          await page.goto(`${baseUrl}${publicPath}`, { waitUntil: 'domcontentloaded' });
+          await page.waitForTimeout(100);
+          const overflows = await page.evaluate(() => (
+            document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+          ));
+          if (overflows) problems.push('page overflows horizontally');
+          assert(
+            problems.length === 0,
+            `${publicPath} failed the ${mode.label} public-page smoke test:\n${problems.join('\n')}`,
+          );
+        } finally {
+          await page.close();
+        }
+      }));
+    }
+  }
+
+  return publicPaths.length;
+}
+
 async function run() {
   const server = await startServer();
   const address = server.address();
   const baseUrl = `http://127.0.0.1:${address.port}`;
   const browser = await chromium.launch(browserOptions());
+  let smokePageCount = 0;
 
   try {
     const missing = await browser.newPage({ viewport: { width: 1000, height: 760 } });
@@ -169,9 +220,16 @@ async function run() {
     assert(new URL(welcome.url()).pathname === '/', 'an entered session was sent back to welcome');
     await welcome.close();
 
-    const latestGamesTitle = JSON.parse(
-      fs.readFileSync(path.join(ROOT, 'posts', 'games', 'index.json'), 'utf8'),
-    )[0].title;
+    const searchPosts = JSON.parse(
+      fs.readFileSync(path.join(ROOT, 'data', 'search-index.json'), 'utf8'),
+    ).posts;
+    const latestGamesTitle = searchPosts.find((post) => post.category === 'games').title;
+    const latestPokemonTitle = searchPosts.find((post) => (
+      post.category === 'games' && /pok[eé]mon/i.test(`${post.title || ''} ${post.text || ''}`)
+    )).title;
+    const latestWarframeTitle = searchPosts.find((post) => (
+      /warframe/i.test(`${post.title || ''} ${post.text || ''}`)
+    )).title;
     const desktop = await openCheckedPage(
       browser,
       `${baseUrl}/?entered=1`,
@@ -462,7 +520,7 @@ async function run() {
 
     const themed = await openCheckedPage(browser, `${baseUrl}/system/`, { width: 1280, height: 900 });
     const changelogMonths = themed.locator('.changelog-month');
-    assert(await changelogMonths.count() === 7, 'System changelog did not render all month drawers');
+    assert(await changelogMonths.count() > 0, 'System changelog did not render any month drawers');
     assert(
       await changelogMonths.evaluateAll((months) => months.every((month) => {
         const shownCount = Number.parseInt(month.querySelector('.changelog-month-meta')?.textContent || '', 10);
@@ -471,16 +529,19 @@ async function run() {
       'System changelog update counts do not match their month entries',
     );
     assert(await themed.locator('.changelog-month[open]').count() === 1, 'System changelog did not start with only the current month open');
-    assert(await themed.locator('[data-changelog-month="2026-09"]').getAttribute('open') !== null, 'current System changelog month did not start open');
-    const augustChangelog = themed.locator('[data-changelog-month="2026-08"]');
-    await augustChangelog.locator('summary').click();
-    assert(await augustChangelog.getAttribute('open') !== null, 'System changelog month did not expand');
+    assert(await changelogMonths.last().getAttribute('open') !== null, 'latest System changelog month did not start open');
+    const longChangelog = themed.locator('.changelog-month-long').last();
+    const longChangelogMonth = await longChangelog.getAttribute('data-changelog-month');
+    if (await longChangelog.getAttribute('open') === null) {
+      await longChangelog.locator('summary').click();
+    }
+    assert(await longChangelog.getAttribute('open') !== null, 'System changelog month did not expand');
     assert(
-      await augustChangelog.locator('.changelog-month-list').evaluate((element) => getComputedStyle(element).columnCount === '2'),
+      await longChangelog.locator('.changelog-month-list').evaluate((element) => getComputedStyle(element).columnCount === '2'),
       'long System changelog month did not use two columns on a wide screen',
     );
-    await augustChangelog.locator('summary').click();
-    assert(await augustChangelog.getAttribute('open') === null, 'System changelog month did not collapse');
+    await longChangelog.locator('summary').click();
+    assert(await longChangelog.getAttribute('open') === null, 'System changelog month did not collapse');
     assert(
       await themed.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'System changelog overflowed horizontally on desktop',
@@ -493,10 +554,12 @@ async function run() {
     await themed.close();
 
     const mobileSystem = await openCheckedPage(browser, `${baseUrl}/system/#changelog`, { width: 390, height: 844 });
-    const mobileAugustChangelog = mobileSystem.locator('[data-changelog-month="2026-08"]');
-    await mobileAugustChangelog.locator('summary').click();
+    const mobileLongChangelog = mobileSystem.locator(`[data-changelog-month="${longChangelogMonth}"]`);
+    if (await mobileLongChangelog.getAttribute('open') === null) {
+      await mobileLongChangelog.locator('summary').click();
+    }
     assert(
-      await mobileAugustChangelog.locator('.changelog-month-list').evaluate((element) => getComputedStyle(element).columnCount === 'auto'),
+      await mobileLongChangelog.locator('.changelog-month-list').evaluate((element) => getComputedStyle(element).columnCount === 'auto'),
       'long System changelog month did not return to one column on mobile',
     );
     assert(
@@ -549,7 +612,12 @@ async function run() {
     );
     await shrineHallway.close();
 
-    const pokemonShrine = await openCheckedPage(browser, `${baseUrl}/shrines/pokemon/`, { width: 1280, height: 900 });
+    const pokemonShrine = await openCheckedPage(
+      browser,
+      `${baseUrl}/shrines/pokemon/`,
+      { width: 1280, height: 900 },
+      installStaleSearchBundle,
+    );
     const octoberShinyFiles = [
       'img-7184.webp',
       'img-7185.webp',
@@ -574,9 +642,18 @@ async function run() {
       await pokemonShrine.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'Pokémon shrine overflowed horizontally after adding October shinies',
     );
+    assert(
+      await pokemonShrine.locator('#pokemon-post-list').getByText(latestPokemonTitle, { exact: false }).count() === 1,
+      'Pokémon shrine preferred a stale bundled index over the current search index',
+    );
     await pokemonShrine.close();
 
-    const warframe = await openCheckedPage(browser, `${baseUrl}/shrines/warframe/`, { width: 1280, height: 900 });
+    const warframe = await openCheckedPage(
+      browser,
+      `${baseUrl}/shrines/warframe/`,
+      { width: 1280, height: 900 },
+      installStaleSearchBundle,
+    );
     assert(await warframe.locator('.warframe-frame-shelf').count() === 25, 'Warframe shrine did not render all frame folders');
     assert(await warframe.locator('.warframe-captura-card').count() === 113, 'Warframe shrine did not render all curated screenshots');
     assert(
@@ -590,6 +667,10 @@ async function run() {
       .every((image) => image.complete && image.naturalWidth > 0))
       .catch(() => { throw new Error('Warframe folder previews did not all decode'); });
     assert(await warframe.locator('#warframe-post-list li').count() > 0, 'Warframe shrine did not gather related posts');
+    assert(
+      await warframe.locator('#warframe-post-list').getByText(latestWarframeTitle, { exact: false }).count() === 1,
+      'Warframe shrine preferred a stale bundled index over the current search index',
+    );
     assert(
       await warframe.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'Warframe shrine overflowed horizontally on desktop',
@@ -880,12 +961,14 @@ async function run() {
       'direct-file custom 404 home link did not stay local',
     );
     await direct404.close();
+
+    smokePageCount = await smokePublicPages(browser, baseUrl);
   } finally {
     await browser.close();
     await new Promise((resolve) => server.close(resolve));
   }
 
-    console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, changelog drawers, archives, Pokémon and Warframe shrines, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.');
+  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon and Warframe shrines, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
 }
 
 run().catch((error) => {

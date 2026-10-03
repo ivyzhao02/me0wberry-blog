@@ -1,7 +1,12 @@
 (function () {
   const list = document.getElementById('pokemon-post-list');
-  const posts = window.me0wberrySearchIndex?.posts;
-  if (list && Array.isArray(posts)) {
+  async function renderRelatedPosts() {
+    if (!list) return;
+    const posts = typeof window.loadMe0wberrySearchPosts === 'function'
+      ? await window.loadMe0wberrySearchPosts()
+      : window.me0wberrySearchIndex?.posts;
+    if (!Array.isArray(posts)) return;
+
     const matches = posts.filter((post) => {
       const searchable = `${post.title || ''} ${post.text || ''}`;
       return post.category === 'games' && /pok[eé]mon/i.test(searchable);
@@ -20,6 +25,7 @@
       list.appendChild(item);
     });
   }
+  renderRelatedPosts();
 
   const newShinies = [
     ['froakie', '../../images/games/img-7184.webp', 'pokémon go'],

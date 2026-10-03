@@ -411,9 +411,13 @@
   });
 
   const list = document.getElementById('warframe-post-list');
-  const posts = window.me0wberrySearchIndex?.posts;
+  async function renderRelatedPosts() {
+    if (!list) return;
+    const posts = typeof window.loadMe0wberrySearchPosts === 'function'
+      ? await window.loadMe0wberrySearchPosts()
+      : window.me0wberrySearchIndex?.posts;
+    if (!Array.isArray(posts)) return;
 
-  if (list && Array.isArray(posts)) {
     const matches = posts.filter((post) => {
       const searchable = `${post.title || ''} ${post.text || ''}`;
       return /warframe/i.test(searchable);
@@ -432,6 +436,7 @@
       list.appendChild(item);
     });
   }
+  renderRelatedPosts();
 
   const dialog = document.getElementById('warframe-memory-dialog');
   const largeImage = document.getElementById('warframe-memory-large');

@@ -13,33 +13,37 @@ var coins = 10;
 var movment = true;
 
 //Owner configured variables
-var date = new Date(getParameterByName('dob') * 1000);
+var dobTimestamp = Number(getParameterByName('dob') || 1775770472);
+if (!Number.isFinite(dobTimestamp) || dobTimestamp <= 0) {
+    dobTimestamp = 1775770472;
+}
+var date = new Date(dobTimestamp * 1000);
 var dob = date.getMonth() + 1 + '-' + date.getFullYear();
 
-var petName = getParameterByName('name');
-var element = getParameterByName('element');
-var gender = getParameterByName('gender'); //f m b n
+var petName = getParameterByName('name') || 'Stubby';
+var element = getParameterByName('element') || 'Fire';
+var gender = getParameterByName('gender') || 'f'; //f m b n
 
-var tableColor = getParameterByName('tablecolor');
-var textColor = getParameterByName('textcolor');
+var tableColor = getParameterByName('tablecolor') || '#ffffff';
+var textColor = getParameterByName('textcolor') || '#4a3a42';
 
-var mapImage = getParameterByName('map');
-if (!mapImage.includes('://')) {
-    //Map
-    mapImage = 'maps/' + mapImage;
+function resolveAssetPath(value, localDirectory, fallback) {
+    value = value || fallback || '';
+    if (!value) {
+        return '';
+    }
+
+    var isAbsolute = /^[a-z][a-z0-9+.-]*:/i.test(value) ||
+        value.indexOf('//') === 0 ||
+        value.indexOf('/') === 0 ||
+        value.indexOf('./') === 0 ||
+        value.indexOf('../') === 0;
+    return isAbsolute ? value : localDirectory + '/' + value;
 }
 
-var petImage = getParameterByName('pet');
-if (!petImage.includes('://')) {
-    //Pet
-    petImage = 'pets/' + petImage;
-}
-
-var bodyImage = getParameterByName('background');
-if (!bodyImage.includes('://')) {
-    //Pet
-    bodyImage = 'backgrounds/' + bodyImage;
-}
+var mapImage = resolveAssetPath(getParameterByName('map'), 'maps', '../images/grass-map-200.jpg');
+var petImage = resolveAssetPath(getParameterByName('pet'), 'pets', '../images/stubby-gifypet.png');
+var bodyImage = resolveAssetPath(getParameterByName('background'), 'backgrounds');
 
 //DOM elements
 var pet = document.getElementById('pet');
@@ -345,7 +349,12 @@ function showerPet() {
 function teShower(active) {
     if (active === true) {
         overlay.style.backgroundImage = "url('overlays/shower.gif')";
-        overlay.innerHTML = '<img style="padding-top: 50px; width: 60%;" src="' + petImage + '" />';
+        overlay.textContent = '';
+        var showerPetImage = document.createElement('img');
+        showerPetImage.style.paddingTop = '50px';
+        showerPetImage.style.width = '60%';
+        showerPetImage.src = petImage;
+        overlay.appendChild(showerPetImage);
     } else {
         overlay.style.backgroundImage = 'none';
         overlay.innerHTML = '';
@@ -521,23 +530,30 @@ for (var i = 0, row; (row = petTable.rows[i]); i++) {
 petTable.style.borderColor = tableColor;
 
 //Pick gender icon
-var genderRender = '';
+var genderIcon = '';
 if (gender == 'f') {
-    genderRender = '<img class="uiicon" src="ui/girl.png"/>';
+    genderIcon = 'ui/girl.png';
 } else if (gender == 'm') {
-    genderRender = '<img class="uiicon" src="ui/boy.png"/>';
+    genderIcon = 'ui/boy.png';
 } else if (gender == 'b') {
-    genderRender = '<img class="uiicon" src="ui/both.png"/>';
+    genderIcon = 'ui/both.png';
 }
 
 //General render settings
 pet.style.backgroundImage = "url('" + petImage + "')";
 map.style.backgroundImage = "url('" + mapImage + "')";
-petNameTag.innerHTML = petName;
-petNameBox.innerHTML = petName + genderRender;
-dobBox.innerHTML = dob;
-elementBox.innerHTML = element;
-document.body.style.backgroundImage = "url('" + bodyImage + "')";
+petNameTag.textContent = petName;
+petNameBox.textContent = petName;
+if (genderIcon) {
+    var genderImage = document.createElement('img');
+    genderImage.className = 'uiicon';
+    genderImage.src = genderIcon;
+    genderImage.alt = '';
+    petNameBox.appendChild(genderImage);
+}
+dobBox.textContent = dob;
+elementBox.textContent = element;
+document.body.style.backgroundImage = bodyImage ? "url('" + bodyImage + "')" : 'none';
 document.body.style.color = textColor;
 document.title = petName;
 

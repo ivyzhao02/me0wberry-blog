@@ -5,6 +5,27 @@
       return new URL(value.slice(1), new URL(`${SITE_ROOT}/`, window.location.href)).href;
     }
 
+    let freshSearchPostsRequest;
+    function loadMe0wberrySearchPosts() {
+      if (freshSearchPostsRequest) return freshSearchPostsRequest;
+
+      const bundledPosts = window.me0wberrySearchIndex?.posts;
+      freshSearchPostsRequest = fetch(sitePath(`/data/search-index.json?t=${Date.now()}`), { cache: 'no-store' })
+        .then((response) => {
+          if (!response.ok) throw new Error(`search index returned ${response.status}`);
+          return response.json();
+        })
+        .then((data) => {
+          if (!Array.isArray(data.posts)) throw new Error('search index did not contain posts');
+          return data.posts;
+        })
+        .catch(() => (Array.isArray(bundledPosts) ? bundledPosts : []));
+
+      return freshSearchPostsRequest;
+    }
+
+    window.loadMe0wberrySearchPosts = loadMe0wberrySearchPosts;
+
     const PASSPORT_STORAGE_KEY = 'me0wberry_passport_v1';
     const PASSPORT_STAMP_IDS = ['wander', 'naranya', 'love-ball', 'pixel-cat'];
 
@@ -195,11 +216,11 @@
 
     document.addEventListener('DOMContentLoaded', initAccessibility);
 
-    function surpriseMe() {
+    async function surpriseMe() {
       if (recordPassportStamp('wander', { toast: false })) {
         try { window.sessionStorage.setItem('me0wberry_passport_pending_toast', '1'); } catch (error) {}
       }
-      const posts = window.me0wberrySearchIndex?.posts;
+      const posts = await loadMe0wberrySearchPosts();
       const places = [
         '/info/index.html',
         '/persona/index.html',
