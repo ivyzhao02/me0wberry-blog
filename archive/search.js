@@ -74,11 +74,14 @@
 
   async function loadSearch() {
     try {
-      let data = window.me0wberrySearchIndex;
-      if (!data) {
-        const response = await fetch(siteUrl('data/search-index.json'));
+      let data;
+      try {
+        const response = await fetch(siteUrl(`data/search-index.json?t=${Date.now()}`), { cache: 'no-store' });
         if (!response.ok) throw new Error(`search index returned ${response.status}`);
         data = await response.json();
+      } catch (fetchError) {
+        data = window.me0wberrySearchIndex;
+        if (!data) throw fetchError;
       }
       posts = Array.isArray(data.posts) ? data.posts : [];
       input.disabled = false;

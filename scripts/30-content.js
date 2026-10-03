@@ -213,22 +213,19 @@
       if (!hasPostTargets) return;
 
       const bundledPosts = window.me0wberrySearchIndex?.posts;
-      if (Array.isArray(bundledPosts)) {
-        categories.forEach((category) => {
-          const displayCategory = category === 'lately' ? 'now' : category;
-          updateCategoryPanel(category, bundledPosts.filter((post) => post.category === displayCategory));
-        });
-        return;
-      }
-
       const cacheBust = Date.now();
       await Promise.all(categories.map(async (cat) => {
+        let posts;
         try {
-          const res = await fetch(sitePath(`/posts/${cat}/index.json?t=${cacheBust}`));
-          if (!res.ok) return;
-          const posts = await res.json();
-          updateCategoryPanel(cat, posts);
-        } catch(e) { /* no posts yet */ }
+          const res = await fetch(sitePath(`/posts/${cat}/index.json?t=${cacheBust}`), { cache: 'no-store' });
+          if (!res.ok) throw new Error(`${cat} post index returned ${res.status}`);
+          posts = await res.json();
+        } catch(e) {
+          if (!Array.isArray(bundledPosts)) return;
+          const displayCategory = cat === 'lately' ? 'now' : cat;
+          posts = bundledPosts.filter((post) => post.category === displayCategory);
+        }
+        updateCategoryPanel(cat, posts);
       }));
     }
 

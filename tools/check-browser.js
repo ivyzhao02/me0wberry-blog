@@ -92,6 +92,19 @@ async function openCheckedPage(browser, url, viewport, setup) {
   return page;
 }
 
+async function installStaleSearchBundle(page) {
+  await page.route('**/data/search-index.js', (route) => route.fulfill({
+    contentType: 'application/javascript; charset=utf-8',
+    body: `window.me0wberrySearchIndex = { posts: [{
+      title: 'stale cached post',
+      date: 'old cache',
+      category: 'games',
+      url: '/posts/games/stale-cached-post.html',
+      text: 'stale cached post'
+    }] };`,
+  }));
+}
+
 async function run() {
   const server = await startServer();
   const address = server.address();
@@ -156,7 +169,19 @@ async function run() {
     assert(new URL(welcome.url()).pathname === '/', 'an entered session was sent back to welcome');
     await welcome.close();
 
-    const desktop = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 1440, height: 900 });
+    const latestGamesTitle = JSON.parse(
+      fs.readFileSync(path.join(ROOT, 'posts', 'games', 'index.json'), 'utf8'),
+    )[0].title;
+    const desktop = await openCheckedPage(
+      browser,
+      `${baseUrl}/?entered=1`,
+      { width: 1440, height: 900 },
+      installStaleSearchBundle,
+    );
+    assert(
+      (await desktop.locator('#latest-games').textContent()).includes(latestGamesTitle),
+      'homepage preferred a stale bundled post index over the current category index',
+    );
     assert(await desktop.locator('#topbar').isVisible(), 'desktop topbar is not visible');
     assert(await desktop.locator('#sidebar').isVisible(), 'desktop sidebar is not visible');
     const bioMetrics = await desktop.locator('#panel-bio').evaluate((panel) => {
@@ -480,7 +505,12 @@ async function run() {
     );
     await mobileSystem.close();
 
-    const archive = await openCheckedPage(browser, `${baseUrl}/archive/`, { width: 1280, height: 900 });
+    const archive = await openCheckedPage(
+      browser,
+      `${baseUrl}/archive/`,
+      { width: 1280, height: 900 },
+      installStaleSearchBundle,
+    );
     assert(await archive.locator('.page-nav-link').count() === 1, 'archive does not use the shared page navigation bubble');
     assert(
       await archive.locator('.page-nav-link').evaluate((element) => getComputedStyle(element).borderRadius === '999px'),
@@ -489,6 +519,11 @@ async function run() {
     await archive.locator('#archive-search').fill('stubby');
     await archive.waitForTimeout(100);
     assert(await archive.locator('.archive-search-result').count() > 0, 'archive search returned no Stubby results');
+    await archive.locator('#archive-search').fill(latestGamesTitle);
+    assert(
+      await archive.locator('.archive-search-result-title').filter({ hasText: latestGamesTitle }).count() === 1,
+      'archive search preferred a stale bundled index over the current search index',
+    );
     await archive.locator('#archive-search').fill('a query that cannot match any post');
     assert((await archive.locator('#archive-search-status').textContent()).startsWith('0 posts found'), 'archive search did not report no results');
     await archive.locator('#archive-search-clear').click();
@@ -513,6 +548,33 @@ async function run() {
       'shrine hallway overflowed horizontally after adding the Warframe room',
     );
     await shrineHallway.close();
+
+    const pokemonShrine = await openCheckedPage(browser, `${baseUrl}/shrines/pokemon/`, { width: 1280, height: 900 });
+    const octoberShinyFiles = [
+      'img-7184.webp',
+      'img-7185.webp',
+      'img-7196.webp',
+      'img-7221.webp',
+      'img-7264.webp',
+      'img-7269.webp',
+      'img-7270.webp',
+    ];
+    const octoberShinySelector = octoberShinyFiles
+      .map((file) => `[data-pokemon-full$="${file}"]`)
+      .join(', ');
+    assert(
+      await pokemonShrine.locator(octoberShinySelector).count() === octoberShinyFiles.length,
+      'Pokémon shrine did not render all October shiny captures',
+    );
+    await pokemonShrine.waitForFunction((files) => files.every((file) => {
+      const image = document.querySelector(`[data-pokemon-full$="${file}"] img`);
+      return image?.complete && image.naturalWidth > 0;
+    }), octoberShinyFiles).catch(() => { throw new Error('October shiny captures did not all decode'); });
+    assert(
+      await pokemonShrine.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Pokémon shrine overflowed horizontally after adding October shinies',
+    );
+    await pokemonShrine.close();
 
     const warframe = await openCheckedPage(browser, `${baseUrl}/shrines/warframe/`, { width: 1280, height: 900 });
     assert(await warframe.locator('.warframe-frame-shelf').count() === 25, 'Warframe shrine did not render all frame folders');
@@ -646,6 +708,7 @@ async function run() {
         browser,
         `${baseUrl}/archive/${category.id}/`,
         { width: 1280, height: 900 },
+        category.id === 'games' ? installStaleSearchBundle : undefined,
       );
       assert(
         await categoryArchive.locator(`body[data-archive-category="${category.id}"]`).count() === 1,
@@ -657,6 +720,12 @@ async function run() {
       );
       assert(await categoryArchive.locator('.page-nav-link').count() === 2, `${category.id} archive navigation is inconsistent`);
       assert(await categoryArchive.locator('#archive-list > div').count() > 0, `${category.id} archive loaded no posts`);
+      if (category.id === 'games') {
+        assert(
+          (await categoryArchive.locator('#archive-list > div').first().textContent()).includes(latestGamesTitle),
+          'category archive preferred a stale bundled index over the current category index',
+        );
+      }
       await categoryArchive.close();
     }
 
@@ -816,7 +885,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-    console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, changelog drawers, archives, Warframe shrine, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.');
+    console.log('browser check passed: welcome, stateful desktop/mobile journeys, themes, changelog drawers, archives, Pokémon and Warframe shrines, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.');
 }
 
 run().catch((error) => {

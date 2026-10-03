@@ -12,13 +12,14 @@
     try {
       const bundledPosts = window.me0wberrySearchIndex?.posts;
       let posts;
-      if (Array.isArray(bundledPosts)) {
+      try {
+        const res = await fetch(siteUrl(`posts/${category}/index.json?t=${Date.now()}`), { cache: 'no-store' });
+        if (!res.ok) throw new Error(`${category} post index returned ${res.status}`);
+        posts = await res.json();
+      } catch (fetchError) {
+        if (!Array.isArray(bundledPosts)) throw fetchError;
         const displayCategory = category === 'lately' ? 'now' : category;
         posts = bundledPosts.filter((post) => post.category === displayCategory);
-      } else {
-        const res = await fetch(siteUrl(`posts/${category}/index.json?t=${Date.now()}`));
-        if (!res.ok) return;
-        posts = await res.json();
       }
       if (!Array.isArray(posts) || posts.length === 0) return;
 
