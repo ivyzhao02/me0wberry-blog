@@ -795,6 +795,55 @@ async function run() {
     );
     await mobileSanrio.close();
 
+    const league = await openCheckedPage(
+      browser,
+      `${baseUrl}/shrines/league/`,
+      { width: 1280, height: 900 },
+      installStaleSearchBundle,
+    );
+    assert(await league.locator('.league-champion-card').count() === 4, 'League shrine did not render the four main champions');
+    assert(await league.locator('.league-wardrobe').count() === 4, 'League shrine did not render all four skin wardrobes');
+    assert(
+      await league.locator('.league-party-grid img').evaluateAll((images) => images.length === 4
+        && images.every((image) => image.complete && image.naturalWidth > 0)),
+      'League shrine champion portraits did not all decode',
+    );
+    assert(
+      (await league.locator('.league-terminal').textContent()).includes('waiting for game name + tagline'),
+      'League shrine did not preserve its unconnected profile state',
+    );
+    await league.locator('.league-wardrobe').first().locator('summary').click();
+    assert(await league.locator('.league-wardrobe-body').first().isVisible(), 'League skin wardrobe did not open');
+    await league.waitForFunction(() => {
+      const list = document.querySelector('#league-post-list');
+      return list && !list.textContent.includes('looking through the archive');
+    });
+    assert(await league.locator('#league-post-list li').count() > 0, 'League shrine did not finish gathering related posts');
+    assert(
+      await league.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'League shrine overflowed horizontally on desktop',
+    );
+    await league.close();
+
+    const mobileLeague = await openCheckedPage(browser, `${baseUrl}/shrines/league/`, { width: 390, height: 844 });
+    assert(
+      await mobileLeague.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'League shrine overflowed horizontally on mobile',
+    );
+    assert(
+      await mobileLeague.locator('.league-room-hero').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'League shrine hero clipped content on mobile',
+    );
+    assert(
+      await mobileLeague.locator('.league-party-grid').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'League champion portraits exceeded their mobile grid',
+    );
+    assert(
+      await mobileLeague.locator('.league-profile-strip').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length === 1),
+      'League profile strip did not collapse to one column on mobile',
+    );
+    await mobileLeague.close();
+
     const pollValues = new Map();
     const poll = await openCheckedPage(
       browser,
@@ -1072,7 +1121,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon, Warframe and draft Sanrio shrines, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
+  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon, Warframe, and draft Sanrio and League shrines, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
 }
 
 run().catch((error) => {

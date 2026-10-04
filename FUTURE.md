@@ -47,7 +47,7 @@ These locations identify only possible frame placement. Planned artwork contents
 
 - [x] Publish the Warframe shrine with personal Captura, favourite-frame notes, companions, profile highlights, and automatically gathered post links.
 - [ ] Finish and publish the draft Sanrio shrine with favourite-character notes, personal collection photography, a wishlist, and links to relevant posts; do not copy official character artwork into the room without permission.
-- [ ] Decide whether a focused League of Legends shrine belongs on the site. If approved, keep it centred on the Sona, Soraka, Nami, and Seraphine skin collections plus useful public profile statistics.
+- [ ] Finish and publish the draft League of Legends shrine around Sona, Nami, Soraka, and Seraphine; fill their owned, missing, and chroma cabinets, then add dated mastery-led honourable mentions and confirmed public profile links.
 - [ ] Revisit a broader plush collection shrine after the collection is unpacked and can be photographed properly; include the MINISO PenPen penguins among its possible subjects.
 - Keep future shrine cards off the public shrine index until each room has enough material to feel intentional.
 
