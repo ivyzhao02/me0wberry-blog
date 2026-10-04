@@ -2223,3 +2223,424 @@ a.shrine-cabinet-card:hover {
 @media (max-width: 340px) {
   .warframe-profile-strip { grid-template-columns: 1fr; }
 }
+
+/* Sanrio shrine */
+.sanrio-room-hero {
+  background:
+    radial-gradient(circle at 8% 18%, rgba(255,255,255,0.82) 0 2px, transparent 3px),
+    radial-gradient(circle at 92% 24%, rgba(255,255,255,0.72) 0 1px, transparent 2px),
+    linear-gradient(135deg, rgba(255,239,244,0.78), rgba(237,247,231,0.7) 48%, rgba(234,245,251,0.72));
+}
+
+.sanrio-mail-emblem {
+  position: relative;
+  min-height: 132px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(192,112,144,0.25);
+  border-radius: 15px;
+  background:
+    repeating-linear-gradient(-45deg, rgba(255,255,255,0.34) 0 7px, transparent 7px 14px),
+    linear-gradient(145deg, rgba(255,216,228,0.58), rgba(219,239,209,0.48));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.84);
+}
+
+.sanrio-envelope {
+  position: relative;
+  width: 86px;
+  height: 58px;
+  border: 2px solid rgba(176,94,127,0.58);
+  border-radius: 8px;
+  background: rgba(255,252,245,0.9);
+  box-shadow: 0 9px 16px rgba(122,58,82,0.12);
+  transform: rotate(-4deg);
+}
+
+.sanrio-envelope::before,
+.sanrio-envelope::after {
+  content: '';
+  position: absolute;
+  width: 58px;
+  height: 2px;
+  background: rgba(176,94,127,0.44);
+  transform-origin: left center;
+}
+
+.sanrio-envelope::before {
+  top: 7px;
+  left: 1px;
+  transform: rotate(35deg);
+}
+
+.sanrio-envelope::after {
+  top: 39px;
+  left: 0;
+  transform: rotate(-35deg);
+}
+
+.sanrio-envelope i {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 17px;
+  height: 17px;
+  border: 1px dashed rgba(150,180,135,0.72);
+  background: rgba(219,239,209,0.7);
+}
+
+.sanrio-heart-sticker {
+  position: absolute;
+  right: 20px;
+  bottom: 17px;
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  color: var(--pink);
+  border: 1px solid rgba(192,112,144,0.3);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.86);
+  box-shadow: 0 4px 8px rgba(122,58,82,0.1);
+  font-size: 18px;
+  transform: rotate(8deg);
+}
+
+.sanrio-room-section {
+  margin-top: 28px;
+  scroll-margin-top: 58px;
+}
+
+.sanrio-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 13px;
+}
+
+.sanrio-section-heading h2 {
+  margin: 7px 0 0;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 24px;
+}
+
+.sanrio-section-heading > p {
+  max-width: 390px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  font-style: italic;
+  line-height: 1.55;
+  text-align: right;
+}
+
+.sanrio-character-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.sanrio-character-card {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--theme-border, rgba(150,180,135,0.38));
+  border-radius: 16px;
+  background: var(--theme-surface-bg, linear-gradient(145deg, rgba(255,255,255,0.64), rgba(255,216,228,0.24)));
+  box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.84)), 0 7px 16px var(--theme-shadow, rgba(91,113,78,0.06));
+}
+
+.sanrio-character-ticket {
+  position: relative;
+  display: grid;
+  width: 88px;
+  min-height: 104px;
+  align-content: center;
+  justify-items: center;
+  overflow: hidden;
+  border: 1px dashed rgba(192,112,144,0.5);
+  border-radius: 13px;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255,255,255,0.86) 0 8px, transparent 9px),
+    linear-gradient(155deg, rgba(255,226,235,0.88), rgba(255,249,241,0.74));
+  box-shadow: inset 0 0 0 4px rgba(255,255,255,0.38);
+}
+
+.sanrio-character-ticket-blue {
+  border-color: rgba(111,158,176,0.46);
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255,255,255,0.88) 0 8px, transparent 9px),
+    linear-gradient(155deg, rgba(228,244,251,0.9), rgba(255,249,241,0.74));
+}
+
+.sanrio-character-ticket span {
+  display: grid;
+  width: 47px;
+  height: 47px;
+  place-items: center;
+  color: var(--heading);
+  border: 1px solid rgba(192,112,144,0.34);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.74);
+  font-family: var(--font-heading);
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.sanrio-character-ticket i {
+  margin-top: 8px;
+  color: var(--muted);
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  font-style: normal;
+}
+
+.sanrio-character-card h3,
+.sanrio-shelf-note h3 {
+  margin: 4px 0 6px;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 19px;
+}
+
+.sanrio-character-card p,
+.sanrio-shelf-note p {
+  color: var(--body);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.sanrio-character-card a {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--link);
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+.sanrio-character-card a:hover,
+.sanrio-character-card a:focus-visible { text-decoration: underline; }
+
+.sanrio-collection-layout {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.9fr) minmax(0, 1.1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.sanrio-photo-viewer {
+  display: grid;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  color: var(--body);
+  text-align: left;
+  border: 1px solid var(--theme-border, rgba(192,112,144,0.34));
+  border-radius: 16px;
+  background: var(--theme-control-bg, rgba(255,255,255,0.5));
+  box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.84)), 0 9px 20px var(--theme-shadow, rgba(122,58,82,0.08));
+  cursor: zoom-in;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.sanrio-photo-viewer:hover,
+.sanrio-photo-viewer:focus-visible {
+  border-color: var(--pink);
+  box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.88)), 0 12px 24px var(--theme-shadow, rgba(122,58,82,0.12));
+  transform: translateY(-2px);
+}
+
+.sanrio-photo-bar,
+.sanrio-photo-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 10px;
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.sanrio-photo-bar {
+  border-bottom: 1px solid var(--theme-border, rgba(150,180,135,0.3));
+  background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,216,228,0.2));
+}
+
+.sanrio-photo-bar i,
+.sanrio-photo-status i { font-style: normal; }
+
+.sanrio-photo-viewer > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 45%;
+}
+
+.sanrio-photo-status {
+  color: var(--muted);
+  border-top: 1px solid var(--theme-border, rgba(150,180,135,0.28));
+  background: rgba(255,255,255,0.34);
+}
+
+.sanrio-photo-status b {
+  overflow: hidden;
+  color: var(--body);
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sanrio-shelf-note {
+  position: relative;
+  min-width: 0;
+  padding: 26px;
+  overflow: hidden;
+  border: 1px solid var(--theme-border, rgba(150,180,135,0.38));
+  border-radius: 16px;
+  background:
+    linear-gradient(90deg, transparent 25px, rgba(224,137,169,0.15) 26px, transparent 27px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.48) 0 27px, rgba(150,180,135,0.13) 28px),
+    rgba(255,251,244,0.62);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.86), 0 8px 18px var(--theme-shadow, rgba(91,113,78,0.06));
+}
+
+.sanrio-shelf-note::after {
+  content: '♡';
+  position: absolute;
+  right: 18px;
+  bottom: 12px;
+  color: rgba(192,112,144,0.28);
+  font-size: 50px;
+  transform: rotate(-9deg);
+}
+
+.sanrio-shelf-note dl {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 7px;
+  margin: 18px 0 0;
+}
+
+.sanrio-shelf-note dl div {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.sanrio-shelf-note dt {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 5px;
+}
+
+.sanrio-shelf-note dd {
+  color: var(--body);
+  font-size: 10px;
+}
+
+.sanrio-wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sanrio-wishlist-grid article {
+  position: relative;
+  min-width: 0;
+  padding: 16px 15px 14px;
+  border: 1px dashed rgba(192,112,144,0.4);
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.56), rgba(234,245,251,0.28));
+}
+
+.sanrio-wishlist-grid article::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 20px;
+  width: 42px;
+  height: 10px;
+  background: rgba(219,239,209,0.68);
+  box-shadow: 0 0 0 1px rgba(150,180,135,0.2);
+  transform: rotate(2deg);
+}
+
+.sanrio-wishlist-grid span {
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sanrio-wishlist-grid p {
+  margin: 7px 0 10px;
+  color: var(--body);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.sanrio-wishlist-grid i {
+  color: var(--muted);
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  font-style: normal;
+}
+
+.sanrio-credit-note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 13px;
+  align-items: center;
+  margin-top: 22px;
+  padding: 11px 13px;
+  border: 1px solid var(--theme-border, rgba(150,180,135,0.3));
+  border-radius: 12px;
+  background: rgba(255,255,255,0.3);
+}
+
+.sanrio-credit-note span {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  white-space: nowrap;
+}
+
+.sanrio-credit-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .sanrio-character-card { grid-template-columns: 76px minmax(0, 1fr); }
+  .sanrio-character-ticket { width: 74px; }
+}
+
+@media (max-width: 760px) {
+  .sanrio-section-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .sanrio-section-heading > p { text-align: left; }
+  .sanrio-character-grid,
+  .sanrio-collection-layout { grid-template-columns: 1fr; }
+  .sanrio-wishlist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sanrio-credit-note { grid-template-columns: 1fr; gap: 6px; }
+}
+
+@media (max-width: 480px) {
+  .sanrio-character-card { grid-template-columns: 68px minmax(0, 1fr); padding: 11px; }
+  .sanrio-character-ticket { width: 66px; min-height: 92px; }
+  .sanrio-wishlist-grid { grid-template-columns: 1fr; }
+  .sanrio-shelf-note { padding: 21px; }
+}

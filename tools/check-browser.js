@@ -252,6 +252,9 @@ async function run() {
     const latestWarframeTitle = searchPosts.find((post) => (
       /warframe/i.test(`${post.title || ''} ${post.text || ''}`)
     )).title;
+    const latestSanrioTitle = searchPosts.find((post) => (
+      /sanrio|pochacco|cinnamoroll|my melody|hello kitty|chococat|kuromi|pompompurin/i.test(`${post.title || ''} ${post.text || ''}`)
+    )).title;
     const desktop = await openCheckedPage(
       browser,
       `${baseUrl}/?entered=1`,
@@ -756,6 +759,42 @@ async function run() {
     );
     await mobileWarframe.close();
 
+    const sanrio = await openCheckedPage(
+      browser,
+      `${baseUrl}/shrines/sanrio/`,
+      { width: 1280, height: 900 },
+      installStaleSearchBundle,
+    );
+    assert(await sanrio.locator('.sanrio-character-card').count() === 2, 'Sanrio shrine did not render both confirmed favourite-character cards');
+    assert(
+      await sanrio.locator('.sanrio-photo-viewer img').evaluate((image) => image.complete && image.naturalWidth > 0),
+      'Sanrio collection photo did not decode',
+    );
+    assert(
+      await sanrio.locator('#sanrio-post-list').getByText(latestSanrioTitle, { exact: false }).count() === 1,
+      'Sanrio shrine preferred a stale bundled index over the current search index',
+    );
+    assert(
+      await sanrio.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Sanrio shrine overflowed horizontally on desktop',
+    );
+    await sanrio.locator('.sanrio-photo-viewer').click();
+    assert(await sanrio.locator('#sanrio-photo-dialog').isVisible(), 'Sanrio collection photo viewer did not open');
+    assert(
+      await sanrio.locator('#sanrio-photo-large').evaluate((image) => image.complete && image.naturalWidth > 0),
+      'Sanrio expanded collection photo did not decode',
+    );
+    await sanrio.locator('#sanrio-photo-dialog .stubby-memory-close').click();
+    await sanrio.close();
+
+    const mobileSanrio = await openCheckedPage(browser, `${baseUrl}/shrines/sanrio/`, { width: 390, height: 844 });
+    assert(await mobileSanrio.locator('.shrine-header-reservation').isHidden(), 'mobile Sanrio shrine kept its secondary reserved photo frame');
+    assert(
+      await mobileSanrio.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Sanrio shrine overflowed horizontally on mobile',
+    );
+    await mobileSanrio.close();
+
     const pollValues = new Map();
     const poll = await openCheckedPage(
       browser,
@@ -1033,7 +1072,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon and Warframe shrines, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
+  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon, Warframe and draft Sanrio shrines, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
 }
 
 run().catch((error) => {
