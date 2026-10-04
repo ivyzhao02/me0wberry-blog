@@ -1,0 +1,153 @@
+{
+  "snapshotDate": "2026-10-04",
+  "accountTotals": {
+    "skins": 465,
+    "chromas": 345
+  },
+  "champions": {
+    "sona": {
+      "id": 37,
+      "assetName": "Sona",
+      "includeBase": false,
+      "summary": {
+        "skins": "16 / 16 skins",
+        "chromas": "53 / 53 client-counted chromas",
+        "note": "7 unowned variants are shown alongside the client collection count"
+      },
+      "expected": {
+        "skins": 16,
+        "ownedSkins": 16,
+        "chromas": 60,
+        "ownedChromas": 53
+      },
+      "missingSkins": [],
+      "missingChromas": {
+        "Guqin Sona": ["Meteorite"],
+        "Victorious Sona": ["Platinum", "Emerald", "Diamond", "Master", "Grandmaster", "Challenger"]
+      },
+      "skinNotes": {
+        "Arcade Sona": "K.O. event chroma owned",
+        "Guqin Sona": "golden owned · meteorite is the one missing guqin variant",
+        "Immortal Journey Sona": "full eight-chroma bundle owned",
+        "Odyssey Sona": "full six-chroma set owned",
+        "Pentakill III: Lost Chapter Sona": "full eight-chroma bundle owned",
+        "Prestige Requiem Sona": "vivid chroma owned",
+        "PsyOps Sona": "full set owned · hunter came from event loot",
+        "Spirit Blossom Springs Sona": "full eight-chroma bundle owned",
+        "Star Guardian Sona": "full set owned · brilliant came from event loot",
+        "Victorious Sona": "bronze , silver + gold earned · six higher-rank rewards unavailable"
+      }
+    },
+    "nami": {
+      "id": 267,
+      "assetName": "Nami",
+      "includeBase": false,
+      "summary": {
+        "skins": "12 / 14 skins",
+        "chromas": "37 / 53 chromas",
+        "note": "2 old skins + 16 chromas are still waiting"
+      },
+      "expected": {
+        "skins": 14,
+        "ownedSkins": 12,
+        "chromas": 53,
+        "ownedChromas": 37
+      },
+      "missingSkins": ["Koi Nami", "River Spirit Nami"],
+      "missingChromas": {
+        "Bewitching Nami": ["Citrine", "Pearl", "Ruby", "Sapphire", "Turquoise"],
+        "Mythmaker Nami": ["Catseye", "Obsidian", "Pearl", "Rose Quartz", "Ruby", "Sapphire", "Tanzanite", "Turquoise"]
+      },
+      "skinNotes": {
+        "Bewitching Nami": "emerald , obsidian + rose quartz owned · waiting on a seasonal return or essence emporium for the rest",
+        "Cosmic Destiny Nami": "full seven-chroma set owned · rainbow is a standard chroma",
+        "Coven Nami": "full set owned · profane came from Worlds 2023 loot",
+        "Koi Nami": "old skin waiting for a crafting shard · its three element chromas are missing too",
+        "Mythmaker Nami": "all eight chromas are waiting for a return or essence emporium",
+        "River Spirit Nami": "old skin waiting for a crafting shard",
+        "Space Groove Nami": "full eight-chroma set owned",
+        "Splendid Staff Nami": "full set owned · heavenly crane came from 2019 loot & many others came through essence emporiums",
+        "Sunken Shadows Nami": "rolled all the way to pity on this evil gacha skin . . . spent too much money on it"
+      }
+    },
+    "soraka": {
+      "id": 16,
+      "assetName": "Soraka",
+      "includeBase": true,
+      "summary": {
+        "skins": "19 / 19 skins",
+        "chromas": "52 / 54 chromas",
+        "note": "doom + night blossom are the two missing event chromas"
+      },
+      "expected": {
+        "skins": 19,
+        "ownedSkins": 19,
+        "chromas": 54,
+        "ownedChromas": 52
+      },
+      "skinAliases": {
+        "Soraka": "Classic Soraka"
+      },
+      "missingSkins": [],
+      "missingChromas": {
+        "Reaper Soraka": ["Doom"],
+        "Spirit Blossom Soraka": ["Night Blossom"]
+      },
+      "customChromas": {
+        "Soraka": [
+          {
+            "name": "Dryad",
+            "owned": true,
+            "colors": ["#71945a", "#a97a52"],
+            "description": "League Classic chroma"
+          }
+        ]
+      },
+      "skinNotes": {
+        "Soraka": "League Classic entry · dryad chroma owned",
+        "Cafe Cuties Soraka": "full eight-chroma bundle owned",
+        "Faerie Court Soraka": "full eight-chroma bundle owned",
+        "Flora Fatalis Soraka": "full eight-chroma bundle owned",
+        "Immortal Journey Soraka": "full six-chroma bundle owned",
+        "Ocean Song Soraka": "full eight-chroma bundle owned",
+        "Reaper Soraka": "doom is missing from the 2025 Doombots event",
+        "Spirit Blossom Soraka": "eight owned · night blossom is missing from Worlds 2022",
+        "Winter Wonder Soraka": "full five-chroma bundle owned"
+      }
+    },
+    "seraphine": {
+      "id": 147,
+      "assetName": "Seraphine",
+      "includeBase": false,
+      "summary": {
+        "skins": "11 / 11 skins",
+        "chromas": "67 / 68 chromas",
+        "note": "golden tiger is the only missing chroma"
+      },
+      "expected": {
+        "skins": 11,
+        "ownedSkins": 11,
+        "chromas": 68,
+        "ownedChromas": 67
+      },
+      "skinAliases": {
+        "K/DA ALL OUT Seraphine Indie": "K/DA ALL OUT Seraphine"
+      },
+      "missingSkins": [],
+      "missingChromas": {
+        "Graceful Phoenix Seraphine": ["Golden Tiger"]
+      },
+      "skinNotes": {
+        "Battle Dove Seraphine": "full six-chroma set owned · nightwire came from Anima Squad 2024 loot",
+        "Dumpling Darlings Seraphine": "full eight-chroma bundle owned",
+        "Faerie Court Seraphine": "full set owned · winsome came from the 2023 Faerie Court event",
+        "Firecracker Seraphine": "full eight-chroma bundle owned",
+        "Graceful Phoenix Seraphine": "eight owned · golden tiger is missing from Lunar Revel 2022",
+        "Heartsong Seraphine": "full six-chroma set owned",
+        "Ocean Song Seraphine": "full eight-chroma bundle owned",
+        "Star Guardian Seraphine": "full eight-chroma set owned · rainbow has no special-event designation",
+        "T1 Seraphine": "full six-chroma set owned · elite + ruby were bundle exclusives"
+      }
+    }
+  }
+}

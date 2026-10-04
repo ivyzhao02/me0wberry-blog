@@ -803,6 +803,20 @@ async function run() {
     );
     assert(await league.locator('.league-champion-card').count() === 4, 'League shrine did not render the four main champions');
     assert(await league.locator('.league-wardrobe').count() === 4, 'League shrine did not render all four skin wardrobes');
+    assert(await league.locator('.league-skin-card').count() === 60, 'League shrine did not render all 60 main-roster skins');
+    assert(await league.locator('.league-chroma-card').count() === 235, 'League shrine did not render all 235 tracked chroma variants');
+    assert(
+      await league.locator('.league-wardrobe').evaluateAll((wardrobes) => wardrobes.map((wardrobe) => wardrobe.querySelectorAll('.league-skin-card').length).join(',') === '16,14,19,11'),
+      'League skin cabinets did not preserve each champion inventory count',
+    );
+    assert(
+      await league.locator('.league-wardrobe').evaluateAll((wardrobes) => wardrobes.map((wardrobe) => wardrobe.querySelectorAll('.league-chroma-card').length).join(',') === '60,53,54,68'),
+      'League chroma cabinets did not preserve each champion inventory count',
+    );
+    assert(
+      await league.locator('.league-skin-card img[src], .league-chroma-card img[src]').count() === 0,
+      'League collection art loaded before a wardrobe was opened',
+    );
     assert(
       await league.locator('.league-party-grid img').evaluateAll((images) => images.length === 4
         && images.every((image) => image.complete && image.naturalWidth > 0)),
@@ -811,6 +825,31 @@ async function run() {
     assert(
       (await league.locator('.league-terminal').textContent()).includes('me0wberry #164'),
       'League shrine did not render the confirmed Riot ID',
+    );
+    assert(
+      (await league.locator('.league-terminal').textContent()).includes('regionnorth america / na1'),
+      'League shrine profile terminal did not render the confirmed region',
+    );
+    assert(
+      (await league.locator('.league-profile-strip').textContent()).includes('support / enchanter'),
+      'League shrine did not use the requested enchanter role wording',
+    );
+    assert(
+      (await league.locator('.league-account-collection').textContent()).includes('465 skins')
+        && (await league.locator('.league-account-collection').textContent()).includes('345 chromas'),
+      'League shrine did not render the whole-account collection totals',
+    );
+    assert(
+      await league.getByText('PsyOps Sona', { exact: true }).count() === 1,
+      'League shrine did not preserve the official PsyOps capitalization',
+    );
+    assert(
+      (await league.locator('.league-skin-card').filter({ hasText: 'Battle Dove Seraphine' }).locator('.league-skin-heading > span').textContent()) === '6 / 6 chromas',
+      'League shrine did not use the verified Battle Dove chroma count',
+    );
+    assert(
+      await league.locator('[data-league-champion="nami"] .league-skin-card.is-missing').count() === 2,
+      'League shrine did not mark Nami\'s two missing skins',
     );
     assert(
       await league.locator('.league-honourable-grid article').count() === 3,
@@ -828,6 +867,21 @@ async function run() {
     );
     await league.locator('.league-wardrobe').first().locator('summary').click();
     assert(await league.locator('.league-wardrobe-body').first().isVisible(), 'League skin wardrobe did not open');
+    await league.waitForFunction(() => document.querySelectorAll('[data-league-champion="sona"] .league-skin-card img[src], [data-league-champion="sona"] .league-chroma-card img[src]').length === 76);
+    await league.waitForFunction(() => {
+      const image = document.querySelector('[data-league-champion="sona"] .league-skin-splash img');
+      return image && image.complete && image.naturalWidth > 0;
+    });
+    const firstLeagueChroma = league.locator('[data-league-champion="sona"] .league-chroma-card img').first();
+    await firstLeagueChroma.scrollIntoViewIfNeeded();
+    await league.waitForFunction(() => {
+      const image = document.querySelector('[data-league-champion="sona"] .league-chroma-card img');
+      return image && image.complete && image.naturalWidth > 0;
+    });
+    assert(
+      await league.locator('[data-league-champion="nami"] .league-skin-card img[src], [data-league-champion="nami"] .league-chroma-card img[src]').count() === 0,
+      'Opening Sona\'s wardrobe also loaded a closed wardrobe',
+    );
     await league.waitForFunction(() => {
       const list = document.querySelector('#league-post-list');
       return list && !list.textContent.includes('looking through the archive');
@@ -855,6 +909,15 @@ async function run() {
     assert(
       await mobileLeague.locator('.league-profile-strip').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length === 1),
       'League profile strip did not collapse to one column on mobile',
+    );
+    await mobileLeague.locator('.league-wardrobe').first().locator('summary').click();
+    await mobileLeague.waitForFunction(() => {
+      const image = document.querySelector('[data-league-champion="sona"] .league-skin-splash img');
+      return image && image.complete && image.naturalWidth > 0;
+    });
+    assert(
+      await mobileLeague.locator('.league-wardrobe').first().evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Open League collection cabinet overflowed horizontally on mobile',
     );
     await mobileLeague.close();
 
