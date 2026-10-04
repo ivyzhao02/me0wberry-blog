@@ -23,7 +23,7 @@
     if (!document.querySelector('link[href$="style.css"]') && !document.querySelector('style[data-passport-toast-style]')) {
       const style = document.createElement('style');
       style.dataset.passportToastStyle = '';
-      style.textContent = '.passport-toast{position:fixed;z-index:10000;top:20px;right:20px;max-width:calc(100% - 40px);padding:10px 13px;color:var(--heading,#8b3a5a);border:1px solid rgba(192,112,144,.34);border-radius:12px;background:rgba(255,246,248,.96);box-shadow:inset 0 1px 0 rgba(255,255,255,.88),0 12px 28px rgba(91,68,81,.16);font-family:"Press Start 2P",monospace;font-size:6px;line-height:1.7;opacity:0;transform:translateY(10px);transition:opacity .18s ease,transform .18s ease;pointer-events:none}.passport-toast.is-visible{opacity:1;transform:translateY(0)}';
+      style.textContent = '.passport-toast{position:fixed;z-index:10000;top:20px;right:20px;max-width:calc(100% - 40px);padding:10px 13px;color:var(--heading,#8b3a5a);border:1px solid rgba(192,112,144,.34);border-radius:12px;background:rgba(255,246,248,.96);box-shadow:inset 0 1px 0 rgba(255,255,255,.88),0 12px 28px rgba(91,68,81,.16);font-family:"Press Start 2P",monospace;font-size:var(--font-compact,9px);line-height:1.7;opacity:0;transform:translateY(10px);transition:opacity .18s ease,transform .18s ease;pointer-events:none}.passport-toast.is-visible{opacity:1;transform:translateY(0)}';
       document.head.appendChild(style);
     }
 

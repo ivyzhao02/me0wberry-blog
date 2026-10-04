@@ -83,7 +83,7 @@
   overflow: hidden;
   color: var(--heading);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.35;
   text-align: center;
   text-decoration: none;
@@ -205,7 +205,7 @@
 
 .toybox-group-count {
   color: var(--muted);
-  font: 5px/1.5 var(--font-pixel);
+  font: var(--font-tiny)/1.5 var(--font-pixel);
 }
 
 .toybox-kaomoji-toggle {
@@ -213,7 +213,7 @@
   min-height: 24px;
   padding: 5px 8px;
   color: var(--link);
-  font: 6px/1.35 var(--font-pixel);
+  font: var(--font-compact)/1.35 var(--font-pixel);
   border: 1px solid rgba(192,112,144,0.26);
   border-radius: 999px;
   background: rgba(255,255,255,0.48);
@@ -271,7 +271,7 @@
   display: none;
   color: var(--muted);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
 }
 
 .toybox-kaomoji.is-copied .toybox-copy-label,
@@ -336,7 +336,7 @@
 .toybox-button-count {
   flex: 0 0 auto;
   color: var(--muted);
-  font: 5px/1.5 var(--font-pixel);
+  font: var(--font-tiny)/1.5 var(--font-pixel);
 }
 
 .toybox-button-shelf {
@@ -636,7 +636,7 @@ a.toybox-resource-card:hover {
   margin: 4px 0 9px;
   color: var(--green-text, var(--green));
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.8;
 }
 
@@ -778,7 +778,7 @@ a.toybox-resource-card:hover {
   margin-bottom: 7px;
   color: var(--green-text, var(--green));
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.7;
 }
 
@@ -815,7 +815,7 @@ a.toybox-resource-card:hover {
   margin-bottom: 4px;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
 }
 
 .persona-piece-meta dd {
@@ -904,7 +904,7 @@ a.toybox-resource-card:hover {
   margin-bottom: 5px;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
 }
 
 .system-card-value {
@@ -989,7 +989,7 @@ a.toybox-resource-card:hover {
   display: block;
   color: var(--green-text, var(--green));
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   margin-bottom: 4px;
 }
 
@@ -1012,7 +1012,7 @@ a.toybox-resource-card:hover {
   margin-bottom: 7px;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.6;
 }
 
@@ -1095,7 +1095,7 @@ a.toybox-resource-card:hover {
 .site-history-copy span {
   color: var(--green-text, var(--green));
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
 }
 
 .site-history-copy h3 {
@@ -1295,7 +1295,7 @@ a.toybox-resource-card:hover {
   gap: 6px;
 }
 
-.popout-footer .pixel-btn { font-size: 6px; }
+.popout-footer .pixel-btn { font-size: var(--font-compact); }
 
 @media (max-width: 360px) {
   .popout-page { padding: 4px; }

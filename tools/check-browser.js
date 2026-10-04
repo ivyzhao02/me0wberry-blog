@@ -141,6 +141,23 @@ async function smokePublicPages(browser, baseUrl) {
             document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
           ));
           if (overflows) problems.push('page overflows horizontally');
+          const undersizedPixelText = await page.evaluate(() => Array.from(document.querySelectorAll('body *'))
+            .filter((element) => {
+              const style = getComputedStyle(element);
+              const hasOwnText = Array.from(element.childNodes).some((node) => (
+                node.nodeType === Node.TEXT_NODE && node.textContent.trim()
+              ));
+              return hasOwnText
+                && element.getClientRects().length > 0
+                && style.fontFamily.includes('Press Start 2P')
+                && Number.parseFloat(style.fontSize) > 0
+                && Number.parseFloat(style.fontSize) < 7;
+            })
+            .slice(0, 4)
+            .map((element) => `${element.tagName.toLowerCase()}.${element.className || '(no class)'} (${getComputedStyle(element).fontSize})`));
+          if (undersizedPixelText.length) {
+            problems.push(`pixel text below the shared 7px minimum: ${undersizedPixelText.join(', ')}`);
+          }
           assert(
             problems.length === 0,
             `${publicPath} failed the ${mode.label} public-page smoke test:\n${problems.join('\n')}`,
@@ -621,7 +638,7 @@ async function run() {
     await archive.close();
 
     const shrineHallway = await openCheckedPage(browser, `${baseUrl}/shrines/`, { width: 1280, height: 900 });
-    assert(await shrineHallway.locator('.shrine-door').count() === 3, 'shrine hallway did not render all public rooms');
+    assert(await shrineHallway.locator('.shrine-door').count() === 4, 'shrine hallway did not render all public rooms');
     const warframeDoor = shrineHallway.locator('.shrine-door-warframe');
     assert(await warframeDoor.count() === 1, 'shrine hallway did not render the Warframe room');
     assert(
@@ -631,6 +648,17 @@ async function run() {
     assert(
       await warframeDoor.locator('img').evaluate((image) => image.complete && image.naturalWidth > 0),
       'Warframe room preview did not decode',
+    );
+    const leagueDoor = shrineHallway.locator('.shrine-door-league');
+    assert(await leagueDoor.count() === 1, 'shrine hallway did not render the League room');
+    assert(
+      await leagueDoor.evaluate((link) => new URL(link.href).pathname === '/shrines/league/index.html'),
+      'League room link did not resolve to the shrine',
+    );
+    assert(
+      await leagueDoor.locator('img').evaluateAll((images) => images.length === 4
+        && images.every((image) => image.complete && image.naturalWidth > 0)),
+      'League room portraits did not all decode',
     );
     assert(
       await shrineHallway.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
@@ -838,6 +866,16 @@ async function run() {
       (await league.locator('.league-account-collection').textContent()).includes('465 skins')
         && (await league.locator('.league-account-collection').textContent()).includes('345 chromas'),
       'League shrine did not render the whole-account collection totals',
+    );
+    assert(
+      (await league.locator('.league-rank-history').textContent()).includes('2025emerald 3')
+        && (await league.locator('.league-rank-history').textContent()).includes('2024 s3platinum 1'),
+      'League shrine did not render the recent completed Solo Queue finishes',
+    );
+    assert(
+      !(await league.locator('.league-account-collection').textContent()).includes('insured')
+        && !(await league.locator('.pixel-tag').first().textContent()).includes('draft'),
+      'League shrine still includes draft or removed status language',
     );
     assert(
       await league.getByText('PsyOps Sona', { exact: true }).count() === 1,
@@ -1198,7 +1236,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon, Warframe, and draft Sanrio and League shrines, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
+  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon, Warframe, draft Sanrio, and public League shrines, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
 }
 
 run().catch((error) => {

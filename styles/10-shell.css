@@ -26,6 +26,9 @@
       --font-body:      'Nunito Sans', system-ui, sans-serif;
       --font-heading:   'Quicksand', 'Nunito Sans', sans-serif;
       --font-pixel:     'Press Start 2P', monospace;
+      --font-micro:     7px;
+      --font-tiny:      8px;
+      --font-compact:   9px;
       --cursor-default: url("images/cursors/luna-heart.gif") 0 0, auto;
       --cursor-pointer: url("images/cursors/luna-cake-slice.gif") 0 0, pointer;
       --chrome-highlight: rgba(255, 255, 255, 0.82);
@@ -142,7 +145,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 6px;
+      font-size: var(--font-compact);
       color: var(--muted);
       cursor: default;
       user-select: none;

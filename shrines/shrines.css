@@ -20,7 +20,7 @@ body > #mobile-back {
 
 .shrine-hallway-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 16px;
 }
 
@@ -117,6 +117,37 @@ body > #mobile-back {
   transform: scale(1.018);
 }
 
+.shrine-door-league .shrine-door-preview {
+  background:
+    radial-gradient(circle at 50% 46%, rgba(226,244,246,0.8), transparent 48%),
+    linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,224,235,0.5));
+}
+
+.shrine-league-party {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 154px;
+  grid-template-columns: repeat(2, 72px);
+  gap: 7px;
+  transform: rotate(-1deg);
+}
+
+.shrine-league-party img {
+  display: block;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.9);
+  border-radius: 14px;
+  box-shadow: 0 6px 13px rgba(65,88,93,0.16);
+  transition: transform 0.18s ease;
+}
+
+.shrine-league-party img:nth-child(even) { transform: translateY(4px); }
+.shrine-door-league:hover .shrine-league-party img:nth-child(odd) { transform: translateY(-2px); }
+.shrine-door-league:hover .shrine-league-party img:nth-child(even) { transform: translateY(6px); }
+
 .shrine-door-label-row {
   display: flex;
   align-items: baseline;
@@ -135,7 +166,7 @@ body > #mobile-back {
 .shrine-cabinet-status {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.6;
 }
 
@@ -530,7 +561,7 @@ a.shrine-cabinet-card:hover {
   margin-bottom: 6px;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.65;
 }
 
@@ -931,7 +962,7 @@ a.shrine-cabinet-card:hover {
 .pokemon-card-preview small {
   margin-top: 2px;
   color: var(--muted);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.3;
 }
 
@@ -1146,7 +1177,7 @@ a.shrine-cabinet-card:hover {
   margin: 1px 1px 5px;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.5;
 }
 
@@ -1305,7 +1336,7 @@ a.shrine-cabinet-card:hover {
 .pokemon-music-year {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.7;
 }
 
@@ -1562,7 +1593,7 @@ a.shrine-cabinet-card:hover {
   margin-bottom: 7px;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.5;
 }
 
@@ -1602,7 +1633,7 @@ a.shrine-cabinet-card:hover {
   color: var(--link);
   background: rgba(255,255,255,0.38);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.5;
   text-decoration: none;
 }
@@ -1641,7 +1672,7 @@ a.shrine-cabinet-card:hover {
   margin-top: 4px;
   color: var(--matcha-dark);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
 }
 
 .pokemon-merch-search-list {
@@ -1655,12 +1686,6 @@ a.shrine-cabinet-card:hover {
   .shrine-hallway-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .shrine-door-warframe {
-    grid-column: 1 / -1;
-    width: calc(50% - 8px);
-    justify-self: center;
-  }
 }
 
 @media (max-width: 760px) {
@@ -1671,12 +1696,6 @@ a.shrine-cabinet-card:hover {
   .stubby-everyday-grid,
   .stubby-facts-grid {
     grid-template-columns: 1fr;
-  }
-
-  .shrine-door-warframe {
-    grid-column: auto;
-    width: auto;
-    justify-self: stretch;
   }
 
   .stubby-facts-grid > div:last-child { grid-column: auto; }
@@ -1818,7 +1837,7 @@ a.shrine-cabinet-card:hover {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 4px 12px rgba(26,20,25,0.16);
   backdrop-filter: blur(4px);
   font-family: var(--font-pixel);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.6;
   text-shadow: 0 1px 4px rgba(0,0,0,0.48);
 }
@@ -1974,7 +1993,7 @@ a.shrine-cabinet-card:hover {
   margin-bottom: 7px;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   line-height: 1.6;
 }
 
@@ -2016,7 +2035,7 @@ a.shrine-cabinet-card:hover {
   background: var(--theme-control-bg, rgba(255,255,255,0.46));
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.82);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   line-height: 1.5;
 }
 
@@ -2126,7 +2145,7 @@ a.shrine-cabinet-card:hover {
   background: linear-gradient(180deg, rgba(255,255,255,0.66), rgba(229,242,223,0.24));
   border-bottom: 1px solid var(--theme-border, rgba(150,180,135,0.32));
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   line-height: 1.5;
 }
 
@@ -2396,7 +2415,7 @@ a.shrine-cabinet-card:hover {
   margin-top: 8px;
   color: var(--muted);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   font-style: normal;
 }
 
@@ -2420,7 +2439,7 @@ a.shrine-cabinet-card:hover {
   margin-top: 8px;
   color: var(--link);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   line-height: 1.6;
   text-decoration: none;
 }
@@ -2466,7 +2485,7 @@ a.shrine-cabinet-card:hover {
   padding: 7px 10px;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   font-style: normal;
   line-height: 1.5;
 }
@@ -2542,7 +2561,7 @@ a.shrine-cabinet-card:hover {
 .sanrio-shelf-note dt {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
 }
 
 .sanrio-shelf-note dd {
@@ -2594,7 +2613,7 @@ a.shrine-cabinet-card:hover {
 .sanrio-wishlist-grid i {
   color: var(--muted);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   font-style: normal;
 }
 
@@ -2613,7 +2632,7 @@ a.shrine-cabinet-card:hover {
 .sanrio-credit-note span {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   white-space: nowrap;
 }
 
@@ -2674,7 +2693,7 @@ a.shrine-cabinet-card:hover {
   border-bottom: 1px solid var(--theme-border, rgba(150,180,135,0.34));
   background: linear-gradient(180deg, rgba(255,255,255,0.68), rgba(219,239,209,0.22));
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   line-height: 1.4;
 }
 
@@ -2715,7 +2734,7 @@ a.shrine-cabinet-card:hover {
   border-radius: 999px;
   background: rgba(45,64,72,0.68);
   font-family: var(--font-pixel);
-  font-size: 4px;
+  font-size: var(--font-micro);
   text-overflow: ellipsis;
   text-shadow: 0 1px 2px rgba(0,0,0,0.25);
   white-space: nowrap;
@@ -2760,7 +2779,7 @@ a.shrine-cabinet-card:hover {
 .league-profile-strip small {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 4px;
+  font-size: var(--font-micro);
   line-height: 1.5;
 }
 
@@ -2871,7 +2890,7 @@ a.shrine-cabinet-card:hover {
   margin-bottom: 4px;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   line-height: 1.5;
 }
 
@@ -2880,7 +2899,7 @@ a.shrine-cabinet-card:hover {
   margin-top: 8px;
   color: var(--link);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   line-height: 1.6;
   text-decoration: none;
 }
@@ -2895,8 +2914,7 @@ a.shrine-cabinet-card:hover {
   margin-bottom: 11px;
 }
 
-.league-account-collection > div,
-.league-account-collection > p {
+.league-account-collection > div {
   min-width: 0;
   margin: 0;
   padding: 12px 13px;
@@ -2907,13 +2925,12 @@ a.shrine-cabinet-card:hover {
 }
 
 .league-account-collection small,
-.league-account-collection strong,
-.league-account-collection p span { display: block; }
+.league-account-collection strong { display: block; }
 
 .league-account-collection small {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 4px;
+  font-size: var(--font-micro);
   line-height: 1.5;
 }
 
@@ -2925,12 +2942,53 @@ a.shrine-cabinet-card:hover {
   line-height: 1.25;
 }
 
-.league-account-collection p span {
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 8px;
-  line-height: 1.4;
+.league-rank-history ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 9px 0 0;
+  padding: 0;
+  list-style: none;
 }
+
+.league-rank-history li {
+  min-width: 0;
+  padding: 6px 7px;
+  border: 1px solid rgba(92,139,151,0.22);
+  border-radius: 9px;
+  background: rgba(255,255,255,0.5);
+}
+
+.league-rank-history li span,
+.league-rank-history li b {
+  display: block;
+}
+
+.league-rank-history li span {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: var(--font-micro);
+  line-height: 1.45;
+}
+
+.league-rank-history li b {
+  margin-top: 3px;
+  color: var(--body);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.league-rank-history > a {
+  display: inline-block;
+  margin-top: 7px;
+  color: var(--link);
+  font-size: 9px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.league-rank-history > a:hover,
+.league-rank-history > a:focus-visible { text-decoration: underline; }
 
 .league-wardrobe-grid {
   display: grid;
@@ -2997,7 +3055,7 @@ a.shrine-cabinet-card:hover {
 .league-wardrobe summary small {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   line-height: 1.5;
 }
 
@@ -3062,7 +3120,7 @@ a.shrine-cabinet-card:hover {
   border-radius: 999px;
   background: rgba(255,255,255,0.54);
   font-family: var(--font-pixel);
-  font-size: 4px;
+  font-size: var(--font-micro);
   line-height: 1.45;
 }
 
@@ -3146,7 +3204,7 @@ a.shrine-cabinet-card:hover {
   background: rgba(48,103,83,0.82);
   box-shadow: 0 3px 8px rgba(16,32,43,0.24);
   font-family: var(--font-pixel);
-  font-size: 4px;
+  font-size: var(--font-micro);
   line-height: 1.4;
 }
 
@@ -3174,7 +3232,7 @@ a.shrine-cabinet-card:hover {
   flex: 0 0 auto;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 4px;
+  font-size: var(--font-micro);
   line-height: 1.5;
   text-align: right;
 }
@@ -3299,7 +3357,7 @@ a.shrine-cabinet-card:hover {
 .league-chroma-card figcaption small {
   margin-top: 2px;
   color: var(--muted);
-  font-size: 6px;
+  font-size: var(--font-compact);
   line-height: 1.35;
 }
 
@@ -3324,7 +3382,6 @@ a.shrine-cabinet-card:hover {
 }
 
 .league-collection-source a { color: var(--link); }
-}
 
 .league-mastery-layout {
   display: grid;
@@ -3350,7 +3407,7 @@ a.shrine-cabinet-card:hover {
   border-bottom: 1px solid rgba(92,139,151,0.28);
   background: rgba(219,239,209,0.34);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
 }
 
 .league-terminal dl {
@@ -3373,7 +3430,7 @@ a.shrine-cabinet-card:hover {
 .league-terminal dt {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
 }
 
 .league-terminal dd {
@@ -3395,7 +3452,7 @@ a.shrine-cabinet-card:hover {
   border-radius: 999px;
   background: rgba(255,255,255,0.58);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   line-height: 1.4;
   text-decoration: none;
 }
@@ -3491,7 +3548,7 @@ a.shrine-cabinet-card:hover {
   display: block;
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 4px;
+  font-size: var(--font-micro);
   line-height: 1.5;
 }
 
@@ -3523,7 +3580,7 @@ a.shrine-cabinet-card:hover {
 .league-credit-note span {
   color: var(--pixel-label2);
   font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: var(--font-tiny);
   white-space: nowrap;
 }
 
@@ -3554,7 +3611,7 @@ a.shrine-cabinet-card:hover {
   .league-wardrobe-grid,
   .league-mastery-layout { grid-template-columns: 1fr; }
   .league-account-collection { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .league-account-collection > p { grid-column: 1 / -1; }
+  .league-rank-history { grid-column: 1 / -1; }
   .league-wardrobe-overview { align-items: flex-start; flex-direction: column; }
   .league-wardrobe-overview > p { text-align: left; }
   .league-credit-note { grid-template-columns: 1fr; gap: 6px; }
@@ -3570,7 +3627,7 @@ a.shrine-cabinet-card:hover {
   .league-wardrobe summary > img { width: 62px; height: 62px; }
   .league-wardrobe summary::after { width: 24px; height: 24px; }
   .league-account-collection { grid-template-columns: 1fr; }
-  .league-account-collection > p { grid-column: auto; }
+  .league-rank-history { grid-column: auto; }
   .league-skin-body { padding: 9px; }
   .league-skin-heading { align-items: flex-start; flex-direction: column; gap: 3px; }
   .league-skin-heading > span { text-align: left; }
