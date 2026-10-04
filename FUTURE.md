@@ -1,6 +1,6 @@
 # Future Layout and Commissioned Art Checklist
 
-Status: the first memory-window foundation, reserved Hello frames, and Favs keepsake cluster are implemented; commissioned artwork remains future work.
+Status: the shared memory-window foundation and its first deliberate placements are implemented; commissioned artwork remains future work.
 
 ## Full-Sized Hello Window
 
@@ -35,10 +35,10 @@ Status: the first memory-window foundation, reserved Hello frames, and Favs keep
 
 - [x] Full-sized Hello workspace: About uses Stubby keepsakes; Likes, DNI, and Find Me have neutral reserved windows.
 - [x] Favs panel: use a restrained right-side cluster where the text column naturally ends; hide the secondary tray on compact desktop and mobile.
-- [ ] Info and Persona areas: add one small companion placement without competing with commissioned-art credits or the gallery itself.
-- [ ] Shrine index or individual shrine headers: use a transparent mascot pose only where the header has a real compositional gap.
+- [x] Info and Persona areas: add one small companion placement without competing with commissioned-art credits or the gallery itself.
+- [x] Individual shrine headers: prepare a restrained transparent-art placement only where the header has a real compositional gap.
 - [ ] Now or System: consider one small contextual helper placement after final mascot assets exist and only if the page still feels unbalanced.
-- [ ] Welcome and 404 corners: keep to one restrained illustration each so the entry and error actions remain dominant.
+- [x] Welcome and 404 corners: keep to one restrained illustration each so the entry and error actions remain dominant.
 - Avoid mascot placeholders in monthly posts, archive results, RSS entries, and content-dense collection grids; those areas should remain focused on their changing content.
 
 These locations identify only possible frame placement. Planned artwork contents remain private.
@@ -60,6 +60,7 @@ These locations identify only possible frame placement. Planned artwork contents
 
 ## Reusable Memory-Window Component
 
+- [x] Consolidate reserved-art framing into one shared, responsive component with compact, portrait, landscape, and square variants.
 - Extend the shared memory-window family rather than inventing unrelated custom framing on every page.
 - Support landscape, portrait, square, and transparent-corner artwork variants through a small set of consistent interface treatments.
 - Provide responsive crops and safe areas for desktop and mobile.

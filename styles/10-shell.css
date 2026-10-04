@@ -761,6 +761,13 @@
       border-color: transparent !important;
     }
 
+    .welcome-shell > .error-reserved-frame {
+      position: absolute;
+      top: 96px;
+      right: -18px;
+      z-index: 3;
+    }
+
     .error-content {
       display: grid;
       justify-items: center;
@@ -808,6 +815,10 @@
       .error-avatar { width: 104px; }
       .error-actions { width: 100%; }
       .error-actions .pixel-btn { width: 100%; text-align: center; }
+    }
+
+    @media (max-width: 900px) {
+      .welcome-shell > .error-reserved-frame { display: none; }
     }
 
     .panel-body {

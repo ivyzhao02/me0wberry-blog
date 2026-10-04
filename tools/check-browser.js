@@ -188,10 +188,28 @@ async function run() {
       }),
       'custom 404 home link did not resolve to the site root',
     );
+    assert(await missing.locator('.error-reserved-frame').isVisible(), 'desktop 404 reserved artwork frame is hidden');
+    const errorWindowBox = await missing.locator('.error-window').boundingBox();
+    const errorFrameBox = await missing.locator('.error-reserved-frame').boundingBox();
+    assert(
+      errorWindowBox && errorFrameBox && errorFrameBox.x >= errorWindowBox.x + errorWindowBox.width,
+      'desktop 404 reserved artwork frame overlaps the error window',
+    );
     await missing.close();
+
+    const mobileMissing = await openCheckedPage(browser, `${baseUrl}/404.html`, { width: 390, height: 844 });
+    assert(await mobileMissing.locator('.error-reserved-frame').isHidden(), 'mobile 404 kept its secondary reserved artwork frame');
+    await mobileMissing.close();
 
     const welcome = await openCheckedPage(browser, `${baseUrl}/`, { width: 1280, height: 800 });
     assert(new URL(welcome.url()).pathname === '/welcome/index.html', 'a fresh session did not begin on the welcome page');
+    assert(await welcome.locator('.welcome-reserved-frame').isVisible(), 'desktop welcome reserved artwork frame is hidden');
+    const welcomeWindowBox = await welcome.locator('.welcome-window').boundingBox();
+    const welcomeFrameBox = await welcome.locator('.welcome-reserved-frame').boundingBox();
+    assert(
+      welcomeWindowBox && welcomeFrameBox && welcomeFrameBox.x >= welcomeWindowBox.x + welcomeWindowBox.width,
+      'desktop welcome reserved artwork frame overlaps the entrance window',
+    );
     await welcome.evaluate(() => {
       localStorage.setItem('me0wberry_passport_v1', JSON.stringify({
         stamps: ['wander', 'naranya', 'love-ball', 'pixel-cat'],
@@ -219,6 +237,10 @@ async function run() {
     await welcome.waitForTimeout(100);
     assert(new URL(welcome.url()).pathname === '/', 'an entered session was sent back to welcome');
     await welcome.close();
+
+    const mobileWelcome = await openCheckedPage(browser, `${baseUrl}/welcome/`, { width: 390, height: 844 });
+    assert(await mobileWelcome.locator('.welcome-reserved-frame').isHidden(), 'mobile welcome kept its secondary reserved artwork frame');
+    await mobileWelcome.close();
 
     const searchPosts = JSON.parse(
       fs.readFileSync(path.join(ROOT, 'data', 'search-index.json'), 'utf8'),
@@ -260,13 +282,13 @@ async function run() {
     await aboutTab.press('ArrowRight');
     assert(await desktop.locator('#bio-tab-likes').getAttribute('aria-selected') === 'true', 'Hello tabs did not support arrow-key selection');
     assert(await desktop.locator('#bio-likes').isVisible(), 'Hello tab panel did not follow arrow-key selection');
-    assert(await desktop.locator('#bio-likes .bio-reserved-window').isVisible(), 'Likes tab is missing its reserved picture window');
+    assert(await desktop.locator('#bio-likes .reserved-memory-frame').isVisible(), 'Likes tab is missing its reserved picture window');
     await desktop.locator('#bio-tab-dni').click();
-    assert(await desktop.locator('#bio-dni .bio-reserved-window').isVisible(), 'DNI tab is missing its reserved picture window');
+    assert(await desktop.locator('#bio-dni .reserved-memory-frame').isVisible(), 'DNI tab is missing its reserved picture window');
     await desktop.locator('#bio-tab-findme').click();
     assert(await desktop.locator('#bio-findme').isVisible(), 'Hello window tab did not switch');
-    assert(await desktop.locator('#bio-findme .bio-reserved-window').isVisible(), 'Find Me tab is missing its reserved picture window');
-    await desktop.waitForFunction(() => Array.from(document.querySelectorAll('.bio-reserved-window img'))
+    assert(await desktop.locator('#bio-findme .reserved-memory-frame').isVisible(), 'Find Me tab is missing its reserved picture window');
+    await desktop.waitForFunction(() => Array.from(document.querySelectorAll('.bio-secondary-stage .reserved-memory-frame img'))
       .every((image) => image.complete && image.naturalWidth > 0));
     const discordTrigger = desktop.locator('#bio-findme button').filter({ hasText: 'discord' });
     await discordTrigger.click();
@@ -462,10 +484,10 @@ async function run() {
 
     const compactFavs = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 900, height: 760 });
     await compactFavs.locator('#bio-tab-likes').click();
-    assert(await compactFavs.locator('#bio-likes .bio-reserved-window').isVisible(), 'compact Hello layout hid its reserved picture window');
+    assert(await compactFavs.locator('#bio-likes .reserved-memory-frame').isVisible(), 'compact Hello layout hid its reserved picture window');
     const compactBioLayout = await compactFavs.locator('#bio-likes .bio-secondary-stage').evaluate((stage) => {
       const copyRect = stage.querySelector('.bio-secondary-copy').getBoundingClientRect();
-      const windowRect = stage.querySelector('.bio-reserved-window').getBoundingClientRect();
+      const windowRect = stage.querySelector('.reserved-memory-frame').getBoundingClientRect();
       return { copyRight: copyRect.right, windowLeft: windowRect.left };
     });
     assert(compactBioLayout.copyRight <= compactBioLayout.windowLeft, 'compact Hello picture window overlaps its copy');
@@ -509,6 +531,7 @@ async function run() {
     await mobile.close();
 
     const directMobileInfo = await openCheckedPage(browser, `${baseUrl}/info/`, { width: 390, height: 844 });
+    assert(await directMobileInfo.locator('.info-companion-frame').isHidden(), 'mobile Info kept its secondary reserved artwork frame');
     assert(await directMobileInfo.locator('#mobile-back').evaluate((element) => element.tagName === 'A'), 'mobile page Back is not a reliable link');
     assert(await directMobileInfo.locator('#mobile-back').getAttribute('href') === '../index.html', 'mobile page Back has the wrong fallback destination');
     await Promise.all([
@@ -618,6 +641,7 @@ async function run() {
       { width: 1280, height: 900 },
       installStaleSearchBundle,
     );
+    assert(await pokemonShrine.locator('.shrine-header-reservation').isVisible(), 'desktop Pokémon shrine reserved artwork frame is hidden');
     const octoberShinyFiles = [
       'img-7184.webp',
       'img-7185.webp',
@@ -647,6 +671,22 @@ async function run() {
       'Pokémon shrine preferred a stale bundled index over the current search index',
     );
     await pokemonShrine.close();
+
+    const mobilePokemonShrine = await openCheckedPage(browser, `${baseUrl}/shrines/pokemon/`, { width: 390, height: 844 });
+    assert(await mobilePokemonShrine.locator('.shrine-header-reservation').isHidden(), 'mobile Pokémon shrine kept its secondary reserved artwork frame');
+    await mobilePokemonShrine.close();
+
+    const stubbyShrine = await openCheckedPage(browser, `${baseUrl}/shrines/stubby/`, { width: 1280, height: 900 });
+    assert(await stubbyShrine.locator('.shrine-header-reservation').isVisible(), 'desktop Stubby shrine reserved artwork frame is hidden');
+    assert(
+      await stubbyShrine.locator('.shrine-room-hero').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Stubby shrine header overflowed after reserving artwork space',
+    );
+    await stubbyShrine.close();
+
+    const mobileStubbyShrine = await openCheckedPage(browser, `${baseUrl}/shrines/stubby/`, { width: 390, height: 844 });
+    assert(await mobileStubbyShrine.locator('.shrine-header-reservation').isHidden(), 'mobile Stubby shrine kept its secondary reserved artwork frame');
+    await mobileStubbyShrine.close();
 
     const warframe = await openCheckedPage(
       browser,
@@ -844,6 +884,16 @@ async function run() {
     );
     await mobilePost.close();
 
+    const info = await openCheckedPage(browser, `${baseUrl}/info/`, { width: 1440, height: 900 });
+    assert(await info.locator('.info-companion-frame').isVisible(), 'wide Info layout did not show its reserved artwork frame');
+    const infoCopyBox = await info.locator('.info-identity-card > div').nth(1).boundingBox();
+    const infoFrameBox = await info.locator('.info-companion-frame').boundingBox();
+    assert(
+      infoCopyBox && infoFrameBox && infoCopyBox.x + infoCopyBox.width <= infoFrameBox.x,
+      'Info reserved artwork frame overlaps the profile copy',
+    );
+    await info.close();
+
     const persona = await openCheckedPage(browser, `${baseUrl}/persona/`, { width: 1440, height: 900 });
     assert(
       await persona.locator('.persona-page-panel').evaluate((element) => getComputedStyle(element).position === 'relative'),
@@ -853,7 +903,22 @@ async function run() {
       await persona.locator('.persona-page-panel > .panel-body').evaluate((element) => element.scrollHeight <= element.clientHeight + 2),
       'persona panel still clips its content into an inner scroller',
     );
+    assert(await persona.locator('.persona-reserved-frame').isVisible(), 'Persona continuation shelf did not show its reserved artwork frame');
+    const personaPieceBox = await persona.locator('.persona-piece-card').boundingBox();
+    const personaFrameBox = await persona.locator('.persona-reserved-frame').boundingBox();
+    assert(
+      personaPieceBox && personaFrameBox && personaFrameBox.y >= personaPieceBox.y + personaPieceBox.height,
+      'Persona reserved artwork frame competes with the credited artwork card',
+    );
     await persona.close();
+
+    const mobilePersona = await openCheckedPage(browser, `${baseUrl}/persona/`, { width: 390, height: 844 });
+    assert(await mobilePersona.locator('.persona-reserved-frame').isVisible(), 'mobile Persona continuation shelf lost its reserved artwork frame');
+    assert(
+      await mobilePersona.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'mobile Persona layout overflowed after adding the continuation shelf',
+    );
+    await mobilePersona.close();
 
     const toybox = await openCheckedPage(browser, `${baseUrl}/toybox/`, { width: 1280, height: 900 });
     assert(await toybox.locator('.page-nav-link').count() === 1, 'trinkets does not use the shared page navigation bubble');
@@ -968,7 +1033,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon and Warframe shrines, poll, RSS, passport, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
+  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon and Warframe shrines, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
 }
 
 run().catch((error) => {

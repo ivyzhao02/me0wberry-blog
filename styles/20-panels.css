@@ -662,6 +662,133 @@
       line-height: 1.55;
     }
 
+    /* ── Reserved artwork viewers ── */
+    .reserved-memory-frame {
+      --reserved-frame-width: 280px;
+      --reserved-frame-ratio: 4 / 3;
+      --reserved-frame-image-width: 64%;
+      position: relative;
+      isolation: isolate;
+      width: min(100%, var(--reserved-frame-width));
+      overflow: visible;
+      color: var(--muted);
+      border: 1px solid var(--theme-border, rgba(192,112,144,0.38));
+      border-radius: 16px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.72), rgba(255,255,255,0.24)),
+        var(--frosted-bg);
+      box-shadow:
+        inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.9)),
+        0 15px 30px var(--theme-shadow, rgba(122,58,82,0.12));
+      font-family: var(--font-pixel);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .reserved-memory-frame::before {
+      content: '';
+      position: absolute;
+      inset: 14px -11px -12px 18px;
+      z-index: -1;
+      border: 1px solid var(--theme-border, rgba(143,175,120,0.3));
+      border-radius: 16px;
+      background: var(--frosted-bg);
+      opacity: 0.65;
+    }
+
+    .reserved-memory-frame-bar,
+    .reserved-memory-frame-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 0 10px;
+    }
+
+    .reserved-memory-frame-bar {
+      min-height: 30px;
+      color: var(--pixel-label2);
+      border-bottom: 1px solid var(--theme-border, rgba(192,112,144,0.23));
+      border-radius: 15px 15px 0 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.35)),
+        linear-gradient(90deg, rgba(199,223,189,0.3), rgba(255,208,222,0.24));
+      font-size: 6px;
+    }
+
+    .reserved-memory-frame-bar b {
+      color: var(--green-text, var(--green));
+      font-weight: 400;
+    }
+
+    .reserved-memory-frame-bar span:last-child { color: var(--pink); }
+
+    .reserved-memory-frame-viewport {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      place-items: center;
+      aspect-ratio: var(--reserved-frame-ratio);
+      margin: 9px;
+      padding: 12px 10px 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: 10px;
+      background:
+        radial-gradient(circle, var(--theme-border, rgba(192,112,144,0.22)) 1px, transparent 1.4px) 0 0 / 14px 14px,
+        linear-gradient(145deg, rgba(229,242,223,0.36), rgba(255,239,244,0.52));
+      box-shadow: inset 0 1px 7px rgba(74,58,66,0.07);
+    }
+
+    .reserved-memory-frame-viewport img {
+      display: block;
+      width: min(var(--reserved-frame-image-width), 118px);
+      height: auto;
+      opacity: 0.64;
+      filter: saturate(0.72) drop-shadow(0 7px 8px rgba(122,58,82,0.12));
+    }
+
+    .reserved-memory-frame-viewport span {
+      max-width: 190px;
+      color: var(--pixel-label2);
+      font-size: 5px;
+      line-height: 1.65;
+      text-align: center;
+    }
+
+    .reserved-memory-frame-status {
+      min-height: 23px;
+      border-top: 1px solid rgba(255,255,255,0.72);
+      border-radius: 0 0 15px 15px;
+      font-size: 5px;
+    }
+
+    .reserved-memory-frame--compact {
+      --reserved-frame-width: 154px;
+      --reserved-frame-image-width: 58%;
+    }
+
+    .reserved-memory-frame--portrait { --reserved-frame-ratio: 4 / 5; }
+    .reserved-memory-frame--landscape { --reserved-frame-ratio: 16 / 9; }
+    .reserved-memory-frame--square { --reserved-frame-ratio: 1; }
+
+    .reserved-memory-frame--compact .reserved-memory-frame-bar,
+    .reserved-memory-frame--compact .reserved-memory-frame-status {
+      gap: 5px;
+      padding-inline: 7px;
+      font-size: 4px;
+    }
+
+    .reserved-memory-frame--compact .reserved-memory-frame-bar { min-height: 25px; }
+    .reserved-memory-frame--compact .reserved-memory-frame-status { min-height: 19px; }
+    .reserved-memory-frame--compact .reserved-memory-frame-viewport {
+      margin: 7px;
+      padding: 8px 7px 7px;
+    }
+    .reserved-memory-frame--compact .reserved-memory-frame-viewport span {
+      max-width: 125px;
+      font-size: 4px;
+    }
+
     /* ── Bio: reserved picture windows ── */
     .bio-secondary-stage {
       display: grid;
@@ -685,99 +812,13 @@
         0 12px 28px var(--theme-shadow, rgba(122,58,82,0.07));
     }
 
-    .bio-reserved-window {
-      position: relative;
-      isolation: isolate;
-      width: 100%;
-      max-width: 280px;
+    .bio-secondary-stage > .reserved-memory-frame {
+      --reserved-frame-width: 280px;
       justify-self: end;
-      overflow: visible;
-      border: 1px solid var(--theme-border, rgba(192,112,144,0.38));
-      border-radius: 16px;
-      color: var(--muted);
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.72), rgba(255,255,255,0.24)),
-        var(--frosted-bg);
-      box-shadow:
-        inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.9)),
-        0 15px 30px var(--theme-shadow, rgba(122,58,82,0.12));
-      font-family: var(--font-pixel);
     }
 
-    .bio-reserved-window::before {
-      content: '';
-      position: absolute;
-      inset: 14px -11px -12px 18px;
-      z-index: -1;
-      border: 1px solid var(--theme-border, rgba(143,175,120,0.3));
-      border-radius: 16px;
-      background: var(--frosted-bg);
-      opacity: 0.65;
-    }
-
-    .bio-reserved-bar,
-    .bio-reserved-status {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 0 10px;
-    }
-
-    .bio-reserved-bar {
-      min-height: 30px;
-      border-bottom: 1px solid var(--theme-border, rgba(192,112,144,0.23));
-      border-radius: 15px 15px 0 0;
-      color: var(--pixel-label2);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.35)),
-        linear-gradient(90deg, rgba(199,223,189,0.3), rgba(255,208,222,0.24));
-      font-size: 6px;
-    }
-
-    .bio-reserved-bar span:last-child { color: var(--pink); }
-
-    .bio-reserved-viewport {
-      display: grid;
-      grid-template-rows: minmax(0, 1fr) auto;
-      place-items: center;
-      aspect-ratio: 4 / 3;
-      margin: 9px;
-      padding: 12px 10px 10px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.78);
-      border-radius: 10px;
-      background:
-        radial-gradient(circle, var(--theme-border, rgba(192,112,144,0.22)) 1px, transparent 1.4px) 0 0 / 14px 14px,
-        linear-gradient(145deg, rgba(229,242,223,0.36), rgba(255,239,244,0.52));
-      box-shadow: inset 0 1px 7px rgba(74,58,66,0.07);
-    }
-
-    .bio-reserved-viewport img {
-      display: block;
-      width: min(64%, 118px);
-      height: auto;
-      opacity: 0.64;
-      filter: saturate(0.72) drop-shadow(0 7px 8px rgba(122,58,82,0.12));
-    }
-
-    .bio-reserved-viewport span {
-      max-width: 190px;
-      color: var(--pixel-label2);
-      font-size: 5px;
-      line-height: 1.65;
-      text-align: center;
-    }
-
-    .bio-reserved-status {
-      min-height: 23px;
-      border-top: 1px solid rgba(255,255,255,0.72);
-      border-radius: 0 0 15px 15px;
-      font-size: 5px;
-    }
-
-    .bio-reserved-window-quiet { max-width: 250px; }
-    .bio-reserved-window-profile { max-width: 260px; }
+    .bio-reserved-window-quiet { --reserved-frame-width: 250px; }
+    .bio-reserved-window-profile { --reserved-frame-width: 260px; }
 
     @media (min-width: 769px) and (max-width: 1050px) {
       .bio-secondary-stage {
@@ -785,9 +826,9 @@
         gap: 20px;
       }
       .bio-secondary-copy { padding: 15px; }
-      .bio-reserved-window { max-width: 210px; }
-      .bio-reserved-viewport { padding: 9px 7px 8px; }
-      .bio-reserved-viewport span { font-size: 4px; }
+      .bio-secondary-stage > .reserved-memory-frame { --reserved-frame-width: 210px; }
+      .bio-secondary-stage .reserved-memory-frame-viewport { padding: 9px 7px 8px; }
+      .bio-secondary-stage .reserved-memory-frame-viewport span { font-size: 4px; }
     }
 
     @media (max-width: 768px) {
@@ -796,7 +837,8 @@
         min-height: 0;
       }
       .bio-secondary-copy { padding: 15px; }
-      .bio-reserved-window {
+      .bio-secondary-stage > .reserved-memory-frame {
+        --reserved-frame-width: 250px;
         width: min(100%, 250px);
         margin: 26px auto 12px;
       }
