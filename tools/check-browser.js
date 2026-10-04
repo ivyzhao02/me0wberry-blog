@@ -77,8 +77,13 @@ function browserOptions() {
   return options;
 }
 
+async function blockExternalRequests(page) {
+  await page.route(/^https?:\/\/(?!127\.0\.0\.1(?::\d+)?(?:\/|$))/i, route => route.abort());
+}
+
 async function openCheckedPage(browser, url, viewport, setup) {
   const page = await browser.newPage({ viewport });
+  await blockExternalRequests(page);
   const problems = [];
   page.on('pageerror', (error) => problems.push(error.message));
   page.on('response', (response) => {
@@ -126,6 +131,7 @@ async function smokePublicPages(browser, baseUrl) {
       const batch = publicPaths.slice(index, index + batchSize);
       await Promise.all(batch.map(async (publicPath) => {
         const page = await browser.newPage({ viewport: mode.viewport });
+        await blockExternalRequests(page);
         const problems = [];
         page.on('pageerror', (error) => problems.push(error.message));
         page.on('response', (response) => {
@@ -181,6 +187,7 @@ async function run() {
 
   try {
     const missing = await browser.newPage({ viewport: { width: 1000, height: 760 } });
+    await blockExternalRequests(missing);
     const missingAssetProblems = [];
     missing.on('response', (response) => {
       if (response.url().startsWith(baseUrl)

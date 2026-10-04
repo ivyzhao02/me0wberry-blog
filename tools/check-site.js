@@ -225,6 +225,49 @@ for (const [file, expectedLinks] of pageNavigationRequirements) {
   }
 }
 
+const systemSource = publicHtmlSources.get('system/index.html') || '';
+const sitemapSource = /<section\b[^>]*\bid=["']sitemap["'][^>]*>([\s\S]*?)<\/section>/i.exec(systemSource)?.[1] || '';
+const sitemapTargets = new Set();
+
+if (!sitemapSource) {
+  errors.push('system/index.html: public site map section is missing');
+} else {
+  for (const match of sitemapSource.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["'][^>]*>/gi)) {
+    const target = resolveLocalReference('system/index.html', match[1]);
+    if (target) sitemapTargets.add(target);
+  }
+}
+
+const requiredSitemapTargets = new Set([
+  'welcome/index.html',
+  'index.html',
+  'now/index.html',
+  'info/index.html',
+  'archive/index.html',
+  ...ARCHIVE_CATEGORIES.map(category => `archive/${category.id}/index.html`),
+  'feed.xml',
+  'persona/index.html',
+  'webgarden/index.html',
+  'toybox/index.html',
+  'shrines/index.html',
+  'system/index.html',
+]);
+
+for (const target of requiredSitemapTargets) {
+  if (!sitemapTargets.has(target)) errors.push(`system/index.html: site map is missing ${target}`);
+}
+
+const shrineHallSource = publicHtmlSources.get('shrines/index.html') || '';
+for (const match of shrineHallSource.matchAll(/<a\b[^>]*>/gi)) {
+  const tag = match[0];
+  if (!/\bclass=["'][^"']*\bshrine-door\b[^"']*["']/i.test(tag)) continue;
+  const href = /\bhref=["']([^"']+)["']/i.exec(tag)?.[1];
+  const target = href ? resolveLocalReference('shrines/index.html', href) : null;
+  if (target && !sitemapTargets.has(target)) {
+    errors.push(`system/index.html: site map is missing public shrine ${target}`);
+  }
+}
+
 for (const file of relativeFiles.filter(file => /^images\/.*\.(?:heic|heif)$/i.test(file))) {
   errors.push(`${file}: HEIC/HEIF photos must be converted to a browser-safe format`);
 }
