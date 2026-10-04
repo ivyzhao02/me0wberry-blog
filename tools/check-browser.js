@@ -809,8 +809,22 @@ async function run() {
       'League shrine champion portraits did not all decode',
     );
     assert(
-      (await league.locator('.league-terminal').textContent()).includes('waiting for game name + tagline'),
-      'League shrine did not preserve its unconnected profile state',
+      (await league.locator('.league-terminal').textContent()).includes('me0wberry #164'),
+      'League shrine did not render the confirmed Riot ID',
+    );
+    assert(
+      await league.locator('.league-honourable-grid article').count() === 3,
+      'League shrine did not render all mastery-led honourable mentions',
+    );
+    assert(
+      await league.locator('.league-honourable-grid img').evaluateAll((images) => images.length === 3
+        && images.every((image) => image.complete && image.naturalWidth > 0)),
+      'League honourable-mention portraits did not all decode',
+    );
+    assert(
+      await league.locator('.league-profile-links a').evaluateAll((links) => links.length === 3
+        && links.every((link) => link.href.includes('me0wberry-164'))),
+      'League shrine profile links did not resolve to the confirmed Riot ID',
     );
     await league.locator('.league-wardrobe').first().locator('summary').click();
     assert(await league.locator('.league-wardrobe-body').first().isVisible(), 'League skin wardrobe did not open');

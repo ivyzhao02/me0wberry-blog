@@ -2843,6 +2843,14 @@ a.shrine-cabinet-card:hover {
   line-height: 1.5;
 }
 
+.league-champion-card .league-champion-mastery {
+  margin-bottom: 4px;
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  line-height: 1.5;
+}
+
 .league-champion-card a {
   display: inline-block;
   margin-top: 8px;
@@ -3015,6 +3023,31 @@ a.shrine-cabinet-card:hover {
   font-size: 9px;
 }
 
+.league-profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 0 13px 13px;
+}
+
+.league-profile-links a {
+  padding: 6px 8px;
+  color: var(--link);
+  border: 1px solid rgba(192,112,144,0.3);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.58);
+  font-family: var(--font-pixel);
+  font-size: 5px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.league-profile-links a:hover,
+.league-profile-links a:focus-visible {
+  border-color: var(--pink);
+  background: rgba(255,244,248,0.88);
+}
+
 .league-source-notes {
   display: grid;
   gap: 8px;
@@ -3074,9 +3107,11 @@ a.shrine-cabinet-card:hover {
 
 .league-honourable-grid article {
   display: grid;
+  grid-template-columns: 66px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
   min-height: 112px;
-  place-content: center;
-  justify-items: center;
+  padding: 10px;
   border: 1px dashed rgba(92,139,151,0.4);
   border-radius: 14px;
   background:
@@ -3084,25 +3119,35 @@ a.shrine-cabinet-card:hover {
     rgba(255,255,255,0.3);
 }
 
-.league-honourable-grid span {
-  display: grid;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  color: var(--pink);
+.league-honourable-grid img {
+  display: block;
+  width: 66px;
+  height: 66px;
+  object-fit: cover;
   border: 1px solid rgba(192,112,144,0.3);
-  border-radius: 50%;
-  background: rgba(255,255,255,0.64);
+  border-radius: 12px;
+  box-shadow: 0 5px 11px rgba(65,88,93,0.11);
+}
+
+.league-honourable-grid span {
+  display: block;
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 4px;
+  line-height: 1.5;
+}
+
+.league-honourable-grid h4 {
+  margin: 5px 0 0;
+  color: var(--heading);
   font-family: var(--font-heading);
-  font-size: 21px;
-  font-weight: 700;
+  font-size: 16px;
 }
 
 .league-honourable-grid p {
-  margin-top: 8px;
+  margin-top: 4px;
   color: var(--muted);
-  font-family: var(--font-pixel);
-  font-size: 5px;
+  font-size: 8px;
 }
 
 .league-credit-note {
