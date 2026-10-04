@@ -16,8 +16,10 @@ const PORT = Number(process.env.PORT || 8124);
 const ROOT = path.resolve(__dirname, '..', '..');
 const IMAGE_EXTENSIONS = new Set(['.gif', '.jpeg', '.jpg', '.png', '.webp']);
 const HEIC_EXTENSIONS = new Set(['.heic', '.heif']);
-const MAX_IMAGE_DIMENSION = 2560;
-const WEBP_QUALITY = 90;
+const MAX_IMAGE_DIMENSION = 1920;
+const WEBP_QUALITY = 84;
+const POST_PREVIEW_DIMENSION = 1280;
+const POST_PREVIEW_QUALITY = 80;
 const PUBLIC_FILES = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
@@ -179,6 +181,33 @@ async function writeUploadedImages(category, uploadedImages) {
   }
 }
 
+async function ensurePostPreview(category, fileName) {
+  if (!fileName || path.extname(fileName).toLowerCase() === '.gif') return null;
+
+  const targetDir = path.join(ROOT, 'images', category);
+  const sourcePath = path.resolve(targetDir, fileName);
+  if (!sourcePath.startsWith(`${targetDir}${path.sep}`) || !fs.existsSync(sourcePath)) return null;
+
+  const parsed = path.parse(fileName);
+  const previewName = `${parsed.name}-preview.webp`;
+  const previewPath = path.join(targetDir, previewName);
+  const existed = fs.existsSync(previewPath);
+  if (!existed) {
+    await sharp(sourcePath, { failOn: 'error' })
+      .rotate()
+      .resize({
+        width: POST_PREVIEW_DIMENSION,
+        height: POST_PREVIEW_DIMENSION,
+        fit: 'inside',
+        withoutEnlargement: true,
+      })
+      .webp({ quality: POST_PREVIEW_QUALITY, effort: 5 })
+      .toFile(previewPath);
+  }
+
+  return { fileName: previewName, path: previewPath, created: !existed };
+}
+
 function removeFileIfExists(filePath) {
   if (filePath && fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
@@ -232,9 +261,11 @@ async function createPost(payload) {
   const originalIndex = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, 'utf8') : null;
 
   let writtenImages = [];
+  let writtenPreview = null;
   try {
     writtenImages = await writeUploadedImages(category, uploadedImages);
     const galleryImages = [...existingImages, ...writtenImages.map((image) => image.fileName)];
+    writtenPreview = await ensurePostPreview(category, galleryImages[0]);
     const postHtml = buildPostHtml({
       category,
       title,
@@ -242,6 +273,7 @@ async function createPost(payload) {
       content,
       imageUrl,
       images: galleryImages,
+      previewImage: writtenPreview?.fileName || '',
       lately,
     });
 
@@ -261,6 +293,7 @@ async function createPost(payload) {
     writtenImages.forEach((image) => {
       removeFileIfExists(path.join(ROOT, image.sitePath.replace(/^\//, '').replace(/\//g, path.sep)));
     });
+    if (writtenPreview?.created) removeFileIfExists(writtenPreview.path);
     removeFileIfExists(postAbsPath);
     if (originalIndex === null) removeFileIfExists(indexPath);
     else writeTextFileAtomic(indexPath, originalIndex);

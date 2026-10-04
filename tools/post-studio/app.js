@@ -9,8 +9,8 @@ const existingImageHelp = document.getElementById('existing-image-help');
 const imageList = document.getElementById('image-list');
 const imageInput = document.getElementById('images');
 const optimizeImagesEl = document.getElementById('optimize-images');
-const MAX_IMAGE_DIMENSION = 2560;
-const WEBP_QUALITY = 0.9;
+const MAX_IMAGE_DIMENSION = 1920;
+const WEBP_QUALITY = 0.84;
 
 function defaultDateLabel() {
   const now = new Date();
@@ -38,7 +38,7 @@ function updateImageList() {
   Array.from(imageInput.files).forEach((file) => {
     const item = document.createElement('li');
     const isHeic = /\.(?:heic|heif)$/i.test(file.name) || /image\/hei[cf]/i.test(file.type);
-    const willOptimize = optimizeImagesEl.checked && /image\/(?:jpeg|png)/i.test(file.type);
+    const willOptimize = optimizeImagesEl.checked && /image\/(?:jpeg|png|webp)/i.test(file.type);
     const conversionNote = isHeic ? ' → converted webp' : (willOptimize ? ' → optimized webp' : '');
     item.textContent = `${file.name}${conversionNote}`;
     imageList.appendChild(item);
@@ -50,7 +50,7 @@ function canvasToBlob(canvas, type, quality) {
 }
 
 async function optimizeImage(file) {
-  if (!optimizeImagesEl.checked || !/image\/(?:jpeg|png)/i.test(file.type)) return file;
+  if (!optimizeImagesEl.checked || !/image\/(?:jpeg|png|webp)/i.test(file.type)) return file;
 
   let bitmap;
   try {

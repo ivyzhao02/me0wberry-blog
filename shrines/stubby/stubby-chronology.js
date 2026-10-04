@@ -35,7 +35,9 @@
     image.alt = caption;
     image.loading = 'lazy';
     image.decoding = 'async';
-    if (featured) image.src = imagePath(year, index);
+    if (featured && typeof window.deferSiteImage === 'function') {
+      window.deferSiteImage(image, imagePath(year, index));
+    } else if (featured) image.src = imagePath(year, index);
     else image.dataset.src = imagePath(year, index);
     button.appendChild(image);
     return button;

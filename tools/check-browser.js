@@ -689,10 +689,24 @@ async function run() {
       await pokemonShrine.locator(octoberShinySelector).count() === octoberShinyFiles.length,
       'Pokémon shrine did not render all October shiny captures',
     );
-    await pokemonShrine.waitForFunction((files) => files.every((file) => {
-      const image = document.querySelector(`[data-pokemon-full$="${file}"] img`);
-      return image?.complete && image.naturalWidth > 0;
-    }), octoberShinyFiles).catch(() => { throw new Error('October shiny captures did not all decode'); });
+    const initiallyDecodedShinies = await pokemonShrine.locator(octoberShinySelector).evaluateAll((cards) =>
+      cards.filter((card) => {
+        const image = card.querySelector('img');
+        return image?.complete && image.naturalWidth > 0;
+      }).length);
+    assert(
+      initiallyDecodedShinies < octoberShinyFiles.length,
+      'Pokémon shrine eagerly decoded every off-screen October shiny capture',
+    );
+    for (const file of octoberShinyFiles) {
+      const card = pokemonShrine.locator(`[data-pokemon-full$="${file}"]`);
+      await card.scrollIntoViewIfNeeded();
+      await card.locator('img').waitFor({ state: 'visible' });
+      await pokemonShrine.waitForFunction((name) => {
+        const image = document.querySelector(`[data-pokemon-full$="${name}"] img`);
+        return image?.complete && image.naturalWidth > 0;
+      }, file).catch(() => { throw new Error(`October shiny capture ${file} did not decode after scrolling into view`); });
+    }
     assert(
       await pokemonShrine.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'Pokémon shrine overflowed horizontally after adding October shinies',
@@ -731,12 +745,25 @@ async function run() {
       await warframe.locator('[data-warframe-full$="warframe0048.webp"], [data-warframe-full$="warframe0105.webp"]').count() === 2,
       'Warframe shrine did not include both added shared moments',
     );
-    await warframe.locator('.warframe-frame-preview img').evaluateAll((images) => images.forEach((image) => {
-      image.loading = 'eager';
-    }));
-    await warframe.waitForFunction(() => [...document.querySelectorAll('.warframe-frame-preview img')]
-      .every((image) => image.complete && image.naturalWidth > 0))
-      .catch(() => { throw new Error('Warframe folder previews did not all decode'); });
+    const warframePreviews = warframe.locator('.warframe-frame-preview img');
+    const initiallyDecodedPreviews = await warframePreviews.evaluateAll((images) =>
+      images.filter((image) => image.complete && image.naturalWidth > 0).length);
+    assert(
+      initiallyDecodedPreviews < await warframePreviews.count(),
+      'Warframe shrine eagerly decoded every off-screen folder preview',
+    );
+    for (let index = 0; index < await warframePreviews.count(); index += 1) {
+      const preview = warframePreviews.nth(index);
+      await preview.scrollIntoViewIfNeeded();
+      await preview.waitFor({ state: 'visible' });
+      await preview.waitFor({ state: 'attached' });
+      await warframe.waitForFunction((previewIndex) => {
+        const image = document.querySelectorAll('.warframe-frame-preview img')[previewIndex];
+        return Boolean(image?.currentSrc || image?.src);
+      }, index);
+      await preview.evaluate((image) => image.decode())
+        .catch(() => { throw new Error(`Warframe folder preview ${index + 1} did not decode after scrolling into view`); });
+    }
     assert(await warframe.locator('#warframe-post-list li').count() > 0, 'Warframe shrine did not gather related posts');
     assert(
       await warframe.locator('#warframe-post-list').getByText(latestWarframeTitle, { exact: false }).count() === 1,

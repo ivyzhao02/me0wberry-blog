@@ -369,7 +369,11 @@
     details.className = 'warframe-frame-shelf';
     summary.className = 'warframe-frame-summary';
     preview.className = 'warframe-frame-preview';
-    previewImage.src = previewImagePath(group.preview);
+    if (typeof window.deferSiteImage === 'function') {
+      window.deferSiteImage(previewImage, previewImagePath(group.preview));
+    } else {
+      previewImage.src = previewImagePath(group.preview);
+    }
     previewImage.alt = `${group.title} gallery preview`;
     previewImage.loading = 'lazy';
     previewImage.decoding = 'async';

@@ -674,7 +674,15 @@ html:not(.player-visibility-ready) #panel-player {
 }
 
 @media (max-width: 768px) {
-  body { padding: 12px 12px 66px; }
+  body {
+    padding: 12px 12px 66px;
+    background-attachment: scroll;
+  }
+
+  *, *::before, *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
 
   .post-container { border-radius: 16px; }
 

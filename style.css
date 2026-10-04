@@ -4961,3 +4961,10 @@ body.welcome-page #main.welcome-shell {
   padding: 0;
   overflow: visible;
 }
+
+@media (max-width: 768px) {
+  *, *::before, *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}

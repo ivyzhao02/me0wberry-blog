@@ -1,4 +1,14 @@
 (function () {
+  function deferImage(image, source) {
+    if (typeof window.deferSiteImage === 'function') {
+      window.deferSiteImage(image, source);
+      return;
+    }
+    image.src = source;
+    image.loading = 'lazy';
+    image.decoding = 'async';
+  }
+
   const list = document.getElementById('pokemon-post-list');
   async function renderRelatedPosts() {
     if (!list) return;
@@ -93,10 +103,10 @@
     card.dataset.pokemonCaption = `shiny ${entry[0]} · ${entry[2]}`;
     card.setAttribute('aria-label', `open shiny ${entry[0]} image`);
     image.alt = `Shiny ${entry[0]} in ${entry[2]}`;
-    image.loading = lazy ? 'lazy' : 'eager';
+    image.loading = 'lazy';
     image.decoding = 'async';
     if (lazy) image.dataset.src = entry[1];
-    else image.src = entry[1];
+    else deferImage(image, entry[1]);
     name.textContent = entry[0];
     game.textContent = entry[2];
     label.append(name, game);
@@ -143,9 +153,8 @@
     button.dataset.pokemonFull = source;
     button.dataset.pokemonCaption = `${name} · ${details}`;
     button.setAttribute('aria-label', `open ${name} card image`);
-    image.src = source;
+    deferImage(image, source);
     image.alt = `${name} card · ${details}`;
-    image.loading = 'lazy';
     title.textContent = name;
     description.textContent = details;
     label.append(title, description);
@@ -172,9 +181,8 @@
         const figure = document.createElement('figure');
         const image = document.createElement('img');
         const caption = document.createElement('figcaption');
-        image.src = `../../images/pokemon/favourites/${species}${variant === 'shiny' ? '-shiny' : ''}.png`;
+        deferImage(image, `../../images/pokemon/favourites/${species}${variant === 'shiny' ? '-shiny' : ''}.png`);
         image.alt = `${variant === 'shiny' ? 'Shiny ' : ''}${species} sprite`;
-        image.loading = 'lazy';
         caption.textContent = `${species} · ${variant}`;
         figure.append(image, caption);
         sprites.appendChild(figure);
@@ -231,9 +239,8 @@
       const figure = document.createElement('figure');
       const image = document.createElement('img');
       const caption = document.createElement('figcaption');
-      image.src = `../../images/pokemon/favourites/${species.file}`;
+      deferImage(image, `../../images/pokemon/favourites/${species.file}`);
       image.alt = species.alt;
-      image.loading = 'lazy';
       caption.textContent = species.name;
       figure.append(image, caption);
       sprites.appendChild(figure);
@@ -270,9 +277,8 @@
       button.dataset.pokemonFull = source;
       button.dataset.pokemonCaption = `${favourite.name} · ${label}`;
       button.setAttribute('aria-label', `open ${favourite.name} ${label}`);
-      image.src = source;
+      deferImage(image, source);
       image.alt = `${favourite.name} ${label}`;
-      image.loading = 'lazy';
       caption.textContent = label;
       button.append(image, caption);
       images.appendChild(button);
@@ -393,10 +399,8 @@
         const source = `../../images/pokemon/game-appearances/${imageFile}`;
         const image = document.createElement('img');
         const imageLabel = files.length > 1 ? ` scene ${imageIndex + 1}` : '';
-        image.src = source;
+        deferImage(image, source);
         image.alt = `${history.name} in ${games}${imageLabel}`;
-        image.loading = history.entries.length === 1 ? 'eager' : 'lazy';
-        image.decoding = 'async';
 
         if (files.length > 1) {
           const imageButton = document.createElement('button');

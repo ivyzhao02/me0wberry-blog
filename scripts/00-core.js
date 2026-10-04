@@ -26,6 +26,38 @@
 
     window.loadMe0wberrySearchPosts = loadMe0wberrySearchPosts;
 
+    const deferredImageObserver = 'IntersectionObserver' in window
+      ? new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const image = entry.target;
+          const source = image.dataset.deferredSrc;
+          if (source) image.src = source;
+          image.removeAttribute('data-deferred-src');
+          observer.unobserve(image);
+        });
+      }, { rootMargin: '480px 0px' })
+      : null;
+
+    function deferSiteImage(image, source) {
+      if (!image || !source) return;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      if (!deferredImageObserver) {
+        image.src = source;
+        return;
+      }
+      image.dataset.deferredSrc = source;
+      deferredImageObserver.observe(image);
+    }
+
+    window.deferSiteImage = deferSiteImage;
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('img[data-deferred-src]').forEach((image) => {
+        deferSiteImage(image, image.dataset.deferredSrc);
+      });
+    });
+
     const PASSPORT_STORAGE_KEY = 'me0wberry_passport_v1';
     const PASSPORT_STAMP_IDS = ['wander', 'naranya', 'love-ball', 'pixel-cat'];
 

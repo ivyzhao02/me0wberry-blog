@@ -113,19 +113,19 @@ function buildImageHtml(src, alt) {
   return `    <img class="post-image" src="${toPostAssetPath(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
 }
 
-function buildPostGallery(images, category, alt) {
+function buildPostGallery(images, category, alt, previewImage = '') {
   if (!images.length) return '';
 
   const basePath = `../../images/${category}/`;
   const imageSrc = (name) => name.startsWith('/') ? toPostAssetPath(name) : `${basePath}${name}`;
 
   if (images.length === 1) {
-    return `    <img class="post-image" src="${imageSrc(images[0])}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
+    return `    <img class="post-image" src="${imageSrc(previewImage || images[0])}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
   }
 
   const slideImgs = images
     .map((name, index) => {
-      const src = imageSrc(name);
+      const src = imageSrc(index === 0 && previewImage ? previewImage : name);
       const attrs = index === 0
         ? `src="${src}" fetchpriority="high"`
         : `data-src="${src}"`;
@@ -175,7 +175,7 @@ function buildPlayerHtml() {
 }
 
 function buildPostHtml(post) {
-  const { category, title, date, content, imageUrl, images, lately } = post;
+  const { category, title, date, content, imageUrl, images, previewImage, lately } = post;
   const safeTitle = escapeHtml(title);
   const safeCategory = escapeHtml(category === 'lately' ? 'now' : category);
   const safeDate = escapeHtml(date);
@@ -184,7 +184,7 @@ function buildPostHtml(post) {
     : `<div class="post-content">${markdownToHtml(content)}</div>`;
 
   const mediaHtml = images.length
-    ? buildPostGallery(images, category, title)
+    ? buildPostGallery(images, category, title, previewImage)
     : buildImageHtml(imageUrl, title);
 
   return `<!DOCTYPE html>
