@@ -4,7 +4,7 @@ const { spawnSync } = require('child_process');
 const { buildSiteData } = require('./build-site-data');
 const { googleTagErrors } = require('./google-tag');
 const { hasGpsCoordinatesInExif, imageHasGpsCoordinates } = require('./image-metadata');
-const { ARCHIVE_CATEGORIES } = require('./site-config');
+const { ARCHIVE_CATEGORIES, PAGE_LAST_EDITED } = require('./site-config');
 
 const ROOT = path.resolve(__dirname, '..');
 const SKIP_DIRS = new Set(['.git', 'codex-notes', 'node_modules']);
@@ -211,6 +211,7 @@ const pageNavigationRequirements = new Map([
   ['shrines/stubby/index.html', 1],
   ['shrines/warframe/index.html', 1],
   ['shrines/league/index.html', 1],
+  ['shrines/sanrio/index.html', 1],
   ['system/index.html', 1],
   ['toybox/index.html', 1],
   ['webgarden/index.html', 1],
@@ -223,6 +224,21 @@ for (const [file, expectedLinks] of pageNavigationRequirements) {
   if (links.length !== expectedLinks) {
     errors.push(`${file}: expected ${expectedLinks} shared page navigation link${expectedLinks === 1 ? '' : 's'}, found ${links.length}`);
   }
+}
+
+for (const file of pageNavigationRequirements.keys()) {
+  if (file === 'system/index.html') {
+    if (Object.hasOwn(PAGE_LAST_EDITED, file)) errors.push(`${file}: changelog page must not have a last-edited label`);
+  } else if (!Object.hasOwn(PAGE_LAST_EDITED, file)) {
+    errors.push(`${file}: meaningful last-edited timestamp is missing`);
+  }
+}
+
+for (const [file, timestamp] of Object.entries(PAGE_LAST_EDITED)) {
+  if (!pageNavigationRequirements.has(file)) errors.push(`${file}: last-edited label is configured for an ineligible page`);
+  if (!exactFiles.has(file)) errors.push(`${file}: last-edited label targets a missing page`);
+  if (file.startsWith('posts/')) errors.push(`${file}: individual posts must not receive last-edited labels`);
+  if (Number.isNaN(Date.parse(timestamp))) errors.push(`${file}: invalid last-edited timestamp ${timestamp}`);
 }
 
 const systemSource = publicHtmlSources.get('system/index.html') || '';

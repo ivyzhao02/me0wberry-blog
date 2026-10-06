@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
-const { ARCHIVE_CATEGORIES, CATEGORY_IDS } = require('./site-config');
+const { ARCHIVE_CATEGORIES, CATEGORY_IDS, PAGE_LAST_EDITED } = require('./site-config');
 const { tagPublicHtmlFiles } = require('./google-tag');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -18,6 +18,7 @@ const STYLE_SOURCES = [
 ];
 const SCRIPT_SOURCES = [
   'scripts/00-core.js',
+  'scripts/05-page-last-edited.js',
   'scripts/10-desktop.js',
   'scripts/15-player-catalog.js',
   'scripts/20-player.js',
@@ -317,6 +318,11 @@ function buildSourceBundle(files, label) {
   return `${sections.join('\n\n')}\n`;
 }
 
+function buildScriptBundle() {
+  const lastEditedConfig = `window.me0wberryPageLastEdited = Object.freeze(${JSON.stringify(PAGE_LAST_EDITED, null, 2)});`;
+  return `${lastEditedConfig}\n\n${buildSourceBundle(SCRIPT_SOURCES, 'script')}`;
+}
+
 function buildArchiveCategoryPage(category, template) {
   const replacements = {
     PAGE_TITLE: category.label,
@@ -384,7 +390,7 @@ function buildSiteData({ write = true } = {}) {
     },
     {
       file: 'script.js',
-      contents: buildSourceBundle(SCRIPT_SOURCES, 'script'),
+      contents: buildScriptBundle(),
     },
     {
       file: 'data/search-index.json',

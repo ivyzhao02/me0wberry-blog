@@ -59,6 +59,13 @@
       margin-bottom: 8px;
     }
 
+    .page-last-edited {
+      display: block;
+      width: fit-content;
+      margin: -3px 0 12px;
+      color: var(--muted);
+    }
+
     .page-nav-row {
       display: flex;
       flex-wrap: wrap;

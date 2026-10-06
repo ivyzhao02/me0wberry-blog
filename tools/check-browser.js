@@ -569,6 +569,7 @@ async function run() {
     await directMobileInfo.close();
 
     const themed = await openCheckedPage(browser, `${baseUrl}/system/`, { width: 1280, height: 900 });
+    assert(await themed.locator('.page-last-edited').count() === 0, 'System changelog received a redundant last-edited label');
     const changelogMonths = themed.locator('.changelog-month');
     assert(await changelogMonths.count() > 0, 'System changelog did not render any month drawers');
     assert(
@@ -600,6 +601,15 @@ async function run() {
     assert(await themed.evaluate(() => document.documentElement.dataset.theme) === 'matcha-cream', 'theme control did not apply');
     await themed.goto(`${baseUrl}/info/`, { waitUntil: 'domcontentloaded' });
     assert(await themed.evaluate(() => document.documentElement.dataset.theme) === 'matcha-cream', 'theme did not persist');
+    assert(await themed.locator('.page-last-edited time[datetime]').count() === 1, 'info page did not render its meaningful last-edited label');
+    assert(
+      (await themed.locator('.page-last-edited').textContent()).startsWith('last edited:'),
+      'last-edited label did not use the shared page wording',
+    );
+    assert(
+      await themed.locator('.page-last-edited').evaluate((element) => getComputedStyle(element).borderRadius === '7px'),
+      'last-edited label did not inherit the pixel-tag bubble styling',
+    );
     await themed.evaluate(() => window.setSiteTheme('main'));
     await themed.close();
 
@@ -897,6 +907,16 @@ async function run() {
       'League shrine did not use the requested enchanter role wording',
     );
     assert(
+      (await league.locator('.league-champion-notes').first().textContent()).includes('( forgot )'),
+      'League shrine did not preserve the requested parenthesis spacing',
+    );
+    assert(
+      (await league.locator('.league-source-notes').textContent()).includes('my forever four')
+        && (await league.locator('.league-source-notes').textContent()).includes("where i'm at now")
+        && (await league.locator('.league-source-notes').textContent()).includes('tiny update note'),
+      'League shrine profile notes did not use the refreshed personal copy',
+    );
+    assert(
       (await league.locator('.league-account-collection').textContent()).includes('465 skins')
         && (await league.locator('.league-account-collection').textContent()).includes('345 chromas'),
       'League shrine did not render the whole-account collection totals',
@@ -1093,6 +1113,7 @@ async function run() {
       { width: 1280, height: 900 },
     );
     assert(await post.locator('link[href="../../post.css"]').count() === 1, 'post.css is not linked once');
+    assert(await post.locator('.page-last-edited').count() === 0, 'dated post received a redundant last-edited label');
     assert(await post.locator('#panel-player .player-controls').isVisible(), 'modern post player controls are not visible');
     assert(
       await post.locator('.post-container').evaluate((element) => parseFloat(getComputedStyle(element).borderRadius) >= 14),
@@ -1243,6 +1264,7 @@ async function run() {
       { width: 1280, height: 900 },
     );
     assert(await directToybox.locator('.toybox-kaomoji').count() >= 80, 'direct-file trinkets did not load its kaomoji data');
+    assert(await directToybox.locator('.page-last-edited time[datetime]').count() === 1, 'direct-file trinkets did not render its last-edited label');
     await directToybox.close();
 
     const direct404 = await openCheckedPage(

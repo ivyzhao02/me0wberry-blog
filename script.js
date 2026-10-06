@@ -1,3 +1,24 @@
+window.me0wberryPageLastEdited = Object.freeze({
+  "archive/index.html": "2026-08-29T16:34:46-04:00",
+  "archive/beauty/index.html": "2026-08-29T16:34:46-04:00",
+  "archive/food/index.html": "2026-08-29T16:34:46-04:00",
+  "archive/games/index.html": "2026-08-29T16:34:46-04:00",
+  "archive/lately/index.html": "2026-08-29T16:34:46-04:00",
+  "archive/music/index.html": "2026-08-29T16:34:46-04:00",
+  "archive/stubby/index.html": "2026-08-29T16:34:46-04:00",
+  "info/index.html": "2026-10-03T21:12:44-04:00",
+  "now/index.html": "2026-10-03T16:07:27-04:00",
+  "persona/index.html": "2026-10-03T21:12:44-04:00",
+  "shrines/index.html": "2026-10-04T07:08:41-04:00",
+  "shrines/league/index.html": "2026-10-06T12:11:18-04:00",
+  "shrines/pokemon/index.html": "2026-10-03T16:29:29-04:00",
+  "shrines/sanrio/index.html": "2026-10-04T02:26:15-04:00",
+  "shrines/stubby/index.html": "2026-10-03T21:12:44-04:00",
+  "shrines/warframe/index.html": "2026-09-11T00:59:33-04:00",
+  "toybox/index.html": "2026-08-27T03:10:00-04:00",
+  "webgarden/index.html": "2026-08-27T23:04:16-04:00"
+});
+
 ﻿    // ── Site Config ──
     const SITE_ROOT = document.currentScript && document.currentScript.dataset.siteRoot;
     function sitePath(value) {
@@ -275,6 +296,58 @@
     }
 
     window.surpriseMe = surpriseMe;
+
+(() => {
+  const pageDates = window.me0wberryPageLastEdited;
+  if (!pageDates) return;
+
+  function currentPageKey() {
+    let pathname = decodeURIComponent(window.location.pathname).replace(/\\/g, '/');
+    if (pathname.endsWith('/')) pathname += 'index.html';
+    return Object.keys(pageDates)
+      .sort((left, right) => right.length - left.length)
+      .find((key) => pathname === key || pathname.endsWith(`/${key}`));
+  }
+
+  function formatLastEdited(timestamp) {
+    const date = new Date(timestamp);
+    const dateParts = new Intl.DateTimeFormat('en-US', {
+      day: 'numeric',
+      month: 'long',
+      timeZone: 'America/Toronto',
+      year: 'numeric',
+    }).formatToParts(date);
+    const part = (type) => dateParts.find((entry) => entry.type === type)?.value || '';
+    const time = new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric',
+      hour12: true,
+      minute: '2-digit',
+      timeZone: 'America/Toronto',
+    }).format(date).toLowerCase();
+
+    return `last edited: ${part('month').toLowerCase()} ${part('day')} , ${part('year')} / ${time}`;
+  }
+
+  function addLastEditedLabel() {
+    const pageKey = currentPageKey();
+    const navigation = document.querySelector('.page-nav-row');
+    if (!pageKey || !navigation || document.querySelector('.page-last-edited')) return;
+
+    const label = document.createElement('div');
+    const time = document.createElement('time');
+    label.className = 'pixel-tag page-last-edited';
+    time.dateTime = pageDates[pageKey];
+    time.textContent = formatLastEdited(pageDates[pageKey]);
+    label.append(time);
+    navigation.insertAdjacentElement('afterend', label);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addLastEditedLabel, { once: true });
+  } else {
+    addLastEditedLabel();
+  }
+})();
 
     const MOBILE_BREAKPOINT = 768;
     const UTILITY_PANEL_BOTTOM_OFFSET = 72;
