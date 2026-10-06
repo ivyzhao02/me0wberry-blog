@@ -6,7 +6,7 @@
     { year: 2012, images: 9, featured: 2, videos: 0, copy: 'the year i got stubby ♡ i was 10 & she became the love of my life basically immediately . she still looked like a teenage kitten here !' },
     { year: 2013, images: 11, featured: 2, videos: 0, copy: 'her first halloween with the festive collar she somehow still has , plus some very important turtle investigations' },
     { year: 2014, images: 4, featured: 2, videos: 0, copy: "only a few pictures survived , rescued from my mom's facebook" },
-    { year: 2015, images: 5, featured: 3, videos: 0, copy: 'more little home photos , still mostly rescued from older family albums' },
+    { year: 2015, images: 5, featured: 3, videos: 0, copy: 'more home photos , still mostly rescued from older family albums' },
     { year: 2016, images: 5, featured: 2, videos: 0, copy: 'the household ipad entered the timeline , so i finally started taking more pictures of her myself' },
     { year: 2017, images: 8, featured: 6, videos: 0, copy: 'she kept me company through grade 10 , whether she was helping or sitting directly on whatever i needed . also : usher cap' },
     { year: 2018, images: 8, featured: 7, videos: 1, copy: 'the first long stubby video i could find lives here ! the toilet-training saga remains lost media & that is probably for the best' },
@@ -15,7 +15,7 @@
     { year: 2021, images: 13, featured: 2, videos: 0, copy: 'our brief waterloo chapter : the first & last time stubby moved out with me . it was stressful for both of us , so home became her forever base after that' },
     { year: 2022, images: 9, featured: 3, videos: 0, copy: 'the year of hats . she did not approve , but unfortunately she looked extremely cute' },
     { year: 2023, images: 7, featured: 1, videos: 4, copy: 'live photos took over , a bad chapter ended & i got my stubby tattoo a couple months later ♡' },
-    { year: 2024, images: 7, featured: 7, videos: 7, copy: 'a quieter year of recovering , hanging out together & noticing the first little signs that my girl was getting older' },
+    { year: 2024, images: 7, featured: 7, videos: 7, copy: 'a quieter year of recovering , hanging out together & noticing the first signs that my girl was getting older' },
     { year: 2025, images: 9, featured: 8, videos: 0, copy: 'more home days , more naps & the beginning of her monthly scrapbook on this site' }
   ];
 
@@ -63,7 +63,7 @@
     copy.textContent = entry.copy;
     details.className = 'stubby-year-details';
     gallery.className = 'stubby-memory-grid';
-    if (entry.videos) parts.push(`${entry.videos} little video${entry.videos === 1 ? '' : 's'}`);
+    if (entry.videos) parts.push(`${entry.videos} video${entry.videos === 1 ? '' : 's'}`);
     summary.textContent = `open ${parts.join(' + ')}`;
 
     heading.append(year, count);
@@ -80,7 +80,7 @@
       video.controls = true;
       video.playsInline = true;
       video.preload = 'none';
-      video.setAttribute('aria-label', `Stubby in ${entry.year}, little video ${index}`);
+      video.setAttribute('aria-label', `Stubby in ${entry.year}, video ${index}`);
       source.dataset.src = videoPath(entry.year, index);
       source.type = 'video/mp4';
       video.appendChild(source);

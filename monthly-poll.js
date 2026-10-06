@@ -52,7 +52,7 @@
       counts.set(option, await readCounter(option));
     }));
     if (results.some(result => result.status === 'rejected')) {
-      status.textContent = 'the poll results are taking a little nap right now (ᐢ. .ᐢ)';
+      status.textContent = 'the poll results are taking a nap right now (ᐢ. .ᐢ)';
       return;
     }
     renderResults();
