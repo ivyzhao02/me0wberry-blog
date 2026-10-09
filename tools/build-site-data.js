@@ -253,7 +253,7 @@ ${post.contentHtml}
             <div class="now-entry-actions">
               <a href="..${escapeHtml(post.url)}" class="pixel-btn">open this post ↗</a>
               <a href="../archive/lately/index.html" class="pixel-btn">past updates ↗</a>
-              <a href="../feed.xml" class="pixel-btn">rss feed ↗</a>
+              <a href="../rss/index.html" class="pixel-btn">rss feed ↗</a>
             </div>
           </article>
 ${NOW_END}`;

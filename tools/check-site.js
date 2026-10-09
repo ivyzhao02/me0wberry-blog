@@ -144,6 +144,10 @@ for (const file of publicHtmlFiles) {
 
   for (const match of source.matchAll(/<a\b[^>]*>/gi)) {
     const tag = match[0];
+    const href = /\bhref=["']([^"']+)["']/i.exec(tag)?.[1] || '';
+    if (/(?:^|\/)feed\.xml(?:[?#].*)?$/i.test(href)) {
+      errors.push(`${file}: visible RSS links must use the browser-friendly reader instead of feed.xml`);
+    }
     if (!/\btarget=["']_blank["']/i.test(tag)) continue;
     const rel = /\brel=["']([^"']*)["']/i.exec(tag)?.[1] || '';
     if (!rel.split(/\s+/).includes('noopener')) {
@@ -189,6 +193,8 @@ const requiredPages = new Map([
   ['shrines/warframe/index.html', 'Warframe shrine'],
   ['shrines/league/index.html', 'League of Legends shrine'],
   ['persona/index.html', 'persona gallery'],
+  ['rss/index.html', 'browser-friendly RSS reader'],
+  ['rss/rss-reader.js', 'browser-friendly RSS reader script'],
   ['post.css', 'shared post stylesheet'],
   ['style.css', 'generated shared stylesheet'],
   ['script.js', 'generated shared script'],
@@ -206,6 +212,7 @@ const pageNavigationRequirements = new Map([
   ['info/index.html', 1],
   ['now/index.html', 1],
   ['persona/index.html', 1],
+  ['rss/index.html', 2],
   ['shrines/index.html', 1],
   ['shrines/pokemon/index.html', 1],
   ['shrines/stubby/index.html', 1],
@@ -261,7 +268,7 @@ const requiredSitemapTargets = new Set([
   'info/index.html',
   'archive/index.html',
   ...ARCHIVE_CATEGORIES.map(category => `archive/${category.id}/index.html`),
-  'feed.xml',
+  'rss/index.html',
   'persona/index.html',
   'webgarden/index.html',
   'toybox/index.html',

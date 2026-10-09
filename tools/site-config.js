@@ -11,16 +11,17 @@ const CATEGORY_IDS = Object.freeze(ARCHIVE_CATEGORIES.map((category) => category
 
 // Advance a timestamp only when a visitor-facing page receives a meaningful content update.
 const PAGE_LAST_EDITED = Object.freeze({
-  'archive/index.html': '2026-08-29T16:34:46-04:00',
+  'archive/index.html': '2026-10-08T23:27:19-04:00',
   'archive/beauty/index.html': '2026-08-29T16:34:46-04:00',
   'archive/food/index.html': '2026-08-29T16:34:46-04:00',
   'archive/games/index.html': '2026-08-29T16:34:46-04:00',
   'archive/lately/index.html': '2026-08-29T16:34:46-04:00',
   'archive/music/index.html': '2026-08-29T16:34:46-04:00',
   'archive/stubby/index.html': '2026-08-29T16:34:46-04:00',
-  'info/index.html': '2026-10-06T13:28:41-04:00',
-  'now/index.html': '2026-10-03T16:07:27-04:00',
+  'info/index.html': '2026-10-08T23:27:19-04:00',
+  'now/index.html': '2026-10-08T23:27:19-04:00',
   'persona/index.html': '2026-10-06T13:28:41-04:00',
+  'rss/index.html': '2026-10-08T23:27:19-04:00',
   'shrines/index.html': '2026-10-06T13:28:41-04:00',
   'shrines/league/index.html': '2026-10-06T13:28:41-04:00',
   'shrines/pokemon/index.html': '2026-10-06T13:28:41-04:00',

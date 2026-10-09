@@ -1069,6 +1069,20 @@ async function run() {
     assert((await feed.locator('#feed-filter-status').textContent()).includes('in stubby'), 'RSS category filter did not update its status');
     await feed.close();
 
+    const rssReader = await openCheckedPage(browser, `${baseUrl}/rss/`, { width: 1000, height: 900 });
+    assert(await rssReader.locator('.rss-reader-entry').count() > 0, 'browser-friendly RSS reader did not render entries');
+    assert(
+      (await rssReader.locator('#rss-feed-address').textContent()).trim() === 'https://me0wberry.com/feed.xml',
+      'browser-friendly RSS reader has the wrong subscription address',
+    );
+    await rssReader.locator('#rss-copy-address').click();
+    await rssReader.waitForFunction(() => document.querySelector('#rss-copy-status')?.textContent.includes('copied'));
+    await rssReader.locator('[data-rss-filter="stubby"]').click();
+    const readableFeedCategories = await rssReader.locator('.rss-reader-entry').evaluateAll((entries) => entries.map((entry) => entry.dataset.category));
+    assert(readableFeedCategories.length > 0 && readableFeedCategories.every((category) => category === 'stubby'), 'browser-friendly RSS category filter showed the wrong posts');
+    assert((await rssReader.locator('#rss-reader-status').textContent()).includes('in stubby'), 'browser-friendly RSS category filter did not update its status');
+    await rssReader.close();
+
     const wanderer = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 1280, height: 800 });
     await wanderer.evaluate(() => { Math.random = () => 0; });
     await Promise.all([
