@@ -163,13 +163,14 @@
     .tab-content.active { display: block; }
 
     @media (min-width: 769px) {
-      #panel-bio {
+      .panel-fullsize {
         inset: 12px;
         width: auto;
         height: auto;
       }
 
-      #panel-bio .panel-titlebar { cursor: default; }
+      .panel-fullsize .panel-titlebar { cursor: default; }
+      .panel-fullsize .panel-resize { display: none; }
       #panel-bio .panel-body { padding: clamp(20px, 3vw, 36px); }
       #panel-bio .tab-content {
         width: min(760px, 100%);
@@ -185,7 +186,6 @@
         align-items: center;
       }
       #panel-bio .kitten-corner { width: 100%; }
-      #panel-bio .panel-resize { display: none; }
     }
 
     /* ── Bio: About ── */

@@ -303,6 +303,45 @@ async function run() {
     assert(bioMetrics.widthGap <= 26, 'desktop Hello window does not fill the workspace width');
     assert(bioMetrics.heightGap <= 26, 'desktop Hello window does not fill the workspace height');
     assert(!bioMetrics.resizeVisible, 'full-sized Hello window still exposes its resize handle');
+    const currentCopy = await desktop.locator('#bio-about .bio-current-card').textContent();
+    assert(currentCopy.includes('pokémon scarlet / splatoon 3 / aram mayhem'), 'Hello playing copy is out of date');
+    assert(currentCopy.includes('ADÉLA / splatoon soundtracks / 楽音'), 'Hello listening copy is out of date');
+    assert(await desktop.locator('#bio-likes button').filter({ hasText: 'dni list' }).count() === 1, 'Hello dislikes do not link to the DNI list');
+    assert(!(await desktop.locator('#bio-likes').textContent()).includes('maga / trumpies'), 'Hello dislikes still duplicate the DNI copy');
+
+    await desktop.waitForFunction(() => document.documentElement.classList.contains('player-visibility-ready'));
+    const fullsizePanelIds = [
+      'panel-bio',
+      'panel-lately',
+      'panel-favs',
+      'panel-projects',
+      'panel-games',
+      'panel-music',
+      'panel-food',
+      'panel-stubby',
+      'panel-beauty',
+    ];
+    for (const panelId of fullsizePanelIds) {
+      await desktop.evaluate((id) => openPanel(id), panelId);
+      const panelMetrics = await desktop.locator(`#${panelId}`).evaluate((panel) => {
+        const panelRect = panel.getBoundingClientRect();
+        const mainRect = panel.parentElement.getBoundingClientRect();
+        return {
+          widthGap: mainRect.width - panelRect.width,
+          heightGap: mainRect.height - panelRect.height,
+          resizeVisible: getComputedStyle(panel.querySelector('.panel-resize')).display !== 'none',
+          titlebarCursor: getComputedStyle(panel.querySelector('.panel-titlebar')).cursor,
+          zIndex: Number(getComputedStyle(panel).zIndex),
+        };
+      });
+      const playerZIndex = Number(await desktop.locator('#panel-player').evaluate((panel) => getComputedStyle(panel).zIndex));
+      assert(panelMetrics.widthGap <= 26, `${panelId} does not fill the workspace width`);
+      assert(panelMetrics.heightGap <= 26, `${panelId} does not fill the workspace height`);
+      assert(!panelMetrics.resizeVisible, `${panelId} still exposes its resize handle`);
+      assert(panelMetrics.titlebarCursor === 'default', `${panelId} still looks draggable`);
+      assert(playerZIndex > panelMetrics.zIndex, `the music player fell behind ${panelId}`);
+    }
+    await desktop.evaluate(() => openPanel('panel-bio'));
     const aboutTab = desktop.locator('#bio-tab-about');
     assert(await aboutTab.getAttribute('role') === 'tab', 'Hello navigation is missing tab semantics');
     await aboutTab.focus();
@@ -310,7 +349,8 @@ async function run() {
     assert(await desktop.locator('#bio-tab-likes').getAttribute('aria-selected') === 'true', 'Hello tabs did not support arrow-key selection');
     assert(await desktop.locator('#bio-likes').isVisible(), 'Hello tab panel did not follow arrow-key selection');
     assert(await desktop.locator('#bio-likes .reserved-memory-frame').isVisible(), 'Likes tab is missing its reserved picture window');
-    await desktop.locator('#bio-tab-dni').click();
+    await desktop.locator('#bio-likes button').filter({ hasText: 'dni list' }).click();
+    assert(await desktop.locator('#bio-tab-dni').getAttribute('aria-selected') === 'true', 'Likes DNI shortcut did not select the DNI tab');
     assert(await desktop.locator('#bio-dni .reserved-memory-frame').isVisible(), 'DNI tab is missing its reserved picture window');
     await desktop.locator('#bio-tab-findme').click();
     assert(await desktop.locator('#bio-findme').isVisible(), 'Hello window tab did not switch');

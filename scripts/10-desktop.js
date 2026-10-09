@@ -1,5 +1,6 @@
     const MOBILE_BREAKPOINT = 768;
     const UTILITY_PANEL_BOTTOM_OFFSET = 72;
+    const UTILITY_Z_INDEX_BASE = 1000;
     const PINNED_Z_INDEX_BASE = 9000;
     const PLAYER_HANDOFF_KEY = 'me0wberry_player_handoff_v1';
     const PLAYER_VISIBILITY_KEY = 'me0wberry_player_visibility_v1';
@@ -34,6 +35,7 @@
 
     // ── Z-index ──
     let zTop = 10;
+    let utilityZTop = UTILITY_Z_INDEX_BASE;
     let pinnedZTop = PINNED_Z_INDEX_BASE;
 
     function readPlayerVisibility() {
@@ -119,6 +121,11 @@
     function bringToFront(panel) {
       if (panel.classList.contains('is-pinned')) {
         panel.style.zIndex = ++pinnedZTop;
+        return;
+      }
+
+      if (utilityKindForPanel(panel)) {
+        panel.style.zIndex = ++utilityZTop;
         return;
       }
 

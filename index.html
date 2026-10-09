@@ -294,14 +294,14 @@
                 <div class="currently-row">
                   <span class="currently-label">playing</span>
                   <button class="bio-topic-link" onclick="openPanel('panel-games')">
-                    <span>pokémon black / pokémon go / aram mayhem</span>
+                    <span>pokémon scarlet / splatoon 3 / aram mayhem</span>
                     <span class="bio-topic-hint">games ↗</span>
                   </button>
                 </div>
                 <div class="currently-row">
                   <span class="currently-label">listening</span>
                   <button class="bio-topic-link" onclick="openPanel('panel-music')">
-                    <span>PRYVT / cykim / pokémon game music</span>
+                    <span>ADÉLA / splatoon soundtracks / 楽音</span>
                     <span class="bio-topic-hint">music ↗</span>
                   </button>
                 </div>
@@ -370,7 +370,7 @@
                     <ul>
                       <li>loud / crowded spaces</li>
                       <li>certain individuals</li>
-                      <li>maga / trumpies</li>
+                      <li><button class="bio-topic-link" type="button" onclick="document.getElementById('bio-tab-dni').click()"><span>dni list</span><span class="bio-topic-hint">view ↗</span></button></li>
                       <li>raw onions (˘･_･˘)</li>
                       <li>dill pickles ˘︹˘</li>
                     </ul>
@@ -457,7 +457,7 @@
       <!-- ──────────────────────────────
            Now Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-lately" style="top:20px; left:18px;">
+      <div class="panel panel-fullsize" id="panel-lately">
         <div class="panel-titlebar">
           <span class="panel-title">/ now</span>
           <div class="panel-close" onclick="closePanel('panel-lately')">✕</div>
@@ -501,7 +501,7 @@
       <!-- ──────────────────────────────
            Games Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-games" style="top:20px; left:18px;">
+      <div class="panel panel-fullsize" id="panel-games">
         <div class="panel-titlebar">
           <span class="panel-title">/ games</span>
           <div class="panel-close" onclick="closePanel('panel-games')">✕</div>
@@ -540,7 +540,7 @@
       <!-- ──────────────────────────────
            Music Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-music" style="top:20px; left:18px;">
+      <div class="panel panel-fullsize" id="panel-music">
         <div class="panel-titlebar">
           <span class="panel-title">/ music</span>
           <div class="panel-close" onclick="closePanel('panel-music')">✕</div>
@@ -578,7 +578,7 @@
       <!-- ──────────────────────────────
            Food Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-food" style="top:20px; left:18px;">
+      <div class="panel panel-fullsize" id="panel-food">
         <div class="panel-titlebar">
           <span class="panel-title">/ food</span>
           <div class="panel-close" onclick="closePanel('panel-food')">✕</div>
@@ -606,7 +606,7 @@
       <!-- ──────────────────────────────
            Stubby Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-stubby" style="top:20px; left:18px;">
+      <div class="panel panel-fullsize" id="panel-stubby">
         <div class="panel-titlebar">
           <span class="panel-title">/ stubby 🐾</span>
           <div class="panel-close" onclick="closePanel('panel-stubby')">✕</div>
@@ -646,7 +646,7 @@
       <!-- ──────────────────────────────
            Beauty Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-beauty" style="top:20px; left:18px;">
+      <div class="panel panel-fullsize" id="panel-beauty">
         <div class="panel-titlebar">
           <span class="panel-title">/ beauty</span>
           <div class="panel-close" onclick="closePanel('panel-beauty')">✕</div>
@@ -674,7 +674,7 @@
       <!-- ──────────────────────────────
            Favs Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-favs" style="top:20px; left:18px;">
+      <div class="panel panel-fullsize" id="panel-favs">
         <div class="panel-titlebar">
           <span class="panel-title">✦ favs</span>
           <div class="panel-close" onclick="closePanel('panel-favs')">✕</div>
@@ -775,7 +775,7 @@
       <!-- ──────────────────────────────
            Projects Panel
       ────────────────────────────── -->
-      <div class="panel" id="panel-projects" style="top:20px; left:18px; width:440px;">
+      <div class="panel panel-fullsize" id="panel-projects">
         <div class="panel-titlebar">
           <span class="panel-title">/ projects</span>
           <div class="panel-close" onclick="closePanel('panel-projects')">✕</div>
