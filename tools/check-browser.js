@@ -279,6 +279,9 @@ async function run() {
     const latestSanrioTitle = searchPosts.find((post) => (
       /sanrio|pochacco|cinnamoroll|my melody|hello kitty|chococat|kuromi|pompompurin/i.test(`${post.title || ''} ${post.text || ''}`)
     )).title;
+    const latestSplatoonTitle = searchPosts.find((post) => (
+      /splatoon/i.test(`${post.title || ''} ${post.text || ''}`)
+    )).title;
     const desktop = await openCheckedPage(
       browser,
       `${baseUrl}/?entered=1`,
@@ -695,7 +698,7 @@ async function run() {
     await archive.close();
 
     const shrineHallway = await openCheckedPage(browser, `${baseUrl}/shrines/`, { width: 1280, height: 900 });
-    assert(await shrineHallway.locator('.shrine-door').count() === 4, 'shrine hallway did not render all public rooms');
+    assert(await shrineHallway.locator('.shrine-door').count() === 5, 'shrine hallway did not render all public rooms');
     const warframeDoor = shrineHallway.locator('.shrine-door-warframe');
     assert(await warframeDoor.count() === 1, 'shrine hallway did not render the Warframe room');
     assert(
@@ -716,6 +719,16 @@ async function run() {
       await leagueDoor.locator('img').evaluateAll((images) => images.length === 4
         && images.every((image) => image.complete && image.naturalWidth > 0)),
       'League room portraits did not all decode',
+    );
+    const splatoonDoor = shrineHallway.locator('.shrine-door-splatoon');
+    assert(await splatoonDoor.count() === 1, 'shrine hallway did not render the Splatoon room');
+    assert(
+      await splatoonDoor.evaluate((link) => new URL(link.href).pathname === '/shrines/splatoon/index.html'),
+      'Splatoon room link did not resolve to the shrine',
+    );
+    assert(
+      await splatoonDoor.locator('img').evaluate((image) => image.complete && image.naturalWidth > 0),
+      'Splatoon room Smallfry preview did not decode',
     );
     assert(
       await shrineHallway.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
@@ -906,6 +919,101 @@ async function run() {
       'Sanrio shrine overflowed horizontally on mobile',
     );
     await mobileSanrio.close();
+
+    const splatoon = await openCheckedPage(
+      browser,
+      `${baseUrl}/shrines/splatoon/`,
+      { width: 1280, height: 900 },
+      installStaleSearchBundle,
+    );
+    assert(await splatoon.locator('#splatoon-smallfry-grid .splatoon-shot').count() === 5, 'Splatoon shrine did not render all Smallfry photos');
+    assert(await splatoon.locator('.splatoon-photo-roll').count() === 3, 'Splatoon shrine did not render all plaza photo rolls');
+    assert(await splatoon.locator('.splatoon-roll-grid .splatoon-shot').count() === 9, 'Splatoon shrine did not preserve all plaza screenshots');
+    assert(await splatoon.locator('[data-ranked-panel]').count() === 2, 'Splatoon ranked scrapbook did not render both gallery panels');
+    assert(
+      (await splatoon.locator('#panel-splatoon-shrine').textContent()).includes('splatoon 3 + dlc . splatoon raiders , splatoon 2 + dlc')
+        && (await splatoon.locator('#panel-splatoon-shrine').textContent()).includes('bloblobber one trick')
+        && !(await splatoon.locator('.pixel-tag').first().textContent()).includes('draft'),
+      'Splatoon shrine did not preserve the approved public copy',
+    );
+    const splatoonRankedImage = splatoon.locator('.splatoon-ranked-shot img');
+    await splatoonRankedImage.scrollIntoViewIfNeeded();
+    await splatoon.waitForFunction(() => {
+      const image = document.querySelector('.splatoon-ranked-shot img');
+      return image && image.complete && image.naturalWidth > 0;
+    });
+    assert(
+      await splatoonRankedImage.evaluate((image) => {
+        const bounds = image.getBoundingClientRect();
+        return image.complete && image.naturalWidth > 0 && bounds.width / bounds.height > 1.7;
+      }),
+      'Splatoon ranked receipt image did not decode at its widescreen aspect ratio',
+    );
+    await splatoon.locator('[data-ranked-next]').click();
+    assert(
+      await splatoon.locator('[data-ranked-panel]:not([hidden])').textContent().then((text) => text.includes('more updates to come !') && text.match(/N\/A/g)?.length === 6),
+      'Splatoon ranked scrapbook did not show the text-only upcoming panel',
+    );
+    assert(await splatoon.locator('[data-ranked-status]').textContent() === '02 / 02', 'Splatoon ranked scrapbook counter did not advance');
+    await splatoon.locator('[data-ranked-next]').click();
+    assert(await splatoon.locator('[data-ranked-status]').textContent() === '01 / 02', 'Splatoon ranked scrapbook did not loop back to the first panel');
+    assert(
+      await splatoon.locator('.splatoon-roll-grid img[src]').count() === 0,
+      'closed Splatoon photo rolls loaded full images too early',
+    );
+    await splatoon.locator('.splatoon-photo-roll summary').first().click();
+    await splatoon.waitForFunction(() => {
+      const roll = document.querySelector('.splatoon-photo-roll[open]');
+      return roll && [...roll.querySelectorAll('.splatoon-roll-grid img')]
+        .every((image) => image.complete && image.naturalWidth > 0);
+    });
+    assert(
+      await splatoon.locator('.splatoon-roll-grid img[src]').count() === 4,
+      'opening one Splatoon photo roll loaded the wrong number of full images',
+    );
+    await splatoon.locator('.splatoon-photo-roll[open] .splatoon-shot').first().click();
+    assert(await splatoon.locator('#splatoon-photo-dialog').isVisible(), 'Splatoon screenshot viewer did not open');
+    assert(
+      await splatoon.locator('#splatoon-photo-large').evaluate((image) => image.complete && image.naturalWidth > 0),
+      'Splatoon expanded screenshot did not decode',
+    );
+    await splatoon.locator('#splatoon-photo-dialog .stubby-memory-close').click();
+    assert(
+      await splatoon.locator('#splatoon-post-list').getByText(latestSplatoonTitle, { exact: false }).count() === 1,
+      'Splatoon shrine preferred a stale bundled index over the current search index',
+    );
+    assert(
+      await splatoon.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Splatoon shrine overflowed horizontally on desktop',
+    );
+    await splatoon.close();
+
+    const mobileSplatoon = await openCheckedPage(browser, `${baseUrl}/shrines/splatoon/`, { width: 390, height: 844 });
+    assert(
+      await mobileSplatoon.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Splatoon shrine overflowed horizontally on mobile',
+    );
+    assert(
+      await mobileSplatoon.locator('.splatoon-profile-strip').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length === 1),
+      'Splatoon profile strip did not collapse to one column on mobile',
+    );
+    await mobileSplatoon.locator('[data-ranked-prev]').click();
+    assert(await mobileSplatoon.locator('[data-ranked-status]').textContent() === '02 / 02', 'Splatoon ranked scrapbook did not loop backward on mobile');
+    assert(
+      await mobileSplatoon.locator('.splatoon-ranked-gallery').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Splatoon ranked scrapbook overflowed horizontally on mobile',
+    );
+    await mobileSplatoon.locator('.splatoon-photo-roll summary').first().click();
+    await mobileSplatoon.waitForFunction(() => {
+      const roll = document.querySelector('.splatoon-photo-roll[open]');
+      return roll && [...roll.querySelectorAll('.splatoon-roll-grid img')]
+        .every((image) => image.complete && image.naturalWidth > 0);
+    });
+    assert(
+      await mobileSplatoon.locator('.splatoon-photo-roll[open]').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'open Splatoon photo roll overflowed horizontally on mobile',
+    );
+    await mobileSplatoon.close();
 
     const league = await openCheckedPage(
       browser,
@@ -1346,7 +1454,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-  console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon, Warframe, draft Sanrio, and public League shrines, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
+    console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon, Warframe, League, and Splatoon shrines, draft Sanrio, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
 }
 
 run().catch((error) => {

@@ -24,7 +24,7 @@ Post Studio's recommended image option converts new JPEG/PNG uploads to quality-
 - `/system/` holds the colophon, themes, credits, site map, old-version notes, and changelog.
 - `/webgarden/` holds saved handmade sites, the growing button shelf, and Surprise Me.
 - `/toybox/` keeps its stable address while appearing to visitors as Trinkets; it holds copyable kaomoji, saved graphics, and desktop resources.
-- `/shrines/` is the entrance to growing subject rooms; Stubby, Pokémon, and Warframe are currently public.
+- `/shrines/` is the entrance to growing subject rooms; Stubby, Pokémon, Warframe, League of Legends, and Splatoon are currently public. Sanrio remains a direct-preview draft until its room is ready for the public roster.
 - `/archive/` provides category browsing and keyword search; `/rss/` is the browser-friendly reader, while `/feed.xml` remains the complete subscription feed with a fallback view from `/feed.xsl`.
 - `/404.html` gives lost links a themed route back to the Welcome screen or desktop.
 

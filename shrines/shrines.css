@@ -148,6 +148,27 @@ body > #mobile-back {
 .shrine-door-league:hover .shrine-league-party img:nth-child(odd) { transform: translateY(-2px); }
 .shrine-door-league:hover .shrine-league-party img:nth-child(even) { transform: translateY(6px); }
 
+.shrine-door-splatoon .shrine-door-preview {
+  background:
+    radial-gradient(circle at 78% 20%, rgba(198,237,60,0.56), transparent 32%),
+    linear-gradient(145deg, rgba(255,255,255,0.8), rgba(105,225,211,0.34));
+}
+
+.shrine-door-splatoon .shrine-door-preview img {
+  display: block;
+  width: 100%;
+  height: 188px;
+  object-fit: none;
+  object-position: 46% 78%;
+  filter: saturate(0.96) brightness(1.02);
+  transition: filter 0.18s ease, transform 0.18s ease;
+}
+
+.shrine-door-splatoon:hover .shrine-door-preview img {
+  filter: saturate(1.06) brightness(1.02);
+  transform: scale(1.012);
+}
+
 .shrine-door-label-row {
   display: flex;
   align-items: baseline;
@@ -3635,4 +3656,692 @@ a.shrine-cabinet-card:hover {
   .league-terminal dl div { grid-template-columns: 1fr; gap: 4px; }
   .league-honourable-grid { grid-template-columns: 1fr; }
   .league-honourable-grid article { min-height: 92px; }
+}
+
+/* Splatoon shrine */
+.splatoon-room-hero {
+  --splatoon-lime: #c6ed3c;
+  --splatoon-cyan: #58dfd2;
+  --splatoon-orange: #ff9452;
+  grid-template-columns: minmax(310px, 0.95fr) minmax(0, 1.05fr);
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+  border-color: rgba(95, 145, 128, 0.4);
+  background:
+    radial-gradient(circle at 88% 14%, rgba(198,237,60,0.28) 0 3px, transparent 4px),
+    radial-gradient(circle at 92% 22%, rgba(88,223,210,0.2) 0 6px, transparent 7px),
+    linear-gradient(145deg, rgba(239,250,212,0.72), rgba(255,255,255,0.72) 48%, rgba(255,226,207,0.62));
+}
+
+.splatoon-hero-viewer,
+.splatoon-ranked-shot,
+.splatoon-shot {
+  appearance: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.splatoon-hero-viewer {
+  display: grid;
+  min-width: 0;
+  min-height: 322px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-right: 1px solid rgba(95,145,128,0.35);
+  background: #252629;
+  cursor: var(--cursor-link);
+}
+
+.splatoon-viewer-bar,
+.splatoon-viewer-status {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 11px;
+  color: #f8ffe5;
+  background: #252629;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.splatoon-viewer-bar b,
+.splatoon-viewer-status b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.splatoon-viewer-bar i,
+.splatoon-viewer-status i {
+  color: var(--splatoon-lime);
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.splatoon-hero-viewer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 244px;
+  object-fit: cover;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.splatoon-hero-viewer:hover img,
+.splatoon-hero-viewer:focus-visible img {
+  filter: saturate(1.06);
+  transform: scale(1.012);
+}
+
+.splatoon-hero-viewer:focus-visible,
+.splatoon-ranked-shot:focus-visible,
+.splatoon-shot:focus-visible,
+.splatoon-roll-summary:focus-visible {
+  outline: 3px solid var(--splatoon-orange, #ff9452);
+  outline-offset: -3px;
+}
+
+.splatoon-hero-copy {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  justify-content: center;
+  padding: 27px 25px;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+.splatoon-hero-copy::before,
+.splatoon-hero-copy::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.splatoon-hero-copy::before {
+  top: -42px;
+  right: -30px;
+  width: 150px;
+  height: 112px;
+  background: rgba(198,237,60,0.18);
+  transform: rotate(-16deg);
+}
+
+.splatoon-hero-copy::after {
+  right: 32px;
+  bottom: -42px;
+  width: 112px;
+  height: 92px;
+  background: rgba(88,223,210,0.14);
+  transform: rotate(22deg);
+}
+
+.splatoon-hero-copy .shrine-room-copy {
+  max-width: 590px;
+}
+
+.splatoon-profile-strip {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 18px;
+}
+
+.splatoon-profile-strip span {
+  display: flex;
+  min-width: 0;
+  min-height: 54px;
+  grid-column: span 2;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 1px solid rgba(90,143,128,0.29);
+  border-radius: 12px 4px 12px 4px;
+  background: rgba(255,255,255,0.54);
+  flex-direction: column;
+}
+
+.splatoon-profile-strip .splatoon-profile-games {
+  grid-column: 1 / -1;
+}
+
+.splatoon-profile-strip small {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.splatoon-profile-strip strong {
+  margin-top: 3px;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.splatoon-room-section {
+  margin-top: 28px;
+  scroll-margin-top: 58px;
+}
+
+.splatoon-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 11px;
+}
+
+.splatoon-section-heading h2 {
+  margin: 6px 0 0;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.splatoon-section-heading > p {
+  max-width: 480px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 9px;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.splatoon-ranked-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 1.2fr) minmax(245px, 0.8fr);
+  align-items: stretch;
+  gap: 11px;
+}
+
+.splatoon-ranked-layout.is-text-only {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.splatoon-ranked-layout.is-text-only .splatoon-match-receipt {
+  min-height: 280px;
+}
+
+.splatoon-ranked-panel.is-active {
+  animation: splatoon-ranked-arrive 0.18s ease both;
+}
+
+@keyframes splatoon-ranked-arrive {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.splatoon-ranked-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.splatoon-ranked-controls > button {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  padding: 0;
+  color: #f7ffe4;
+  font: 700 14px/1 var(--font-heading);
+  border: 1px solid rgba(37,38,41,0.72);
+  border-radius: 10px 3px 10px 3px;
+  background: #252629;
+  box-shadow: 0 4px 9px rgba(37,38,41,0.12);
+  cursor: var(--cursor-link);
+}
+
+.splatoon-ranked-controls > button:hover,
+.splatoon-ranked-controls > button:focus-visible {
+  color: #252629;
+  background: #c6ed3c;
+}
+
+.splatoon-ranked-controls > span {
+  min-width: 58px;
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.splatoon-ranked-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.splatoon-ranked-dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 1px solid rgba(90,143,128,0.62);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.64);
+  cursor: var(--cursor-link);
+}
+
+.splatoon-ranked-dots button[aria-current="true"] {
+  border-color: #252629;
+  background: #c6ed3c;
+  box-shadow: 0 0 0 2px rgba(198,237,60,0.22);
+}
+
+.splatoon-ranked-shot {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(90,143,128,0.38);
+  border-radius: 17px;
+  background: #252629;
+  box-shadow: 0 8px 22px rgba(68,68,57,0.1);
+  cursor: var(--cursor-link);
+}
+
+.splatoon-ranked-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.splatoon-ranked-shot span {
+  padding: 8px 11px;
+  overflow: hidden;
+  color: #f7ffe4;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.splatoon-match-receipt {
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  border: 1px dashed rgba(82,101,74,0.5);
+  border-radius: 4px 18px 4px 18px;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 25px, rgba(72,89,68,0.045) 26px),
+    rgba(255,255,245,0.72);
+  box-shadow: 0 8px 22px rgba(68,68,57,0.08);
+}
+
+.splatoon-match-receipt::after {
+  content: '';
+  position: absolute;
+  top: -24px;
+  right: -22px;
+  width: 92px;
+  height: 74px;
+  border-radius: 47% 53% 62% 38%;
+  background: rgba(198,237,60,0.23);
+  transform: rotate(14deg);
+  pointer-events: none;
+}
+
+.splatoon-receipt-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px dotted rgba(82,101,74,0.32);
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+}
+
+.splatoon-receipt-top b {
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 21px;
+}
+
+.splatoon-match-receipt > p {
+  margin: 14px 0;
+  color: var(--body);
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.splatoon-match-receipt dl {
+  margin: 0;
+}
+
+.splatoon-match-receipt dl div {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  padding: 7px 0;
+  border-top: 1px dotted rgba(82,101,74,0.24);
+}
+
+.splatoon-match-receipt dt {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+}
+
+.splatoon-match-receipt dd {
+  margin: 0;
+  color: var(--body);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.splatoon-smallfry-intro {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 10px 13px;
+  border: 1px solid rgba(90,143,128,0.3);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(231,249,207,0.62), rgba(255,255,255,0.45), rgba(221,247,244,0.5));
+}
+
+.splatoon-sticker {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  color: #252629;
+  border: 3px solid #252629;
+  border-radius: 50% 45% 52% 43%;
+  background: #c6ed3c;
+  box-shadow: 3px 3px 0 rgba(255,148,82,0.76);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  transform: rotate(-8deg);
+}
+
+.splatoon-smallfry-intro p {
+  margin: 0;
+  color: var(--body);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.splatoon-contact-sheet,
+.splatoon-roll-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.splatoon-shot {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: auto auto 1fr;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(90,143,128,0.33);
+  border-radius: 13px 4px 13px 4px;
+  background: rgba(255,255,255,0.52);
+  box-shadow: 0 6px 16px rgba(67,83,73,0.08);
+  cursor: var(--cursor-link);
+}
+
+.splatoon-shot-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  color: #f8ffe5;
+  background: #303136;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.splatoon-shot-bar i {
+  color: #c6ed3c;
+  font-style: normal;
+}
+
+.splatoon-shot img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.splatoon-shot:hover img,
+.splatoon-shot:focus-visible img {
+  filter: saturate(1.06);
+  transform: scale(1.012);
+}
+
+.splatoon-shot-caption {
+  display: flex;
+  min-width: 0;
+  padding: 8px 9px 9px;
+  flex-direction: column;
+}
+
+.splatoon-shot-caption strong {
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.splatoon-shot-caption small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+.splatoon-photo-rolls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 10px;
+}
+
+.splatoon-photo-roll {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(90,143,128,0.34);
+  border-radius: 17px 5px 17px 5px;
+  background: rgba(255,255,255,0.43);
+  box-shadow: 0 7px 18px rgba(67,83,73,0.08);
+}
+
+.splatoon-photo-roll[open] {
+  grid-column: 1 / -1;
+}
+
+.splatoon-roll-summary {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  cursor: var(--cursor-link);
+  list-style: none;
+}
+
+.splatoon-roll-summary::-webkit-details-marker { display: none; }
+
+.splatoon-photo-roll[open] .splatoon-roll-summary {
+  grid-template-columns: minmax(210px, 0.72fr) minmax(0, 1.28fr);
+  border-bottom: 1px solid rgba(90,143,128,0.28);
+}
+
+.splatoon-roll-preview {
+  min-width: 0;
+  overflow: hidden;
+  background: #252629;
+}
+
+.splatoon-roll-preview img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.splatoon-roll-summary:hover .splatoon-roll-preview img,
+.splatoon-roll-summary:focus-visible .splatoon-roll-preview img {
+  filter: saturate(1.06);
+  transform: scale(1.012);
+}
+
+.splatoon-roll-info {
+  display: flex;
+  min-width: 0;
+  min-height: 124px;
+  align-items: flex-start;
+  padding: 13px;
+  flex-direction: column;
+}
+
+.splatoon-photo-roll[open] .splatoon-roll-info {
+  justify-content: center;
+  padding: 18px;
+}
+
+.splatoon-roll-info > small {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+.splatoon-roll-info > strong {
+  margin-top: 7px;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.splatoon-roll-info > span:not(.splatoon-roll-action) {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.splatoon-roll-action {
+  display: inline-flex;
+  min-height: 27px;
+  align-items: center;
+  margin-top: auto;
+  padding: 5px 9px;
+  color: #252629;
+  border: 1px solid rgba(75,99,73,0.3);
+  border-radius: 999px;
+  background: rgba(198,237,60,0.45);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  line-height: 1.4;
+}
+
+.splatoon-roll-action i { font-style: normal; }
+.splatoon-action-close { display: none; }
+.splatoon-photo-roll[open] .splatoon-action-open { display: none; }
+.splatoon-photo-roll[open] .splatoon-action-close { display: inline; }
+
+.splatoon-roll-grid {
+  padding: 10px;
+  background: rgba(255,255,255,0.16);
+}
+
+.splatoon-credit-note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  margin-top: 22px;
+  padding: 11px 13px;
+  border: 1px solid rgba(90,143,128,0.3);
+  border-radius: 4px 13px 4px 13px;
+  background: rgba(255,255,255,0.34);
+}
+
+.splatoon-credit-note span {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+.splatoon-credit-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+@media (max-width: 980px) {
+  .splatoon-room-hero { grid-template-columns: minmax(270px, 0.86fr) minmax(0, 1.14fr); }
+  .splatoon-ranked-layout { grid-template-columns: 1fr; }
+  .splatoon-photo-rolls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .splatoon-room-hero { width: 100%; grid-template-columns: minmax(0, 1fr); text-align: left; }
+  .splatoon-hero-viewer { min-height: 0; border-right: 0; border-bottom: 1px solid rgba(95,145,128,0.35); }
+  .splatoon-hero-viewer img { height: auto; min-height: 0; aspect-ratio: 16 / 9; }
+  .splatoon-hero-copy { padding: 19px 17px; }
+  .splatoon-hero-copy .shrine-room-copy { margin-inline: 0; }
+  .splatoon-section-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .splatoon-section-heading > p { text-align: left; }
+  .splatoon-contact-sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .splatoon-photo-rolls { grid-template-columns: 1fr; }
+  .splatoon-photo-roll[open] { grid-column: auto; }
+  .splatoon-photo-roll[open] .splatoon-roll-summary { grid-template-columns: minmax(0, 1fr); }
+  .splatoon-photo-roll[open] .splatoon-roll-info { min-height: 136px; }
+  .splatoon-roll-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .splatoon-credit-note { grid-template-columns: 1fr; gap: 6px; }
+}
+
+@media (max-width: 480px) {
+  .splatoon-profile-strip { grid-template-columns: 1fr; }
+  .splatoon-profile-strip span,
+  .splatoon-profile-strip .splatoon-profile-games { grid-column: auto; }
+  .splatoon-ranked-layout { gap: 8px; }
+  .splatoon-match-receipt { padding: 14px; }
+  .splatoon-match-receipt dl div { grid-template-columns: 1fr; gap: 3px; }
+  .splatoon-contact-sheet,
+  .splatoon-roll-grid { grid-template-columns: 1fr; }
+  .splatoon-smallfry-intro { grid-template-columns: 1fr; }
+  .splatoon-sticker { margin-left: 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splatoon-hero-viewer img,
+  .splatoon-shot img,
+  .splatoon-roll-preview img { transition: none; }
+  .splatoon-ranked-panel.is-active { animation: none; }
 }
