@@ -337,7 +337,7 @@
     bar.className = 'warframe-viewer-bar';
     barLabel.textContent = `◉ ${group.viewer}`;
     controls.textContent = '•••';
-    image.dataset.src = fullImagePath(id);
+    image.dataset.carouselSrc = fullImagePath(id);
     image.alt = imageLabel;
     image.loading = 'lazy';
     image.decoding = 'async';
@@ -364,7 +364,8 @@
     const action = document.createElement('span');
     const openLabel = document.createElement('span');
     const closeLabel = document.createElement('span');
-    const grid = document.createElement('div');
+    const carousel = document.createElement('div');
+    const stage = document.createElement('div');
 
     details.className = 'warframe-frame-shelf';
     summary.className = 'warframe-frame-summary';
@@ -386,11 +387,21 @@
     source.textContent = group.source;
     action.className = 'warframe-frame-action';
     openLabel.className = 'warframe-action-open';
-    openLabel.textContent = 'open all ♡';
+    openLabel.textContent = 'open gallery ♡';
     closeLabel.className = 'warframe-action-close';
     closeLabel.textContent = 'close folder';
-    grid.className = 'warframe-captura-grid warframe-expanded-grid';
-    group.files.forEach((file, index) => grid.appendChild(makeCaptureCard(group, file, index)));
+    carousel.className = 'warframe-captura-carousel warframe-expanded-grid';
+    carousel.setAttribute('aria-label', `${group.title} captura gallery`);
+    stage.className = 'warframe-captura-stage';
+    group.files.forEach((file, index) => {
+      const panel = document.createElement('div');
+      panel.className = 'warframe-captura-panel';
+      panel.dataset.shrineCarouselPanel = '';
+      panel.hidden = index !== 0;
+      panel.appendChild(makeCaptureCard(group, file, index));
+      stage.appendChild(panel);
+    });
+    carousel.appendChild(stage);
 
     preview.appendChild(previewImage);
     action.append(openLabel, closeLabel);
@@ -398,14 +409,15 @@
     if (group.look) info.appendChild(look);
     info.append(source, action);
     summary.append(preview, info);
-    details.append(summary, grid);
+    details.append(summary, carousel);
     details.addEventListener('toggle', () => {
-      if (!details.open || details.dataset.loaded) return;
-      details.querySelectorAll('img[data-src]').forEach((image) => {
-        image.src = image.dataset.src;
-        image.removeAttribute('data-src');
+      if (!details.open || details.dataset.carouselReady) return;
+      const carouselApi = window.createShrineCarousel?.(carousel, {
+        label: `${group.title} captura gallery`,
+        previousLabel: `previous ${group.title} capture`,
+        nextLabel: `next ${group.title} capture`
       });
-      details.dataset.loaded = 'true';
+      if (carouselApi) details.dataset.carouselReady = 'true';
     });
     return details;
   }

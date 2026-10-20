@@ -418,6 +418,59 @@ a.shrine-cabinet-card:hover {
   margin-top: 18px;
 }
 
+[data-shrine-carousel-panel][hidden],
+.shrine-carousel-controls[hidden] {
+  display: none !important;
+}
+
+[data-shrine-carousel-panel].is-active {
+  animation: shrine-carousel-arrive 0.18s ease both;
+}
+
+.shrine-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.shrine-carousel-controls > button {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  padding: 0;
+  color: var(--heading);
+  border: 1px solid var(--theme-border, rgba(150,180,135,0.42));
+  border-radius: 10px;
+  background: var(--theme-control-bg, rgba(255,255,255,0.56));
+  box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.84)), 0 4px 9px var(--theme-shadow, rgba(91,113,78,0.07));
+  font: 700 13px/1 var(--font-heading);
+  cursor: url("../images/cursors/luna-cake-slice.gif") 0 0, pointer;
+}
+
+.shrine-carousel-controls > button:hover,
+.shrine-carousel-controls > button:focus-visible {
+  color: var(--pink);
+  border-color: var(--pink);
+  background: rgba(255,255,255,0.78);
+}
+
+.shrine-carousel-status {
+  min-width: 62px;
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: var(--font-tiny);
+  line-height: 1.5;
+  text-align: center;
+}
+
+@keyframes shrine-carousel-arrive {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .stubby-timeline-section {
   margin-top: 26px;
   padding-top: 3px;
@@ -536,10 +589,13 @@ a.shrine-cabinet-card:hover {
 
 .stubby-year-details[open] summary { margin-bottom: 10px; }
 
-.stubby-memory-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
+.stubby-memory-stage {
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.stubby-memory-panel {
+  min-width: 0;
 }
 
 .stubby-memory-photo,
@@ -776,6 +832,17 @@ a.shrine-cabinet-card:hover {
 }
 
 .pokemon-shiny-archive[open] summary { margin-bottom: 11px; }
+
+.pokemon-shiny-stage {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.pokemon-shiny-panel,
+.pokemon-shiny-panel .pokemon-shiny-card {
+  width: 100%;
+  min-width: 0;
+}
 
 .pokemon-binder-layout {
   display: grid;
@@ -2121,10 +2188,13 @@ a.shrine-cabinet-card:hover {
   font-size: 8px;
 }
 
-.warframe-captura-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 9px;
+.warframe-captura-stage {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.warframe-captura-panel {
+  min-width: 0;
 }
 
 .warframe-captura-card {
@@ -2142,10 +2212,6 @@ a.shrine-cabinet-card:hover {
   box-shadow: inset 0 1px 0 var(--chrome-inset, rgba(255,255,255,0.82)), 0 7px 16px var(--theme-shadow, rgba(91,113,78,0.06));
   cursor: zoom-in;
   transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
-}
-
-.warframe-captura-card.is-wide {
-  grid-column: span 2;
 }
 
 .warframe-captura-card:hover,
@@ -2216,10 +2282,6 @@ a.shrine-cabinet-card:hover {
   .warframe-room-hero {
     grid-template-columns: minmax(210px, 0.8fr) minmax(0, 1.2fr);
   }
-
-  .warframe-captura-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 1050px) {
@@ -2248,8 +2310,6 @@ a.shrine-cabinet-card:hover {
 
 @media (max-width: 520px) {
   .warframe-hero-copy { padding: 16px; }
-  .warframe-captura-grid { grid-template-columns: 1fr; }
-  .warframe-captura-card.is-wide { grid-column: auto; }
   .warframe-gallery-heading { align-items: flex-start; flex-direction: column; gap: 2px; }
   .warframe-frame-summary,
   .warframe-frame-shelf[open] .warframe-frame-summary {
@@ -2475,6 +2535,11 @@ a.shrine-cabinet-card:hover {
   align-items: stretch;
 }
 
+.sanrio-collection-stage,
+.sanrio-collection-panel {
+  min-width: 0;
+}
+
 .sanrio-photo-viewer {
   display: grid;
   min-width: 0;
@@ -2522,6 +2587,7 @@ a.shrine-cabinet-card:hover {
 .sanrio-photo-viewer > img {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: 50% 45%;
@@ -4340,6 +4406,7 @@ a.shrine-cabinet-card:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-shrine-carousel-panel].is-active,
   .splatoon-hero-viewer img,
   .splatoon-shot img,
   .splatoon-roll-preview img { transition: none; }

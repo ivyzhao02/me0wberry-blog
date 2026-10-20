@@ -785,6 +785,44 @@ async function run() {
       await pokemonShrine.locator('#pokemon-post-list').getByText(latestPokemonTitle, { exact: false }).count() === 1,
       'Pokémon shrine preferred a stale bundled index over the current search index',
     );
+    const earlierShinyArchive = pokemonShrine.locator('#pokemon-shiny-archive');
+    assert(
+      await earlierShinyArchive.locator('[data-shrine-carousel-panel]').count() === 31,
+      'Pokémon earlier-shiny carousel did not preserve every archived catch',
+    );
+    assert(
+      await earlierShinyArchive.locator('.pokemon-shiny-card img[src]').count() === 0,
+      'closed Pokémon shiny archive loaded full images too early',
+    );
+    await earlierShinyArchive.locator('summary').click();
+    await pokemonShrine.waitForFunction(() => {
+      const image = document.querySelector('#pokemon-shiny-archive [data-shrine-carousel-panel]:not([hidden]) img');
+      return image?.complete && image.naturalWidth > 0;
+    });
+    assert(
+      await earlierShinyArchive.locator('.pokemon-shiny-card img[src]').count() === 1,
+      'opening the Pokémon shiny archive loaded more than its active slide',
+    );
+    await earlierShinyArchive.locator('[data-shrine-carousel-next]').click();
+    await pokemonShrine.waitForFunction(() => {
+      const image = document.querySelector('#pokemon-shiny-archive [data-shrine-carousel-panel]:not([hidden]) img');
+      return image?.complete && image.naturalWidth > 0;
+    });
+    assert(
+      (await earlierShinyArchive.locator('.shrine-carousel-status').textContent()).trim() === '02 / 31'
+        && await earlierShinyArchive.locator('.pokemon-shiny-card img[src]').count() === 2,
+      'Pokémon earlier-shiny carousel did not advance with incremental loading',
+    );
+    await earlierShinyArchive.locator('[data-shrine-carousel-prev]').click();
+    await earlierShinyArchive.locator('[data-shrine-carousel-prev]').click();
+    await pokemonShrine.waitForFunction(() => {
+      const image = document.querySelector('#pokemon-shiny-archive [data-shrine-carousel-panel]:not([hidden]) img');
+      return image?.complete && image.naturalWidth > 0;
+    });
+    assert(
+      (await earlierShinyArchive.locator('.shrine-carousel-status').textContent()).trim() === '31 / 31',
+      'shared shrine carousel did not loop from the first slide to the last',
+    );
     await pokemonShrine.close();
 
     const mobilePokemonShrine = await openCheckedPage(browser, `${baseUrl}/shrines/pokemon/`, { width: 390, height: 844 });
@@ -796,6 +834,46 @@ async function run() {
     assert(
       await stubbyShrine.locator('.shrine-room-hero').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'Stubby shrine header overflowed after reserving artwork space',
+    );
+    assert(await stubbyShrine.locator('.stubby-year-details').count() === 14, 'Stubby chronology lost a year drawer');
+    const firstStubbyYear = stubbyShrine.locator('.stubby-year-details').first();
+    assert(
+      await firstStubbyYear.locator('[data-shrine-carousel-panel]').count() === 8,
+      'Stubby 2012 carousel did not preserve all non-featured memories',
+    );
+    assert(
+      await firstStubbyYear.locator('.stubby-memory-photo img[src]').count() === 0,
+      'closed Stubby year loaded chronology photos too early',
+    );
+    await firstStubbyYear.locator('summary').click();
+    await stubbyShrine.waitForFunction(() => {
+      const image = document.querySelector('.stubby-year-details [data-shrine-carousel-panel]:not([hidden]) img');
+      return image?.complete && image.naturalWidth > 0;
+    });
+    assert(
+      await firstStubbyYear.locator('.stubby-memory-photo img[src]').count() === 1,
+      'opening a Stubby year loaded more than its active memory',
+    );
+    await firstStubbyYear.locator('[data-shrine-carousel-next]').click();
+    await stubbyShrine.waitForFunction(() => {
+      const image = document.querySelector('.stubby-year-details [data-shrine-carousel-panel]:not([hidden]) img');
+      return image?.complete && image.naturalWidth > 0;
+    });
+    assert(
+      (await firstStubbyYear.locator('.shrine-carousel-status').textContent()).trim() === '02 / 08'
+        && await firstStubbyYear.locator('.stubby-memory-photo img[src]').count() === 2,
+      'Stubby chronology carousel did not advance with incremental loading',
+    );
+    const stubbyVideoYear = stubbyShrine.locator('.stubby-year-details').nth(6);
+    await stubbyVideoYear.locator('summary').click();
+    for (let index = 0; index < 7; index += 1) {
+      await stubbyVideoYear.locator('[data-shrine-carousel-next]').click();
+    }
+    assert(
+      (await stubbyVideoYear.locator('.shrine-carousel-status').textContent()).trim() === '08 / 08'
+        && await stubbyVideoYear.locator('[data-shrine-carousel-panel]:not([hidden]) video source[src]').count() === 1
+        && await stubbyVideoYear.locator('video source[src]').count() === 1,
+      'Stubby chronology carousel did not defer and activate its video slide',
     );
     await stubbyShrine.close();
 
@@ -849,28 +927,32 @@ async function run() {
     );
     await warframe.locator('.warframe-frame-summary').first().click();
     await warframe.waitForFunction(() => {
-      const folder = document.querySelector('.warframe-frame-shelf');
-      return folder && [...folder.querySelectorAll('.warframe-captura-card img')]
-        .every((image) => image.complete && image.naturalWidth > 0);
+      const image = document.querySelector('.warframe-frame-shelf [data-shrine-carousel-panel]:not([hidden]) img');
+      return image?.complete && image.naturalWidth > 0;
     })
-      .catch(() => { throw new Error('first Warframe folder images did not decode'); });
-    await warframe.locator('.warframe-frame-shelf').first().locator('.warframe-captura-card').first().click();
+      .catch(() => { throw new Error('first Warframe folder slide did not decode'); });
+    const firstWarframeFolder = warframe.locator('.warframe-frame-shelf').first();
+    assert(
+      await firstWarframeFolder.locator('.warframe-captura-card img[src]').count() === 1,
+      'opening a Warframe folder loaded more than its active capture',
+    );
+    await firstWarframeFolder.locator('[data-shrine-carousel-next]').click();
+    await warframe.waitForFunction(() => {
+      const image = document.querySelector('.warframe-frame-shelf [data-shrine-carousel-panel]:not([hidden]) img');
+      return image?.complete && image.naturalWidth > 0;
+    });
+    assert(
+      (await firstWarframeFolder.locator('.shrine-carousel-status').textContent()).trim() === '02 / 04'
+        && await firstWarframeFolder.locator('.warframe-captura-card img[src]').count() === 2,
+      'Warframe Captura carousel did not advance with incremental loading',
+    );
+    await firstWarframeFolder.locator('[data-shrine-carousel-panel]:not([hidden]) .warframe-captura-card').click();
     assert(await warframe.locator('#warframe-memory-dialog').isVisible(), 'Warframe Captura viewer did not open');
     assert(
       await warframe.locator('#warframe-memory-large').evaluate((image) => image.complete && image.naturalWidth > 0),
       'Warframe Captura viewer image did not decode',
     );
     await warframe.locator('#warframe-memory-dialog .stubby-memory-close').click();
-    await warframe.locator('.warframe-frame-shelf').evaluateAll((folders) => folders.forEach((folder) => {
-      folder.querySelectorAll('img[data-src]').forEach((image) => {
-        image.loading = 'eager';
-      });
-      folder.open = true;
-      folder.dispatchEvent(new Event('toggle'));
-    }));
-    await warframe.waitForFunction(() => [...document.querySelectorAll('.warframe-captura-card img')]
-      .every((image) => image.complete && image.naturalWidth > 0))
-      .catch(() => { throw new Error('expanded Warframe folder images did not decode'); });
     await warframe.close();
 
     const mobileWarframe = await openCheckedPage(browser, `${baseUrl}/shrines/warframe/`, { width: 390, height: 844 });
@@ -891,6 +973,8 @@ async function run() {
       installStaleSearchBundle,
     );
     assert(await sanrio.locator('.sanrio-character-card').count() === 2, 'Sanrio shrine did not render both confirmed favourite-character cards');
+    assert(await sanrio.locator('[data-sanrio-collection-carousel] [data-shrine-carousel-panel]').count() === 1, 'Sanrio collection shelf is not ready for additional carousel entries');
+    assert(await sanrio.locator('[data-sanrio-collection-carousel] .shrine-carousel-controls').isHidden(), 'single-item Sanrio shelf showed unnecessary carousel controls');
     assert(
       await sanrio.locator('.sanrio-photo-viewer img').evaluate((image) => image.complete && image.naturalWidth > 0),
       'Sanrio collection photo did not decode',

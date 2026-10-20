@@ -105,7 +105,7 @@
     image.alt = `Shiny ${entry[0]} in ${entry[2]}`;
     image.loading = 'lazy';
     image.decoding = 'async';
-    if (lazy) image.dataset.src = entry[1];
+    if (lazy) image.dataset.carouselSrc = entry[1];
     else deferImage(image, entry[1]);
     name.textContent = entry[0];
     game.textContent = entry[2];
@@ -115,18 +115,31 @@
   }
 
   const newGrid = document.getElementById('pokemon-new-shinies');
-  const earlierGrid = document.getElementById('pokemon-earlier-shinies');
+  const earlierCarousel = document.getElementById('pokemon-earlier-shinies');
   newShinies.forEach((entry) => newGrid?.appendChild(makeShinyCard(entry, false)));
-  earlierShinies.forEach((entry) => earlierGrid?.appendChild(makeShinyCard(entry, true)));
+  if (earlierCarousel) {
+    const stage = document.createElement('div');
+    stage.className = 'pokemon-shiny-stage';
+    earlierShinies.forEach((entry, index) => {
+      const panel = document.createElement('div');
+      panel.className = 'pokemon-shiny-panel';
+      panel.dataset.shrineCarouselPanel = '';
+      panel.hidden = index !== 0;
+      panel.appendChild(makeShinyCard(entry, true));
+      stage.appendChild(panel);
+    });
+    earlierCarousel.appendChild(stage);
+  }
 
   const shinyArchive = document.getElementById('pokemon-shiny-archive');
   shinyArchive?.addEventListener('toggle', () => {
-    if (!shinyArchive.open || shinyArchive.dataset.loaded) return;
-    shinyArchive.querySelectorAll('img[data-src]').forEach((image) => {
-      image.src = image.dataset.src;
-      image.removeAttribute('data-src');
+    if (!shinyArchive.open || shinyArchive.dataset.carouselReady) return;
+    const carouselApi = window.createShrineCarousel?.(earlierCarousel, {
+      label: 'earlier shiny catches',
+      previousLabel: 'previous shiny catch',
+      nextLabel: 'next shiny catch'
     });
-    shinyArchive.dataset.loaded = 'true';
+    if (carouselApi) shinyArchive.dataset.carouselReady = 'true';
   });
 
   const collectionHighlights = [

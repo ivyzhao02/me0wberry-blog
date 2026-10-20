@@ -38,7 +38,7 @@
     if (featured && typeof window.deferSiteImage === 'function') {
       window.deferSiteImage(image, imagePath(year, index));
     } else if (featured) image.src = imagePath(year, index);
-    else image.dataset.src = imagePath(year, index);
+    else image.dataset.carouselSrc = imagePath(year, index);
     button.appendChild(image);
     return button;
   }
@@ -51,7 +51,8 @@
     const copy = document.createElement('p');
     const details = document.createElement('details');
     const summary = document.createElement('summary');
-    const gallery = document.createElement('div');
+    const carousel = document.createElement('div');
+    const stage = document.createElement('div');
     const morePhotos = entry.images - 1;
     const parts = [`${morePhotos} more photo${morePhotos === 1 ? '' : 's'}`];
 
@@ -62,7 +63,9 @@
     copy.className = 'stubby-year-copy';
     copy.textContent = entry.copy;
     details.className = 'stubby-year-details';
-    gallery.className = 'stubby-memory-grid';
+    carousel.className = 'stubby-memory-carousel';
+    carousel.setAttribute('aria-label', `Stubby ${entry.year} memories`);
+    stage.className = 'stubby-memory-stage';
     if (entry.videos) parts.push(`${entry.videos} video${entry.videos === 1 ? '' : 's'}`);
     summary.textContent = `open ${parts.join(' + ')}`;
 
@@ -70,32 +73,44 @@
     card.append(heading, makePhoto(entry.year, entry.featured, true), copy);
 
     for (let index = 1; index <= entry.images; index += 1) {
-      if (index !== entry.featured) gallery.appendChild(makePhoto(entry.year, index, false));
+      if (index === entry.featured) continue;
+      const panel = document.createElement('div');
+      panel.className = 'stubby-memory-panel';
+      panel.dataset.shrineCarouselPanel = '';
+      panel.hidden = stage.childElementCount !== 0;
+      panel.appendChild(makePhoto(entry.year, index, false));
+      stage.appendChild(panel);
     }
 
     for (let index = 1; index <= entry.videos; index += 1) {
+      const panel = document.createElement('div');
       const video = document.createElement('video');
       const source = document.createElement('source');
+      panel.className = 'stubby-memory-panel';
+      panel.dataset.shrineCarouselPanel = '';
+      panel.hidden = stage.childElementCount !== 0;
       video.className = 'stubby-memory-video';
       video.controls = true;
       video.playsInline = true;
       video.preload = 'none';
       video.setAttribute('aria-label', `Stubby in ${entry.year}, video ${index}`);
-      source.dataset.src = videoPath(entry.year, index);
+      source.dataset.carouselSrc = videoPath(entry.year, index);
       source.type = 'video/mp4';
       video.appendChild(source);
-      gallery.appendChild(video);
+      panel.appendChild(video);
+      stage.appendChild(panel);
     }
 
-    details.append(summary, gallery);
+    carousel.appendChild(stage);
+    details.append(summary, carousel);
     details.addEventListener('toggle', () => {
-      if (!details.open || details.dataset.loaded) return;
-      details.querySelectorAll('[data-src]').forEach((asset) => {
-        asset.src = asset.dataset.src;
-        asset.removeAttribute('data-src');
+      if (!details.open || details.dataset.carouselReady) return;
+      const carouselApi = window.createShrineCarousel?.(carousel, {
+        label: `Stubby ${entry.year} memories`,
+        previousLabel: `previous ${entry.year} memory`,
+        nextLabel: `next ${entry.year} memory`
       });
-      details.querySelectorAll('video').forEach((video) => video.load());
-      details.dataset.loaded = 'true';
+      if (carouselApi) details.dataset.carouselReady = 'true';
     });
     card.appendChild(details);
     return card;

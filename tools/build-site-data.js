@@ -22,6 +22,7 @@ const SCRIPT_SOURCES = [
   'scripts/10-desktop.js',
   'scripts/15-player-catalog.js',
   'scripts/20-player.js',
+  'scripts/25-shrine-carousel.js',
   'scripts/30-content.js',
   'scripts/40-atmosphere.js',
 ];

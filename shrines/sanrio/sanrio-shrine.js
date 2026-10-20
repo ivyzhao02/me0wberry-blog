@@ -33,6 +33,12 @@
 
   renderRelatedPosts();
 
+  window.createShrineCarousel?.(document.querySelector('[data-sanrio-collection-carousel]'), {
+    label: 'sanrio collection shelf',
+    previousLabel: 'previous collection item',
+    nextLabel: 'next collection item'
+  });
+
   const dialog = document.getElementById('sanrio-photo-dialog');
   const largePhoto = document.getElementById('sanrio-photo-large');
   const caption = document.getElementById('sanrio-photo-caption');
