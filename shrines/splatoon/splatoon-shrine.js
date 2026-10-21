@@ -69,6 +69,113 @@
     }
   ];
 
+  const amiiboEras = [
+    {
+      id: 'splatoon',
+      code: 'S1',
+      title: 'original splatoon',
+      note: 'first-wave colours + the squid sisters',
+      open: true,
+      figures: [
+        { name: 'inkling girl — orange', status: 'incoming' },
+        { name: 'inkling boy — blue', status: 'incoming' },
+        { name: 'inkling squid — green', status: 'incoming' },
+        { name: 'callie', status: 'incoming' },
+        { name: 'marie', status: 'incoming' },
+        { name: 'inkling girl — lime green', status: 'hand' },
+        { name: 'inkling boy — purple', status: 'missing' },
+        { name: 'inkling squid — orange', status: 'missing' }
+      ]
+    },
+    {
+      id: 'splatoon-2',
+      code: 'S2',
+      title: 'splatoon 2',
+      note: 'neon inklings , off the hook + octolings',
+      figures: [
+        { name: 'inkling girl — neon pink', status: 'missing' },
+        { name: 'inkling boy — neon green', status: 'missing' },
+        { name: 'inkling squid — neon purple', status: 'missing' },
+        { name: 'pearl — original', status: 'missing' },
+        { name: 'marina — original', status: 'missing' },
+        { name: 'octoling girl', status: 'missing' },
+        { name: 'octoling boy', status: 'missing' },
+        { name: 'octoling octopus', status: 'missing' }
+      ]
+    },
+    {
+      id: 'splatoon-3',
+      code: 'S3',
+      title: 'splatoon 3',
+      note: 'launch trio , deep cut , alterna + side order',
+      figures: [
+        { name: 'inkling — yellow', status: 'incoming' },
+        { name: 'octoling — blue', status: 'incoming' },
+        { name: 'smallfry', status: 'incoming' },
+        { name: 'shiver — original', status: 'incoming' },
+        { name: 'frye — original', status: 'incoming' },
+        { name: 'big man — original', status: 'incoming' },
+        { name: 'callie — alterna', status: 'incoming' },
+        { name: 'marie — alterna', status: 'incoming' },
+        { name: 'pearl — side order', status: 'incoming' },
+        { name: 'marina — side order', status: 'incoming' }
+      ]
+    },
+    {
+      id: 'raiders',
+      code: 'SR',
+      title: 'splatoon raiders',
+      note: 'the new deep cut trio',
+      figures: [
+        { name: 'shiver — splatoon raiders', status: 'incoming' },
+        { name: 'frye — splatoon raiders', status: 'incoming' },
+        { name: 'big man — splatoon raiders', status: 'incoming' }
+      ]
+    }
+  ];
+
+  const securedGearGroups = [
+    { name: 'original inkling girl', figures: 'lime green in hand + orange incoming', status: 'hand', obtained: 2, total: 5 },
+    { name: 'original inkling boy', figures: 'blue incoming + purple missing · shared rewards', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'original inkling squid', figures: 'green incoming + orange missing · shared rewards', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'callie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'marie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'yellow inkling', figures: 'splatoon 3 figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'blue octoling', figures: 'splatoon 3 figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'smallfry', figures: 'splatoon 3 figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'original shiver', figures: 'deep cut figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'original frye', figures: 'deep cut figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'original big man', figures: 'deep cut figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'alterna callie', figures: 'alterna figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'alterna marie', figures: 'alterna figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'side order pearl', figures: 'side order figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'side order marina', figures: 'side order figure incoming', status: 'incoming', obtained: 0, total: 3 }
+  ];
+
+  const missingGearGroups = [
+    { name: 'neon pink inkling girl', figures: 'figure still missing', status: 'missing', obtained: 0, total: 5 },
+    { name: 'neon green inkling boy', figures: 'figure still missing', status: 'missing', obtained: 0, total: 4 },
+    { name: 'neon purple inkling squid', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 },
+    { name: 'original pearl', figures: 'figure still missing', status: 'missing', obtained: 0, total: 4 },
+    { name: 'original marina', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 },
+    { name: 'octoling girl', figures: 'figure still missing', status: 'missing', obtained: 0, total: 4 },
+    { name: 'octoling boy', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 },
+    { name: 'octoling octopus', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 }
+  ];
+
+  const raidersOutfits = [
+    { name: 'bite waders', source: 'any ordinary splatoon amiibo · ready with lime green inkling girl', status: 'hand', obtained: 0, total: 1 },
+    { name: 'hohojiro fighting gear', source: 'raiders shiver incoming', status: 'incoming', obtained: 0, total: 1 },
+    { name: 'onaga fighting gear', source: 'raiders frye incoming', status: 'incoming', obtained: 0, total: 1 },
+    { name: 'manta fighting gear', source: 'raiders big man incoming', status: 'incoming', obtained: 0, total: 1 }
+  ];
+
+  const statusLabels = {
+    hand: 'in hand',
+    incoming: 'incoming',
+    missing: 'missing'
+  };
+
   function imagePath(file) {
     return `${imageRoot}/${file}`;
   }
@@ -176,6 +283,197 @@
   if (plazaRollContainer) {
     plazaRolls.forEach((roll) => plazaRollContainer.appendChild(makePhotoRoll(roll)));
   }
+
+  function makeCollectionMeter(label, value, total, note) {
+    const meter = document.createElement('div');
+    const heading = document.createElement('div');
+    const title = document.createElement('span');
+    const count = document.createElement('b');
+    const track = document.createElement('span');
+    const fill = document.createElement('i');
+    const description = document.createElement('p');
+
+    meter.className = 'splatoon-collection-meter';
+    meter.setAttribute('role', 'progressbar');
+    meter.setAttribute('aria-label', label);
+    meter.setAttribute('aria-valuemin', '0');
+    meter.setAttribute('aria-valuemax', String(total));
+    meter.setAttribute('aria-valuenow', String(value));
+    heading.className = 'splatoon-meter-heading';
+    title.textContent = label;
+    count.textContent = `${value} / ${total}`;
+    track.className = 'splatoon-meter-track';
+    fill.style.width = `${(value / total) * 100}%`;
+    description.textContent = note;
+    heading.append(title, count);
+    track.appendChild(fill);
+    meter.append(heading, track, description);
+    return meter;
+  }
+
+  function makeAmiiboFigure(figure, code, index) {
+    const card = document.createElement('article');
+    const token = document.createElement('span');
+    const tokenCode = document.createElement('b');
+    const tokenNumber = document.createElement('i');
+    const copy = document.createElement('div');
+    const status = document.createElement('small');
+    const name = document.createElement('strong');
+
+    card.className = `splatoon-amiibo-figure is-${figure.status}`;
+    card.dataset.amiiboStatus = figure.status;
+    token.className = 'splatoon-amiibo-token';
+    token.setAttribute('aria-hidden', 'true');
+    tokenCode.textContent = code;
+    tokenNumber.textContent = String(index + 1).padStart(2, '0');
+    copy.className = 'splatoon-amiibo-copy';
+    status.textContent = statusLabels[figure.status];
+    name.textContent = figure.name;
+    token.append(tokenCode, tokenNumber);
+    copy.append(status, name);
+    card.append(token, copy);
+    return card;
+  }
+
+  function makeAmiiboEra(era) {
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    const badge = document.createElement('span');
+    const copy = document.createElement('span');
+    const title = document.createElement('strong');
+    const note = document.createElement('small');
+    const count = document.createElement('span');
+    const securedCount = document.createElement('b');
+    const securedLabel = document.createElement('small');
+    const toggle = document.createElement('i');
+    const grid = document.createElement('div');
+    const secured = era.figures.filter((figure) => figure.status !== 'missing').length;
+
+    details.className = 'splatoon-amiibo-era';
+    details.dataset.amiiboEra = era.id;
+    details.open = Boolean(era.open);
+    summary.className = 'splatoon-amiibo-era-summary';
+    badge.className = 'splatoon-era-badge';
+    badge.textContent = era.code;
+    copy.className = 'splatoon-era-copy';
+    title.textContent = era.title;
+    note.textContent = era.note;
+    count.className = 'splatoon-era-count';
+    securedCount.textContent = `${secured} / ${era.figures.length}`;
+    securedLabel.textContent = 'secured';
+    toggle.className = 'splatoon-era-toggle';
+    toggle.setAttribute('aria-hidden', 'true');
+    grid.className = 'splatoon-amiibo-grid';
+    era.figures.forEach((figure, index) => grid.appendChild(makeAmiiboFigure(figure, era.code, index)));
+
+    copy.append(title, note);
+    count.append(securedCount, securedLabel);
+    summary.append(badge, copy, count, toggle);
+    details.append(summary, grid);
+    return details;
+  }
+
+  function makeGearCard(group) {
+    const card = document.createElement('article');
+    const heading = document.createElement('div');
+    const status = document.createElement('small');
+    const count = document.createElement('b');
+    const name = document.createElement('strong');
+    const figures = document.createElement('p');
+    const pieces = document.createElement('div');
+
+    card.className = `splatoon-gear-card is-${group.status}`;
+    card.dataset.gearSource = group.name;
+    heading.className = 'splatoon-gear-card-heading';
+    status.textContent = statusLabels[group.status];
+    count.textContent = `${group.obtained} / ${group.total}`;
+    name.textContent = group.name;
+    figures.textContent = group.figures;
+    pieces.className = 'splatoon-gear-pieces';
+    pieces.setAttribute('role', 'img');
+    pieces.setAttribute('aria-label', `${group.obtained} of ${group.total} gear pieces obtained`);
+    for (let index = 0; index < group.total; index += 1) {
+      const piece = document.createElement('span');
+      piece.className = index < group.obtained ? 'is-obtained' : '';
+      piece.setAttribute('aria-hidden', 'true');
+      pieces.appendChild(piece);
+    }
+    heading.append(status, count);
+    card.append(heading, name, figures, pieces);
+    return card;
+  }
+
+  function makeRaidersOutfit(outfit) {
+    const card = document.createElement('article');
+    const status = document.createElement('small');
+    const name = document.createElement('strong');
+    const source = document.createElement('p');
+    const count = document.createElement('span');
+
+    card.className = `splatoon-raiders-outfit is-${outfit.status}`;
+    status.textContent = outfit.status === 'hand' ? 'ready to scan' : 'incoming';
+    name.textContent = outfit.name;
+    source.textContent = outfit.source;
+    count.textContent = `${outfit.obtained} / ${outfit.total}`;
+    card.append(status, name, source, count);
+    return card;
+  }
+
+  function renderAmiiboTracker() {
+    const erasContainer = document.getElementById('splatoon-amiibo-eras');
+    const summary = document.getElementById('splatoon-amiibo-summary');
+    const gearOverview = document.getElementById('splatoon-gear-overview');
+    const securedGearContainer = document.getElementById('splatoon-gear-secured');
+    const missingGearContainer = document.getElementById('splatoon-gear-missing');
+    const raidersContainer = document.getElementById('splatoon-raiders-outfits');
+    if (!erasContainer || !summary || !gearOverview || !securedGearContainer || !missingGearContainer || !raidersContainer) return;
+
+    const figures = amiiboEras.flatMap((era) => era.figures);
+    const inHand = figures.filter((figure) => figure.status === 'hand').length;
+    const incoming = figures.filter((figure) => figure.status === 'incoming').length;
+    const missing = figures.filter((figure) => figure.status === 'missing').length;
+    const secured = inHand + incoming;
+    const securedGearTotal = securedGearGroups.reduce((total, group) => total + group.total, 0);
+    const missingGearTotal = missingGearGroups.reduce((total, group) => total + group.total, 0);
+    const allGearTotal = securedGearTotal + missingGearTotal;
+    const gearObtained = [...securedGearGroups, ...missingGearGroups]
+      .reduce((total, group) => total + group.obtained, 0);
+
+    const summaryItems = [
+      { label: 'secured', value: `${secured} / ${figures.length}`, className: 'is-secured' },
+      { label: 'in hand', value: inHand, className: 'is-hand' },
+      { label: 'incoming', value: incoming, className: 'is-incoming' },
+      { label: 'missing', value: missing, className: 'is-missing' },
+      { label: 'gear unlocked', value: `${gearObtained} / ${allGearTotal}`, className: 'is-gear' }
+    ];
+    summary.innerHTML = '';
+    summaryItems.forEach((item) => {
+      const block = document.createElement('div');
+      const label = document.createElement('small');
+      const value = document.createElement('strong');
+      block.className = item.className;
+      label.textContent = item.label;
+      value.textContent = item.value;
+      block.append(label, value);
+      summary.appendChild(block);
+    });
+
+    erasContainer.replaceChildren(...amiiboEras.map(makeAmiiboEra));
+    gearOverview.replaceChildren(
+      makeCollectionMeter('gear unlocked now', gearObtained, allGearTotal, 'two pieces unlocked from the lime green inkling girl'),
+      makeCollectionMeter('covered by secured figures', securedGearTotal, allGearTotal, 'the secured shelf covers 47 unique gear pieces')
+    );
+    securedGearContainer.replaceChildren(...securedGearGroups.map(makeGearCard));
+    missingGearContainer.replaceChildren(...missingGearGroups.map(makeGearCard));
+    raidersContainer.replaceChildren(...raidersOutfits.map(makeRaidersOutfit));
+
+    const indexStatus = document.getElementById('splatoon-amiibo-index-status');
+    if (indexStatus) indexStatus.textContent = `${secured} / ${figures.length} secured`;
+    const futureGearCount = document.getElementById('splatoon-future-gear-count');
+    if (futureGearCount) futureGearCount.textContent = `${missingGearGroups.length} sources / ${missingGearTotal} pieces`;
+  }
+
+  renderAmiiboTracker();
 
   const rankedGallery = document.querySelector('[data-ranked-gallery]');
   if (rankedGallery) {

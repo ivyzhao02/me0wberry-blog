@@ -4153,6 +4153,614 @@ a.shrine-cabinet-card:hover {
   line-height: 1.6;
 }
 
+.splatoon-amiibo-section {
+  --splatoon-lime: #c6ed3c;
+  --splatoon-cyan: #58dfd2;
+  --splatoon-orange: #ff9452;
+  position: relative;
+  overflow: hidden;
+  padding: 19px;
+  border: 1px solid rgba(80, 119, 108, 0.34);
+  border-radius: 18px 5px 18px 5px;
+  background:
+    radial-gradient(circle at 96% 3%, rgba(198,237,60,0.3) 0 5px, transparent 6px),
+    radial-gradient(circle at 92% 8%, rgba(88,223,210,0.2) 0 9px, transparent 10px),
+    linear-gradient(145deg, rgba(247,253,230,0.84), rgba(255,255,255,0.7) 52%, rgba(255,232,216,0.72));
+  box-shadow: 0 12px 24px rgba(73, 98, 89, 0.08);
+}
+
+.splatoon-amiibo-section::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 18%;
+  width: 96px;
+  height: 118px;
+  border: 2px dashed rgba(255,148,82,0.22);
+  border-radius: 46% 54% 44% 56%;
+  transform: rotate(17deg);
+  pointer-events: none;
+}
+
+.splatoon-amiibo-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.splatoon-amiibo-summary {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.splatoon-amiibo-summary > div {
+  display: flex;
+  min-width: 0;
+  min-height: 72px;
+  justify-content: center;
+  padding: 11px 10px;
+  border: 1px solid rgba(37,38,41,0.16);
+  border-radius: 14px 4px 14px 4px;
+  background: rgba(255,255,255,0.78);
+  flex-direction: column;
+}
+
+.splatoon-amiibo-summary > div.is-secured {
+  color: #f8ffe6;
+  border-color: #252629;
+  background: #252629;
+}
+
+.splatoon-amiibo-summary > div.is-hand { background: rgba(198,237,60,0.35); }
+.splatoon-amiibo-summary > div.is-incoming { background: rgba(88,223,210,0.24); }
+.splatoon-amiibo-summary > div.is-missing { background: rgba(255,148,82,0.19); }
+.splatoon-amiibo-summary > div.is-gear { background: rgba(255,255,255,0.9); }
+
+.splatoon-amiibo-summary small {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.splatoon-amiibo-summary .is-secured small { color: var(--splatoon-lime); }
+
+.splatoon-amiibo-summary strong {
+  margin-top: 6px;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 19px;
+  line-height: 1;
+}
+
+.splatoon-amiibo-summary .is-secured strong { color: #fff; }
+
+.splatoon-amiibo-note {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  margin-top: 10px;
+  padding: 9px 11px;
+  border: 1px dashed rgba(72,111,98,0.34);
+  border-radius: 4px 12px 4px 12px;
+  background: rgba(255,255,255,0.52);
+}
+
+.splatoon-amiibo-note > span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  color: #252629;
+  border-radius: 50%;
+  background: var(--splatoon-cyan);
+  font: 700 17px/1 var(--font-heading);
+}
+
+.splatoon-amiibo-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+.splatoon-amiibo-subheading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 22px 1px 9px;
+}
+
+.splatoon-amiibo-subheading small {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.splatoon-amiibo-subheading h3 {
+  margin: 4px 0 0;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.splatoon-amiibo-subheading > p {
+  max-width: 390px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 9px;
+  font-style: italic;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.splatoon-amiibo-eras {
+  display: grid;
+  gap: 8px;
+}
+
+.splatoon-amiibo-era {
+  overflow: hidden;
+  border: 1px solid rgba(37,38,41,0.2);
+  border-radius: 15px 4px 15px 4px;
+  background: rgba(255,255,255,0.74);
+}
+
+.splatoon-amiibo-era-summary {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 48px minmax(0, 1fr) auto 30px;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  list-style: none;
+  cursor: var(--cursor-link);
+}
+
+.splatoon-amiibo-era-summary::-webkit-details-marker { display: none; }
+
+.splatoon-amiibo-era-summary:hover,
+.splatoon-amiibo-era-summary:focus-visible {
+  background: rgba(198,237,60,0.13);
+}
+
+.splatoon-amiibo-era-summary:focus-visible {
+  outline: 3px solid var(--splatoon-orange);
+  outline-offset: -3px;
+}
+
+.splatoon-era-badge {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  color: #252629;
+  border: 1px solid rgba(37,38,41,0.72);
+  border-radius: 52% 48% 45% 55%;
+  background: var(--splatoon-lime);
+  box-shadow: 4px 4px 0 rgba(37,38,41,0.12);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  transform: rotate(-3deg);
+}
+
+.splatoon-amiibo-era:nth-child(2) .splatoon-era-badge { background: var(--splatoon-orange); transform: rotate(3deg); }
+.splatoon-amiibo-era:nth-child(3) .splatoon-era-badge { background: var(--splatoon-cyan); }
+.splatoon-amiibo-era:nth-child(4) .splatoon-era-badge { color: #fff; background: #252629; transform: rotate(3deg); }
+
+.splatoon-era-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.splatoon-era-copy strong {
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.splatoon-era-copy small,
+.splatoon-era-count small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.4;
+}
+
+.splatoon-era-count {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.splatoon-era-count b {
+  color: var(--heading);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.splatoon-era-toggle {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: #f8ffe6;
+  border-radius: 9px 3px 9px 3px;
+  background: #252629;
+  font-style: normal;
+}
+
+.splatoon-era-toggle::before { content: '+'; }
+.splatoon-amiibo-era[open] .splatoon-era-toggle::before { content: '−'; }
+
+.splatoon-amiibo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
+  gap: 8px;
+  padding: 11px;
+  border-top: 1px dashed rgba(37,38,41,0.22);
+  background: rgba(37,38,41,0.035);
+}
+
+.splatoon-amiibo-figure {
+  --amiibo-accent: var(--splatoon-orange);
+  display: grid;
+  min-width: 0;
+  min-height: 92px;
+  grid-template-columns: 61px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 11px;
+  border: 1px solid var(--amiibo-accent);
+  border-radius: 13px 4px 13px 4px;
+  background: rgba(255,255,255,0.88);
+  box-shadow: 0 5px 11px rgba(37,38,41,0.055);
+}
+
+.splatoon-amiibo-figure.is-hand { --amiibo-accent: var(--splatoon-lime); }
+.splatoon-amiibo-figure.is-incoming { --amiibo-accent: var(--splatoon-cyan); }
+.splatoon-amiibo-figure.is-missing { --amiibo-accent: var(--splatoon-orange); background: rgba(255,255,255,0.55); }
+
+.splatoon-amiibo-token {
+  position: relative;
+  display: grid;
+  width: 55px;
+  height: 57px;
+  place-content: center;
+  color: #252629;
+  border: 1px solid rgba(37,38,41,0.62);
+  border-radius: 51% 49% 43% 57%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255,255,255,0.72) 0 3px, transparent 4px),
+    var(--amiibo-accent);
+  box-shadow: inset -7px -7px 0 rgba(37,38,41,0.08);
+  text-align: center;
+  transform: translateY(-3px) rotate(-2deg);
+}
+
+.splatoon-amiibo-token::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: -3px;
+  bottom: -8px;
+  left: -3px;
+  height: 16px;
+  border: 2px solid rgba(37,38,41,0.72);
+  border-radius: 50%;
+  background: #343539;
+  box-shadow: inset 0 4px 0 var(--amiibo-accent);
+}
+
+.splatoon-amiibo-token b,
+.splatoon-amiibo-token i {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-family: var(--font-pixel);
+  font-style: normal;
+  line-height: 1.35;
+}
+
+.splatoon-amiibo-token b { font-size: 8px; }
+.splatoon-amiibo-token i { font-size: 8px; }
+
+.splatoon-amiibo-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.splatoon-amiibo-copy small {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.splatoon-amiibo-copy strong {
+  margin-top: 5px;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.splatoon-gear-overview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-bottom: 10px;
+}
+
+.splatoon-collection-meter {
+  padding: 12px;
+  color: #f8ffe6;
+  border: 1px solid #252629;
+  border-radius: 14px 4px 14px 4px;
+  background: #252629;
+}
+
+.splatoon-meter-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.splatoon-meter-heading span,
+.splatoon-meter-heading b {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.splatoon-meter-heading b { color: var(--splatoon-lime); }
+
+.splatoon-meter-track {
+  display: block;
+  overflow: hidden;
+  height: 9px;
+  margin-top: 9px;
+  border: 1px solid rgba(255,255,255,0.32);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.1);
+}
+
+.splatoon-meter-track i {
+  display: block;
+  min-width: 3px;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--splatoon-cyan), var(--splatoon-lime));
+}
+
+.splatoon-collection-meter p {
+  margin: 8px 0 0;
+  color: rgba(248,255,230,0.72);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.splatoon-gear-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(194px, 1fr));
+  gap: 8px;
+}
+
+.splatoon-gear-card {
+  --gear-accent: var(--splatoon-cyan);
+  display: flex;
+  min-width: 0;
+  min-height: 132px;
+  padding: 12px;
+  border: 1px solid var(--gear-accent);
+  border-radius: 4px 14px 4px 14px;
+  background: rgba(255,255,255,0.82);
+  flex-direction: column;
+}
+
+.splatoon-gear-card.is-hand { --gear-accent: var(--splatoon-lime); }
+.splatoon-gear-card.is-missing { --gear-accent: var(--splatoon-orange); background: rgba(255,255,255,0.58); }
+
+.splatoon-gear-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+}
+
+.splatoon-gear-card-heading small,
+.splatoon-gear-card-heading b {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.splatoon-gear-card-heading b { color: var(--heading); }
+
+.splatoon-gear-card > strong {
+  margin-top: 9px;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.splatoon-gear-card > p {
+  margin: 5px 0 10px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.splatoon-gear-pieces {
+  display: flex;
+  gap: 5px;
+  margin-top: auto;
+}
+
+.splatoon-gear-pieces span {
+  height: 10px;
+  min-width: 10px;
+  border: 1px solid rgba(37,38,41,0.3);
+  border-radius: 50% 45% 52% 48%;
+  background: rgba(37,38,41,0.1);
+  flex: 1;
+}
+
+.splatoon-gear-pieces span.is-obtained {
+  border-color: rgba(37,38,41,0.54);
+  background: var(--gear-accent);
+  box-shadow: inset 0 -2px 0 rgba(37,38,41,0.1);
+}
+
+.splatoon-future-gear {
+  overflow: hidden;
+  margin-top: 9px;
+  border: 1px dashed rgba(37,38,41,0.28);
+  border-radius: 13px 4px 13px 4px;
+  background: rgba(255,255,255,0.45);
+}
+
+.splatoon-future-gear > summary {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  color: var(--heading);
+  list-style: none;
+  cursor: var(--cursor-link);
+}
+
+.splatoon-future-gear > summary::-webkit-details-marker { display: none; }
+
+.splatoon-future-gear > summary::before {
+  content: '+';
+  display: grid;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  place-items: center;
+  color: #252629;
+  border-radius: 50%;
+  background: var(--splatoon-orange);
+  font: 700 14px/1 var(--font-heading);
+}
+
+.splatoon-future-gear[open] > summary::before { content: '−'; }
+
+.splatoon-future-gear > summary span {
+  margin-right: auto;
+  font-family: var(--font-heading);
+  font-size: 12px;
+}
+
+.splatoon-future-gear > summary b {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.splatoon-future-gear > .splatoon-gear-grid {
+  padding: 10px;
+  border-top: 1px dashed rgba(37,38,41,0.22);
+}
+
+.splatoon-raiders-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.splatoon-raiders-outfit {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 142px;
+  overflow: hidden;
+  padding: 12px;
+  color: #f8ffe6;
+  border: 1px solid #252629;
+  border-radius: 14px 4px 14px 4px;
+  background:
+    radial-gradient(circle at 90% 14%, rgba(198,237,60,0.22) 0 15px, transparent 16px),
+    #252629;
+  flex-direction: column;
+}
+
+.splatoon-raiders-outfit.is-incoming {
+  background:
+    radial-gradient(circle at 90% 14%, rgba(88,223,210,0.2) 0 15px, transparent 16px),
+    #252629;
+}
+
+.splatoon-raiders-outfit small {
+  color: var(--splatoon-lime);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.splatoon-raiders-outfit strong {
+  margin-top: 9px;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.splatoon-raiders-outfit p {
+  margin: 6px 0 12px;
+  color: rgba(248,255,230,0.7);
+  font-size: 9px;
+  line-height: 1.45;
+}
+
+.splatoon-raiders-outfit > span {
+  margin-top: auto;
+  color: var(--splatoon-cyan);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+}
+
+.splatoon-amiibo-optional {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 11px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(37,38,41,0.18);
+  border-radius: 4px 12px 4px 12px;
+  background: rgba(255,255,255,0.62);
+}
+
+.splatoon-amiibo-optional span {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+.splatoon-amiibo-optional p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
 .splatoon-contact-sheet,
 .splatoon-roll-grid {
   display: grid;
@@ -4373,6 +4981,8 @@ a.shrine-cabinet-card:hover {
   .splatoon-room-hero { grid-template-columns: minmax(270px, 0.86fr) minmax(0, 1.14fr); }
   .splatoon-ranked-layout { grid-template-columns: 1fr; }
   .splatoon-photo-rolls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .splatoon-amiibo-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .splatoon-raiders-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 760px) {
@@ -4390,6 +5000,11 @@ a.shrine-cabinet-card:hover {
   .splatoon-photo-roll[open] .splatoon-roll-info { min-height: 136px; }
   .splatoon-roll-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .splatoon-credit-note { grid-template-columns: 1fr; gap: 6px; }
+  .splatoon-amiibo-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .splatoon-amiibo-summary > div.is-gear { grid-column: 1 / -1; }
+  .splatoon-amiibo-subheading { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .splatoon-amiibo-subheading > p { text-align: left; }
+  .splatoon-gear-overview { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
@@ -4403,6 +5018,22 @@ a.shrine-cabinet-card:hover {
   .splatoon-roll-grid { grid-template-columns: 1fr; }
   .splatoon-smallfry-intro { grid-template-columns: 1fr; }
   .splatoon-sticker { margin-left: 3px; }
+  .splatoon-amiibo-section { padding: 13px; }
+  .splatoon-amiibo-section::after { display: none; }
+  .splatoon-amiibo-summary > div.is-secured { grid-column: 1 / -1; }
+  .splatoon-amiibo-note { grid-template-columns: 1fr; }
+  .splatoon-amiibo-era-summary { grid-template-columns: 42px minmax(0, 1fr) 28px; gap: 9px; padding: 10px; }
+  .splatoon-era-badge { width: 40px; height: 40px; grid-row: 1 / 3; }
+  .splatoon-era-copy { grid-column: 2; }
+  .splatoon-era-count { grid-column: 2; grid-row: 2; align-items: center; gap: 5px; flex-direction: row; }
+  .splatoon-era-count small { margin-top: 0; }
+  .splatoon-era-toggle { grid-column: 3; grid-row: 1 / 3; }
+  .splatoon-amiibo-grid,
+  .splatoon-gear-grid,
+  .splatoon-raiders-grid { grid-template-columns: 1fr; }
+  .splatoon-future-gear > summary { align-items: flex-start; flex-wrap: wrap; }
+  .splatoon-future-gear > summary b { width: 100%; padding-left: 37px; text-align: left; }
+  .splatoon-amiibo-optional { grid-template-columns: 1fr; gap: 5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

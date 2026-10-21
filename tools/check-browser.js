@@ -1020,6 +1020,47 @@ async function run() {
         && !(await splatoon.locator('.pixel-tag').first().textContent()).includes('draft'),
       'Splatoon shrine did not preserve the approved public copy',
     );
+    assert(await splatoon.locator('.splatoon-amiibo-era').count() === 4, 'Splatoon amiibo cabinet did not render all four eras');
+    assert(await splatoon.locator('.splatoon-amiibo-figure').count() === 29, 'Splatoon amiibo cabinet did not render the core 29 figures');
+    assert(
+      await splatoon.locator('.splatoon-amiibo-figure.is-hand').count() === 1
+        && await splatoon.locator('.splatoon-amiibo-figure.is-incoming').count() === 18
+        && await splatoon.locator('.splatoon-amiibo-figure.is-missing').count() === 10,
+      'Splatoon amiibo physical status totals drifted from 1 in hand, 18 incoming, and 10 missing',
+    );
+    assert(
+      await splatoon.locator('.splatoon-amiibo-era[open]').count() === 1
+        && await splatoon.locator('.splatoon-amiibo-era[open]').getAttribute('data-amiibo-era') === 'splatoon',
+      'Splatoon amiibo cabinet did not open only the original-era drawer by default',
+    );
+    const amiiboSummary = await splatoon.locator('#splatoon-amiibo-summary').textContent();
+    assert(
+      amiiboSummary.includes('19 / 29') && amiiboSummary.includes('2 / 76'),
+      'Splatoon amiibo summary did not preserve the secured-figure and unlocked-gear totals',
+    );
+    assert(
+      await splatoon.locator('#splatoon-gear-secured .splatoon-gear-card').count() === 15
+        && await splatoon.locator('#splatoon-gear-missing .splatoon-gear-card').count() === 8
+        && await splatoon.locator('.splatoon-gear-card').count() === 23,
+      'Splatoon gear tracker did not group all 23 unique reward sources correctly',
+    );
+    const sharedInklingGear = splatoon.locator('[data-gear-source="original inkling girl"]');
+    assert(
+      await sharedInklingGear.textContent().then((text) => text.includes('lime green in hand + orange incoming') && text.includes('2 / 5')),
+      'Splatoon gear tracker did not combine the original Inkling Girl colour variants',
+    );
+    assert(
+      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '2'
+        && await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuemax') === '76'
+        && await splatoon.locator('.splatoon-collection-meter').nth(1).getAttribute('aria-valuenow') === '47',
+      'Splatoon gear progress meters did not retain the 2 unlocked and 47 secured-source totals',
+    );
+    assert(await splatoon.locator('.splatoon-raiders-outfit').count() === 4, 'Splatoon Raiders outfit queue did not render all four outfits');
+    const amiiboPublicCopy = await splatoon.locator('#amiibo-cabinet').textContent();
+    assert(
+      !/A&C Games|PlayAsia|C\$|shipping|import charge/i.test(amiiboPublicCopy),
+      'Splatoon amiibo cabinet exposed private purchase or shipping details',
+    );
     const splatoonRankedImage = splatoon.locator('.splatoon-ranked-shot img');
     await splatoonRankedImage.scrollIntoViewIfNeeded();
     await splatoon.waitForFunction(() => {
@@ -1086,6 +1127,15 @@ async function run() {
     assert(
       await mobileSplatoon.locator('.splatoon-ranked-gallery').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'Splatoon ranked scrapbook overflowed horizontally on mobile',
+    );
+    await mobileSplatoon.locator('[data-amiibo-era="splatoon-2"] > summary').click();
+    assert(
+      await mobileSplatoon.locator('[data-amiibo-era="splatoon-2"]').evaluate((element) => element.open),
+      'Splatoon amiibo era drawer did not open on mobile',
+    );
+    assert(
+      await mobileSplatoon.locator('#amiibo-cabinet').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'Splatoon amiibo cabinet overflowed horizontally on mobile',
     );
     await mobileSplatoon.locator('.splatoon-photo-roll summary').first().click();
     await mobileSplatoon.waitForFunction(() => {
