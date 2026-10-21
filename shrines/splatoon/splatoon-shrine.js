@@ -1,5 +1,15 @@
 (function () {
   const imageRoot = '../../images/splatoon';
+  const iconRoot = `${imageRoot}/icons`;
+  const amiiboIconFiles = [
+    'comeback.webp',
+    'ninja-squid.webp',
+    'ink-saver-sub.webp',
+    'swim-speed.webp',
+    'run-speed-up.webp',
+    'drop-roller.webp',
+    'sub-power-up.webp'
+  ];
   const smallfryPhotos = [
     {
       file: 'smallfry-photo-mode-wide.webp',
@@ -73,6 +83,7 @@
     {
       id: 'splatoon',
       code: 'S1',
+      icon: 'comeback.webp',
       title: 'original splatoon',
       note: 'first-wave colours + the squid sisters',
       open: true,
@@ -90,6 +101,7 @@
     {
       id: 'splatoon-2',
       code: 'S2',
+      icon: 'ability-doubler.webp',
       title: 'splatoon 2',
       note: 'neon inklings , off the hook + octolings',
       figures: [
@@ -106,6 +118,7 @@
     {
       id: 'splatoon-3',
       code: 'S3',
+      icon: 'intensify-action.webp',
       title: 'splatoon 3',
       note: 'launch trio , deep cut , alterna + side order',
       figures: [
@@ -124,6 +137,7 @@
     {
       id: 'raiders',
       code: 'SR',
+      icon: 'quick-super-jump.webp',
       title: 'splatoon raiders',
       note: 'the new deep cut trio',
       figures: [
@@ -164,10 +178,10 @@
   ];
 
   const raidersOutfits = [
-    { name: 'bite waders', source: 'any ordinary splatoon amiibo · ready with lime green inkling girl', status: 'hand', obtained: 0, total: 1 },
-    { name: 'hohojiro fighting gear', source: 'raiders shiver incoming', status: 'incoming', obtained: 0, total: 1 },
-    { name: 'onaga fighting gear', source: 'raiders frye incoming', status: 'incoming', obtained: 0, total: 1 },
-    { name: 'manta fighting gear', source: 'raiders big man incoming', status: 'incoming', obtained: 0, total: 1 }
+    { name: 'bite waders', source: 'any ordinary splatoon amiibo · ready with lime green inkling girl', status: 'hand', obtained: 0, total: 1, icon: 'swim-speed.webp' },
+    { name: 'hohojiro fighting gear', source: 'raiders shiver incoming', status: 'incoming', obtained: 0, total: 1, icon: 'quick-super-jump.webp' },
+    { name: 'onaga fighting gear', source: 'raiders frye incoming', status: 'incoming', obtained: 0, total: 1, icon: 'run-speed-up.webp' },
+    { name: 'manta fighting gear', source: 'raiders big man incoming', status: 'incoming', obtained: 0, total: 1, icon: 'intensify-action.webp' }
   ];
 
   const statusLabels = {
@@ -178,6 +192,10 @@
 
   function imagePath(file) {
     return `${imageRoot}/${file}`;
+  }
+
+  function iconPath(file) {
+    return `${iconRoot}/${file}`;
   }
 
   function setDeferredImage(image, source) {
@@ -314,6 +332,7 @@
   function makeAmiiboFigure(figure, code, index) {
     const card = document.createElement('article');
     const token = document.createElement('span');
+    const tokenIcon = document.createElement('img');
     const tokenCode = document.createElement('b');
     const tokenNumber = document.createElement('i');
     const copy = document.createElement('div');
@@ -324,12 +343,17 @@
     card.dataset.amiiboStatus = figure.status;
     token.className = 'splatoon-amiibo-token';
     token.setAttribute('aria-hidden', 'true');
+    tokenIcon.src = iconPath(amiiboIconFiles[index % amiiboIconFiles.length]);
+    tokenIcon.alt = '';
+    tokenIcon.width = 58;
+    tokenIcon.height = 58;
+    tokenIcon.decoding = 'async';
     tokenCode.textContent = code;
     tokenNumber.textContent = String(index + 1).padStart(2, '0');
     copy.className = 'splatoon-amiibo-copy';
     status.textContent = statusLabels[figure.status];
     name.textContent = figure.name;
-    token.append(tokenCode, tokenNumber);
+    token.append(tokenIcon, tokenCode, tokenNumber);
     copy.append(status, name);
     card.append(token, copy);
     return card;
@@ -339,6 +363,8 @@
     const details = document.createElement('details');
     const summary = document.createElement('summary');
     const badge = document.createElement('span');
+    const badgeIcon = document.createElement('img');
+    const badgeCode = document.createElement('b');
     const copy = document.createElement('span');
     const title = document.createElement('strong');
     const note = document.createElement('small');
@@ -354,7 +380,12 @@
     details.open = Boolean(era.open);
     summary.className = 'splatoon-amiibo-era-summary';
     badge.className = 'splatoon-era-badge';
-    badge.textContent = era.code;
+    badgeIcon.src = iconPath(era.icon);
+    badgeIcon.alt = '';
+    badgeIcon.width = 46;
+    badgeIcon.height = 46;
+    badgeIcon.decoding = 'async';
+    badgeCode.textContent = era.code;
     copy.className = 'splatoon-era-copy';
     title.textContent = era.title;
     note.textContent = era.note;
@@ -368,6 +399,7 @@
 
     copy.append(title, note);
     count.append(securedCount, securedLabel);
+    badge.append(badgeIcon, badgeCode);
     summary.append(badge, copy, count, toggle);
     details.append(summary, grid);
     return details;
@@ -405,17 +437,24 @@
 
   function makeRaidersOutfit(outfit) {
     const card = document.createElement('article');
+    const icon = document.createElement('img');
     const status = document.createElement('small');
     const name = document.createElement('strong');
     const source = document.createElement('p');
     const count = document.createElement('span');
 
     card.className = `splatoon-raiders-outfit is-${outfit.status}`;
+    icon.className = 'splatoon-raiders-icon';
+    icon.src = iconPath(outfit.icon);
+    icon.alt = '';
+    icon.width = 54;
+    icon.height = 54;
+    icon.decoding = 'async';
     status.textContent = outfit.status === 'hand' ? 'ready to scan' : 'incoming';
     name.textContent = outfit.name;
     source.textContent = outfit.source;
     count.textContent = `${outfit.obtained} / ${outfit.total}`;
-    card.append(status, name, source, count);
+    card.append(icon, status, name, source, count);
     return card;
   }
 

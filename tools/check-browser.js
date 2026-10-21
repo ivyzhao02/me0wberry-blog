@@ -1023,6 +1023,12 @@ async function run() {
     assert(await splatoon.locator('.splatoon-amiibo-era').count() === 4, 'Splatoon amiibo cabinet did not render all four eras');
     assert(await splatoon.locator('.splatoon-amiibo-figure').count() === 29, 'Splatoon amiibo cabinet did not render the core 29 figures');
     assert(
+      await splatoon.locator('#amiibo-cabinet img[src*="images/splatoon/icons/"]').count() === 38,
+      'Splatoon amiibo cabinet did not render its raster ability icon stickers',
+    );
+    await splatoon.waitForFunction(() => Array.from(document.querySelectorAll('img[src*="images/splatoon/icons/"]'))
+      .every((image) => image.complete && image.naturalWidth > 0));
+    assert(
       await splatoon.locator('.splatoon-amiibo-figure.is-hand').count() === 1
         && await splatoon.locator('.splatoon-amiibo-figure.is-incoming').count() === 18
         && await splatoon.locator('.splatoon-amiibo-figure.is-missing').count() === 10,
