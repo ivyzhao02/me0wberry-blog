@@ -11,6 +11,30 @@ const imageInput = document.getElementById('images');
 const optimizeImagesEl = document.getElementById('optimize-images');
 const MAX_IMAGE_DIMENSION = 1920;
 const WEBP_QUALITY = 0.84;
+const TOKEN_STORAGE_KEY = 'me0wberry_post_studio_token';
+
+function loadStudioToken() {
+  const fragment = new URLSearchParams(window.location.hash.slice(1));
+  const hasNewToken = fragment.has('token');
+  let token = hasNewToken ? fragment.get('token') : '';
+
+  try {
+    if (hasNewToken) sessionStorage.setItem(TOKEN_STORAGE_KEY, token);
+    else token = sessionStorage.getItem(TOKEN_STORAGE_KEY) || '';
+  } catch (error) {
+    // The current private link still works when browser storage is unavailable.
+  }
+
+  if (hasNewToken) {
+    fragment.delete('token');
+    const remainingFragment = fragment.toString();
+    history.replaceState(null, '', `${window.location.pathname}${window.location.search}${remainingFragment ? `#${remainingFragment}` : ''}`);
+  }
+
+  return token;
+}
+
+let studioToken = loadStudioToken();
 
 function defaultDateLabel() {
   const now = new Date();
@@ -108,6 +132,14 @@ async function buildPayload() {
 
 dateEl.value = defaultDateLabel();
 updateCategoryFields();
+if (!studioToken) setStatus('Open the private link printed when Post Studio started to unlock this editor.', 'error');
+
+window.addEventListener('hashchange', () => {
+  if (!new URLSearchParams(window.location.hash.slice(1)).has('token')) return;
+  studioToken = loadStudioToken();
+  if (studioToken) setStatus('');
+  else setStatus('Open the private link printed when Post Studio started to unlock this editor.', 'error');
+});
 
 categoryEl.addEventListener('change', updateCategoryFields);
 imageInput.addEventListener('change', updateImageList);
@@ -115,12 +147,19 @@ optimizeImagesEl.addEventListener('change', updateImageList);
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  if (!studioToken) {
+    setStatus('Open the private link printed when Post Studio started to unlock this editor.', 'error');
+    return;
+  }
   setStatus('generating post...');
 
   try {
     const res = await fetch('/api/create-post', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Post-Studio-Token': studioToken,
+      },
       body: JSON.stringify(await buildPayload()),
     });
     const data = await res.json();

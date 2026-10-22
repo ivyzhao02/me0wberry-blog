@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
+const { randomBytes, timingSafeEqual } = require('crypto');
 const decodeHeic = require('heic-decode');
 const sharp = require('sharp');
 const { stripWebpPrivateMetadata } = require('../image-metadata');
@@ -306,35 +307,75 @@ async function createPost(payload) {
   }
 }
 
-const server = http.createServer(async (req, res) => {
-  try {
-    if (req.method === 'GET' && PUBLIC_FILES.has(req.url)) {
-      const [fileName, contentType] = PUBLIC_FILES.get(req.url);
-      const filePath = path.join(__dirname, fileName);
-      res.writeHead(200, { 'Content-Type': contentType });
-      res.end(fs.readFileSync(filePath));
-      return;
-    }
-
-    if (req.method === 'POST' && req.url === '/api/create-post') {
-      const payload = JSON.parse(await readBody(req));
-      sendJson(res, 200, await createPost(payload));
-      return;
-    }
-
-    sendJson(res, 404, { error: 'Not found.' });
-  } catch (err) {
-    sendJson(res, 400, { error: err.message });
+function createStudioServer({ token = randomBytes(32).toString('hex'), createPostHandler = createPost } = {}) {
+  if (typeof token !== 'string' || !/^[a-f0-9]{64}$/.test(token)) {
+    throw new Error('Post Studio requires a 32-byte authentication token.');
   }
-});
+  const expectedToken = Buffer.from(token, 'utf8');
+  const server = http.createServer(async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Referrer-Policy', 'no-referrer');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+
+    const port = server.address().port;
+    const host = String(req.headers.host || '').toLowerCase();
+    if (host !== `127.0.0.1:${port}` && host !== `localhost:${port}`) {
+      sendJson(res, 403, { error: 'Post Studio only accepts requests to its local address.' });
+      return;
+    }
+
+    try {
+      if (req.method === 'GET' && PUBLIC_FILES.has(req.url)) {
+        const [fileName, contentType] = PUBLIC_FILES.get(req.url);
+        const filePath = path.join(__dirname, fileName);
+        res.writeHead(200, { 'Content-Type': contentType });
+        res.end(fs.readFileSync(filePath));
+        return;
+      }
+
+      if (req.method === 'POST' && req.url === '/api/create-post') {
+        if (req.headers.origin !== `http://${host}`) {
+          sendJson(res, 403, { error: 'Open Post Studio directly from its private startup link.' });
+          return;
+        }
+
+        const contentType = String(req.headers['content-type'] || '').split(';')[0].trim().toLowerCase();
+        if (contentType !== 'application/json') {
+          sendJson(res, 415, { error: 'Post Studio requires a JSON request.' });
+          return;
+        }
+
+        const suppliedToken = req.headers['x-post-studio-token'];
+        const actualToken = typeof suppliedToken === 'string' ? Buffer.from(suppliedToken, 'utf8') : Buffer.alloc(0);
+        if (actualToken.length !== expectedToken.length || !timingSafeEqual(actualToken, expectedToken)) {
+          sendJson(res, 401, { error: 'Editor session missing or expired. Reopen the private link printed when Post Studio started.' });
+          return;
+        }
+
+        const payload = JSON.parse(await readBody(req));
+        sendJson(res, 200, await createPostHandler(payload));
+        return;
+      }
+
+      sendJson(res, 404, { error: 'Not found.' });
+    } catch (err) {
+      sendJson(res, 400, { error: err.message });
+    }
+  });
+  return server;
+}
 
 if (require.main === module) {
+  const token = randomBytes(32).toString('hex');
+  const server = createStudioServer({ token });
   server.listen(PORT, '127.0.0.1', () => {
-    console.log(`me0wberry post studio running at http://127.0.0.1:${PORT}`);
+    console.log(`me0wberry post studio: open this private link to unlock the editor:\nhttp://127.0.0.1:${server.address().port}/#token=${token}`);
   });
 }
 
 module.exports = {
+  createStudioServer,
   createPost,
   convertHeicToWebp,
   readExistingImages,

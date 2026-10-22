@@ -4,8 +4,9 @@
   "scripts": {
     "build": "node tools/build-site-data.js",
     "build:league": "node tools/build-league-collection.js",
-    "check": "node tools/check-site.js && node tools/check-browser.js",
+    "check": "node tools/check-site.js && node --test tools/post-studio/auth.test.js && node tools/check-browser.js",
     "check:site": "node tools/check-site.js",
+    "check:studio": "node --test tools/post-studio/auth.test.js",
     "check:browser": "node tools/check-browser.js"
   },
   "devDependencies": {
@@ -13,6 +14,6 @@
   },
   "dependencies": {
     "heic-decode": "^2.1.0",
-    "sharp": "^0.35.4"
+    "sharp": "^0.35.5"
   }
 }

@@ -10,11 +10,13 @@ Run from the repository root:
 node tools/post-studio/server.js
 ```
 
-Then open:
+Open the private link printed in the terminal. It starts with `http://127.0.0.1:8124/#token=` and unlocks the editor for that running server. Reopen the latest terminal link after restarting Post Studio; an older link will no longer authorize post creation.
 
-```text
-http://127.0.0.1:8124
-```
+The browser removes the token from the address bar and keeps it in the current tab's session storage so refreshes work. If browser storage is unavailable, the link still unlocks the current page; reopen it after refreshing. The token stays out of HTTP URLs, generated posts, and repository files. Treat the startup link as private.
+
+Post Studio remains bound to localhost. It requires the private token, a matching local origin, and JSON requests before it can create posts, and rejects requests using other hostnames. No password or shared secret needs copying between the PC and cloud workspace: each running server generates its own link. An ordinary static-site preview should use a separate web server.
+
+After pulling a dependency update, run `pnpm install` in that checkout and restart Post Studio. Run `pnpm check:studio` to check the editor's request protections.
 
 The tool writes post HTML into `posts/<category>/`, updates the matching `index.json`, and copies selected images into the right local image folder.
 

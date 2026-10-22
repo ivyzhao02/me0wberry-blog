@@ -1,10 +1,12 @@
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
+const { randomBytes } = require('crypto');
 const { pathToFileURL } = require('url');
 const { chromium } = require('playwright-core');
 const { listPublicHtmlFiles } = require('./google-tag');
 const { ARCHIVE_CATEGORIES } = require('./site-config');
+const { createStudioServer } = require('./post-studio/server');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONTENT_TYPES = new Map([
@@ -178,6 +180,124 @@ async function smokePublicPages(browser, baseUrl) {
   return publicPaths.length;
 }
 
+async function checkPostStudioAuthentication(browser) {
+  const token = randomBytes(32).toString('hex');
+  const staleToken = randomBytes(32).toString('hex');
+  const storageKey = 'me0wberry_post_studio_token';
+  const calls = [];
+  const pages = [];
+  const problems = [];
+  const server = createStudioServer({
+    token,
+    createPostHandler: async (payload) => {
+      calls.push(payload);
+      return { post: 'posts/games/browser-auth-fixture.html', index: 'posts/games/index.json', images: [] };
+    },
+  });
+
+  try {
+    await new Promise((resolve, reject) => {
+      server.once('error', reject);
+      server.listen(0, '127.0.0.1', () => {
+        server.off('error', reject);
+        resolve();
+      });
+    });
+    const studioUrl = `http://127.0.0.1:${server.address().port}`;
+
+    async function newStudioPage(setup) {
+      const page = await browser.newPage({ viewport: { width: 1000, height: 760 } });
+      pages.push(page);
+      await blockExternalRequests(page);
+      page.on('pageerror', (error) => problems.push(error.message));
+      if (setup) await setup(page);
+      return page;
+    }
+
+    async function submitFixture(page, title) {
+      const previousCalls = calls.length;
+      await page.locator('#title').fill(title);
+      await page.locator('#content').fill('Browser authentication regression fixture.');
+      const [response] = await Promise.all([
+        page.waitForResponse((response) => (
+          response.url() === `${studioUrl}/api/create-post` && response.request().method() === 'POST'
+        )),
+        page.locator('.studio-submit').click(),
+      ]);
+      assert(response.status() === 200, 'Post Studio rejected an unlocked browser session');
+      await page.waitForFunction(() => document.querySelector('#status').classList.contains('is-success'));
+      assert(calls.length === previousCalls + 1, 'Post Studio did not invoke its injected writer exactly once');
+      assert(calls.at(-1).title === title, 'Post Studio did not submit the entered title');
+      assert(calls.at(-1).content === 'Browser authentication regression fixture.', 'Post Studio did not submit the entered content');
+    }
+
+    const locked = await newStudioPage();
+    let lockedWriteRequests = 0;
+    locked.on('request', (request) => {
+      if (request.url() === `${studioUrl}/api/create-post`) lockedWriteRequests += 1;
+    });
+    await locked.goto(`${studioUrl}/`, { waitUntil: 'domcontentloaded' });
+    assert((await locked.locator('#status').textContent()).includes('private link'), 'Post Studio did not explain how to unlock a fresh session');
+    await locked.locator('#title').fill('Locked browser fixture');
+    await locked.locator('#content').fill('This must never reach the writer.');
+    await locked.locator('.studio-submit').click();
+    await locked.waitForTimeout(100);
+    assert(lockedWriteRequests === 0 && calls.length === 0, 'Post Studio sent a write request from a locked session');
+    assert((await locked.locator('#status').textContent()).includes('unlock this editor'), 'Post Studio lost its unlock instruction after a locked submission');
+
+    const unlocked = await newStudioPage();
+    await unlocked.goto(`${studioUrl}/#token=${token}`, { waitUntil: 'domcontentloaded' });
+    assert(new URL(unlocked.url()).hash === '', 'Post Studio left the startup credential in the address bar');
+    assert(await unlocked.evaluate(({ key, expected }) => sessionStorage.getItem(key) === expected, { key: storageKey, expected: token }), 'Post Studio did not retain the startup credential for this tab');
+    await unlocked.reload({ waitUntil: 'domcontentloaded' });
+    assert(new URL(unlocked.url()).hash === '', 'Post Studio restored a credential fragment on reload');
+    await submitFixture(unlocked, 'Reloaded browser fixture');
+
+    await unlocked.goto(`${studioUrl}/#token=${staleToken}`, { waitUntil: 'domcontentloaded' });
+    await unlocked.waitForFunction(() => window.location.hash === '');
+    await unlocked.locator('#title').fill('Expired browser fixture');
+    await unlocked.locator('#content').fill('Keep this draft while reopening the current private link.');
+    const previousCalls = calls.length;
+    const [expiredResponse] = await Promise.all([
+      unlocked.waitForResponse((response) => (
+        response.url() === `${studioUrl}/api/create-post` && response.request().method() === 'POST'
+      )),
+      unlocked.locator('.studio-submit').click(),
+    ]);
+    assert(expiredResponse.status() === 401, 'Post Studio accepted an expired browser credential');
+    await unlocked.waitForFunction(() => document.querySelector('#status').textContent.includes('private link printed'));
+    assert(calls.length === previousCalls, 'Post Studio invoked its writer for an expired credential');
+
+    await unlocked.goto(`${studioUrl}/#token=${token}`, { waitUntil: 'domcontentloaded' });
+    await unlocked.waitForFunction(() => window.location.hash === '');
+    assert(new URL(unlocked.url()).hash === '', 'Post Studio left a refreshed startup credential in the address bar');
+    assert(await unlocked.evaluate(({ key, expected }) => sessionStorage.getItem(key) === expected, { key: storageKey, expected: token }), 'Post Studio did not replace an expired stored credential with the fresh link');
+    assert(await unlocked.locator('#title').inputValue() === 'Expired browser fixture', 'Reopening the current private link discarded the existing draft');
+    await submitFixture(unlocked, 'Refreshed browser fixture');
+
+    const withoutStorage = await newStudioPage(async (page) => {
+      await page.addInitScript(() => {
+        Object.defineProperty(window, 'sessionStorage', {
+          configurable: true,
+          get() { throw new DOMException('Storage is unavailable for this fixture.', 'SecurityError'); },
+        });
+      });
+    });
+    await withoutStorage.goto(`${studioUrl}/#token=${token}`, { waitUntil: 'domcontentloaded' });
+    assert(new URL(withoutStorage.url()).hash === '', 'Post Studio left the startup credential in the address bar when storage was unavailable');
+    await submitFixture(withoutStorage, 'Storage unavailable browser fixture');
+
+    assert(problems.length === 0, `Post Studio reported browser errors:\n${problems.join('\n')}`);
+  } catch (error) {
+    // Navigation errors can include the fixture URL; never print a credential.
+    const message = String(error.message).split(token).join('[redacted]').split(staleToken).join('[redacted]');
+    throw new Error(message);
+  } finally {
+    await Promise.allSettled(pages.map((page) => page.close()));
+    if (server.listening) await new Promise((resolve) => server.close(resolve));
+  }
+}
+
 async function run() {
   const server = await startServer();
   const address = server.address();
@@ -186,6 +306,7 @@ async function run() {
   let smokePageCount = 0;
 
   try {
+    await checkPostStudioAuthentication(browser);
     const missing = await browser.newPage({ viewport: { width: 1000, height: 760 } });
     await blockExternalRequests(missing);
     const missingAssetProblems = [];
@@ -1594,7 +1715,7 @@ async function run() {
     await new Promise((resolve) => server.close(resolve));
   }
 
-    console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus welcome, stateful journeys, themes, changelog drawers, archives, Pokémon, Warframe, League, and Splatoon shrines, draft Sanrio, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
+    console.log(`browser check passed: ${smokePageCount} public pages at desktop and mobile widths plus Post Studio authentication, welcome, stateful journeys, themes, changelog drawers, archives, Pokémon, Warframe, League, and Splatoon shrines, draft Sanrio, poll, RSS, passport, responsive reserved-art frames, Favs keepsakes, post chrome, persona layout, optimized media, and direct-file preview.`);
 }
 
 run().catch((error) => {
