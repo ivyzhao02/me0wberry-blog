@@ -1132,9 +1132,9 @@ async function run() {
       installStaleSearchBundle,
     );
     assert(await splatoon.locator('#splatoon-smallfry-grid .splatoon-shot').count() === 5, 'Splatoon shrine did not render all Smallfry photos');
-    assert(await splatoon.locator('.splatoon-photo-roll').count() === 3, 'Splatoon shrine did not render all plaza photo rolls');
-    assert(await splatoon.locator('.splatoon-roll-grid .splatoon-shot').count() === 9, 'Splatoon shrine did not preserve all plaza screenshots');
-    assert(await splatoon.locator('[data-ranked-panel]').count() === 2, 'Splatoon ranked scrapbook did not render both gallery panels');
+    assert(await splatoon.locator('.splatoon-photo-roll').count() === 4, 'Splatoon shrine did not render all plaza photo rolls');
+    assert(await splatoon.locator('.splatoon-roll-grid .splatoon-shot').count() === 13, 'Splatoon shrine did not preserve all plaza screenshots');
+    assert(await splatoon.locator('[data-ranked-panel]').count() === 3, 'Splatoon ranked scrapbook did not render all gallery panels');
     assert(
       (await splatoon.locator('#panel-splatoon-shrine').textContent()).includes('splatoon 3 + dlc . splatoon raiders , splatoon 2 + dlc')
         && (await splatoon.locator('#panel-splatoon-shrine').textContent()).includes('bloblobber one trick')
@@ -1162,7 +1162,7 @@ async function run() {
     );
     const amiiboSummary = await splatoon.locator('#splatoon-amiibo-summary').textContent();
     assert(
-      amiiboSummary.includes('19 / 29') && amiiboSummary.includes('2 / 76'),
+      amiiboSummary.includes('19 / 29') && amiiboSummary.includes('5 / 76'),
       'Splatoon amiibo summary did not preserve the secured-figure and unlocked-gear totals',
     );
     assert(
@@ -1173,14 +1173,24 @@ async function run() {
     );
     const sharedInklingGear = splatoon.locator('[data-gear-source="original inkling girl"]');
     assert(
-      await sharedInklingGear.textContent().then((text) => text.includes('lime green in hand + orange incoming') && text.includes('2 / 5')),
+      await sharedInklingGear.textContent().then((text) => text.includes('lime green in hand + orange incoming') && text.includes('5 / 5')),
       'Splatoon gear tracker did not combine the original Inkling Girl colour variants',
     );
     assert(
-      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '2'
+      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '5'
         && await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuemax') === '76'
         && await splatoon.locator('.splatoon-collection-meter').nth(1).getAttribute('aria-valuenow') === '47',
-      'Splatoon gear progress meters did not retain the 2 unlocked and 47 secured-source totals',
+      'Splatoon gear progress meters did not retain the 5 unlocked and 47 secured-source totals',
+    );
+    const gearShowcaseImage = splatoon.locator('.splatoon-gear-showcase img');
+    await gearShowcaseImage.scrollIntoViewIfNeeded();
+    await splatoon.waitForFunction(() => {
+      const image = document.querySelector('.splatoon-gear-showcase img');
+      return image && image.complete && image.naturalWidth > 0;
+    });
+    assert(
+      await gearShowcaseImage.evaluate((image) => image.naturalWidth === 1280 && image.naturalHeight === 720),
+      'Splatoon completed amiibo gear showcase did not decode at its expected size',
     );
     assert(await splatoon.locator('.splatoon-raiders-outfit').count() === 4, 'Splatoon Raiders outfit queue did not render all four outfits');
     const amiiboPublicCopy = await splatoon.locator('#amiibo-cabinet').textContent();
@@ -1188,10 +1198,10 @@ async function run() {
       !/A&C Games|PlayAsia|C\$|shipping|import charge/i.test(amiiboPublicCopy),
       'Splatoon amiibo cabinet exposed private purchase or shipping details',
     );
-    const splatoonRankedImage = splatoon.locator('.splatoon-ranked-shot img');
+    const splatoonRankedImage = splatoon.locator('[data-ranked-panel]:not([hidden]) .splatoon-ranked-shot img');
     await splatoonRankedImage.scrollIntoViewIfNeeded();
     await splatoon.waitForFunction(() => {
-      const image = document.querySelector('.splatoon-ranked-shot img');
+      const image = document.querySelector('[data-ranked-panel]:not([hidden]) .splatoon-ranked-shot img');
       return image && image.complete && image.naturalWidth > 0;
     });
     assert(
@@ -1203,12 +1213,18 @@ async function run() {
     );
     await splatoon.locator('[data-ranked-next]').click();
     assert(
+      await splatoon.locator('[data-ranked-panel]:not([hidden])').textContent().then((text) => text.includes('b+ to a-') && text.includes('only took one try !')),
+      'Splatoon ranked scrapbook did not show the A-minus rank-up receipt',
+    );
+    assert(await splatoon.locator('[data-ranked-status]').textContent() === '02 / 03', 'Splatoon ranked scrapbook counter did not advance to the new receipt');
+    await splatoon.locator('[data-ranked-next]').click();
+    assert(
       await splatoon.locator('[data-ranked-panel]:not([hidden])').textContent().then((text) => text.includes('more updates to come !') && text.match(/N\/A/g)?.length === 6),
       'Splatoon ranked scrapbook did not show the text-only upcoming panel',
     );
-    assert(await splatoon.locator('[data-ranked-status]').textContent() === '02 / 02', 'Splatoon ranked scrapbook counter did not advance');
+    assert(await splatoon.locator('[data-ranked-status]').textContent() === '03 / 03', 'Splatoon ranked scrapbook counter did not advance to the upcoming panel');
     await splatoon.locator('[data-ranked-next]').click();
-    assert(await splatoon.locator('[data-ranked-status]').textContent() === '01 / 02', 'Splatoon ranked scrapbook did not loop back to the first panel');
+    assert(await splatoon.locator('[data-ranked-status]').textContent() === '01 / 03', 'Splatoon ranked scrapbook did not loop back to the first panel');
     assert(
       await splatoon.locator('.splatoon-roll-grid img[src]').count() === 0,
       'closed Splatoon photo rolls loaded full images too early',
@@ -1250,7 +1266,7 @@ async function run() {
       'Splatoon profile strip did not collapse to one column on mobile',
     );
     await mobileSplatoon.locator('[data-ranked-prev]').click();
-    assert(await mobileSplatoon.locator('[data-ranked-status]').textContent() === '02 / 02', 'Splatoon ranked scrapbook did not loop backward on mobile');
+    assert(await mobileSplatoon.locator('[data-ranked-status]').textContent() === '03 / 03', 'Splatoon ranked scrapbook did not loop backward on mobile');
     assert(
       await mobileSplatoon.locator('.splatoon-ranked-gallery').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'Splatoon ranked scrapbook overflowed horizontally on mobile',

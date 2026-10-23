@@ -3742,6 +3742,7 @@ a.shrine-cabinet-card:hover {
 
 .splatoon-hero-viewer,
 .splatoon-ranked-shot,
+.splatoon-gear-showcase-photo,
 .splatoon-shot {
   appearance: none;
   color: inherit;
@@ -3810,6 +3811,7 @@ a.shrine-cabinet-card:hover {
 
 .splatoon-hero-viewer:focus-visible,
 .splatoon-ranked-shot:focus-visible,
+.splatoon-gear-showcase-photo:focus-visible,
 .splatoon-shot:focus-visible,
 .splatoon-roll-summary:focus-visible {
   outline: 3px solid var(--splatoon-orange, #ff9452);
@@ -4011,7 +4013,8 @@ a.shrine-cabinet-card:hover {
   box-shadow: 0 0 0 2px rgba(198,237,60,0.22);
 }
 
-.splatoon-ranked-shot {
+.splatoon-ranked-shot,
+.splatoon-gear-showcase-photo {
   display: grid;
   min-width: 0;
   overflow: hidden;
@@ -4023,7 +4026,8 @@ a.shrine-cabinet-card:hover {
   cursor: var(--cursor-link);
 }
 
-.splatoon-ranked-shot img {
+.splatoon-ranked-shot img,
+.splatoon-gear-showcase-photo img {
   display: block;
   width: 100%;
   height: auto;
@@ -4031,7 +4035,8 @@ a.shrine-cabinet-card:hover {
   object-fit: cover;
 }
 
-.splatoon-ranked-shot span {
+.splatoon-ranked-shot span,
+.splatoon-gear-showcase-photo span {
   padding: 8px 11px;
   overflow: hidden;
   color: #f7ffe4;
@@ -4255,6 +4260,74 @@ a.shrine-cabinet-card:hover {
   color: var(--muted);
   font-size: 9px;
   line-height: 1.55;
+}
+
+.splatoon-gear-showcase {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(300px, 1.1fr);
+  gap: 12px;
+  margin-top: 12px;
+  padding: 11px;
+  border: 1px solid rgba(90,143,128,0.34);
+  border-radius: 18px 5px 18px 5px;
+  background:
+    linear-gradient(135deg, rgba(198,237,60,0.18), transparent 46%),
+    rgba(255,255,255,0.62);
+  box-shadow: 0 9px 24px rgba(68,68,57,0.08);
+}
+
+.splatoon-gear-showcase-photo {
+  align-self: start;
+  border-radius: 13px 4px 13px 4px;
+}
+
+.splatoon-gear-showcase-copy {
+  align-content: center;
+  display: grid;
+  min-width: 0;
+  padding: 8px 9px;
+}
+
+.splatoon-gear-showcase-copy > small {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.6;
+}
+
+.splatoon-gear-showcase-copy h3 {
+  margin: 7px 0 8px;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.splatoon-gear-showcase-copy p {
+  margin: 0;
+  color: var(--text);
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.splatoon-gear-showcase-copy ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.splatoon-gear-showcase-copy li {
+  padding: 5px 7px;
+  color: #31443c;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  line-height: 1.45;
+  border: 1px solid rgba(90,143,128,0.36);
+  border-radius: 7px 2px 7px 2px;
+  background: rgba(255,255,255,0.8);
 }
 
 .splatoon-amiibo-subheading {
@@ -4843,7 +4916,7 @@ a.shrine-cabinet-card:hover {
 
 .splatoon-photo-rolls {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
   gap: 10px;
 }
@@ -5022,6 +5095,7 @@ a.shrine-cabinet-card:hover {
   .splatoon-amiibo-summary > div.is-gear { grid-column: 1 / -1; }
   .splatoon-amiibo-subheading { align-items: flex-start; flex-direction: column; gap: 4px; }
   .splatoon-amiibo-subheading > p { text-align: left; }
+  .splatoon-gear-showcase { grid-template-columns: minmax(0, 1fr); }
   .splatoon-gear-overview { grid-template-columns: 1fr; }
 }
 

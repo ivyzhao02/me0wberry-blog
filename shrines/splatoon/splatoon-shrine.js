@@ -76,6 +76,18 @@
         'plaza-together-2026-10-20-02.webp',
         'plaza-together-2026-10-20-03.webp'
       ]
+    },
+    {
+      date: 'october 22 , 2026',
+      title: 'plaza outfit check',
+      note: 'more pictures with my bf + more corners :3',
+      preview: 'plaza-together-2026-10-22-02.webp',
+      files: [
+        'plaza-together-2026-10-22-01.webp',
+        'plaza-together-2026-10-22-02.webp',
+        'plaza-together-2026-10-22-03.webp',
+        'plaza-together-2026-10-22-04.webp'
+      ]
     }
   ];
 
@@ -149,7 +161,7 @@
   ];
 
   const securedGearGroups = [
-    { name: 'original inkling girl', figures: 'lime green in hand + orange incoming', status: 'hand', obtained: 2, total: 5 },
+    { name: 'original inkling girl', figures: 'lime green in hand + orange incoming · shared rewards', status: 'hand', obtained: 5, total: 5 },
     { name: 'original inkling boy', figures: 'blue incoming + purple missing · shared rewards', status: 'incoming', obtained: 0, total: 3 },
     { name: 'original inkling squid', figures: 'green incoming + orange missing · shared rewards', status: 'incoming', obtained: 0, total: 3 },
     { name: 'callie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
@@ -499,7 +511,7 @@
 
     erasContainer.replaceChildren(...amiiboEras.map(makeAmiiboEra));
     gearOverview.replaceChildren(
-      makeCollectionMeter('gear unlocked now', gearObtained, allGearTotal, 'two pieces unlocked from the lime green inkling girl'),
+      makeCollectionMeter('gear unlocked now', gearObtained, allGearTotal, 'all five pieces unlocked from the lime green inkling girl'),
       makeCollectionMeter('covered by secured figures', securedGearTotal, allGearTotal, 'the secured shelf covers 47 unique gear pieces')
     );
     securedGearContainer.replaceChildren(...securedGearGroups.map(makeGearCard));
