@@ -161,45 +161,45 @@
   ];
 
   const securedGearGroups = [
-    { name: 'original inkling girl', figures: 'lime green + orange in hand · shared rewards', status: 'hand', obtained: 5, total: 5 },
-    { name: 'original inkling boy', figures: 'blue in hand + purple missing · shared rewards', status: 'hand', obtained: 2, total: 3 },
-    { name: 'original inkling squid', figures: 'green in hand + orange missing · shared rewards', status: 'hand', obtained: 2, total: 3 },
-    { name: 'callie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'marie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'neon pink inkling girl', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 5 },
-    { name: 'neon green inkling boy', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 4 },
-    { name: 'neon purple inkling squid', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'octoling girl', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 4 },
-    { name: 'octoling boy', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'octoling octopus', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'yellow inkling', figures: 'splatoon 3 figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'blue octoling', figures: 'splatoon 3 figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'smallfry', figures: 'splatoon 3 figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'original shiver', figures: 'deep cut figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'original frye', figures: 'deep cut figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'original big man', figures: 'deep cut figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'alterna callie', figures: 'alterna figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'alterna marie', figures: 'alterna figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'side order pearl', figures: 'side order figure incoming', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'side order marina', figures: 'side order figure incoming', status: 'incoming', obtained: 0, total: 3 }
+    { name: 'original inkling girl', figures: 'lime green + orange at home · shared rewards', status: 'hand', obtained: 5, total: 5 },
+    { name: 'original inkling boy', figures: 'blue at home + purple on my wishlist · shared rewards', status: 'hand', obtained: 2, total: 3 },
+    { name: 'original inkling squid', figures: 'green at home + orange on my wishlist · shared rewards', status: 'hand', obtained: 2, total: 3 },
+    { name: 'callie', figures: 'original figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'marie', figures: 'original figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'neon pink inkling girl', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 5 },
+    { name: 'neon green inkling boy', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 4 },
+    { name: 'neon purple inkling squid', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'octoling girl', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 4 },
+    { name: 'octoling boy', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'octoling octopus', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'yellow inkling', figures: 'splatoon 3 figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'blue octoling', figures: 'splatoon 3 figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'smallfry', figures: 'splatoon 3 figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'original shiver', figures: 'deep cut figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'original frye', figures: 'deep cut figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'original big man', figures: 'deep cut figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'alterna callie', figures: 'alterna figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'alterna marie', figures: 'alterna figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'side order pearl', figures: 'side order figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'side order marina', figures: 'side order figure on the way', status: 'incoming', obtained: 0, total: 3 }
   ];
 
   const missingGearGroups = [
-    { name: 'original pearl', figures: 'figure still missing', status: 'missing', obtained: 0, total: 4 },
-    { name: 'original marina', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 }
+    { name: 'original pearl', figures: 'figure on my wishlist', status: 'missing', obtained: 0, total: 4 },
+    { name: 'original marina', figures: 'figure on my wishlist', status: 'missing', obtained: 0, total: 3 }
   ];
 
   const raidersOutfits = [
     { name: 'bite waders', source: 'any ordinary splatoon amiibo · ready with lime green inkling girl', status: 'hand', obtained: 0, total: 1, icon: 'swim-speed.webp' },
-    { name: 'hohojiro fighting gear', source: 'raiders shiver incoming', status: 'incoming', obtained: 0, total: 1, icon: 'quick-super-jump.webp' },
-    { name: 'onaga fighting gear', source: 'raiders frye incoming', status: 'incoming', obtained: 0, total: 1, icon: 'run-speed-up.webp' },
-    { name: 'manta fighting gear', source: 'raiders big man incoming', status: 'incoming', obtained: 0, total: 1, icon: 'intensify-action.webp' }
+    { name: 'hohojiro fighting gear', source: 'raiders shiver on the way', status: 'incoming', obtained: 0, total: 1, icon: 'quick-super-jump.webp' },
+    { name: 'onaga fighting gear', source: 'raiders frye on the way', status: 'incoming', obtained: 0, total: 1, icon: 'run-speed-up.webp' },
+    { name: 'manta fighting gear', source: 'raiders big man on the way', status: 'incoming', obtained: 0, total: 1, icon: 'intensify-action.webp' }
   ];
 
   const statusLabels = {
-    hand: 'in hand',
-    incoming: 'incoming',
-    missing: 'missing'
+    hand: 'at home',
+    incoming: 'on the way',
+    missing: 'on my wishlist'
   };
 
   function imagePath(file) {
@@ -403,7 +403,7 @@
     note.textContent = era.note;
     count.className = 'splatoon-era-count';
     securedCount.textContent = `${secured} / ${era.figures.length}`;
-    securedLabel.textContent = 'secured';
+    securedLabel.textContent = 'home + on the way';
     toggle.className = 'splatoon-era-toggle';
     toggle.setAttribute('aria-hidden', 'true');
     grid.className = 'splatoon-amiibo-grid';
@@ -435,7 +435,7 @@
     figures.textContent = group.figures;
     pieces.className = 'splatoon-gear-pieces';
     pieces.setAttribute('role', 'img');
-    pieces.setAttribute('aria-label', `${group.obtained} of ${group.total} gear pieces obtained`);
+    pieces.setAttribute('aria-label', `${group.obtained} of ${group.total} gear gifts acquired`);
     for (let index = 0; index < group.total; index += 1) {
       const piece = document.createElement('span');
       piece.className = index < group.obtained ? 'is-obtained' : '';
@@ -462,7 +462,7 @@
     icon.width = 54;
     icon.height = 54;
     icon.decoding = 'async';
-    status.textContent = outfit.status === 'hand' ? 'ready to scan' : 'incoming';
+    status.textContent = outfit.status === 'hand' ? 'ready to scan' : statusLabels[outfit.status];
     name.textContent = outfit.name;
     source.textContent = outfit.source;
     count.textContent = `${outfit.obtained} / ${outfit.total}`;
@@ -491,11 +491,11 @@
       .reduce((total, group) => total + group.obtained, 0);
 
     const summaryItems = [
-      { label: `secured · ${(secured / figures.length * 100).toFixed(1)}%`, value: `${secured} / ${figures.length}`, className: 'is-secured' },
-      { label: 'in hand', value: inHand, className: 'is-hand' },
-      { label: 'incoming', value: incoming, className: 'is-incoming' },
-      { label: 'missing', value: missing, className: 'is-missing' },
-      { label: 'gear unlocked', value: `${gearObtained} / ${allGearTotal}`, className: 'is-gear' }
+      { label: `home + on the way · ${(secured / figures.length * 100).toFixed(1)}%`, value: `${secured} / ${figures.length}`, className: 'is-secured' },
+      { label: statusLabels.hand, value: inHand, className: 'is-hand' },
+      { label: statusLabels.incoming, value: incoming, className: 'is-incoming' },
+      { label: statusLabels.missing, value: missing, className: 'is-missing' },
+      { label: 'gear gifts acquired', value: `${gearObtained} / ${allGearTotal}`, className: 'is-gear' }
     ];
     summary.innerHTML = '';
     summaryItems.forEach((item) => {
@@ -511,15 +511,15 @@
 
     erasContainer.replaceChildren(...amiiboEras.map(makeAmiiboEra));
     gearOverview.replaceChildren(
-      makeCollectionMeter('gear unlocked now', gearObtained, allGearTotal, 'school set complete + shoes and clothes from the blue inkling boy and green squid'),
-      makeCollectionMeter('covered by secured figures', securedGearTotal, allGearTotal, `the secured shelf covers ${securedGearTotal} unique gear pieces`)
+      makeCollectionMeter('gear gifts acquired', gearObtained, allGearTotal, 'school set complete + shoes and clothes from the blue inkling boy and green squid'),
+      makeCollectionMeter('gifts i can acquire', securedGearTotal, allGearTotal, `the figures at home + on the way can give me ${securedGearTotal} unique gear pieces`)
     );
     securedGearContainer.replaceChildren(...securedGearGroups.map(makeGearCard));
     missingGearContainer.replaceChildren(...missingGearGroups.map(makeGearCard));
     raidersContainer.replaceChildren(...raidersOutfits.map(makeRaidersOutfit));
 
     const indexStatus = document.getElementById('splatoon-amiibo-index-status');
-    if (indexStatus) indexStatus.textContent = `${secured} / ${figures.length} secured`;
+    if (indexStatus) indexStatus.textContent = `${secured} / ${figures.length} home + on the way`;
     const futureGearCount = document.getElementById('splatoon-future-gear-count');
     if (futureGearCount) futureGearCount.textContent = `${missingGearGroups.length} sources / ${missingGearTotal} pieces`;
   }

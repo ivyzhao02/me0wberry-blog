@@ -1173,7 +1173,7 @@ async function run() {
     );
     const sharedInklingGear = splatoon.locator('[data-gear-source="original inkling girl"]');
     assert(
-      await sharedInklingGear.textContent().then((text) => text.includes('lime green + orange in hand') && text.includes('5 / 5')),
+      await sharedInklingGear.textContent().then((text) => text.includes('lime green + orange at home') && text.includes('5 / 5')),
       'Splatoon gear tracker did not combine the original Inkling Girl colour variants',
     );
     assert(
