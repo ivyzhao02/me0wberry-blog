@@ -162,8 +162,8 @@
 
   const securedGearGroups = [
     { name: 'original inkling girl', figures: 'lime green + orange in hand · shared rewards', status: 'hand', obtained: 5, total: 5 },
-    { name: 'original inkling boy', figures: 'blue in hand + purple missing · shared rewards', status: 'hand', obtained: 0, total: 3 },
-    { name: 'original inkling squid', figures: 'green in hand + orange missing · shared rewards', status: 'hand', obtained: 0, total: 3 },
+    { name: 'original inkling boy', figures: 'blue in hand + purple missing · shared rewards', status: 'hand', obtained: 2, total: 3 },
+    { name: 'original inkling squid', figures: 'green in hand + orange missing · shared rewards', status: 'hand', obtained: 2, total: 3 },
     { name: 'callie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
     { name: 'marie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
     { name: 'neon pink inkling girl', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 5 },
@@ -511,7 +511,7 @@
 
     erasContainer.replaceChildren(...amiiboEras.map(makeAmiiboEra));
     gearOverview.replaceChildren(
-      makeCollectionMeter('gear unlocked now', gearObtained, allGearTotal, 'all five pieces unlocked from the lime green inkling girl'),
+      makeCollectionMeter('gear unlocked now', gearObtained, allGearTotal, 'school set complete + shoes and clothes from the blue inkling boy and green squid'),
       makeCollectionMeter('covered by secured figures', securedGearTotal, allGearTotal, `the secured shelf covers ${securedGearTotal} unique gear pieces`)
     );
     securedGearContainer.replaceChildren(...securedGearGroups.map(makeGearCard));

@@ -1162,7 +1162,7 @@ async function run() {
     );
     const amiiboSummary = await splatoon.locator('#splatoon-amiibo-summary').textContent();
     assert(
-      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('5 / 76'),
+      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('9 / 76'),
       'Splatoon amiibo summary did not preserve the secured-figure and unlocked-gear totals',
     );
     assert(
@@ -1177,10 +1177,10 @@ async function run() {
       'Splatoon gear tracker did not combine the original Inkling Girl colour variants',
     );
     assert(
-      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '5'
+      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '9'
         && await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuemax') === '76'
         && await splatoon.locator('.splatoon-collection-meter').nth(1).getAttribute('aria-valuenow') === '69',
-      'Splatoon gear progress meters did not retain the 5 unlocked and 69 secured-source totals',
+      'Splatoon gear progress meters did not retain the 9 unlocked and 69 secured-source totals',
     );
     const gearShowcaseImage = splatoon.locator('.splatoon-gear-showcase img');
     await gearShowcaseImage.scrollIntoViewIfNeeded();
