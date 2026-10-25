@@ -23,6 +23,21 @@
       letter-spacing: 0.5px;
     }
     .panel-section-body { font-size: 14px; line-height: 1.7; }
+    .copy-kaomoji {
+      display: inline-block;
+      font-family: var(--font-heading);
+      font-weight: 500;
+      letter-spacing: normal;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+    .heading-flourish {
+      display: inline-block;
+      color: var(--pixel-label2);
+      font-size: max(7px, 0.7em);
+      font-weight: 400;
+      white-space: nowrap;
+    }
     .panel-section-body ul { list-style: none; padding-left: 2px; }
     .panel-section-body li::before { content: '– '; color: var(--pink); }
 

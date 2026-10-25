@@ -526,6 +526,12 @@
 
   renderAmiiboTracker();
 
+  const photoCount = document.getElementById('splatoon-photo-count');
+  if (photoCount) {
+    const photos = new Set(Array.from(document.querySelectorAll('[data-splatoon-full]'), (button) => button.dataset.splatoonFull));
+    photoCount.textContent = `${photos.size} pictures`;
+  }
+
   const rankedGallery = document.querySelector('[data-ranked-gallery]');
   if (rankedGallery) {
     const panels = Array.from(rankedGallery.querySelectorAll('[data-ranked-panel]'));
@@ -568,7 +574,7 @@
 
     const matches = posts.filter((post) => /splatoon/i.test(`${post.title || ''} ${post.text || ''}`));
     list.innerHTML = '';
-    if (!matches.length) list.innerHTML = '<li>no squid notes yet ♡</li>';
+    if (!matches.length) list.innerHTML = '<li>no briny scrolls yet ♡</li>';
     matches.forEach((post) => {
       const item = document.createElement('li');
       const link = document.createElement('a');

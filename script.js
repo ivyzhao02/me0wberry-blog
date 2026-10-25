@@ -10,14 +10,14 @@ window.me0wberryPageLastEdited = Object.freeze({
   "now/index.html": "2026-10-08T23:27:19-04:00",
   "persona/index.html": "2026-10-06T13:28:41-04:00",
   "rss/index.html": "2026-10-08T23:27:19-04:00",
-  "shrines/index.html": "2026-10-20T18:23:49-04:00",
+  "shrines/index.html": "2026-10-25T19:38:12-04:00",
   "shrines/league/index.html": "2026-10-06T13:28:41-04:00",
   "shrines/pokemon/index.html": "2026-10-20T18:36:43-04:00",
   "shrines/sanrio/index.html": "2026-10-20T18:36:43-04:00",
-  "shrines/splatoon/index.html": "2026-10-25T19:15:33-04:00",
+  "shrines/splatoon/index.html": "2026-10-25T19:38:12-04:00",
   "shrines/stubby/index.html": "2026-10-20T18:36:43-04:00",
   "shrines/warframe/index.html": "2026-10-20T18:36:43-04:00",
-  "toybox/index.html": "2026-10-06T13:28:41-04:00",
+  "toybox/index.html": "2026-10-25T19:38:12-04:00",
   "webgarden/index.html": "2026-10-06T13:28:41-04:00"
 });
 

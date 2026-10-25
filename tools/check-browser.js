@@ -1536,10 +1536,12 @@ async function run() {
         await categoryArchive.locator(`body[data-archive-category="${category.id}"]`).count() === 1,
         `${category.id} archive has the wrong category configuration`,
       );
-      assert(
-        (await categoryArchive.locator('.panel-heading').textContent()).trim() === `${category.label} archive`,
-        `${category.id} archive has the wrong visible heading`,
-      );
+      const archiveHeading = await categoryArchive.locator('.panel-heading').evaluate((element) => {
+        const heading = element.cloneNode(true);
+        heading.querySelectorAll('[aria-hidden="true"]').forEach((decoration) => decoration.remove());
+        return heading.textContent.trim();
+      });
+      assert(archiveHeading === `${category.label} archive`, `${category.id} archive has the wrong visible heading`);
       assert(await categoryArchive.locator('.page-nav-link').count() === 2, `${category.id} archive navigation is inconsistent`);
       assert(await categoryArchive.locator('#archive-list > div').count() > 0, `${category.id} archive loaded no posts`);
       if (category.id === 'games') {
@@ -1628,8 +1630,8 @@ async function run() {
       await toybox.locator('.page-nav-link').evaluate((element) => getComputedStyle(element).borderRadius === '999px'),
       'trinkets page navigation bubble styling did not load',
     );
-    assert(await toybox.locator('.toybox-kaomoji').count() === 129, 'complete kaomoji catalogue did not render');
-    const expectedKaomojiCounts = { cats: 12, happy: 50, sweet: 30, moods: 37 };
+    assert(await toybox.locator('.toybox-kaomoji').count() === 141, 'complete kaomoji catalogue did not render');
+    const expectedKaomojiCounts = { cats: 15, happy: 53, sweet: 33, moods: 40 };
     for (const [group, expectedCount] of Object.entries(expectedKaomojiCounts)) {
       const shelf = toybox.locator(`[data-kaomoji-group="${group}"]`);
       assert(await shelf.locator('.toybox-kaomoji').count() === expectedCount, `${group} kaomoji shelf count drifted`);
@@ -1644,7 +1646,7 @@ async function run() {
     assert(sweetFaces.includes('𐔌՞ ܸ.ˬ.ܸ՞𐦯') && sweetFaces.includes('𐔌՞. .՞𐦯') && sweetFaces.includes('₍⑅ᐢ..ᐢ₎♡'), 'sweet kaomoji moves are missing');
     assert(!catFaces.includes('𐔌՞ ܸ.ˬ.ܸ՞𐦯') && !catFaces.includes('𐔌՞. .՞𐦯') && !catFaces.includes('₍⑅ᐢ..ᐢ₎♡'), 'moved sweet kaomojis remain in cats');
     await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji-toggle').click();
-    assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 30, 'sweet kaomoji shelf did not expand');
+    assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 33, 'sweet kaomoji shelf did not expand');
     await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji-toggle').click();
     assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 8, 'sweet kaomoji shelf did not collapse');
     assert(

@@ -217,7 +217,7 @@ function buildHomeSummary(post) {
 ${renderItems(whereItems)}
           </ul></div>
           <div class="hearts-divider">────── ♡ · ♡ · ♡ ──────</div>
-          <div class="panel-px-label">what i'm into ˖°</div>
+          <div class="panel-px-label">what i'm into <span class="copy-kaomoji" aria-hidden="true">(˶ˆ꒳ˆ˵)</span></div>
           <div class="panel-section-body"><ul>
 ${renderItems(intoItems)}
           </ul></div>
