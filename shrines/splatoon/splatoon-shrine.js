@@ -100,9 +100,9 @@
       note: 'first-wave colours + the squid sisters',
       open: true,
       figures: [
-        { name: 'inkling girl — orange', status: 'incoming' },
-        { name: 'inkling boy — blue', status: 'incoming' },
-        { name: 'inkling squid — green', status: 'incoming' },
+        { name: 'inkling girl — orange', status: 'hand' },
+        { name: 'inkling boy — blue', status: 'hand' },
+        { name: 'inkling squid — green', status: 'hand' },
         { name: 'callie', status: 'incoming' },
         { name: 'marie', status: 'incoming' },
         { name: 'inkling girl — lime green', status: 'hand' },
@@ -161,9 +161,9 @@
   ];
 
   const securedGearGroups = [
-    { name: 'original inkling girl', figures: 'lime green in hand + orange incoming · shared rewards', status: 'hand', obtained: 5, total: 5 },
-    { name: 'original inkling boy', figures: 'blue incoming + purple missing · shared rewards', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'original inkling squid', figures: 'green incoming + orange missing · shared rewards', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'original inkling girl', figures: 'lime green + orange in hand · shared rewards', status: 'hand', obtained: 5, total: 5 },
+    { name: 'original inkling boy', figures: 'blue in hand + purple missing · shared rewards', status: 'hand', obtained: 0, total: 3 },
+    { name: 'original inkling squid', figures: 'green in hand + orange missing · shared rewards', status: 'hand', obtained: 0, total: 3 },
     { name: 'callie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
     { name: 'marie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
     { name: 'neon pink inkling girl', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 5 },

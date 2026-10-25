@@ -1150,10 +1150,10 @@ async function run() {
     await splatoon.waitForFunction(() => Array.from(document.querySelectorAll('img[src*="images/splatoon/icons/"]'))
       .every((image) => image.complete && image.naturalWidth > 0));
     assert(
-      await splatoon.locator('.splatoon-amiibo-figure.is-hand').count() === 1
-        && await splatoon.locator('.splatoon-amiibo-figure.is-incoming').count() === 24
+      await splatoon.locator('.splatoon-amiibo-figure.is-hand').count() === 4
+        && await splatoon.locator('.splatoon-amiibo-figure.is-incoming').count() === 21
         && await splatoon.locator('.splatoon-amiibo-figure.is-missing').count() === 4,
-      'Splatoon amiibo physical status totals drifted from 1 in hand, 24 incoming, and 4 missing',
+      'Splatoon amiibo physical status totals drifted from 4 in hand, 21 incoming, and 4 missing',
     );
     assert(
       await splatoon.locator('.splatoon-amiibo-era[open]').count() === 1
@@ -1173,7 +1173,7 @@ async function run() {
     );
     const sharedInklingGear = splatoon.locator('[data-gear-source="original inkling girl"]');
     assert(
-      await sharedInklingGear.textContent().then((text) => text.includes('lime green in hand + orange incoming') && text.includes('5 / 5')),
+      await sharedInklingGear.textContent().then((text) => text.includes('lime green + orange in hand') && text.includes('5 / 5')),
       'Splatoon gear tracker did not combine the original Inkling Girl colour variants',
     );
     assert(
