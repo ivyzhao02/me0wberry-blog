@@ -117,14 +117,14 @@
       title: 'splatoon 2',
       note: 'neon inklings , off the hook + octolings',
       figures: [
-        { name: 'inkling girl — neon pink', status: 'missing' },
-        { name: 'inkling boy — neon green', status: 'missing' },
-        { name: 'inkling squid — neon purple', status: 'missing' },
+        { name: 'inkling girl — neon pink', status: 'incoming' },
+        { name: 'inkling boy — neon green', status: 'incoming' },
+        { name: 'inkling squid — neon purple', status: 'incoming' },
         { name: 'pearl — original', status: 'missing' },
         { name: 'marina — original', status: 'missing' },
-        { name: 'octoling girl', status: 'missing' },
-        { name: 'octoling boy', status: 'missing' },
-        { name: 'octoling octopus', status: 'missing' }
+        { name: 'octoling girl', status: 'incoming' },
+        { name: 'octoling boy', status: 'incoming' },
+        { name: 'octoling octopus', status: 'incoming' }
       ]
     },
     {
@@ -166,6 +166,12 @@
     { name: 'original inkling squid', figures: 'green incoming + orange missing · shared rewards', status: 'incoming', obtained: 0, total: 3 },
     { name: 'callie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
     { name: 'marie', figures: 'original figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'neon pink inkling girl', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 5 },
+    { name: 'neon green inkling boy', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 4 },
+    { name: 'neon purple inkling squid', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'octoling girl', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 4 },
+    { name: 'octoling boy', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'octoling octopus', figures: 'figure incoming', status: 'incoming', obtained: 0, total: 3 },
     { name: 'yellow inkling', figures: 'splatoon 3 figure incoming', status: 'incoming', obtained: 0, total: 3 },
     { name: 'blue octoling', figures: 'splatoon 3 figure incoming', status: 'incoming', obtained: 0, total: 3 },
     { name: 'smallfry', figures: 'splatoon 3 figure incoming', status: 'incoming', obtained: 0, total: 3 },
@@ -179,14 +185,8 @@
   ];
 
   const missingGearGroups = [
-    { name: 'neon pink inkling girl', figures: 'figure still missing', status: 'missing', obtained: 0, total: 5 },
-    { name: 'neon green inkling boy', figures: 'figure still missing', status: 'missing', obtained: 0, total: 4 },
-    { name: 'neon purple inkling squid', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 },
     { name: 'original pearl', figures: 'figure still missing', status: 'missing', obtained: 0, total: 4 },
-    { name: 'original marina', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 },
-    { name: 'octoling girl', figures: 'figure still missing', status: 'missing', obtained: 0, total: 4 },
-    { name: 'octoling boy', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 },
-    { name: 'octoling octopus', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 }
+    { name: 'original marina', figures: 'figure still missing', status: 'missing', obtained: 0, total: 3 }
   ];
 
   const raidersOutfits = [
@@ -491,7 +491,7 @@
       .reduce((total, group) => total + group.obtained, 0);
 
     const summaryItems = [
-      { label: 'secured', value: `${secured} / ${figures.length}`, className: 'is-secured' },
+      { label: `secured · ${(secured / figures.length * 100).toFixed(1)}%`, value: `${secured} / ${figures.length}`, className: 'is-secured' },
       { label: 'in hand', value: inHand, className: 'is-hand' },
       { label: 'incoming', value: incoming, className: 'is-incoming' },
       { label: 'missing', value: missing, className: 'is-missing' },
@@ -512,7 +512,7 @@
     erasContainer.replaceChildren(...amiiboEras.map(makeAmiiboEra));
     gearOverview.replaceChildren(
       makeCollectionMeter('gear unlocked now', gearObtained, allGearTotal, 'all five pieces unlocked from the lime green inkling girl'),
-      makeCollectionMeter('covered by secured figures', securedGearTotal, allGearTotal, 'the secured shelf covers 47 unique gear pieces')
+      makeCollectionMeter('covered by secured figures', securedGearTotal, allGearTotal, `the secured shelf covers ${securedGearTotal} unique gear pieces`)
     );
     securedGearContainer.replaceChildren(...securedGearGroups.map(makeGearCard));
     missingGearContainer.replaceChildren(...missingGearGroups.map(makeGearCard));
