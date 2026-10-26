@@ -1630,8 +1630,8 @@ async function run() {
       await toybox.locator('.page-nav-link').evaluate((element) => getComputedStyle(element).borderRadius === '999px'),
       'trinkets page navigation bubble styling did not load',
     );
-    assert(await toybox.locator('.toybox-kaomoji').count() === 141, 'complete kaomoji catalogue did not render');
-    const expectedKaomojiCounts = { cats: 15, happy: 53, sweet: 33, moods: 40 };
+    assert(await toybox.locator('.toybox-kaomoji').count() === 166, 'complete kaomoji catalogue did not render');
+    const expectedKaomojiCounts = { cats: 16, happy: 59, sweet: 38, moods: 53 };
     for (const [group, expectedCount] of Object.entries(expectedKaomojiCounts)) {
       const shelf = toybox.locator(`[data-kaomoji-group="${group}"]`);
       assert(await shelf.locator('.toybox-kaomoji').count() === expectedCount, `${group} kaomoji shelf count drifted`);
@@ -1646,7 +1646,7 @@ async function run() {
     assert(sweetFaces.includes('𐔌՞ ܸ.ˬ.ܸ՞𐦯') && sweetFaces.includes('𐔌՞. .՞𐦯') && sweetFaces.includes('₍⑅ᐢ..ᐢ₎♡'), 'sweet kaomoji moves are missing');
     assert(!catFaces.includes('𐔌՞ ܸ.ˬ.ܸ՞𐦯') && !catFaces.includes('𐔌՞. .՞𐦯') && !catFaces.includes('₍⑅ᐢ..ᐢ₎♡'), 'moved sweet kaomojis remain in cats');
     await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji-toggle').click();
-    assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 33, 'sweet kaomoji shelf did not expand');
+    assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 38, 'sweet kaomoji shelf did not expand');
     await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji-toggle').click();
     assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 8, 'sweet kaomoji shelf did not collapse');
     assert(

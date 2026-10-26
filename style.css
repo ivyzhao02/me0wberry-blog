@@ -4570,10 +4570,6 @@ a.toybox-resource-card:hover {
   margin: 0;
 }
 
-.info-project-card {
-  max-width: 620px;
-}
-
 .system-overview-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

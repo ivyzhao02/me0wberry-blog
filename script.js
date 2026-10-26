@@ -6,7 +6,7 @@ window.me0wberryPageLastEdited = Object.freeze({
   "archive/lately/index.html": "2026-08-29T16:34:46-04:00",
   "archive/music/index.html": "2026-08-29T16:34:46-04:00",
   "archive/stubby/index.html": "2026-08-29T16:34:46-04:00",
-  "info/index.html": "2026-10-08T23:27:19-04:00",
+  "info/index.html": "2026-10-25T20:07:38-04:00",
   "now/index.html": "2026-10-08T23:27:19-04:00",
   "persona/index.html": "2026-10-06T13:28:41-04:00",
   "rss/index.html": "2026-10-08T23:27:19-04:00",
@@ -17,7 +17,7 @@ window.me0wberryPageLastEdited = Object.freeze({
   "shrines/splatoon/index.html": "2026-10-25T19:38:12-04:00",
   "shrines/stubby/index.html": "2026-10-20T18:36:43-04:00",
   "shrines/warframe/index.html": "2026-10-20T18:36:43-04:00",
-  "toybox/index.html": "2026-10-25T19:38:12-04:00",
+  "toybox/index.html": "2026-10-25T20:07:38-04:00",
   "webgarden/index.html": "2026-10-06T13:28:41-04:00"
 });
 
