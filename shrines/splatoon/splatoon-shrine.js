@@ -117,14 +117,14 @@
       title: 'splatoon 2',
       note: 'neon inklings , off the hook + octolings',
       figures: [
-        { name: 'inkling girl — neon pink', status: 'incoming' },
-        { name: 'inkling boy — neon green', status: 'incoming' },
-        { name: 'inkling squid — neon purple', status: 'incoming' },
+        { name: 'inkling girl — neon pink', status: 'hand' },
+        { name: 'inkling boy — neon green', status: 'hand' },
+        { name: 'inkling squid — neon purple', status: 'hand' },
         { name: 'pearl — original', status: 'missing' },
         { name: 'marina — original', status: 'missing' },
-        { name: 'octoling girl', status: 'incoming' },
-        { name: 'octoling boy', status: 'incoming' },
-        { name: 'octoling octopus', status: 'incoming' }
+        { name: 'octoling girl', status: 'hand' },
+        { name: 'octoling boy', status: 'hand' },
+        { name: 'octoling octopus', status: 'hand' }
       ]
     },
     {
@@ -162,16 +162,16 @@
 
   const securedGearGroups = [
     { name: 'original inkling girl', figures: 'lime green + orange at home · shared rewards', status: 'hand', obtained: 5, total: 5 },
-    { name: 'original inkling boy', figures: 'blue at home + purple on my wishlist · shared rewards', status: 'hand', obtained: 2, total: 3 },
-    { name: 'original inkling squid', figures: 'green at home + orange on my wishlist · shared rewards', status: 'hand', obtained: 2, total: 3 },
+    { name: 'original inkling boy', figures: 'blue at home + purple on my wishlist · shared rewards', status: 'hand', obtained: 3, total: 3 },
+    { name: 'original inkling squid', figures: 'green at home + orange on my wishlist · shared rewards', status: 'hand', obtained: 3, total: 3 },
     { name: 'callie', figures: 'original figure on the way', status: 'incoming', obtained: 0, total: 3 },
     { name: 'marie', figures: 'original figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'neon pink inkling girl', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 5 },
-    { name: 'neon green inkling boy', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 4 },
-    { name: 'neon purple inkling squid', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'octoling girl', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 4 },
-    { name: 'octoling boy', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'octoling octopus', figures: 'figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'neon pink inkling girl', figures: 'figure at home', status: 'hand', obtained: 1, total: 5 },
+    { name: 'neon green inkling boy', figures: 'figure at home', status: 'hand', obtained: 1, total: 4 },
+    { name: 'neon purple inkling squid', figures: 'figure at home', status: 'hand', obtained: 1, total: 3 },
+    { name: 'octoling girl', figures: 'figure at home', status: 'hand', obtained: 1, total: 4 },
+    { name: 'octoling boy', figures: 'figure at home', status: 'hand', obtained: 1, total: 3 },
+    { name: 'octoling octopus', figures: 'figure at home', status: 'hand', obtained: 1, total: 3 },
     { name: 'yellow inkling', figures: 'splatoon 3 figure on the way', status: 'incoming', obtained: 0, total: 3 },
     { name: 'blue octoling', figures: 'splatoon 3 figure on the way', status: 'incoming', obtained: 0, total: 3 },
     { name: 'smallfry', figures: 'splatoon 3 figure on the way', status: 'incoming', obtained: 0, total: 3 },
@@ -511,7 +511,7 @@
 
     erasContainer.replaceChildren(...amiiboEras.map(makeAmiiboEra));
     gearOverview.replaceChildren(
-      makeCollectionMeter('gear gifts acquired', gearObtained, allGearTotal, 'school set complete + shoes and clothes from the blue inkling boy and green squid'),
+      makeCollectionMeter('gear gifts acquired', gearObtained, allGearTotal, 'school , samurai + power sets complete · first gifts from the neon inklings + octolings ♡'),
       makeCollectionMeter('gifts i can acquire', securedGearTotal, allGearTotal, `the figures at home + on the way can give me ${securedGearTotal} unique gear pieces`)
     );
     securedGearContainer.replaceChildren(...securedGearGroups.map(makeGearCard));

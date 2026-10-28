@@ -1150,10 +1150,10 @@ async function run() {
     await splatoon.waitForFunction(() => Array.from(document.querySelectorAll('img[src*="images/splatoon/icons/"]'))
       .every((image) => image.complete && image.naturalWidth > 0));
     assert(
-      await splatoon.locator('.splatoon-amiibo-figure.is-hand').count() === 4
-        && await splatoon.locator('.splatoon-amiibo-figure.is-incoming').count() === 21
+      await splatoon.locator('.splatoon-amiibo-figure.is-hand').count() === 10
+        && await splatoon.locator('.splatoon-amiibo-figure.is-incoming').count() === 15
         && await splatoon.locator('.splatoon-amiibo-figure.is-missing').count() === 4,
-      'Splatoon amiibo physical status totals drifted from 4 in hand, 21 incoming, and 4 missing',
+      'Splatoon amiibo physical status totals drifted from 10 at home, 15 on the way, and 4 on the wishlist',
     );
     assert(
       await splatoon.locator('.splatoon-amiibo-era[open]').count() === 1
@@ -1162,7 +1162,7 @@ async function run() {
     );
     const amiiboSummary = await splatoon.locator('#splatoon-amiibo-summary').textContent();
     assert(
-      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('9 / 76'),
+      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('17 / 76'),
       'Splatoon amiibo summary did not preserve the secured-figure and unlocked-gear totals',
     );
     assert(
@@ -1176,11 +1176,31 @@ async function run() {
       await sharedInklingGear.textContent().then((text) => text.includes('lime green + orange at home') && text.includes('5 / 5')),
       'Splatoon gear tracker did not combine the original Inkling Girl colour variants',
     );
+    const updatedGearProgress = [
+      ['original inkling boy', 3, 3],
+      ['original inkling squid', 3, 3],
+      ['neon pink inkling girl', 1, 5],
+      ['neon green inkling boy', 1, 4],
+      ['neon purple inkling squid', 1, 3],
+      ['octoling girl', 1, 4],
+      ['octoling boy', 1, 3],
+      ['octoling octopus', 1, 3],
+    ];
+    for (const [name, obtained, total] of updatedGearProgress) {
+      const card = splatoon.locator(`[data-gear-source="${name}"]`);
+      assert(
+        await card.evaluate((element) => element.classList.contains('is-hand'))
+          && await card.locator('.splatoon-gear-card-heading b').textContent() === `${obtained} / ${total}`
+          && await card.locator('.splatoon-gear-pieces .is-obtained').count() === obtained
+          && await card.locator('.splatoon-gear-pieces').getAttribute('aria-label') === `${obtained} of ${total} gear gifts acquired`,
+        `Splatoon gear tracker did not preserve the at-home status and gift progress for ${name}`,
+      );
+    }
     assert(
-      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '9'
+      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '17'
         && await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuemax') === '76'
         && await splatoon.locator('.splatoon-collection-meter').nth(1).getAttribute('aria-valuenow') === '69',
-      'Splatoon gear progress meters did not retain the 9 unlocked and 69 secured-source totals',
+      'Splatoon gear progress meters did not retain the 17 acquired and 69 available-source totals',
     );
     const gearShowcaseImage = splatoon.locator('.splatoon-gear-showcase img');
     await gearShowcaseImage.scrollIntoViewIfNeeded();
