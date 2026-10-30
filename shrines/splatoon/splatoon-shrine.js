@@ -103,8 +103,8 @@
         { name: 'inkling girl — orange', status: 'hand' },
         { name: 'inkling boy — blue', status: 'hand' },
         { name: 'inkling squid — green', status: 'hand' },
-        { name: 'callie', status: 'incoming' },
-        { name: 'marie', status: 'incoming' },
+        { name: 'callie', status: 'hand' },
+        { name: 'marie', status: 'hand' },
         { name: 'inkling girl — lime green', status: 'hand' },
         { name: 'inkling boy — purple', status: 'missing' },
         { name: 'inkling squid — orange', status: 'missing' }
@@ -134,16 +134,16 @@
       title: 'splatoon 3',
       note: 'launch trio , deep cut , alterna + side order',
       figures: [
-        { name: 'inkling — yellow', status: 'incoming' },
-        { name: 'octoling — blue', status: 'incoming' },
-        { name: 'smallfry', status: 'incoming' },
-        { name: 'shiver — original', status: 'incoming' },
-        { name: 'frye — original', status: 'incoming' },
-        { name: 'big man — original', status: 'incoming' },
-        { name: 'callie — alterna', status: 'incoming' },
-        { name: 'marie — alterna', status: 'incoming' },
-        { name: 'pearl — side order', status: 'incoming' },
-        { name: 'marina — side order', status: 'incoming' }
+        { name: 'inkling — yellow', status: 'hand' },
+        { name: 'octoling — blue', status: 'hand' },
+        { name: 'smallfry', status: 'hand' },
+        { name: 'shiver — original', status: 'hand' },
+        { name: 'frye — original', status: 'hand' },
+        { name: 'big man — original', status: 'hand' },
+        { name: 'callie — alterna', status: 'hand' },
+        { name: 'marie — alterna', status: 'hand' },
+        { name: 'pearl — side order', status: 'hand' },
+        { name: 'marina — side order', status: 'hand' }
       ]
     },
     {
@@ -153,9 +153,9 @@
       title: 'splatoon raiders',
       note: 'the new deep cut trio',
       figures: [
-        { name: 'shiver — splatoon raiders', status: 'incoming' },
-        { name: 'frye — splatoon raiders', status: 'incoming' },
-        { name: 'big man — splatoon raiders', status: 'incoming' }
+        { name: 'shiver — splatoon raiders', status: 'hand' },
+        { name: 'frye — splatoon raiders', status: 'hand' },
+        { name: 'big man — splatoon raiders', status: 'hand' }
       ]
     }
   ];
@@ -164,24 +164,24 @@
     { name: 'original inkling girl', figures: 'lime green + orange at home · shared rewards', status: 'hand', obtained: 5, total: 5 },
     { name: 'original inkling boy', figures: 'blue at home + purple on my wishlist · shared rewards', status: 'hand', obtained: 3, total: 3 },
     { name: 'original inkling squid', figures: 'green at home + orange on my wishlist · shared rewards', status: 'hand', obtained: 3, total: 3 },
-    { name: 'callie', figures: 'original figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'marie', figures: 'original figure on the way', status: 'incoming', obtained: 0, total: 3 },
+    { name: 'callie', figures: 'original figure at home', status: 'hand', obtained: 1, total: 3 },
+    { name: 'marie', figures: 'original figure at home', status: 'hand', obtained: 1, total: 3 },
     { name: 'neon pink inkling girl', figures: 'figure at home', status: 'hand', obtained: 1, total: 5 },
     { name: 'neon green inkling boy', figures: 'figure at home', status: 'hand', obtained: 1, total: 4 },
     { name: 'neon purple inkling squid', figures: 'figure at home', status: 'hand', obtained: 1, total: 3 },
     { name: 'octoling girl', figures: 'figure at home', status: 'hand', obtained: 1, total: 4 },
     { name: 'octoling boy', figures: 'figure at home', status: 'hand', obtained: 1, total: 3 },
     { name: 'octoling octopus', figures: 'figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'yellow inkling', figures: 'splatoon 3 figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'blue octoling', figures: 'splatoon 3 figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'smallfry', figures: 'splatoon 3 figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'original shiver', figures: 'deep cut figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'original frye', figures: 'deep cut figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'original big man', figures: 'deep cut figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'alterna callie', figures: 'alterna figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'alterna marie', figures: 'alterna figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'side order pearl', figures: 'side order figure on the way', status: 'incoming', obtained: 0, total: 3 },
-    { name: 'side order marina', figures: 'side order figure on the way', status: 'incoming', obtained: 0, total: 3 }
+    { name: 'yellow inkling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 1, total: 3 },
+    { name: 'blue octoling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 1, total: 3 },
+    { name: 'smallfry', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 1, total: 3 },
+    { name: 'original shiver', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 1, total: 3 },
+    { name: 'original frye', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 1, total: 3 },
+    { name: 'original big man', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 1, total: 3 },
+    { name: 'alterna callie', figures: 'alterna figure at home', status: 'hand', obtained: 1, total: 3 },
+    { name: 'alterna marie', figures: 'alterna figure at home', status: 'hand', obtained: 1, total: 3 },
+    { name: 'side order pearl', figures: 'side order figure at home', status: 'hand', obtained: 1, total: 3 },
+    { name: 'side order marina', figures: 'side order figure at home', status: 'hand', obtained: 1, total: 3 }
   ];
 
   const missingGearGroups = [
@@ -191,9 +191,9 @@
 
   const raidersOutfits = [
     { name: 'bite waders', source: 'any ordinary splatoon amiibo · ready with lime green inkling girl', status: 'hand', obtained: 0, total: 1, icon: 'swim-speed.webp' },
-    { name: 'hohojiro fighting gear', source: 'raiders shiver on the way', status: 'incoming', obtained: 0, total: 1, icon: 'quick-super-jump.webp' },
-    { name: 'onaga fighting gear', source: 'raiders frye on the way', status: 'incoming', obtained: 0, total: 1, icon: 'run-speed-up.webp' },
-    { name: 'manta fighting gear', source: 'raiders big man on the way', status: 'incoming', obtained: 0, total: 1, icon: 'intensify-action.webp' }
+    { name: 'hohojiro fighting gear', source: 'raiders shiver at home', status: 'hand', obtained: 0, total: 1, icon: 'quick-super-jump.webp' },
+    { name: 'onaga fighting gear', source: 'raiders frye at home', status: 'hand', obtained: 0, total: 1, icon: 'run-speed-up.webp' },
+    { name: 'manta fighting gear', source: 'raiders big man at home', status: 'hand', obtained: 0, total: 1, icon: 'intensify-action.webp' }
   ];
 
   const statusLabels = {
@@ -511,7 +511,7 @@
 
     erasContainer.replaceChildren(...amiiboEras.map(makeAmiiboEra));
     gearOverview.replaceChildren(
-      makeCollectionMeter('gear gifts acquired', gearObtained, allGearTotal, 'school , samurai + power sets complete · first gifts from the neon inklings + octolings ♡'),
+      makeCollectionMeter('gear gifts acquired', gearObtained, allGearTotal, 'school , samurai + power sets complete · shoes from all my other reward sets at home ♡'),
       makeCollectionMeter('gifts i can acquire', securedGearTotal, allGearTotal, `the figures at home + on the way can give me ${securedGearTotal} unique gear pieces`)
     );
     securedGearContainer.replaceChildren(...securedGearGroups.map(makeGearCard));

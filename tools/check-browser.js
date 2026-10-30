@@ -1150,10 +1150,10 @@ async function run() {
     await splatoon.waitForFunction(() => Array.from(document.querySelectorAll('img[src*="images/splatoon/icons/"]'))
       .every((image) => image.complete && image.naturalWidth > 0));
     assert(
-      await splatoon.locator('.splatoon-amiibo-figure.is-hand').count() === 10
-        && await splatoon.locator('.splatoon-amiibo-figure.is-incoming').count() === 15
+      await splatoon.locator('.splatoon-amiibo-figure.is-hand').count() === 25
+        && await splatoon.locator('.splatoon-amiibo-figure.is-incoming').count() === 0
         && await splatoon.locator('.splatoon-amiibo-figure.is-missing').count() === 4,
-      'Splatoon amiibo physical status totals drifted from 10 at home, 15 on the way, and 4 on the wishlist',
+      'Splatoon amiibo physical status totals drifted from 25 at home, none on the way, and 4 on the wishlist',
     );
     assert(
       await splatoon.locator('.splatoon-amiibo-era[open]').count() === 1
@@ -1162,7 +1162,7 @@ async function run() {
     );
     const amiiboSummary = await splatoon.locator('#splatoon-amiibo-summary').textContent();
     assert(
-      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('17 / 76'),
+      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('29 / 76'),
       'Splatoon amiibo summary did not preserve the secured-figure and unlocked-gear totals',
     );
     assert(
@@ -1185,6 +1185,18 @@ async function run() {
       ['octoling girl', 1, 4],
       ['octoling boy', 1, 3],
       ['octoling octopus', 1, 3],
+      ['callie', 1, 3],
+      ['marie', 1, 3],
+      ['yellow inkling', 1, 3],
+      ['blue octoling', 1, 3],
+      ['smallfry', 1, 3],
+      ['original shiver', 1, 3],
+      ['original frye', 1, 3],
+      ['original big man', 1, 3],
+      ['alterna callie', 1, 3],
+      ['alterna marie', 1, 3],
+      ['side order pearl', 1, 3],
+      ['side order marina', 1, 3],
     ];
     for (const [name, obtained, total] of updatedGearProgress) {
       const card = splatoon.locator(`[data-gear-source="${name}"]`);
@@ -1197,11 +1209,17 @@ async function run() {
       );
     }
     assert(
-      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '17'
+      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '29'
         && await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuemax') === '76'
         && await splatoon.locator('.splatoon-collection-meter').nth(1).getAttribute('aria-valuenow') === '69',
-      'Splatoon gear progress meters did not retain the 17 acquired and 69 available-source totals',
+      'Splatoon gear progress meters did not retain the 29 acquired and 69 available-source totals',
     );
+    for (const name of ['original shiver', 'original frye', 'original big man']) {
+      assert(
+        await splatoon.locator(`[data-gear-source="${name}"] p`).textContent() === 'original + raiders figures at home · shared rewards',
+        `Splatoon gear tracker did not group the original and Raiders reward sources for ${name}`,
+      );
+    }
     const gearShowcaseImage = splatoon.locator('.splatoon-gear-showcase img');
     await gearShowcaseImage.scrollIntoViewIfNeeded();
     await splatoon.waitForFunction(() => {
@@ -1213,6 +1231,12 @@ async function run() {
       'Splatoon completed amiibo gear showcase did not decode at its expected size',
     );
     assert(await splatoon.locator('.splatoon-raiders-outfit').count() === 4, 'Splatoon Raiders outfit queue did not render all four outfits');
+    assert(
+      await splatoon.locator('.splatoon-raiders-outfit.is-hand').count() === 4
+        && await splatoon.locator('.splatoon-raiders-outfit > small').allTextContents().then((labels) => labels.every((label) => label === 'ready to scan'))
+        && await splatoon.locator('.splatoon-raiders-outfit > span').allTextContents().then((counts) => counts.every((count) => count === '0 / 1')),
+      'Splatoon Raiders outfits should be ready to scan without assuming unreported outfit unlocks',
+    );
     const amiiboPublicCopy = await splatoon.locator('#amiibo-cabinet').textContent();
     assert(
       !/A&C Games|PlayAsia|Microplay|Newmarket|C\$|shipping|import charge/i.test(amiiboPublicCopy),
