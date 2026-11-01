@@ -1162,7 +1162,7 @@ async function run() {
     );
     const amiiboSummary = await splatoon.locator('#splatoon-amiibo-summary').textContent();
     assert(
-      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('29 / 76'),
+      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('59 / 76'),
       'Splatoon amiibo summary did not preserve the secured-figure and unlocked-gear totals',
     );
     assert(
@@ -1179,24 +1179,24 @@ async function run() {
     const updatedGearProgress = [
       ['original inkling boy', 3, 3],
       ['original inkling squid', 3, 3],
-      ['neon pink inkling girl', 1, 5],
-      ['neon green inkling boy', 1, 4],
-      ['neon purple inkling squid', 1, 3],
-      ['octoling girl', 1, 4],
-      ['octoling boy', 1, 3],
-      ['octoling octopus', 1, 3],
-      ['callie', 1, 3],
-      ['marie', 1, 3],
-      ['yellow inkling', 1, 3],
-      ['blue octoling', 1, 3],
-      ['smallfry', 1, 3],
-      ['original shiver', 1, 3],
-      ['original frye', 1, 3],
-      ['original big man', 1, 3],
-      ['alterna callie', 1, 3],
-      ['alterna marie', 1, 3],
-      ['side order pearl', 1, 3],
-      ['side order marina', 1, 3],
+      ['neon pink inkling girl', 5, 5],
+      ['neon green inkling boy', 4, 4],
+      ['neon purple inkling squid', 3, 3],
+      ['octoling girl', 4, 4],
+      ['octoling boy', 3, 3],
+      ['octoling octopus', 3, 3],
+      ['callie', 3, 3],
+      ['marie', 3, 3],
+      ['yellow inkling', 2, 3],
+      ['blue octoling', 2, 3],
+      ['smallfry', 2, 3],
+      ['original shiver', 2, 3],
+      ['original frye', 2, 3],
+      ['original big man', 2, 3],
+      ['alterna callie', 2, 3],
+      ['alterna marie', 2, 3],
+      ['side order pearl', 2, 3],
+      ['side order marina', 2, 3],
     ];
     for (const [name, obtained, total] of updatedGearProgress) {
       const card = splatoon.locator(`[data-gear-source="${name}"]`);
@@ -1209,10 +1209,14 @@ async function run() {
       );
     }
     assert(
-      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '29'
+      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '59'
         && await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuemax') === '76'
         && await splatoon.locator('.splatoon-collection-meter').nth(1).getAttribute('aria-valuenow') === '69',
-      'Splatoon gear progress meters did not retain the 29 acquired and 69 available-source totals',
+      'Splatoon gear progress meters did not retain the 59 acquired and 69 available-source totals',
+    );
+    assert(
+      await splatoon.locator('#splatoon-gear-missing .is-obtained').count() === 0,
+      'Splatoon reward update incorrectly marked wishlist-only gear as acquired',
     );
     for (const name of ['original shiver', 'original frye', 'original big man']) {
       assert(

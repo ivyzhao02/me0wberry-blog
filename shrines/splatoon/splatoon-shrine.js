@@ -164,24 +164,24 @@
     { name: 'original inkling girl', figures: 'lime green + orange at home · shared rewards', status: 'hand', obtained: 5, total: 5 },
     { name: 'original inkling boy', figures: 'blue at home + purple on my wishlist · shared rewards', status: 'hand', obtained: 3, total: 3 },
     { name: 'original inkling squid', figures: 'green at home + orange on my wishlist · shared rewards', status: 'hand', obtained: 3, total: 3 },
-    { name: 'callie', figures: 'original figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'marie', figures: 'original figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'neon pink inkling girl', figures: 'figure at home', status: 'hand', obtained: 1, total: 5 },
-    { name: 'neon green inkling boy', figures: 'figure at home', status: 'hand', obtained: 1, total: 4 },
-    { name: 'neon purple inkling squid', figures: 'figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'octoling girl', figures: 'figure at home', status: 'hand', obtained: 1, total: 4 },
-    { name: 'octoling boy', figures: 'figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'octoling octopus', figures: 'figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'yellow inkling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'blue octoling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'smallfry', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'original shiver', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 1, total: 3 },
-    { name: 'original frye', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 1, total: 3 },
-    { name: 'original big man', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 1, total: 3 },
-    { name: 'alterna callie', figures: 'alterna figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'alterna marie', figures: 'alterna figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'side order pearl', figures: 'side order figure at home', status: 'hand', obtained: 1, total: 3 },
-    { name: 'side order marina', figures: 'side order figure at home', status: 'hand', obtained: 1, total: 3 }
+    { name: 'callie', figures: 'original figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'marie', figures: 'original figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'neon pink inkling girl', figures: 'figure at home', status: 'hand', obtained: 5, total: 5 },
+    { name: 'neon green inkling boy', figures: 'figure at home', status: 'hand', obtained: 4, total: 4 },
+    { name: 'neon purple inkling squid', figures: 'figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'octoling girl', figures: 'figure at home', status: 'hand', obtained: 4, total: 4 },
+    { name: 'octoling boy', figures: 'figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'octoling octopus', figures: 'figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'yellow inkling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 2, total: 3 },
+    { name: 'blue octoling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 2, total: 3 },
+    { name: 'smallfry', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 2, total: 3 },
+    { name: 'original shiver', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 2, total: 3 },
+    { name: 'original frye', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 2, total: 3 },
+    { name: 'original big man', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 2, total: 3 },
+    { name: 'alterna callie', figures: 'alterna figure at home', status: 'hand', obtained: 2, total: 3 },
+    { name: 'alterna marie', figures: 'alterna figure at home', status: 'hand', obtained: 2, total: 3 },
+    { name: 'side order pearl', figures: 'side order figure at home', status: 'hand', obtained: 2, total: 3 },
+    { name: 'side order marina', figures: 'side order figure at home', status: 'hand', obtained: 2, total: 3 }
   ];
 
   const missingGearGroups = [
@@ -511,7 +511,7 @@
 
     erasContainer.replaceChildren(...amiiboEras.map(makeAmiiboEra));
     gearOverview.replaceChildren(
-      makeCollectionMeter('gear gifts acquired', gearObtained, allGearTotal, 'school , samurai + power sets complete · shoes from all my other reward sets at home ♡'),
+      makeCollectionMeter('gear gifts acquired', gearObtained, allGearTotal, 'all my splatoon 1 + 2 sets complete · splatoon 3 clothes home , headgear next ♡'),
       makeCollectionMeter('gifts i can acquire', securedGearTotal, allGearTotal, `the figures at home + on the way can give me ${securedGearTotal} unique gear pieces`)
     );
     securedGearContainer.replaceChildren(...securedGearGroups.map(makeGearCard));
