@@ -1237,9 +1237,9 @@ async function run() {
     assert(await splatoon.locator('.splatoon-raiders-outfit').count() === 4, 'Splatoon Raiders outfit queue did not render all four outfits');
     assert(
       await splatoon.locator('.splatoon-raiders-outfit.is-hand').count() === 4
-        && await splatoon.locator('.splatoon-raiders-outfit > small').allTextContents().then((labels) => labels.every((label) => label === 'ready to scan'))
-        && await splatoon.locator('.splatoon-raiders-outfit > span').allTextContents().then((counts) => counts.every((count) => count === '0 / 1')),
-      'Splatoon Raiders outfits should be ready to scan without assuming unreported outfit unlocks',
+        && await splatoon.locator('.splatoon-raiders-outfit > small').allTextContents().then((labels) => labels.every((label) => label === 'gift acquired'))
+        && await splatoon.locator('.splatoon-raiders-outfit > span').allTextContents().then((counts) => counts.every((count) => count === '1 / 1')),
+      'Splatoon Raiders outfit tracker did not mark all four confirmed outfit gifts as acquired',
     );
     const amiiboPublicCopy = await splatoon.locator('#amiibo-cabinet').textContent();
     assert(

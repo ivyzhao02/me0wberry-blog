@@ -190,10 +190,10 @@
   ];
 
   const raidersOutfits = [
-    { name: 'bite waders', source: 'any ordinary splatoon amiibo · ready with lime green inkling girl', status: 'hand', obtained: 0, total: 1, icon: 'swim-speed.webp' },
-    { name: 'hohojiro fighting gear', source: 'raiders shiver at home', status: 'hand', obtained: 0, total: 1, icon: 'quick-super-jump.webp' },
-    { name: 'onaga fighting gear', source: 'raiders frye at home', status: 'hand', obtained: 0, total: 1, icon: 'run-speed-up.webp' },
-    { name: 'manta fighting gear', source: 'raiders big man at home', status: 'hand', obtained: 0, total: 1, icon: 'intensify-action.webp' }
+    { name: 'bite waders', source: 'any ordinary splatoon amiibo', status: 'hand', obtained: 1, total: 1, icon: 'swim-speed.webp' },
+    { name: 'hohojiro fighting gear', source: 'raiders shiver at home', status: 'hand', obtained: 1, total: 1, icon: 'quick-super-jump.webp' },
+    { name: 'onaga fighting gear', source: 'raiders frye at home', status: 'hand', obtained: 1, total: 1, icon: 'run-speed-up.webp' },
+    { name: 'manta fighting gear', source: 'raiders big man at home', status: 'hand', obtained: 1, total: 1, icon: 'intensify-action.webp' }
   ];
 
   const statusLabels = {
@@ -462,7 +462,9 @@
     icon.width = 54;
     icon.height = 54;
     icon.decoding = 'async';
-    status.textContent = outfit.status === 'hand' ? 'ready to scan' : statusLabels[outfit.status];
+    status.textContent = outfit.obtained >= outfit.total
+      ? 'gift acquired'
+      : outfit.status === 'hand' ? 'ready to scan' : statusLabels[outfit.status];
     name.textContent = outfit.name;
     source.textContent = outfit.source;
     count.textContent = `${outfit.obtained} / ${outfit.total}`;
