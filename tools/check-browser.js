@@ -287,6 +287,97 @@ async function checkPostStudioAuthentication(browser) {
     assert(new URL(withoutStorage.url()).hash === '', 'Post Studio left the startup credential in the address bar when storage was unavailable');
     await submitFixture(withoutStorage, 'Storage unavailable browser fixture');
 
+    const editing = await newStudioPage();
+    const imageFixture = {
+      name: 'selected-photo.gif',
+      mimeType: 'image/gif',
+      buffer: Buffer.from('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64'),
+    };
+    await editing.goto(`${studioUrl}/#token=${token}`, { waitUntil: 'domcontentloaded' });
+    await editing.locator('#category').selectOption('stubby');
+    await editing.locator('#title').fill('Keep my written draft');
+    await editing.locator('#content').fill('Keep this text when switching categories.');
+    await editing.locator('#optimize-images').uncheck();
+    await editing.locator('#existingImages').fill('old-cat-photo.webp');
+    await editing.locator('#imageUrl').fill('/images/stubby/old-cat-photo.webp');
+    await editing.locator('#images').setInputFiles(imageFixture);
+    assert(await editing.locator('#image-list li').count() === 1, 'Post Studio did not list the selected upload');
+    await editing.locator('#category').selectOption('beauty');
+    assert(
+      await editing.locator('#images').evaluate((input) => input.files.length) === 0
+        && await editing.locator('#image-list li').count() === 0
+        && await editing.locator('#existingImages').inputValue() === ''
+        && await editing.locator('#imageUrl').inputValue() === '',
+      'Post Studio retained uploads or image references after changing categories',
+    );
+    assert(
+      await editing.locator('#title').inputValue() === 'Keep my written draft'
+        && await editing.locator('#content').inputValue() === 'Keep this text when switching categories.'
+        && !(await editing.locator('#optimize-images').isChecked())
+        && (await editing.locator('#image-help').textContent()).includes('images/beauty/'),
+      'Post Studio discarded written content or settings instead of clearing only category-specific images',
+    );
+    await editing.locator('#category').selectOption('stubby');
+    await editing.locator('#category').selectOption('beauty');
+    await submitFixture(editing, 'Category change browser fixture');
+    assert(
+      calls.at(-1).category === 'beauty' && calls.at(-1).images.length === 0
+        && calls.at(-1).existingImages === '' && calls.at(-1).imageUrl === '',
+      'Post Studio submitted images from a previous category after switching back and forth',
+    );
+
+    await editing.locator('#category').selectOption('food');
+    await editing.locator('#existingImages').fill('reused-food-photo.webp');
+    await editing.locator('#imageUrl').fill('/images/food/cover.webp');
+    await editing.locator('#images').setInputFiles(imageFixture);
+    let disabledDuringRequest = false;
+    await editing.route('**/api/create-post', async (route) => {
+      disabledDuringRequest = await editing.locator('#category').isDisabled()
+        && await editing.locator('#images').isDisabled()
+        && await editing.locator('.studio-submit').isDisabled();
+      await route.continue();
+    });
+    await submitFixture(editing, 'Image reset browser fixture');
+    assert(
+      disabledDuringRequest && calls.at(-1).category === 'food'
+        && calls.at(-1).images.length === 1 && calls.at(-1).images[0].name === imageFixture.name
+        && calls.at(-1).existingImages === 'reused-food-photo.webp'
+        && calls.at(-1).imageUrl === '/images/food/cover.webp',
+      'Post Studio changed or omitted its captured form values while creating a post',
+    );
+    assert(
+      await editing.locator('#images').evaluate((input) => input.files.length) === 0
+        && await editing.locator('#image-list li').count() === 0
+        && await editing.locator('#existingImages').inputValue() === ''
+        && await editing.locator('#imageUrl').inputValue() === ''
+        && await editing.locator('#title').inputValue() === 'Image reset browser fixture'
+        && await editing.locator('#category').isEnabled(),
+      'Post Studio did not clear completed image selections while preserving the written draft and restoring the form',
+    );
+
+    await editing.unroute('**/api/create-post');
+    await editing.route('**/api/create-post', (route) => route.fulfill({
+      status: 500,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'Simulated creation failure.' }),
+    }));
+    await editing.locator('#existingImages').fill('retry-photo.webp');
+    await editing.locator('#imageUrl').fill('/images/food/retry.webp');
+    await editing.locator('#images').setInputFiles(imageFixture);
+    const callsBeforeFailure = calls.length;
+    await editing.locator('.studio-submit').click();
+    await editing.waitForFunction(() => document.querySelector('#status').classList.contains('is-error')
+      && !document.querySelector('#category').disabled);
+    assert(
+      calls.length === callsBeforeFailure
+        && await editing.locator('#images').evaluate((input) => input.files.length) === 1
+        && await editing.locator('#image-list li').count() === 1
+        && await editing.locator('#existingImages').inputValue() === 'retry-photo.webp'
+        && await editing.locator('#imageUrl').inputValue() === '/images/food/retry.webp'
+        && await editing.locator('#title').inputValue() === 'Image reset browser fixture',
+      'Post Studio discarded images or written content after a failed submission',
+    );
+
     assert(problems.length === 0, `Post Studio reported browser errors:\n${problems.join('\n')}`);
   } catch (error) {
     // Navigation errors can include the fixture URL; never print a credential.

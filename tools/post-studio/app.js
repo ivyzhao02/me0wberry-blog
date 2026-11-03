@@ -8,6 +8,8 @@ const imageHelp = document.getElementById('image-help');
 const existingImageHelp = document.getElementById('existing-image-help');
 const imageList = document.getElementById('image-list');
 const imageInput = document.getElementById('images');
+const imageUrlEl = document.getElementById('imageUrl');
+const existingImagesEl = document.getElementById('existingImages');
 const optimizeImagesEl = document.getElementById('optimize-images');
 const MAX_IMAGE_DIMENSION = 1920;
 const WEBP_QUALITY = 0.84;
@@ -35,6 +37,7 @@ function loadStudioToken() {
 }
 
 let studioToken = loadStudioToken();
+let isSubmitting = false;
 
 function defaultDateLabel() {
   const now = new Date();
@@ -67,6 +70,13 @@ function updateImageList() {
     item.textContent = `${file.name}${conversionNote}`;
     imageList.appendChild(item);
   });
+}
+
+function clearPostImages() {
+  imageInput.value = '';
+  imageUrlEl.value = '';
+  existingImagesEl.value = '';
+  updateImageList();
 }
 
 function canvasToBlob(canvas, type, quality) {
@@ -109,13 +119,11 @@ function readFileAsDataUrl(file) {
   });
 }
 
-async function buildPayload() {
+async function buildPayload(formData) {
   const selectedFiles = Array.from(imageInput.files);
   if (selectedFiles.length && optimizeImagesEl.checked) setStatus('optimizing images...');
   const preparedFiles = await Promise.all(selectedFiles.map(optimizeImage));
   const files = await Promise.all(preparedFiles.map(readFileAsDataUrl));
-  const formData = new FormData(form);
-
   return {
     category: formData.get('category'),
     title: formData.get('title'),
@@ -141,16 +149,28 @@ window.addEventListener('hashchange', () => {
   else setStatus('Open the private link printed when Post Studio started to unlock this editor.', 'error');
 });
 
-categoryEl.addEventListener('change', updateCategoryFields);
+categoryEl.addEventListener('change', () => {
+  const hadImages = imageInput.files.length || imageUrlEl.value || existingImagesEl.value;
+  clearPostImages();
+  updateCategoryFields();
+  if (hadImages) setStatus('category changed : image selections cleared . written draft kept .');
+});
 imageInput.addEventListener('change', updateImageList);
 optimizeImagesEl.addEventListener('change', updateImageList);
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  if (isSubmitting) return;
   if (!studioToken) {
     setStatus('Open the private link printed when Post Studio started to unlock this editor.', 'error');
     return;
   }
+  // Freeze the destination and draft before asynchronous image processing starts.
+  const formData = new FormData(form);
+  const controls = Array.from(form.elements);
+  isSubmitting = true;
+  form.setAttribute('aria-busy', 'true');
+  controls.forEach((control) => { control.disabled = true; });
   setStatus('generating post...');
 
   try {
@@ -160,14 +180,19 @@ form.addEventListener('submit', async (event) => {
         'Content-Type': 'application/json',
         'X-Post-Studio-Token': studioToken,
       },
-      body: JSON.stringify(await buildPayload()),
+      body: JSON.stringify(await buildPayload(formData)),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Could not create post.');
 
+    clearPostImages();
     const images = data.images.length ? `\nImages:\n${data.images.join('\n')}` : '';
     setStatus(`Post created:\n${data.post}\n\nIndex updated:\n${data.index}${images}`, 'success');
   } catch (err) {
     setStatus(err.message, 'error');
+  } finally {
+    controls.forEach((control) => { control.disabled = false; });
+    form.removeAttribute('aria-busy');
+    isSubmitting = false;
   }
 });
