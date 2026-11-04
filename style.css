@@ -1652,6 +1652,12 @@
 
       .panel-fullsize .panel-titlebar { cursor: default; }
       .panel-fullsize .panel-resize { display: none; }
+      /* The fixed taskbar must not cover the final item in a scrollable window. */
+      .panel-fullsize .panel-body {
+        padding-bottom: calc(var(--taskbar-height) + 16px);
+        scroll-padding-bottom: calc(var(--taskbar-height) + 16px);
+      }
+      #panel-bio.panel-fullsize .panel-body { padding-bottom: calc(var(--taskbar-height) + 36px); }
       #panel-bio .panel-body { padding: clamp(20px, 3vw, 36px); }
       #panel-bio .tab-content {
         width: min(760px, 100%);
@@ -3130,8 +3136,19 @@
     .ilmbf-trigger:hover { color: var(--pink); text-decoration: none; }
 
     /* ── him-trigger (likes list) ── */
-    .him-trigger { color: var(--pink); cursor: inherit !important; }
+    .him-trigger { color: var(--pink); cursor: var(--cursor-pointer); }
     .him-trigger:hover { color: #c0506a; }
+    .him-trigger:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
+    .favs-him {
+      display: block;
+      width: 100%;
+      padding: 8px 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      font-size: 13px;
+      text-align: center;
+    }
 
     /* ── Stubby Slideshow ── */
     .stubby-slideshow {

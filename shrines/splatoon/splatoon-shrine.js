@@ -575,6 +575,11 @@
 
   renderAmiiboTracker();
 
+  window.createShrineCarousel(document.querySelector('[data-splatoon-gear-carousel]'), {
+    previousLabel: 'previous gear photoshoot',
+    nextLabel: 'next gear photoshoot'
+  });
+
   const photoCount = document.getElementById('splatoon-photo-count');
   if (photoCount) {
     const photos = new Set(Array.from(document.querySelectorAll('[data-splatoon-full]'), (button) => button.dataset.splatoonFull));

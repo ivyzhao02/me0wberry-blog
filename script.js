@@ -14,7 +14,7 @@ window.me0wberryPageLastEdited = Object.freeze({
   "shrines/league/index.html": "2026-10-06T13:28:41-04:00",
   "shrines/pokemon/index.html": "2026-10-20T18:36:43-04:00",
   "shrines/sanrio/index.html": "2026-10-20T18:36:43-04:00",
-  "shrines/splatoon/index.html": "2026-11-04T00:23:12-05:00",
+  "shrines/splatoon/index.html": "2026-11-04T01:01:43-05:00",
   "shrines/stubby/index.html": "2026-10-20T18:36:43-04:00",
   "shrines/warframe/index.html": "2026-10-20T18:36:43-04:00",
   "toybox/index.html": "2026-10-25T20:07:38-04:00",
@@ -1544,6 +1544,27 @@ window.me0wberryPageLastEdited = Object.freeze({
       // bio opens at top-left
       openPanel('panel-bio');
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const cactus = document.getElementById('panel-cactus');
+      if (!cactus) return;
+
+      document.querySelectorAll('[data-cactus-link]').forEach(link => {
+        link.addEventListener('click', event => {
+          if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          openPanel('panel-cactus');
+        });
+      });
+
+      // Pages without the easter egg link back to the home desktop to open it.
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('cactus') === '1') {
+        openPanel('panel-cactus');
+        url.searchParams.delete('cactus');
+        history.replaceState(null, '', url.href);
+      }
+    });
 
     // The player defaults open, but an explicit close remains in effect for this browser session.
     subscribeToPlayerVisibility(function(isOpen) {

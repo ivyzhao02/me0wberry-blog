@@ -68,6 +68,27 @@
       openPanel('panel-bio');
     }
 
+    document.addEventListener('DOMContentLoaded', function() {
+      const cactus = document.getElementById('panel-cactus');
+      if (!cactus) return;
+
+      document.querySelectorAll('[data-cactus-link]').forEach(link => {
+        link.addEventListener('click', event => {
+          if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          openPanel('panel-cactus');
+        });
+      });
+
+      // Pages without the easter egg link back to the home desktop to open it.
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('cactus') === '1') {
+        openPanel('panel-cactus');
+        url.searchParams.delete('cactus');
+        history.replaceState(null, '', url.href);
+      }
+    });
+
     // The player defaults open, but an explicit close remains in effect for this browser session.
     subscribeToPlayerVisibility(function(isOpen) {
       const player = document.getElementById('panel-player');

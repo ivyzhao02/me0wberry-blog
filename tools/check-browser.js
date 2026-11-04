@@ -113,6 +113,44 @@ async function installStaleSearchBundle(page) {
   }));
 }
 
+async function checkCactusLinks(page) {
+  const mobile = page.viewportSize().width <= 768;
+  if (mobile) await page.locator('#mobile-back').click();
+  const sidebarLink = page.locator('#sidebar-sub [data-cactus-link]');
+  await sidebarLink.focus();
+  await sidebarLink.press('Enter');
+  assert(await page.locator('#panel-cactus').isVisible(), 'sidebar easter egg did not open with the keyboard');
+  await page.locator('#panel-cactus .panel-close').click();
+
+  for (const playerOpen of (mobile ? [false] : [true, false])) {
+    if (!mobile) {
+      await page.evaluate((open) => open ? openPanel('panel-player') : closePanel('panel-player'), playerOpen);
+    }
+    await page.evaluate(() => openPanel('panel-favs'));
+    const footer = page.locator('#panel-favs .favs-him');
+    await footer.scrollIntoViewIfNeeded();
+    const reachable = await footer.evaluate((button) => {
+      const bounds = button.getBoundingClientRect();
+      const topmost = document.elementFromPoint(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+      return {
+        clickable: button === topmost || button.contains(topmost),
+        pink: getComputedStyle(button).color === getComputedStyle(document.querySelector('#bio-likes .him-trigger')).color,
+      };
+    });
+    assert(reachable.clickable, `Favs footer is covered or unreachable with player ${playerOpen ? 'open' : 'closed'}`);
+    assert(reachable.pink, 'Favs easter egg does not use the Likes link pink');
+    await footer.click();
+    assert(await page.locator('#panel-cactus').isVisible(), 'Favs easter egg did not open by pointer');
+    await page.locator('#panel-cactus .panel-close').click();
+  }
+  assert(
+    await sidebarLink.evaluate((link) => getComputedStyle(link).color === getComputedStyle(document.querySelector('#bio-likes .him-trigger')).color),
+    'sidebar easter egg does not use the Likes link pink',
+  );
+  if (!mobile) await page.evaluate(() => openPanel('panel-player'));
+  await page.evaluate(() => openPanel('panel-favs'));
+}
+
 function publicPathForFile(filePath) {
   const relative = path.relative(ROOT, filePath).split(path.sep).join('/');
   if (relative === 'index.html') return '/?entered=1';
@@ -520,7 +558,11 @@ async function run() {
     assert(!bioMetrics.resizeVisible, 'full-sized Hello window still exposes its resize handle');
     const currentCopy = await desktop.locator('#bio-about .bio-current-card').textContent();
     assert(currentCopy.includes('pokémon scarlet / splatoon 3 / aram mayhem'), 'Hello playing copy is out of date');
-    assert(currentCopy.includes('ADÉLA / splatoon soundtracks / 楽音'), 'Hello listening copy is out of date');
+    assert(currentCopy.includes('aapi artists / splatoon soundtracks / 楽音'), 'Hello listening copy is out of date');
+    assert(currentCopy.includes('projects ˖° / this and that :3'), 'Hello helping copy is out of date');
+    assert(await desktop.locator('.currently-row').filter({ hasText: 'helping' }).locator('a, button, [onclick]').count() === 0, 'Hello helping copy still opens a project link');
+    assert((await desktop.locator('#bio-likes').textContent()).includes('disorganised chaos'), 'Hello dislikes are missing the chosen new entry');
+    assert((await desktop.locator('#bio-dni').textContent()).includes('people who are willfully ignorant / unwilling to educate themselves'), 'DNI list is missing the requested addition');
     assert(await desktop.locator('#bio-likes button').filter({ hasText: 'dni list' }).count() === 1, 'Hello dislikes do not link to the DNI list');
     assert(!(await desktop.locator('#bio-likes').textContent()).includes('maga / trumpies'), 'Hello dislikes still duplicate the DNI copy');
 
@@ -564,6 +606,13 @@ async function run() {
     assert(await desktop.locator('#bio-tab-likes').getAttribute('aria-selected') === 'true', 'Hello tabs did not support arrow-key selection');
     assert(await desktop.locator('#bio-likes').isVisible(), 'Hello tab panel did not follow arrow-key selection');
     assert(await desktop.locator('#bio-likes .reserved-memory-frame').isVisible(), 'Likes tab is missing its reserved picture window');
+    const musicLike = desktop.locator('#bio-likes button').filter({ hasText: 'music' });
+    assert(await musicLike.count() === 1, 'Likes list is missing its music link');
+    assert((await desktop.locator('#panel-bio').textContent()).split('(๑˃́ꇴ˂̀๑)').length === 2, 'music kaomoji is repeated elsewhere in Hello');
+    await musicLike.click();
+    assert(await desktop.locator('#panel-music').isVisible(), 'Likes music link did not open the music window');
+    await desktop.evaluate(() => openPanel('panel-bio'));
+    await desktop.locator('#bio-tab-likes').click();
     await desktop.locator('#bio-likes button').filter({ hasText: 'dni list' }).click();
     assert(await desktop.locator('#bio-tab-dni').getAttribute('aria-selected') === 'true', 'Likes DNI shortcut did not select the DNI tab');
     assert(await desktop.locator('#bio-dni .reserved-memory-frame').isVisible(), 'DNI tab is missing its reserved picture window');
@@ -644,6 +693,7 @@ async function run() {
       Math.max(favsBounds.plushBottom, favsBounds.placeholderBottom) <= favsBounds.bodyBottom + 1,
       'Favs keepsake tray overflowed the default desktop window',
     );
+    await checkCactusLinks(desktop);
     await favsPanel.locator('.panel-close').click();
     const playerPanel = desktop.locator('#panel-player');
     await desktop.locator('#sidebar .nav-item').filter({ hasText: 'player' }).click();
@@ -776,12 +826,14 @@ async function run() {
     await compactFavs.locator('#sidebar [data-opens="panel-favs"]').click();
     assert(await compactFavs.locator('.favs-keepsake-captura').isVisible(), 'compact Favs layout hid its primary keepsake');
     assert(!await compactFavs.locator('.favs-keepsake-tray').isVisible(), 'compact Favs layout showed its secondary keepsake tray');
+    await checkCactusLinks(compactFavs);
     await compactFavs.close();
 
     const mobile = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 390, height: 844 });
     await mobile.locator('#sidebar [data-opens="panel-favs"]').click();
     assert(await mobile.locator('.favs-keepsake-captura').isVisible(), 'mobile Favs layout hid its primary keepsake');
     assert(!await mobile.locator('.favs-keepsake-tray').isVisible(), 'mobile Favs layout showed its secondary keepsake tray');
+    await checkCactusLinks(mobile);
     await mobile.locator('#mobile-back').click();
     const [mobileGifypetsPopup] = await Promise.all([
       mobile.waitForEvent('popup'),
@@ -822,6 +874,15 @@ async function run() {
     ]);
     assert(new URL(directMobileInfo.url()).pathname === '/welcome/index.html', 'direct-entry mobile Back did not return to the site entrance');
     await directMobileInfo.close();
+
+    for (const [entry, destination] of [['/info/', '/index.html'], ['/shrines/splatoon/', '/index.html'], ['/archive/food/', '/archive/food/']]) {
+      const cactusEntry = await openCheckedPage(browser, `${baseUrl}${entry}`, { width: 1100, height: 760 });
+      await cactusEntry.locator('#sidebar-sub [data-cactus-link]').click();
+      await cactusEntry.locator('#panel-cactus').waitFor({ state: 'visible' });
+      assert(new URL(cactusEntry.url()).pathname === destination, `easter egg took the wrong path from ${entry}`);
+      assert(!new URL(cactusEntry.url()).searchParams.has('cactus'), 'one-time easter egg flag was left in the URL');
+      await cactusEntry.close();
+    }
 
     const themed = await openCheckedPage(browser, `${baseUrl}/system/`, { width: 1280, height: 900 });
     assert(await themed.locator('.page-last-edited').count() === 0, 'System changelog received a redundant last-edited label');
@@ -1237,7 +1298,7 @@ async function run() {
     assert(await splatoon.locator('[data-ranked-panel]').count() === 4, 'Splatoon ranked scrapbook did not render all gallery panels');
     assert(
       (await splatoon.locator('#panel-splatoon-shrine').textContent()).includes('splatoon 3 + dlc . splatoon raiders , splatoon 2 + dlc')
-        && (await splatoon.locator('#panel-splatoon-shrine').textContent()).includes('bloblobber one trick')
+        && (await splatoon.locator('#panel-splatoon-shrine').textContent()).includes('bloblobber & aerospray rg gaming')
         && !(await splatoon.locator('.pixel-tag').first().textContent()).includes('draft'),
       'Splatoon shrine did not preserve the approved public copy',
     );
@@ -1329,6 +1390,9 @@ async function run() {
       );
     }
     const gearShowcaseImage = splatoon.locator('.splatoon-gear-showcase img');
+    const gearGallery = splatoon.locator('[data-splatoon-gear-carousel]');
+    assert(await gearGallery.locator('[data-shrine-carousel-panel]').count() === 1, 'amiibo gear carousel lost the existing photoshoot');
+    assert(await gearGallery.locator('.shrine-carousel-controls').isHidden(), 'single photoshoot showed unnecessary carousel controls');
     await gearShowcaseImage.scrollIntoViewIfNeeded();
     await splatoon.waitForFunction(() => {
       const image = document.querySelector('.splatoon-gear-showcase img');
@@ -1338,6 +1402,34 @@ async function run() {
       await gearShowcaseImage.evaluate((image) => image.naturalWidth === 1280 && image.naturalHeight === 720),
       'Splatoon completed amiibo gear showcase did not decode at its expected size',
     );
+    await splatoon.evaluate(() => {
+      const gallery = document.querySelector('[data-splatoon-gear-carousel]');
+      const fixture = document.createElement('div');
+      fixture.id = 'gear-carousel-fixture';
+      fixture.setAttribute('aria-label', 'test gear photoshoots');
+      for (let index = 0; index < 2; index++) {
+        const panel = gallery.querySelector('[data-shrine-carousel-panel]').cloneNode(true);
+        panel.removeAttribute('data-carousel-loaded');
+        panel.querySelector('h3').textContent = `test outfit ${index + 1}`;
+        const image = panel.querySelector('img');
+        image.dataset.carouselSrc = image.src;
+        image.removeAttribute('src');
+        fixture.appendChild(panel);
+      }
+      gallery.after(fixture);
+      window.createShrineCarousel(fixture, { previousLabel: 'previous gear photoshoot', nextLabel: 'next gear photoshoot' });
+    });
+    const gearFixture = splatoon.locator('#gear-carousel-fixture');
+    assert(await gearFixture.locator('[hidden] img:not([src])').count() === 1, 'gear carousel loaded a future slide before it was opened');
+    await gearFixture.locator('[data-shrine-carousel-next]').click();
+    assert((await gearFixture.locator('[data-shrine-carousel-panel]:not([hidden]) h3').textContent()) === 'test outfit 2', 'gear carousel did not advance the photo and notes together');
+    assert(await gearFixture.locator('[data-shrine-carousel-panel]:not([hidden]) img[src]').count() === 1, 'gear carousel did not load the newly selected photo');
+    await gearFixture.locator('[data-shrine-carousel-next]').press('ArrowRight');
+    assert((await gearFixture.locator('.shrine-carousel-status').textContent()) === '01 / 02', 'gear carousel did not loop forward using the keyboard');
+    await gearFixture.locator('[data-shrine-carousel-prev]').click();
+    assert((await gearFixture.locator('.shrine-carousel-status').textContent()) === '02 / 02', 'gear carousel did not loop backward');
+    await gearFixture.evaluate((fixture) => fixture.remove());
+    assert(!(await splatoon.locator('.splatoon-raiders-heading').textContent()).includes('next in line'), 'completed Raiders gifts still show a queue heading');
     assert(await splatoon.locator('.splatoon-raiders-outfit').count() === 4, 'Splatoon Raiders outfit queue did not render all four outfits');
     assert(
       await splatoon.locator('.splatoon-raiders-outfit.is-hand').count() === 4
