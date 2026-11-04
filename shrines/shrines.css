@@ -3936,6 +3936,11 @@ a.shrine-cabinet-card:hover {
   gap: 11px;
 }
 
+.splatoon-proud-matches > .splatoon-ranked-layout + .splatoon-ranked-layout,
+.splatoon-shell-out {
+  margin-top: 16px;
+}
+
 .splatoon-ranked-layout.is-text-only {
   grid-template-columns: minmax(0, 1fr);
 }

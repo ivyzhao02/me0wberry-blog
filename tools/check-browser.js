@@ -1222,9 +1222,18 @@ async function run() {
       { width: 1280, height: 900 },
       installStaleSearchBundle,
     );
-    assert(await splatoon.locator('#splatoon-smallfry-grid .splatoon-shot').count() === 5, 'Splatoon shrine did not render all Smallfry photos');
-    assert(await splatoon.locator('.splatoon-photo-roll').count() === 4, 'Splatoon shrine did not render all plaza photo rolls');
-    assert(await splatoon.locator('.splatoon-roll-grid .splatoon-shot').count() === 13, 'Splatoon shrine did not preserve all plaza screenshots');
+    assert(await splatoon.locator('#splatoon-smallfry-grid .splatoon-shot').count() === 8, 'Splatoon shrine did not render all Smallfry photos');
+    assert(await splatoon.locator('#splatoon-plaza-rolls .splatoon-photo-roll').count() === 4, 'Splatoon shrine did not render all plaza photo rolls');
+    assert(await splatoon.locator('#splatoon-plaza-rolls .splatoon-roll-grid .splatoon-shot').count() === 13, 'Splatoon shrine did not preserve all plaza screenshots');
+    assert(await splatoon.locator('#splatoon-festival-rolls .splatoon-roll-grid .splatoon-shot').count() === 3, 'Splatoon shrine did not render all Splatoween screenshots');
+    assert(await splatoon.locator('#splatoon-photo-count').textContent() === '31 pictures', 'Splatoon shrine overview did not count every unique screenshot');
+    assert(
+      await splatoon.locator('.splatoon-proud-matches > .splatoon-ranked-layout').count() === 2
+        && await splatoon.locator('#splatoon-museum-defeat').textContent().then((text) => (
+          text.includes('18 / splatted 9 times') && text.includes('6 / 2000p inked') && text.includes('72 / 86')
+        )),
+      'Splatoon match keepsakes did not preserve the Museum defeat screenshot and its recorded performance',
+    );
     assert(await splatoon.locator('[data-ranked-panel]').count() === 4, 'Splatoon ranked scrapbook did not render all gallery panels');
     assert(
       (await splatoon.locator('#panel-splatoon-shrine').textContent()).includes('splatoon 3 + dlc . splatoon raiders , splatoon 2 + dlc')
@@ -1253,7 +1262,7 @@ async function run() {
     );
     const amiiboSummary = await splatoon.locator('#splatoon-amiibo-summary').textContent();
     assert(
-      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('59 / 76'),
+      amiiboSummary.includes('25 / 29') && amiiboSummary.includes('86.2%') && amiiboSummary.includes('69 / 76'),
       'Splatoon amiibo summary did not preserve the secured-figure and unlocked-gear totals',
     );
     assert(
@@ -1278,16 +1287,16 @@ async function run() {
       ['octoling octopus', 3, 3],
       ['callie', 3, 3],
       ['marie', 3, 3],
-      ['yellow inkling', 2, 3],
-      ['blue octoling', 2, 3],
-      ['smallfry', 2, 3],
-      ['original shiver', 2, 3],
-      ['original frye', 2, 3],
-      ['original big man', 2, 3],
-      ['alterna callie', 2, 3],
-      ['alterna marie', 2, 3],
-      ['side order pearl', 2, 3],
-      ['side order marina', 2, 3],
+      ['yellow inkling', 3, 3],
+      ['blue octoling', 3, 3],
+      ['smallfry', 3, 3],
+      ['original shiver', 3, 3],
+      ['original frye', 3, 3],
+      ['original big man', 3, 3],
+      ['alterna callie', 3, 3],
+      ['alterna marie', 3, 3],
+      ['side order pearl', 3, 3],
+      ['side order marina', 3, 3],
     ];
     for (const [name, obtained, total] of updatedGearProgress) {
       const card = splatoon.locator(`[data-gear-source="${name}"]`);
@@ -1300,14 +1309,18 @@ async function run() {
       );
     }
     assert(
-      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '59'
+      await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuenow') === '69'
         && await splatoon.locator('.splatoon-collection-meter').nth(0).getAttribute('aria-valuemax') === '76'
         && await splatoon.locator('.splatoon-collection-meter').nth(1).getAttribute('aria-valuenow') === '69',
-      'Splatoon gear progress meters did not retain the 59 acquired and 69 available-source totals',
+      'Splatoon gear progress meters did not retain the 69 acquired and 69 available-source totals',
     );
     assert(
       await splatoon.locator('#splatoon-gear-missing .is-obtained').count() === 0,
       'Splatoon reward update incorrectly marked wishlist-only gear as acquired',
+    );
+    assert(
+      await splatoon.locator('#splatoon-gear-secured .splatoon-gear-pieces span:not(.is-obtained)').count() === 0,
+      'Splatoon reward tracker left unacquired pieces in an owned reward set after all headgear was confirmed',
     );
     for (const name of ['original shiver', 'original frye', 'original big man']) {
       assert(
@@ -1390,6 +1403,31 @@ async function run() {
       'Splatoon expanded screenshot did not decode',
     );
     await splatoon.locator('#splatoon-photo-dialog .stubby-memory-close').click();
+    const festivalRoll = splatoon.locator('#splatoon-festival-rolls .splatoon-photo-roll');
+    assert(await festivalRoll.locator('.splatoon-roll-grid img[src]').count() === 0, 'Splatoween photos loaded before opening the roll');
+    await festivalRoll.locator('summary').click();
+    await splatoon.waitForFunction(() => Array.from(document.querySelectorAll('#splatoon-festival-rolls .splatoon-roll-grid img'))
+      .every((image) => image.complete && image.naturalWidth === 1280 && image.naturalHeight === 720));
+    assert(
+      await festivalRoll.locator('.splatoon-roll-grid img[src]').count() === 3
+        && await festivalRoll.locator('.splatoon-shot').nth(1).textContent().then((text) => text.includes('neon stage lights'))
+        && await festivalRoll.locator('.splatoon-shot').nth(2).locator('img').getAttribute('alt').then((text) => !text.includes('bf')),
+      'Splatoween roll did not load its three images with individual captions and accurate solo-photo descriptions',
+    );
+    const newKeepsakePhotos = [
+      { selector: '#splatoon-festival-rolls .splatoon-shot:last-child', file: 'splatoween-2026-deep-cut.webp' },
+      { selector: '#splatoon-museum-defeat [data-splatoon-full]', file: 'anarchy-museum-defeat.webp' },
+      { selector: '#splatoon-shell-out-jackpot [data-splatoon-full]', file: 'shell-out-chunks-jackpot.webp' },
+    ];
+    for (const photo of newKeepsakePhotos) {
+      await splatoon.locator(photo.selector).click();
+      await splatoon.waitForFunction((file) => {
+        const image = document.getElementById('splatoon-photo-large');
+        return image.src.endsWith(file) && image.complete && image.naturalWidth === 1280 && image.naturalHeight === 720;
+      }, photo.file);
+      assert(await splatoon.locator('#splatoon-photo-dialog').isVisible(), `Splatoon viewer did not open ${photo.file}`);
+      await splatoon.locator('#splatoon-photo-dialog .stubby-memory-close').click();
+    }
     assert(
       await splatoon.locator('#splatoon-post-list').getByText(latestSplatoonTitle, { exact: false }).count() === 1,
       'Splatoon shrine preferred a stale bundled index over the current search index',
@@ -1433,6 +1471,12 @@ async function run() {
     assert(
       await mobileSplatoon.locator('.splatoon-photo-roll[open]').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'open Splatoon photo roll overflowed horizontally on mobile',
+    );
+    await mobileSplatoon.locator('#splatoon-festival-rolls summary').click();
+    assert(
+      await mobileSplatoon.locator('#lobby-keepsakes').evaluate((element) => element.scrollWidth <= element.clientWidth)
+        && await mobileSplatoon.locator('#splatoon-museum-defeat').evaluate((element) => element.scrollWidth <= element.clientWidth),
+      'new Splatoon keepsakes overflowed horizontally on mobile',
     );
     await mobileSplatoon.close();
 

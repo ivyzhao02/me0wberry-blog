@@ -40,6 +40,24 @@
       title: 'smallfry on the platform 2',
       note: 'october 20 / splatsville',
       alt: 'Smallfry looking upward while posing with my Inkling in Splatsville'
+    },
+    {
+      file: 'smallfry-on-pole-2026-10-26-01.webp',
+      title: 'smallfry on a pole',
+      note: 'october 26 / found another perch :3',
+      alt: 'My Inkling standing beside Smallfry perched on a striped pole in Splatsville'
+    },
+    {
+      file: 'smallfry-on-pole-2026-10-26-02.webp',
+      title: 'pole photo 2',
+      note: 'october 26 / a closer look',
+      alt: 'A close-up of my Inkling and Smallfry opening its mouth while sitting on the pole'
+    },
+    {
+      file: 'smallfry-on-pole-2026-10-26-03.webp',
+      title: 'pole photo 3',
+      note: 'october 26 / one more face ♡',
+      alt: 'My Inkling posing beside Smallfry looking toward the camera from the pole'
     }
   ];
 
@@ -90,6 +108,31 @@
       ]
     }
   ];
+
+  const festivalRoll = {
+    date: 'splatoween 2026',
+    title: 'splatoween in splatsville',
+    note: 'one with bf + a stop to watch the stages ♡',
+    preview: 'splatoween-2026-plaza-bf.webp',
+    files: [
+      {
+        file: 'splatoween-2026-plaza-bf.webp',
+        title: 'splatoween with bf',
+        note: 'november 1 , 2026 / splatsville',
+        alt: 'My Inkling and my bf posing in orange Splatfest shirts on the Splatsville steps during Splatoween'
+      },
+      {
+        file: 'splatoween-2026-neon-stage.webp',
+        title: 'neon stage lights',
+        alt: 'My Inkling watching two performers beneath bright green and orange Splatoween stage lights'
+      },
+      {
+        file: 'splatoween-2026-deep-cut.webp',
+        title: 'deep cut at splatoween',
+        alt: 'My Inkling watching Deep Cut perform in Halloween costumes on the decorated Splatsville stage'
+      }
+    ]
+  };
 
   const amiiboEras = [
     {
@@ -172,16 +215,16 @@
     { name: 'octoling girl', figures: 'figure at home', status: 'hand', obtained: 4, total: 4 },
     { name: 'octoling boy', figures: 'figure at home', status: 'hand', obtained: 3, total: 3 },
     { name: 'octoling octopus', figures: 'figure at home', status: 'hand', obtained: 3, total: 3 },
-    { name: 'yellow inkling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 2, total: 3 },
-    { name: 'blue octoling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 2, total: 3 },
-    { name: 'smallfry', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 2, total: 3 },
-    { name: 'original shiver', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 2, total: 3 },
-    { name: 'original frye', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 2, total: 3 },
-    { name: 'original big man', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 2, total: 3 },
-    { name: 'alterna callie', figures: 'alterna figure at home', status: 'hand', obtained: 2, total: 3 },
-    { name: 'alterna marie', figures: 'alterna figure at home', status: 'hand', obtained: 2, total: 3 },
-    { name: 'side order pearl', figures: 'side order figure at home', status: 'hand', obtained: 2, total: 3 },
-    { name: 'side order marina', figures: 'side order figure at home', status: 'hand', obtained: 2, total: 3 }
+    { name: 'yellow inkling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'blue octoling', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'smallfry', figures: 'splatoon 3 figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'original shiver', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 3, total: 3 },
+    { name: 'original frye', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 3, total: 3 },
+    { name: 'original big man', figures: 'original + raiders figures at home · shared rewards', status: 'hand', obtained: 3, total: 3 },
+    { name: 'alterna callie', figures: 'alterna figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'alterna marie', figures: 'alterna figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'side order pearl', figures: 'side order figure at home', status: 'hand', obtained: 3, total: 3 },
+    { name: 'side order marina', figures: 'side order figure at home', status: 'hand', obtained: 3, total: 3 }
   ];
 
   const missingGearGroups = [
@@ -257,11 +300,12 @@
   }
 
   function makeRollPhoto(file, index, roll) {
+    const photo = typeof file === 'string' ? { file } : file;
     return makePhotoButton({
-      file,
-      title: `${roll.title} / photo ${index + 1}`,
-      note: roll.date,
-      alt: `My Inkling and my bf's Inkling posing together in Splatsville on ${roll.date}`
+      file: photo.file,
+      title: photo.title || `${roll.title} / photo ${index + 1}`,
+      note: photo.note || roll.date,
+      alt: photo.alt || `My Inkling and my bf's Inkling posing together in Splatsville on ${roll.date}`
     }, index, 'plaza cam', { defer: false });
   }
 
@@ -313,6 +357,9 @@
   if (plazaRollContainer) {
     plazaRolls.forEach((roll) => plazaRollContainer.appendChild(makePhotoRoll(roll)));
   }
+
+  const festivalRollContainer = document.getElementById('splatoon-festival-rolls');
+  if (festivalRollContainer) festivalRollContainer.appendChild(makePhotoRoll(festivalRoll));
 
   function makeCollectionMeter(label, value, total, note) {
     const meter = document.createElement('div');
@@ -513,7 +560,7 @@
 
     erasContainer.replaceChildren(...amiiboEras.map(makeAmiiboEra));
     gearOverview.replaceChildren(
-      makeCollectionMeter('gear gifts acquired', gearObtained, allGearTotal, 'all my splatoon 1 + 2 sets complete · splatoon 3 clothes home , headgear next ♡'),
+      makeCollectionMeter('gear gifts acquired', gearObtained, allGearTotal, 'all my amiibo reward sets complete · original pearl + marina gifts still on my wishlist ♡'),
       makeCollectionMeter('gifts i can acquire', securedGearTotal, allGearTotal, `the figures at home + on the way can give me ${securedGearTotal} unique gear pieces`)
     );
     securedGearContainer.replaceChildren(...securedGearGroups.map(makeGearCard));
