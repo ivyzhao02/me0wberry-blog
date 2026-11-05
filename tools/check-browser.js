@@ -1899,7 +1899,13 @@ async function run() {
     );
     await mobilePersona.close();
 
-    const toybox = await openCheckedPage(browser, `${baseUrl}/toybox/`, { width: 1280, height: 900 });
+    const toybox = await openCheckedPage(browser, `${baseUrl}/toybox/`, { width: 1280, height: 900 }, async (page) => {
+      await page.addInitScript(() => {
+        Object.defineProperty(navigator, 'clipboard', { value: {
+          writeText: async (value) => { window.testCopiedKaomoji = value; },
+        } });
+      });
+    });
     assert(await toybox.locator('.page-nav-link').count() === 1, 'trinkets does not use the shared page navigation bubble');
     assert(
       await toybox.locator('.page-nav-link').evaluate((element) => getComputedStyle(element).borderRadius === '999px'),
@@ -1924,6 +1930,47 @@ async function run() {
     assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 38, 'sweet kaomoji shelf did not expand');
     await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji-toggle').click();
     assert(await toybox.locator('[data-kaomoji-group="sweet"] .toybox-kaomoji:visible').count() === 8, 'sweet kaomoji shelf did not collapse');
+    await toybox.locator('[data-kaomoji-group="cats"] .toybox-kaomoji-toggle').click();
+    const lunaFace = toybox.locator('[data-kaomoji-source="luna-town"]').first();
+    await lunaFace.hover();
+    const creditsBubble = toybox.locator('#trinket-credit-bubble');
+    await creditsBubble.waitFor({ state: 'visible' });
+    assert((await creditsBubble.textContent()).includes('Luna Town kaomoji shrine'), 'kaomoji hover credits lost their source');
+    await creditsBubble.hover();
+    await toybox.waitForTimeout(350);
+    assert(await creditsBubble.isVisible(), 'kaomoji credits vanished when the pointer moved onto the bubble');
+    await lunaFace.click();
+    assert(await toybox.evaluate(() => window.testCopiedKaomoji) === await lunaFace.locator('.toybox-kaomoji-value').textContent(), 'hover credits interfered with click-to-copy');
+    await toybox.keyboard.press('Escape');
+    assert(await creditsBubble.isHidden(), 'Escape did not dismiss hover credits');
+    const faceCreditsButton = lunaFace.locator('..').locator('.toybox-kaomoji-credits');
+    await faceCreditsButton.focus();
+    await faceCreditsButton.press('Enter');
+    assert(await creditsBubble.isVisible(), 'kaomoji credit control did not open with the keyboard');
+    await creditsBubble.locator('.trinket-credit-close').click();
+    assert(await creditsBubble.isHidden(), 'credit close button reopened the bubble');
+    assert(await faceCreditsButton.evaluate(button => button === document.activeElement), 'credit close did not return focus to its opener');
+    assert(await toybox.locator('[data-luna-id]').count() === 174, 'Luna Town selections are missing or duplicated');
+    const lunaCounts = { stamp: 30, background: 21, icon: 34, pixel: 65, divider: 17, frame: 2, blinkie: 1, button: 4 };
+    for (const [kind, count] of Object.entries(lunaCounts)) {
+      assert(await toybox.locator(`[data-luna-kind="${kind}"] [data-luna-id]`).count() === count, `Luna Town ${kind} shelf lost a selected item`);
+      assert(await toybox.locator(`[data-luna-kind="${kind}"] .toybox-luna-card:visible`).count() === Math.min(6, count), `Luna Town ${kind} preview is not compact`);
+    }
+    const originalState = await toybox.evaluate(() => window.MEOWBERRY_LUNA_GRAPHICS.every(item => !item.flashWarning || document.querySelector(`[data-luna-id="${item.id}"] img`).src.endsWith(item.preview)));
+    assert(originalState, 'a flash-warning graphic played without an explicit original-file action');
+    const artistItem = await toybox.evaluate(() => window.MEOWBERRY_LUNA_GRAPHICS.find(item => item.author));
+    await toybox.locator(`[data-filter="${artistItem.kind}"]`).click();
+    await toybox.locator(`[data-luna-id="${artistItem.id}"]`).click();
+    assert((await creditsBubble.textContent()).includes(artistItem.author.text), 'explicit original author credit was not preserved');
+    assert(await creditsBubble.locator('a[href$="undefined"]').count() === 0, 'unknown credit fields created broken links');
+    await toybox.keyboard.press('Escape');
+    await toybox.emulateMedia({ reducedMotion: 'reduce' });
+    await toybox.waitForFunction(() => window.MEOWBERRY_LUNA_GRAPHICS.every(item => document.querySelector(`[data-luna-id="${item.id}"] img`).src.endsWith(item.preview)));
+    await toybox.emulateMedia({ reducedMotion: 'no-preference' });
+    await toybox.locator('[data-filter="all"]').click();
+    await toybox.locator('[data-luna-kind="stamp"] .toybox-button-preview button').click();
+    assert(await toybox.locator('[data-luna-kind="stamp"] .toybox-luna-card:visible').count() === 30, 'open-all stamp control did not reveal the full shelf');
+    await toybox.locator('[data-filter="all"]').click();
     assert(
       await toybox.locator('body').evaluate((element) => getComputedStyle(element).cursor.includes('luna-heart.gif')),
       'Luna Town heart cursor did not load',
@@ -1946,6 +1993,25 @@ async function run() {
       'blinkie filter did not reveal the full collection',
     );
     await toybox.close();
+
+    const mobileTrinkets = await openCheckedPage(browser, `${baseUrl}/toybox/`, { width: 390, height: 844 });
+    await mobileTrinkets.locator('.toybox-kaomoji-credits:visible').first().click();
+    assert(await mobileTrinkets.locator('#trinket-credit-bubble').isVisible(), 'phone kaomoji credits require hover');
+    await mobileTrinkets.locator('.trinket-credit-close').click();
+    await mobileTrinkets.locator('[data-filter="stamp"]').click();
+    await mobileTrinkets.locator('[data-luna-kind="stamp"] [data-luna-id]').first().click();
+    const creditBounds = await mobileTrinkets.locator('#trinket-credit-bubble').boundingBox();
+    assert(creditBounds.x >= 0 && creditBounds.x + creditBounds.width <= 390 && creditBounds.y >= 0 && creditBounds.y + creditBounds.height <= 844, 'phone credit bubble is clipped outside the viewport');
+    assert(await mobileTrinkets.locator('#main').evaluate(element => element.scrollWidth <= element.clientWidth), 'new trinket shelves overflow horizontally on phones');
+    await mobileTrinkets.close();
+
+    const cursorCredits = await openCheckedPage(browser, `${baseUrl}/system/`, { width: 1100, height: 760 });
+    for (const [title, source] of [['pink heart cursor', 'kawaiiweb.tumblr.com'], ['cake-slice cursor', 'engrampixel.tumblr.com']]) {
+      await cursorCredits.locator(`[data-credit-title="${title}"]`).click();
+      assert((await cursorCredits.locator('#trinket-credit-bubble').textContent()).includes(source), `${title} lost its recorded source`);
+      await cursorCredits.keyboard.press('Escape');
+    }
+    await cursorCredits.close();
 
     const media = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 1280, height: 900 });
     const representativeMedia = [

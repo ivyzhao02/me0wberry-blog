@@ -39,3 +39,9 @@ Shared JavaScript adds skip navigation, page landmarks, keyboard-operable tabs a
 Post pages share `post.css`; Post Studio links new posts to the same file so post formatting stays consistent without copying the stylesheet into every page.
 
 The maintainable shared styles live in `styles/`, and shared browser behavior lives in `scripts/`. The build joins them into the stable public files `style.css` and `script.js`, so existing page paths and loading order do not change. Category archive pages are generated from `tools/templates/archive-category.html` using `tools/site-config.js`; edit those sources rather than individual files under `archive/<category>/`.
+
+## Trinket credits
+
+`toybox/luna-town-data.js` records each selected graphic's exact Luna Town item URL, author when explicitly listed, source links, original local file, and preview. `selection` preserves the supplied screenshot page and one-based item position. Do not promote a source collector into an author credit or guess missing makers. Assets and first-frame thumbnails live in `images/trinkets/luna-town/`.
+
+`toybox/luna-town.js` renders compact category shelves. Flash-warning graphics always use still previews; larger files use lightweight previews, and reduced-motion preferences select stills for the remaining animations. Originals remain available from the credit card. `scripts/26-credits.js` owns the hoverable, dismissible credit bubble, including the existing cursor credits in System. Kaomoji click-to-copy stays separate from the keyboard/touch credit button.

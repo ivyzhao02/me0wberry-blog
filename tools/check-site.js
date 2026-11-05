@@ -395,6 +395,32 @@ for (const category of ARCHIVE_CATEGORIES) {
   }
 }
 
+try {
+  const source = fs.readFileSync(path.join(ROOT, 'toybox/luna-town-data.js'), 'utf8');
+  const assignment = /window\.MEOWBERRY_LUNA_GRAPHICS\s*=\s*([\s\S]+);\s*$/.exec(source);
+  const graphics = JSON.parse(assignment[1]);
+  const ids = new Set();
+  for (const graphic of graphics) {
+    if (ids.has(graphic.id)) errors.push(`Luna Town catalogue: duplicate item ${graphic.id}`);
+    ids.add(graphic.id);
+    if (!/^https:\/\/thuvien\.org\/webcore\/browse\/[a-f0-9]{32}$/.test(graphic.archive)) {
+      errors.push(`Luna Town catalogue: item ${graphic.id} has no exact archive record`);
+    }
+    for (const file of [graphic.file, graphic.preview]) {
+      if (!exactFiles.has(`images/trinkets/luna-town/${file}`)) errors.push(`Luna Town catalogue: missing graphic ${file}`);
+    }
+    for (const credit of [...graphic.credits, ...(graphic.author ? [graphic.author] : [])]) {
+      if (credit.url && !/^https?:\/\//.test(credit.url)) errors.push(`Luna Town catalogue: unsafe credit link on ${graphic.id}`);
+      if (!credit.label || !credit.text) errors.push(`Luna Town catalogue: incomplete credit on ${graphic.id}`);
+    }
+    if (graphic.flashWarning && (!graphic.stillOnly || graphic.preview === graphic.file)) {
+      errors.push(`Luna Town catalogue: flashing graphic ${graphic.id} needs a still preview`);
+    }
+  }
+} catch (error) {
+  errors.push(`Luna Town catalogue could not be checked (${error.message})`);
+}
+
 for (const file of relativeFiles.filter(file => file.endsWith('.js'))) {
   const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
   if (!file.startsWith('tools/') && /fetch\s*\(\s*[`"']\//.test(source)) {

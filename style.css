@@ -3935,6 +3935,89 @@
   gap: 7px;
 }
 
+.toybox-kaomoji-card { position: relative; min-width: 0; }
+.toybox-kaomoji-card[hidden] { display: none; }
+.toybox-kaomoji-card .toybox-kaomoji { width: 100%; height: 100%; padding-right: 30px; }
+.toybox-kaomoji-credits {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--theme-border, rgba(192,112,144,0.3));
+  border-radius: 50%;
+  background: var(--frosted-bg);
+  color: var(--muted);
+  font: 700 12px/1 var(--font-heading);
+  cursor: var(--cursor-pointer);
+}
+.toybox-kaomoji-credits:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+@media (hover: hover) {
+  .toybox-kaomoji-credits { opacity: 0; }
+  .toybox-kaomoji-card:hover .toybox-kaomoji-credits,
+  .toybox-kaomoji-card:focus-within .toybox-kaomoji-credits { opacity: 1; }
+}
+
+.trinket-credit-bubble {
+  position: fixed;
+  inset: auto;
+  z-index: 100050;
+  width: min(340px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  margin: 0;
+  padding: 17px;
+  border: 1px solid var(--theme-border, rgba(192,112,144,0.5));
+  border-radius: 15px 5px 15px 5px;
+  background: var(--theme-panel-bg, #fff8fa);
+  box-shadow: 0 10px 34px var(--theme-shadow, rgba(122,58,82,0.2));
+  color: var(--body);
+  font: 12px/1.6 var(--font-body);
+  text-align: left;
+}
+.trinket-credit-bubble[hidden] { display: none; }
+.trinket-credit-bubble h3 { margin: 4px 0 13px; padding-right: 42px; color: var(--heading); font: 700 16px/1.4 var(--font-heading); overflow-wrap: anywhere; }
+.trinket-credit-bubble dl { margin: 0; display: grid; gap: 3px; }
+.trinket-credit-bubble dt { margin-top: 6px; color: var(--pixel-label); font-weight: 700; }
+.trinket-credit-bubble dd { margin: 0; overflow-wrap: anywhere; }
+.trinket-credit-bubble a { color: var(--link); text-decoration: underline dotted; text-underline-offset: 3px; }
+.trinket-credit-note { margin: 12px 0 0; padding-top: 10px; border-top: 1px dashed var(--theme-border, rgba(192,112,144,0.3)); color: var(--muted); font-size: 11px; }
+.trinket-credit-close { float: right; border: 1px solid var(--theme-border, rgba(192,112,144,0.3)); border-radius: 7px; padding: 4px 7px; background: var(--frosted-bg); color: var(--link); cursor: var(--cursor-pointer); font: inherit; }
+.asset-credit-trigger { margin-left: 6px; padding: 2px 6px; border: 1px solid var(--theme-border, rgba(192,112,144,0.3)); border-radius: 7px; background: var(--frosted-bg); color: var(--link); font: inherit; cursor: var(--cursor-pointer); }
+
+.toybox-luna-shelves { display: contents; }
+.toybox-luna-collection { scroll-margin-top: 70px; }
+.toybox-luna-shelf { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+.toybox-luna-card { display: grid; grid-template-rows: 1fr auto; justify-items: center; gap: 6px; width: 112px; min-width: 0; }
+.toybox-luna-card[hidden] { display: none; }
+.toybox-luna-graphic {
+  width: 100%;
+  min-height: 80px;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  border: 1px dashed var(--theme-border, rgba(192,112,144,0.3));
+  border-radius: 11px;
+  background: repeating-conic-gradient(rgba(230,220,225,0.2) 0% 25%, rgba(255,255,255,0.5) 0% 50%) 0 0 / 12px 12px;
+  cursor: var(--cursor-pointer);
+}
+.toybox-luna-graphic img { display: block; width: auto; height: auto; max-width: 100%; max-height: 120px; object-fit: contain; image-rendering: pixelated; }
+.toybox-luna-graphic:focus-visible, .toybox-luna-graphic:hover { outline: 2px solid var(--pink); outline-offset: 2px; }
+.toybox-luna-hint { color: var(--muted); font-size: 10px; line-height: 1.5; text-align: center; }
+.toybox-luna-shelf.is-background .toybox-luna-card, .toybox-luna-shelf.is-icon .toybox-luna-card { width: 130px; }
+.toybox-luna-shelf.is-divider .toybox-luna-card { width: min(260px, 100%); }
+.toybox-luna-shelf.is-divider .toybox-luna-graphic { min-height: 48px; }
+.toybox-luna-shelf.is-pixel .toybox-luna-card { width: 95px; }
+.toybox-luna-shelf.is-pixel .toybox-luna-graphic { min-height: 64px; }
+
+@media (max-width: 480px) {
+  .toybox-luna-card, .toybox-luna-shelf.is-background .toybox-luna-card, .toybox-luna-shelf.is-icon .toybox-luna-card { width: calc(50% - 6px); }
+  .toybox-luna-shelf.is-pixel .toybox-luna-card { width: calc(33.333% - 8px); }
+}
+
 .toybox-kaomoji {
   min-width: 0;
   min-height: 54px;

@@ -42,19 +42,38 @@
     const count = container.querySelector('.toybox-group-count');
     const toggle = container.querySelector('.toybox-kaomoji-toggle');
     const buttons = shuffle(group.faces).map((face, index) => {
+      const card = document.createElement('div');
       const button = document.createElement('button');
+      const credits = document.createElement('button');
       const value = document.createElement('span');
       const label = document.createElement('span');
       button.className = 'toybox-kaomoji';
       button.type = 'button';
       button.dataset.kaomojiSource = face.source;
-      button.hidden = index >= kaomojiPreviewLimit;
+      card.className = 'toybox-kaomoji-card';
+      card.hidden = index >= kaomojiPreviewLimit;
       value.className = 'toybox-kaomoji-value';
       value.textContent = face.value;
       label.className = 'toybox-copy-label';
       label.textContent = 'copy';
       button.append(value, label);
-      return button;
+      credits.type = 'button';
+      credits.className = 'toybox-kaomoji-credits';
+      credits.textContent = 'i';
+      credits.setAttribute('aria-label', `credits for ${face.value}`);
+      const credit = {
+        title: face.value,
+        rows: [
+          { label: 'original creator', text: 'not recorded' },
+          face.source === 'luna-town'
+            ? { label: 'collection', text: 'Luna Town kaomoji shrine', url: 'https://thuvien.org/kaomojis' }
+            : { label: 'collection', text: 'faces found around me0wberry' }
+        ]
+      };
+      window.attachTrinketCredits(button, credit, { hover: true });
+      window.attachTrinketCredits(credits, credit);
+      card.append(button, credits);
+      return card;
     });
     if (grid) grid.replaceChildren(...buttons);
     if (count) count.textContent = `/ ${group.faces.length}`;
@@ -173,6 +192,7 @@
     });
     if (blinkiePreview) blinkiePreview.hidden = showFullBlinkieDrawer || blinkieElements.length <= blinkiePreviewLimit;
     if (status) status.textContent = filter === 'all' ? 'showing all' : `showing ${button.textContent.trim()}`;
+    document.dispatchEvent(new CustomEvent('toyboxfilterchange', { detail: { filter } }));
   }
 
   filters.forEach((button) => {
