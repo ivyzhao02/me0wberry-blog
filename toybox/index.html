@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Press+Start+2P&amp;family=Quicksand:wght@500;600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css?v=luna-credits-20261104">
+  <link rel="stylesheet" href="../style.css?v=trinkets-20261104-2">
   <link rel="stylesheet" href="../themes.css" data-site-themes>
   <style>
     #main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
@@ -69,13 +69,18 @@
           <div class="pixel-tag">／ trinkets</div>
           <h1 class="panel-heading">neat things i found across the web ☆</h1>
           <p class="toybox-intro">graphics , kaomoji + other things i saw online and immediately needed to keep . click a face to copy it <span class="copy-kaomoji" aria-hidden="true">(◕ᴗ◕✿)</span></p>
+          <div class="toybox-motion-controls">
+            <span id="toybox-animations-label">gif animations</span>
+            <button id="toybox-animations" type="button" role="switch" aria-checked="true" aria-labelledby="toybox-animations-label" aria-describedby="toybox-animations-note">on</button>
+            <small id="toybox-animations-note">flashing dividers stay as still previews</small>
+          </div>
 
           <section class="toybox-section" aria-labelledby="kaomoji-title">
             <div class="toybox-section-heading-row">
               <h2 class="toybox-section-title" id="kaomoji-title">kaomoji shelf / click to copy <span class="heading-flourish" aria-hidden="true">˚ʚ♡ɞ˚</span></h2>
               <span class="toybox-filter-status" id="toybox-kaomoji-count" aria-live="polite"></span>
             </div>
-            <p class="toybox-source-note">faces found around the site + a few new favourites from <a href="https://thuvien.org/kaomojis" target="_blank" rel="noopener">luna town's kaomoji shrine ↗</a></p>
+            <p class="toybox-source-note">faces saved from <a href="https://thuvien.org/kaomojis" target="_blank" rel="noopener">luna town ↗</a> + <a href="https://emojicombos.com/kaomoji?showSensitive=1" target="_blank" rel="noopener">emoji combos ↗</a></p>
             <div class="toybox-kaomoji-groups">
               <div class="toybox-kaomoji-group" data-kaomoji-group="cats">
                 <div class="toybox-kaomoji-group-heading">
@@ -125,7 +130,7 @@
               <button class="toybox-filter" type="button" data-filter="divider">dividers</button>
               <button class="toybox-filter" type="button" data-filter="frame">frames</button>
             </div>
-            <p class="toybox-source-note"><span id="toybox-luna-count"></span> ♡ click a graphic for its credits + original file . hover over a face to read its source , or tap its i button . flashing graphics stay as still previews .</p>
+            <p class="toybox-source-note"><span id="toybox-luna-count"></span> ♡ hover over a face to read its source , or tap its i button .</p>
             <div class="toybox-sticker-grid">
               <div class="toybox-luna-shelves" id="toybox-luna-shelves"></div>
               <article class="toybox-sticker toybox-button-collection" data-toybox-kind="button">
@@ -159,7 +164,6 @@
                   <a class="toybox-collected-graphic is-button" href="https://lockheartlove.neocities.org/graphics/buttons" target="_blank" rel="noopener" role="listitem" aria-label="You should make a site button by Lockheartlove"><img src="../images/trinkets/graphics-collective/make-a-site.png" alt="you should make a site" loading="lazy"></a>
                   <a class="toybox-collected-graphic is-button" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Powered by autism button by Transbro"><img src="../images/trinkets/graphics-collective/powered-by-autism.png" alt="powered by autism" loading="lazy"></a>
                 </div>
-                <p class="toybox-graphic-credit">original makers are linked on each button ♡</p>
               </article>
               <article class="toybox-sticker toybox-graphic-collection toybox-blinkie-collection" data-toybox-kind="blinkie">
                 <div class="toybox-button-collection-heading">
@@ -170,47 +174,46 @@
                   <span class="toybox-button-count">12 saved ♡</span>
                 </div>
                 <div class="toybox-graphic-shelf" id="toybox-blinkie-shelf" data-randomize-graphics role="list" aria-label="selected blinkies from Graphics Collective">
-                  <a class="toybox-collected-graphic is-blinkie" href="https://cyber-rot.neocities.org/mine" target="_blank" rel="noopener" role="listitem" aria-label="Despite everything, it's still you blinkie by Cyber Rot"><img src="../images/trinkets/graphics-collective/despite-everything.gif" alt="despite everything, it's still you" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I'm doing my best blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/doing-my-best.gif" alt="I'm doing my best" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Enter a hex code, nerd blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/enter-a-hex-code.gif" alt="enter a hex code, nerd" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I'll take a potato chip blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/potato-chip.gif" alt="I'll take a potato chip and eat it" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I only work under pressure blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/work-under-pressure.gif" alt="I only work under pressure" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Tikki, spots on blinkie by Lockheartlove"><img src="../images/trinkets/graphics-collective/tikki-spots-on.gif" alt="Tikki, spots on" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Too kawaii to live blinkie by Transbro"><img src="../images/trinkets/graphics-collective/too-kawaii-to-live.gif" alt="too kawaii to live" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I love my computer blinkie by Transbro"><img src="../images/trinkets/graphics-collective/love-my-computer.gif" alt="I love my computer" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Ow ow ow Kirby blinkie by Transbro"><img src="../images/trinkets/graphics-collective/ow-ow-ow.gif" alt="ow ow ow" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I'm walking here Kirby blinkie by Transbro"><img src="../images/trinkets/graphics-collective/walking-here.gif" alt="I'm walking here" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Pastel Angel blinkie by Transbro"><img src="../images/trinkets/graphics-collective/pastel-angel.gif" alt="pastel angel" loading="lazy"></a>
-                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I love you guys blinkie by Transbro"><img src="../images/trinkets/graphics-collective/love-you-guys.gif" alt="I love you guys" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://cyber-rot.neocities.org/mine" target="_blank" rel="noopener" role="listitem" aria-label="Despite everything, it's still you blinkie by Cyber Rot"><img data-trinket-src="../images/trinkets/graphics-collective/despite-everything.gif" alt="despite everything, it's still you" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I'm doing my best blinkie by Lockheartlove"><img data-trinket-src="../images/trinkets/graphics-collective/doing-my-best.gif" alt="I'm doing my best" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Enter a hex code, nerd blinkie by Lockheartlove"><img data-trinket-src="../images/trinkets/graphics-collective/enter-a-hex-code.gif" alt="enter a hex code, nerd" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I'll take a potato chip blinkie by Lockheartlove"><img data-trinket-src="../images/trinkets/graphics-collective/potato-chip.gif" alt="I'll take a potato chip and eat it" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I only work under pressure blinkie by Lockheartlove"><img data-trinket-src="../images/trinkets/graphics-collective/work-under-pressure.gif" alt="I only work under pressure" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://lockheartlove.neocities.org/graphics/blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Tikki, spots on blinkie by Lockheartlove"><img data-trinket-src="../images/trinkets/graphics-collective/tikki-spots-on.gif" alt="Tikki, spots on" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Too kawaii to live blinkie by Transbro"><img data-trinket-src="../images/trinkets/graphics-collective/too-kawaii-to-live.gif" alt="too kawaii to live" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I love my computer blinkie by Transbro"><img data-trinket-src="../images/trinkets/graphics-collective/love-my-computer.gif" alt="I love my computer" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Ow ow ow Kirby blinkie by Transbro"><img data-trinket-src="../images/trinkets/graphics-collective/ow-ow-ow.gif" alt="ow ow ow" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I'm walking here Kirby blinkie by Transbro"><img data-trinket-src="../images/trinkets/graphics-collective/walking-here.gif" alt="I'm walking here" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="Pastel Angel blinkie by Transbro"><img data-trinket-src="../images/trinkets/graphics-collective/pastel-angel.gif" alt="pastel angel" loading="lazy"></a>
+                  <a class="toybox-collected-graphic is-blinkie" href="https://transbro.neocities.org/Blinkies" target="_blank" rel="noopener" role="listitem" aria-label="I love you guys blinkie by Transbro"><img data-trinket-src="../images/trinkets/graphics-collective/love-you-guys.gif" alt="I love you guys" loading="lazy"></a>
                 </div>
                 <div class="toybox-button-preview" id="toybox-blinkie-preview">
                   <span>showing 6 of 12</span>
                   <button type="button" id="toybox-open-all-blinkies">open all blinkies ↗</button>
                 </div>
-                <p class="toybox-graphic-credit">original makers are linked on each blinkie ♡</p>
               </article>
               <article class="toybox-sticker" data-toybox-kind="pixel">
-                <div class="toybox-sticker-preview"><img src="../images/cats/cat-0363.gif" alt="small walking pixel cat"></div>
+                <div class="toybox-sticker-preview"><img data-trinket-src="../images/cats/cat-0363.gif" alt="small walking pixel cat"></div>
                 <div class="toybox-sticker-name">walking cat</div>
                 <a class="toybox-sticker-source" href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a>
               </article>
               <article class="toybox-sticker" data-toybox-kind="pixel">
-                <div class="toybox-sticker-preview"><img src="../images/cats/cat-0491.gif" alt="small sitting pixel cat"></div>
+                <div class="toybox-sticker-preview"><img data-trinket-src="../images/cats/cat-0491.gif" alt="small sitting pixel cat"></div>
                 <div class="toybox-sticker-name">sitting cat</div>
                 <a class="toybox-sticker-source" href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a>
               </article>
               <article class="toybox-sticker" data-toybox-kind="pixel">
-                <div class="toybox-sticker-preview"><img src="../images/cats/cat-0420.gif" alt="small stretching pixel cat"></div>
+                <div class="toybox-sticker-preview"><img data-trinket-src="../images/cats/cat-0420.gif" alt="small stretching pixel cat"></div>
                 <div class="toybox-sticker-name">stretching cat</div>
                 <a class="toybox-sticker-source" href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a>
               </article>
               <article class="toybox-sticker" data-toybox-kind="pixel">
-                <div class="toybox-sticker-preview"><img src="../images/cats/cat-0421.gif" alt="small standing pixel cat"></div>
+                <div class="toybox-sticker-preview"><img data-trinket-src="../images/cats/cat-0421.gif" alt="small standing pixel cat"></div>
                 <div class="toybox-sticker-name">standing cat</div>
                 <a class="toybox-sticker-source" href="https://pixelsea.neocities.org/?m=icon#cat" target="_blank" rel="noopener">Pixel Sea ↗</a>
               </article>
               <article class="toybox-sticker" data-toybox-kind="adoption">
-                <button class="toybox-sticker-preview passport-stamp-trigger" type="button" data-passport-stamp="naranya" aria-label="say hello to tiny Naranya"><img src="../images/cats/naranya-walking.gif" alt="tiny walking Naranya pixel cat"></button>
+                <button class="toybox-sticker-preview passport-stamp-trigger" type="button" data-passport-stamp="naranya" aria-label="say hello to tiny Naranya"><img data-trinket-src="../images/cats/naranya-walking.gif" alt="tiny walking Naranya pixel cat"></button>
                 <div class="toybox-sticker-name">tiny naranya</div>
                 <a class="toybox-sticker-source" href="https://cinni.net/adopt" target="_blank" rel="noopener">adopted from Cinni ↗</a>
               </article>
@@ -260,12 +263,14 @@
   </div>
 
   <script src="../data/search-index.js"></script>
-  <script src="../script.js?v=luna-credits-20261104" data-site-root=".."></script>
+  <script src="../script.js?v=trinkets-20261104-2" data-site-root=".."></script>
   <script src="buttons.js"></script>
   <script src="buttons-batch-02.js"></script>
-  <script src="kaomojis.js"></script>
-  <script src="luna-town-data.js?v=luna-credits-20261104"></script>
-  <script src="luna-town.js?v=luna-credits-20261104"></script>
-  <script src="toybox.js?v=luna-credits-20261104"></script>
+  <script src="kaomojis.js?v=trinkets-20261104-2"></script>
+  <script src="luna-town-data.js?v=trinkets-20261104-2"></script>
+  <script src="trinket-motion-data.js?v=trinkets-20261104-2"></script>
+  <script src="animations.js?v=trinkets-20261104-2"></script>
+  <script src="luna-town.js?v=trinkets-20261104-2"></script>
+  <script src="toybox.js?v=trinkets-20261104-2"></script>
 </body>
 </html>

@@ -67,7 +67,7 @@
           { label: 'original creator', text: 'not recorded' },
           face.source === 'luna-town'
             ? { label: 'collection', text: 'Luna Town kaomoji shrine', url: 'https://thuvien.org/kaomojis' }
-            : { label: 'collection', text: 'faces found around me0wberry' }
+            : { label: 'collection', text: 'Emoji Combos kaomoji collection', url: 'https://emojicombos.com/kaomoji?showSensitive=1' }
         ]
       };
       window.attachTrinketCredits(button, credit, { hover: true });
@@ -99,7 +99,7 @@
 
   document.querySelectorAll('.toybox-kaomoji').forEach((button) => {
     const value = button.querySelector('.toybox-kaomoji-value').textContent;
-    const sourceLabel = button.dataset.kaomojiSource === 'luna-town' ? ', from Luna Town' : '';
+    const sourceLabel = button.dataset.kaomojiSource === 'luna-town' ? ', from Luna Town' : ', from Emoji Combos';
     button.setAttribute('aria-label', `${value} — copy${sourceLabel}`);
 
     button.addEventListener('click', async () => {
@@ -138,21 +138,30 @@
 
   if (buttonShelf) {
     buttonElements = randomizedButtons.map((button) => {
-      const link = document.createElement('a');
+      const item = document.createElement('span');
+      const buttonControl = document.createElement('button');
       const image = document.createElement('img');
-      link.className = 'toybox-collected-button';
-      link.href = button.sourceAsset;
-      link.target = '_blank';
-      link.rel = 'noopener';
-      link.role = 'listitem';
-      link.title = `${button.name} · ${button.databaseDate}`;
-      link.setAttribute('aria-label', `${button.name}, added to 88x31db on ${button.databaseDate}`);
-      image.src = button.asset;
+      item.className = 'toybox-button-item';
+      item.setAttribute('role', 'listitem');
+      buttonControl.className = 'toybox-collected-button';
+      buttonControl.type = 'button';
+      buttonControl.setAttribute('aria-label', `credits for ${button.name}`);
       image.alt = '';
       image.loading = 'lazy';
       image.decoding = 'async';
-      link.appendChild(image);
-      return link;
+      window.trinketAnimations.register(image, button.asset);
+      buttonControl.appendChild(image);
+      window.attachTrinketCredits(buttonControl, {
+        title: button.name,
+        rows: [
+          { label: 'collection', text: '88x31db', url: button.sourcePage },
+          { label: 'database image', text: 'original file recorded by 88x31db', url: button.sourceAsset },
+          { label: 'saved original', text: 'open image', url: new URL(button.asset, window.location.href).href }
+        ],
+        note: 'the original maker is not recorded in this saved entry.'
+      });
+      item.appendChild(buttonControl);
+      return item;
     });
     buttonShelf.replaceChildren(...buttonElements);
   }
@@ -162,13 +171,67 @@
     buttonPreviewCount.textContent = `showing ${Math.min(buttonPreviewLimit, collectedButtons.length)} of ${collectedButtons.length}`;
   }
 
+  document.querySelectorAll('.toybox-collected-graphic').forEach(link => {
+    const image = link.querySelector('img');
+    const name = image.alt;
+    const maker = link.getAttribute('aria-label')?.split(' by ').pop();
+    const item = document.createElement('span');
+    const button = document.createElement('button');
+    item.className = 'toybox-graphic-item';
+    item.setAttribute('role', 'listitem');
+    button.className = link.className;
+    button.type = 'button';
+    button.setAttribute('aria-label', `credits for ${name}`);
+    button.appendChild(image);
+    window.attachTrinketCredits(button, {
+      title: name,
+      rows: [
+        { label: 'maker', text: maker, url: link.href },
+        { label: 'found through', text: 'Graphics Collective', url: 'https://graphics-collective.neocities.org/' },
+        { label: 'saved original', text: 'open image', url: new URL(image.dataset.trinketOriginal || image.getAttribute('src'), window.location.href).href }
+      ]
+    });
+    item.appendChild(button);
+    link.replaceWith(item);
+  });
+
+  document.querySelectorAll('.toybox-sticker:not(.toybox-graphic-collection):not(.toybox-button-collection)').forEach(article => {
+    const preview = article.querySelector('.toybox-sticker-preview');
+    const source = article.querySelector('a.toybox-sticker-source');
+    const image = preview?.querySelector('img');
+    if (!preview || !source || !image) return;
+    const credit = {
+      title: article.querySelector('.toybox-sticker-name').textContent,
+      rows: [
+        { label: article.dataset.toyboxKind === 'adoption' ? 'adopted from' : 'source', text: source.textContent.replace('↗', '').replace(/^adopted from\s*/i, '').trim(), url: source.href },
+        { label: 'saved original', text: 'open image', url: new URL(image.dataset.trinketOriginal || image.getAttribute('src'), window.location.href).href }
+      ]
+    };
+    if (preview.hasAttribute('data-passport-stamp')) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'asset-credit-trigger';
+      button.textContent = 'credits';
+      window.attachTrinketCredits(button, credit);
+      source.after(button);
+    } else {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = preview.className;
+      button.setAttribute('aria-label', `credits for ${credit.title}`);
+      button.appendChild(image);
+      window.attachTrinketCredits(button, credit);
+      preview.replaceWith(button);
+    }
+  });
+
   document.querySelectorAll('[data-randomize-graphics]').forEach((shelf) => {
     shelf.replaceChildren(...shuffle(shelf.children));
   });
 
   const blinkiePreview = document.getElementById('toybox-blinkie-preview');
   const openAllBlinkies = document.getElementById('toybox-open-all-blinkies');
-  const blinkieElements = [...document.querySelectorAll('#toybox-blinkie-shelf .toybox-collected-graphic')];
+  const blinkieElements = [...document.querySelectorAll('#toybox-blinkie-shelf .toybox-graphic-item')];
   const blinkiePreviewLimit = 6;
 
   const filters = [...document.querySelectorAll('.toybox-filter')];

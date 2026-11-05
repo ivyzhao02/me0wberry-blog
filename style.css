@@ -3991,7 +3991,7 @@
 .toybox-luna-shelves { display: contents; }
 .toybox-luna-collection { scroll-margin-top: 70px; }
 .toybox-luna-shelf { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
-.toybox-luna-card { display: grid; grid-template-rows: 1fr auto; justify-items: center; gap: 6px; width: 112px; min-width: 0; }
+.toybox-luna-card { display: grid; justify-items: center; width: 112px; min-width: 0; }
 .toybox-luna-card[hidden] { display: none; }
 .toybox-luna-graphic {
   width: 100%;
@@ -4006,7 +4006,17 @@
 }
 .toybox-luna-graphic img { display: block; width: auto; height: auto; max-width: 100%; max-height: 120px; object-fit: contain; image-rendering: pixelated; }
 .toybox-luna-graphic:focus-visible, .toybox-luna-graphic:hover { outline: 2px solid var(--pink); outline-offset: 2px; }
-.toybox-luna-hint { color: var(--muted); font-size: 10px; line-height: 1.5; text-align: center; }
+.toybox-collection-hint { margin: -3px 0 10px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.toybox-motion-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; width: fit-content; max-width: 100%; margin: 18px 0 24px; padding: 9px 12px; border: 1px solid var(--theme-border, rgba(192,112,144,0.3)); border-radius: 13px; background: var(--frosted-bg); color: var(--body); }
+.toybox-motion-controls > span { font: 700 13px/1.4 var(--font-heading); }
+.toybox-motion-controls small { color: var(--muted); font-size: 11px; line-height: 1.5; }
+#toybox-animations { min-width: 60px; min-height: 32px; padding: 4px 12px; border: 1px solid var(--theme-border, rgba(192,112,144,0.4)); border-radius: 999px; background: var(--frosted-bg); color: var(--muted); font: 700 12px/1.4 var(--font-heading); cursor: var(--cursor-pointer); }
+#toybox-animations[aria-checked="true"] { background: var(--theme-control-bg, #e3f1db); color: var(--heading); border-color: var(--green-text); }
+#toybox-animations:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
+.toybox-button-item, .toybox-graphic-item { display: inline-flex; }
+.toybox-button-item[hidden], .toybox-graphic-item[hidden] { display: none; }
+button.toybox-collected-button, button.toybox-collected-graphic { padding: 0; border: 0; cursor: var(--cursor-pointer); }
+button.toybox-sticker-preview { width: 100%; padding: 0; border: 0; cursor: var(--cursor-pointer); }
 .toybox-luna-shelf.is-background .toybox-luna-card, .toybox-luna-shelf.is-icon .toybox-luna-card { width: 130px; }
 .toybox-luna-shelf.is-divider .toybox-luna-card { width: min(260px, 100%); }
 .toybox-luna-shelf.is-divider .toybox-luna-graphic { min-height: 48px; }

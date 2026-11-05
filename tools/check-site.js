@@ -421,6 +421,19 @@ try {
   errors.push(`Luna Town catalogue could not be checked (${error.message})`);
 }
 
+try {
+  const source = fs.readFileSync(path.join(ROOT, 'toybox/trinket-motion-data.js'), 'utf8');
+  const assignment = /window\.MEOWBERRY_TRINKET_STILLS\s*=\s*([\s\S]+);\s*$/.exec(source);
+  const stills = JSON.parse(assignment[1]);
+  for (const [original, still] of Object.entries(stills)) {
+    checkReference('toybox/index.html', original);
+    checkReference('toybox/index.html', still);
+    if (original === still || !/\.png$/i.test(still)) errors.push(`Trinket animations: ${original} needs a still PNG alternative`);
+  }
+} catch (error) {
+  errors.push(`Trinket animation alternatives could not be checked (${error.message})`);
+}
+
 for (const file of relativeFiles.filter(file => file.endsWith('.js'))) {
   const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
   if (!file.startsWith('tools/') && /fetch\s*\(\s*[`"']\//.test(source)) {

@@ -1950,12 +1950,25 @@ async function run() {
     await creditsBubble.locator('.trinket-credit-close').click();
     assert(await creditsBubble.isHidden(), 'credit close button reopened the bubble');
     assert(await faceCreditsButton.evaluate(button => button === document.activeElement), 'credit close did not return focus to its opener');
+    const emojiFace = toybox.locator('[data-kaomoji-source="emoji-combos"]').first();
+    await emojiFace.hover();
+    assert(await creditsBubble.locator('a[href="https://emojicombos.com/kaomoji?showSensitive=1"]').count() === 1, 'non-Luna kaomoji lost the requested Emoji Combos attribution');
+    await toybox.keyboard.press('Escape');
     assert(await toybox.locator('[data-luna-id]').count() === 174, 'Luna Town selections are missing or duplicated');
     const lunaCounts = { stamp: 30, background: 21, icon: 34, pixel: 65, divider: 17, frame: 2, blinkie: 1, button: 4 };
     for (const [kind, count] of Object.entries(lunaCounts)) {
       assert(await toybox.locator(`[data-luna-kind="${kind}"] [data-luna-id]`).count() === count, `Luna Town ${kind} shelf lost a selected item`);
       assert(await toybox.locator(`[data-luna-kind="${kind}"] .toybox-luna-card:visible`).count() === Math.min(6, count), `Luna Town ${kind} preview is not compact`);
     }
+    assert(await toybox.locator('.toybox-luna-card .toybox-luna-hint').count() === 0, 'opening hints are still repeated beneath individual trinkets');
+    assert(await toybox.locator('.toybox-luna-collection > .toybox-collection-hint').count() === 8, 'each graphic category needs one opening hint');
+    assert(await toybox.locator('.toybox-luna-collection h3').allTextContents().then(labels => labels.every(label => !label.includes('luna town'))), 'category headings still repeat the archive name');
+    assert(await toybox.locator('#toybox-animations').getAttribute('aria-checked') === 'true', 'normal visitors do not get animated GIFs by default');
+    const heavyAnimationRestored = await toybox.evaluate(() => {
+      const item = window.MEOWBERRY_LUNA_GRAPHICS.find(item => item.stillOnly && !item.flashWarning && Object.hasOwn(window.MEOWBERRY_TRINKET_STILLS, '../images/trinkets/luna-town/' + item.file));
+      return item && document.querySelector(`[data-luna-id="${item.id}"] img`).src.endsWith(item.file);
+    });
+    assert(heavyAnimationRestored, 'the former size-based still rule continues to freeze ordinary GIFs');
     const originalState = await toybox.evaluate(() => window.MEOWBERRY_LUNA_GRAPHICS.every(item => !item.flashWarning || document.querySelector(`[data-luna-id="${item.id}"] img`).src.endsWith(item.preview)));
     assert(originalState, 'a flash-warning graphic played without an explicit original-file action');
     const artistItem = await toybox.evaluate(() => window.MEOWBERRY_LUNA_GRAPHICS.find(item => item.author));
@@ -1967,6 +1980,39 @@ async function run() {
     await toybox.emulateMedia({ reducedMotion: 'reduce' });
     await toybox.waitForFunction(() => window.MEOWBERRY_LUNA_GRAPHICS.every(item => document.querySelector(`[data-luna-id="${item.id}"] img`).src.endsWith(item.preview)));
     await toybox.emulateMedia({ reducedMotion: 'no-preference' });
+    await toybox.locator('#toybox-animations').click();
+    assert(await toybox.locator('#toybox-animations').getAttribute('aria-checked') === 'false', 'animation switch did not turn off');
+    const allStopped = await toybox.evaluate(() => Array.from(document.querySelectorAll('img[data-trinket-original]')).every(image => {
+      const still = window.MEOWBERRY_TRINKET_STILLS[image.dataset.trinketOriginal];
+      return !still || image.getAttribute('src') === still;
+    }));
+    assert(allStopped, 'animation switch did not freeze all collections, including older buttons, blinkies, and pixels');
+    await toybox.reload({ waitUntil: 'domcontentloaded' });
+    assert(await toybox.locator('#toybox-animations').getAttribute('aria-checked') === 'false', 'animation preference was not remembered on reload');
+    await toybox.locator('#toybox-animations').click();
+    await toybox.emulateMedia({ reducedMotion: 'reduce' });
+    assert(await toybox.locator('#toybox-animations').getAttribute('aria-checked') === 'true', 'reduced motion unexpectedly overrode an explicit animation choice');
+    const allRestored = await toybox.evaluate(() => Array.from(document.querySelectorAll('img[data-trinket-original]')).every(image => {
+      return image.dataset.trinketFlashWarning === 'true' || image.getAttribute('src') === image.dataset.trinketOriginal;
+    }));
+    assert(allRestored, 'animation switch did not restore ordinary animations');
+    await toybox.emulateMedia({ reducedMotion: 'no-preference' });
+    await toybox.locator('[data-filter="button"]').click();
+    await toybox.locator('#toybox-button-shelf .toybox-collected-button').first().click();
+    assert((await creditsBubble.textContent()).includes('88x31db'), 'older button drawer has no individual collection credits');
+    await toybox.keyboard.press('Escape');
+    await toybox.locator('.toybox-collected-graphic.is-button').first().click();
+    assert((await creditsBubble.textContent()).includes('maker') && (await creditsBubble.textContent()).includes('Graphics Collective'), 'older collected graphic lost its maker or collection credit');
+    await toybox.keyboard.press('Escape');
+    await toybox.locator('[data-filter="pixel"]').click();
+    await toybox.locator('button.toybox-sticker-preview').first().click();
+    assert((await creditsBubble.textContent()).includes('Pixel Sea'), 'older pixel collection has no individual source credit');
+    await toybox.keyboard.press('Escape');
+    await toybox.locator('[data-filter="adoption"]').click();
+    assert(await toybox.locator('[data-passport-stamp="naranya"]').count() === 1, 'adding credits replaced Naranya\'s passport discovery action');
+    await toybox.locator('[data-toybox-kind="adoption"] .asset-credit-trigger').click();
+    assert((await creditsBubble.textContent()).includes('Cinni'), 'adopted pixel has no individual source credit');
+    await toybox.keyboard.press('Escape');
     await toybox.locator('[data-filter="all"]').click();
     await toybox.locator('[data-luna-kind="stamp"] .toybox-button-preview button').click();
     assert(await toybox.locator('[data-luna-kind="stamp"] .toybox-luna-card:visible').count() === 30, 'open-all stamp control did not reveal the full shelf');

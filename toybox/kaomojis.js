@@ -1,5 +1,6 @@
 (function() {
-  const site = (value) => ({ value, source: 'site' });
+  // Ivy identifies Emoji Combos as the collection source for the non-Luna faces.
+  const site = (value) => ({ value, source: 'emoji-combos' });
   const luna = (value) => ({ value, source: 'luna-town' });
 
   window.MEOWBERRY_KAOMOJI_GROUPS = Object.freeze([

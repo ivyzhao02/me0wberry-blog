@@ -6,8 +6,6 @@
     stamp: 'stamps', background: 'backgrounds', icon: 'icons', pixel: 'pixels + kaoani',
     divider: 'dividers', frame: 'frames', blinkie: 'blinkies', button: 'buttons'
   };
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const media = [];
   const prefix = '../images/trinkets/luna-town/';
   const previewLimit = 6;
   const filters = Array.from(document.querySelectorAll('.toybox-filter'));
@@ -27,12 +25,6 @@
     };
   }
 
-  function updateMotion() {
-    media.forEach(({ image, item }) => {
-      image.src = prefix + (reducedMotion.matches || item.stillOnly ? item.preview : item.file);
-    });
-  }
-
   for (const [kind, label] of Object.entries(labels)) {
     const group = items.filter(item => item.kind === kind);
     if (!group.length) continue;
@@ -44,11 +36,15 @@
     heading.className = 'toybox-button-collection-heading';
     const title = document.createElement('h3');
     title.className = 'toybox-sticker-name';
-    title.textContent = `luna town picks / ${label}`;
+    title.textContent = label;
     const count = document.createElement('span');
     count.className = 'toybox-button-count';
     count.textContent = `${group.length} saved`;
     heading.append(title, count);
+    const hint = document.createElement('p');
+    hint.className = 'toybox-collection-hint';
+    hint.textContent = 'click to open / credits + original';
+    if (group.some(item => item.flashWarning)) hint.textContent += ' · flashing items use still previews';
     const shelf = document.createElement('div');
     shelf.className = `toybox-luna-shelf is-${kind}`;
     shelf.setAttribute('role', 'list');
@@ -69,13 +65,15 @@
       image.height = item.height;
       image.loading = 'lazy';
       image.decoding = 'async';
-      media.push({ image, item });
+      const original = prefix + item.file;
+      const animated = Object.hasOwn(window.MEOWBERRY_TRINKET_STILLS || {}, original);
+      window.trinketAnimations.register(image, animated || item.flashWarning || !item.stillOnly ? original : prefix + item.preview, {
+        still: prefix + item.preview,
+        flashWarning: item.flashWarning
+      });
       button.appendChild(image);
       window.attachTrinketCredits(button, creditFor(item));
-      const hint = document.createElement('span');
-      hint.className = 'toybox-luna-hint';
-      hint.textContent = item.flashWarning ? 'still preview / flash warning' : 'click for credits';
-      card.append(button, hint);
+      card.appendChild(button);
       shelf.appendChild(card);
     });
     const preview = document.createElement('div');
@@ -92,7 +90,7 @@
     });
     preview.append(status, more);
     preview.hidden = group.length <= previewLimit;
-    article.append(heading, shelf, preview);
+    article.append(heading, hint, shelf, preview);
     article.updatePreview = filter => {
       const expanded = filter === kind;
       Array.from(shelf.children).forEach((card, index) => { card.hidden = !expanded && index >= previewLimit; });
@@ -100,11 +98,9 @@
     };
     container.appendChild(article);
   }
-  updateMotion();
-  reducedMotion.addEventListener('change', updateMotion);
   document.addEventListener('toyboxfilterchange', event => {
     container.querySelectorAll('.toybox-luna-collection').forEach(article => article.updatePreview(event.detail.filter));
   });
   const count = document.getElementById('toybox-luna-count');
-  if (count) count.textContent = `${items.length} saved from luna town`;
+  if (count) count.textContent = `${items.length} graphics added to the shelves`;
 })();
