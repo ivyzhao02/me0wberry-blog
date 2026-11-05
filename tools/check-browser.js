@@ -1954,12 +1954,16 @@ async function run() {
     await emojiFace.hover();
     assert(await creditsBubble.locator('a[href="https://emojicombos.com/kaomoji?showSensitive=1"]').count() === 1, 'non-Luna kaomoji lost the requested Emoji Combos attribution');
     await toybox.keyboard.press('Escape');
-    assert(await toybox.locator('[data-luna-id]').count() === 174, 'Luna Town selections are missing or duplicated');
-    const lunaCounts = { stamp: 30, background: 21, icon: 34, pixel: 65, divider: 17, frame: 2, blinkie: 1, button: 4 };
+    assert(await toybox.locator('[data-luna-id]').count() === 557, 'Luna Town selections are missing or duplicated');
+    const lunaCounts = { stamp: 30, background: 21, icon: 34, pixel: 65, divider: 17, frame: 2, blinkie: 384, button: 4 };
     for (const [kind, count] of Object.entries(lunaCounts)) {
       assert(await toybox.locator(`[data-luna-kind="${kind}"] [data-luna-id]`).count() === count, `Luna Town ${kind} shelf lost a selected item`);
       assert(await toybox.locator(`[data-luna-kind="${kind}"] .toybox-luna-card:visible`).count() === Math.min(6, count), `Luna Town ${kind} preview is not compact`);
     }
+    const newBlinkies = await toybox.evaluate(() => window.MEOWBERRY_LUNA_GRAPHICS.filter(item => item.selection.startsWith('blinkies-20261105:')));
+    assert(newBlinkies.length === 383 && newBlinkies.every(item => item.kind === 'blinkie' && item.preview !== item.file), 'new blinkies lost a selected original or its still preview');
+    const newBlinkieStills = await toybox.evaluate(() => window.MEOWBERRY_LUNA_GRAPHICS.filter(item => item.selection.startsWith('blinkies-20261105:')).every(item => window.MEOWBERRY_TRINKET_STILLS['../images/trinkets/luna-town/' + item.file] === '../images/trinkets/luna-town/' + item.preview));
+    assert(newBlinkieStills, 'new blinkies were not included in the animation switch');
     assert(await toybox.locator('.toybox-luna-card .toybox-luna-hint').count() === 0, 'opening hints are still repeated beneath individual trinkets');
     assert(await toybox.locator('.toybox-luna-collection > .toybox-collection-hint').count() === 8, 'each graphic category needs one opening hint');
     assert(await toybox.locator('.toybox-luna-collection h3').allTextContents().then(labels => labels.every(label => !label.includes('luna town'))), 'category headings still repeat the archive name');
@@ -2034,6 +2038,7 @@ async function run() {
       'default trinkets view did not keep the blinkie preview compact',
     );
     await toybox.locator('[data-filter="blinkie"]').click();
+    assert(await toybox.locator('[data-luna-kind="blinkie"] .toybox-luna-card:visible').count() === 384, 'blinkie filter did not reveal every Luna Town blinkie');
     assert(
       await toybox.locator('#toybox-blinkie-shelf .toybox-collected-graphic:visible').count() === 12,
       'blinkie filter did not reveal the full collection',

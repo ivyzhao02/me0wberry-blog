@@ -42,7 +42,7 @@ The maintainable shared styles live in `styles/`, and shared browser behavior li
 
 ## Trinket credits
 
-`toybox/luna-town-data.js` records each selected graphic's exact Luna Town item URL, author when explicitly listed, source links, original local file, and preview. `selection` preserves the supplied screenshot page and one-based item position. Do not promote a source collector into an author credit or guess missing makers. Assets and first-frame thumbnails live in `images/trinkets/luna-town/`.
+`toybox/luna-town-data.js` records each selected graphic's exact Luna Town item URL, author when explicitly listed, source links, original local file, and preview. `selection` preserves the supplied screenshot page and one-based item position; later batches also include their category and date. Before adding a batch, compare both file hashes and decoded previews against existing graphics and the rest of the batch, since resized and re-encoded copies can be duplicates too. Do not promote a source collector into an author credit or guess missing makers. Assets and first-frame thumbnails live in `images/trinkets/luna-town/`.
 
 `toybox/luna-town.js` renders compact category shelves with one opening hint per collection. `toybox/animations.js` owns the GIF switch for all Trinkets collections, including older 88x31 buttons, blinkies, and adopted pixels. Animation defaults on unless reduced motion is requested, and an explicit on/off choice is remembered in `me0wberry_trinket_animations`. The three flash-warning dividers always remain still previews. `toybox/trinket-motion-data.js` maps animated originals to first-frame alternatives; add a matching still when collecting a new animation. Other still previews live in `images/trinkets/stills/`.
 

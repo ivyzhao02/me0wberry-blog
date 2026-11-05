@@ -487,11 +487,14 @@ button.toybox-sticker-preview { width: 100%; padding: 0; border: 0; cursor: var(
 .toybox-luna-shelf.is-background .toybox-luna-card, .toybox-luna-shelf.is-icon .toybox-luna-card { width: 130px; }
 .toybox-luna-shelf.is-divider .toybox-luna-card { width: min(260px, 100%); }
 .toybox-luna-shelf.is-divider .toybox-luna-graphic { min-height: 48px; }
+.toybox-luna-shelf.is-blinkie .toybox-luna-card { width: min(190px, 100%); }
+.toybox-luna-shelf.is-blinkie .toybox-luna-graphic { min-height: 64px; }
 .toybox-luna-shelf.is-pixel .toybox-luna-card { width: 95px; }
 .toybox-luna-shelf.is-pixel .toybox-luna-graphic { min-height: 64px; }
 
 @media (max-width: 480px) {
   .toybox-luna-card, .toybox-luna-shelf.is-background .toybox-luna-card, .toybox-luna-shelf.is-icon .toybox-luna-card { width: calc(50% - 6px); }
+  .toybox-luna-shelf.is-blinkie .toybox-luna-card { width: calc(50% - 6px); }
   .toybox-luna-shelf.is-pixel .toybox-luna-card { width: calc(33.333% - 8px); }
 }
 
