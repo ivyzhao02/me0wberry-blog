@@ -1,0 +1,22 @@
+{
+  "featured": "minecraft-skin",
+  "works": [
+    {
+      "id": "minecraft-skin",
+      "title": "minecraft skin",
+      "kind": "commission",
+      "view": "front + back",
+      "date": "2026-07",
+      "description": "the first commissioned version of me0wberry ! front + back as a minecraft skin (˶ᵔ ᵕ ᵔ˶)",
+      "image": "images/persona/me0wberry-minecraft-skin-yoursleepywitch.webp",
+      "width": 960,
+      "height": 540,
+      "alt": "front and back views of me0wberry's pink and green Minecraft skin with black hair in twin buns and pink bows",
+      "artist": {
+        "name": "yoursleepywitch",
+        "url": "https://vgen.co/yoursleepywitch"
+      },
+      "showcaseUrl": "https://vgen.co/yoursleepywitch/portfolio/showcase/me0wberry-s-minecraft-skin/e3c6efce-e736-4215-8933-168b7fe8b230"
+    }
+  ]
+}

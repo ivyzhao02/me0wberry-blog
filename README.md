@@ -40,6 +40,12 @@ Post pages share `post.css`; Post Studio links new posts to the same file so pos
 
 The maintainable shared styles live in `styles/`, and shared browser behavior lives in `scripts/`. The build joins them into the stable public files `style.css` and `script.js`, so existing page paths and loading order do not change. Category archive pages are generated from `tools/templates/archive-category.html` using `tools/site-config.js`; edit those sources rather than individual files under `archive/<category>/`.
 
+## Persona artwork
+
+`persona/collection.json` contains only finished, approved, publicly displayable artwork. Add a work with a unique stable `id`, title, kind, view description, `YYYY-MM` date, description, local `images/persona/` file, real image dimensions, descriptive alt text, artist name, and optional HTTPS artist/showcase URLs. Set `featured` to the published work to highlight, then run `pnpm build` and `pnpm check`. The build writes the featured card and collection index into the marked region of `persona/index.html`; edit the manifest rather than that generated region. A new piece needs no new HTML or JavaScript.
+
+`persona/persona.js` enhances the generated image links with a native dialog, fit/actual-size controls, keyboard dismissal, and focus restoration. The full image and artist credit remain available without JavaScript and in direct-file previews. Keep originals intact and never place commission briefs, pending artwork, or private planning details in the manifest. `FUTURE.md` tracks asset-dependent gallery and mascot work.
+
 ## Trinket credits
 
 `toybox/luna-town-data.js` records each selected graphic's exact Luna Town item URL, author when explicitly listed, source links, original local file, and preview. `selection` preserves the supplied screenshot page and one-based item position; later batches also include their category and date. Before adding a batch, compare both file hashes and decoded previews against existing graphics and the rest of the batch, since resized and re-encoded copies can be duplicates too. Do not promote a source collector into an author credit or guess missing makers. Assets and first-frame thumbnails live in `images/trinkets/luna-town/`.

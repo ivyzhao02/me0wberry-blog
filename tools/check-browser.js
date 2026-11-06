@@ -1895,6 +1895,21 @@ async function run() {
       personaPieceBox && personaFrameBox && personaFrameBox.y >= personaPieceBox.y + personaPieceBox.height,
       'Persona reserved artwork frame competes with the credited artwork card',
     );
+    const personaArt = persona.locator('.persona-piece-art');
+    assert(await personaArt.locator('img').evaluate((element) => getComputedStyle(element).objectFit === 'contain'), 'Persona art is cropped');
+    await personaArt.click();
+    const personaDialog = persona.locator('#persona-art-dialog');
+    assert(await personaDialog.evaluate((element) => element.open), 'Persona artwork viewer did not open');
+    assert(await personaDialog.locator('.persona-dialog-credit').textContent() === 'art by yoursleepywitch ↗', 'Persona viewer lost artist credit');
+    assert(await personaDialog.locator('.persona-dialog-image').evaluate((element) => element.naturalWidth === 960), 'Persona viewer did not load original art');
+    await personaDialog.locator('.persona-dialog-zoom').click();
+    assert(await personaDialog.locator('.persona-dialog-zoom').getAttribute('aria-pressed') === 'true', 'Persona actual-size toggle failed');
+    await persona.keyboard.press('Escape');
+    assert(!await personaDialog.evaluate((element) => element.open), 'Escape did not close the Persona viewer');
+    assert(await personaArt.evaluate((element) => element === document.activeElement), 'Persona viewer did not restore focus');
+    await persona.locator('.persona-collection-open').click();
+    assert(await personaDialog.locator('.persona-dialog-zoom').getAttribute('aria-pressed') === 'false', 'Persona viewer did not reset zoom');
+    await personaDialog.locator('.persona-dialog-close').click();
     await persona.close();
 
     const mobilePersona = await openCheckedPage(browser, `${baseUrl}/persona/`, { width: 390, height: 844 });
@@ -1903,6 +1918,11 @@ async function run() {
       await mobilePersona.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'mobile Persona layout overflowed after adding the continuation shelf',
     );
+    await mobilePersona.locator('.persona-piece-art').click();
+    assert(await mobilePersona.locator('#persona-art-dialog').evaluate((element) => element.open && element.scrollWidth <= element.clientWidth), 'mobile Persona viewer overflowed');
+    await mobilePersona.locator('.persona-dialog-zoom').click();
+    assert(await mobilePersona.locator('.persona-dialog-viewport').evaluate((element) => element.scrollWidth > element.clientWidth), 'mobile Persona actual-size image cannot be panned');
+    await mobilePersona.locator('.persona-dialog-close').click();
     await mobilePersona.close();
 
     const toybox = await openCheckedPage(browser, `${baseUrl}/toybox/`, { width: 1280, height: 900 }, async (page) => {

@@ -20,7 +20,7 @@ const PAGE_LAST_EDITED = Object.freeze({
   'archive/stubby/index.html': '2026-08-29T16:34:46-04:00',
   'info/index.html': '2026-10-25T20:07:38-04:00',
   'now/index.html': '2026-11-01T03:59:46-05:00',
-  'persona/index.html': '2026-10-06T13:28:41-04:00',
+  'persona/index.html': '2026-11-06T18:34:43-05:00',
   'rss/index.html': '2026-10-08T23:27:19-04:00',
   'shrines/index.html': '2026-10-25T19:38:12-04:00',
   'shrines/league/index.html': '2026-11-05T22:42:00-05:00',

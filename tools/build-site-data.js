@@ -3,6 +3,7 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 const { ARCHIVE_CATEGORIES, CATEGORY_IDS, PAGE_LAST_EDITED } = require('./site-config');
 const { tagPublicHtmlFiles } = require('./google-tag');
+const personaCollection = require('./persona-collection');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_URL = 'https://me0wberry.com';
@@ -376,6 +377,8 @@ function buildSiteData({ write = true } = {}) {
   const indexSource = fs.readFileSync(indexPath, 'utf8');
   const nowSource = fs.readFileSync(nowPath, 'utf8');
   const systemSource = fs.readFileSync(systemPath, 'utf8');
+  const personaSource = fs.readFileSync(path.join(ROOT, 'persona', 'index.html'), 'utf8');
+  const personaData = JSON.parse(fs.readFileSync(path.join(ROOT, 'persona', 'collection.json'), 'utf8'));
   const archiveTemplate = fs.readFileSync(ARCHIVE_TEMPLATE, 'utf8');
   const nowWithEntry = replaceMarkedContent(nowSource, NOW_START, NOW_END, buildNowEntry(latestNow), 'now/index.html');
   const builtNowPage = replaceMarkedContent(
@@ -413,6 +416,11 @@ function buildSiteData({ write = true } = {}) {
     {
       file: 'now/index.html',
       contents: builtNowPage,
+    },
+    {
+      file: 'persona/index.html',
+      contents: replaceMarkedContent(personaSource, personaCollection.START, personaCollection.END,
+        personaCollection.renderCollection(personaData, ROOT), 'persona/index.html'),
     },
     {
       file: 'system/index.html',

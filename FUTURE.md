@@ -1,6 +1,6 @@
 # Future Layout and Commissioned Art Checklist
 
-Status: the shared memory-window foundation and its first deliberate placements are implemented; commissioned artwork remains future work.
+Status: the shared memory-window foundation, its first deliberate placements, and the first Persona gallery pass are implemented; new commissioned artwork remains future work.
 
 ## Full-Sized Hello Window
 
@@ -43,12 +43,32 @@ Status: the shared memory-window foundation and its first deliberate placements 
 
 These locations identify only possible frame placement. Planned artwork contents remain private.
 
+## Persona and Artwork Gallery
+
+Borrow the varied artwork roles and connected character-page structure of [U-neek's Strawpage](https://u-neek.straw.page/home), not its artwork or branding. Keep me0wberry's existing pink, cream, soft-green desktop language.
+
+- [x] Keep Persona as the visual-identity and artwork home, distinct from Hello's biography.
+- [x] Add a compact appearance file using already published visual details, alongside a larger featured-art window.
+- [x] Add an enlarged, keyboard-friendly viewer with artist credit and original/showcase links kept with the image. Preserve the whole artwork rather than cropping a reference sheet.
+- [x] Generate a collection index from published artwork records so future finished pieces can be added without rebuilding the layout. Keep direct-image links usable without JavaScript.
+- [ ] Add approved reference sheets, expressions, sprites, scenes, gifts, and other finished media when available. Add browsing filters only when the collection actually needs them; do not publish empty sections.
+- [ ] Add game-specific Persona versions, including Pokemon and Splatoon, once finished artwork is available; connect each version to its relevant shrine and back to the Persona collection.
+- [ ] Choose a few final pieces for larger deliberate placements around the desktop instead of treating every image as a gallery thumbnail. Keep credits visible and follow the artist's display permissions.
+- Keep future commission briefs, unfinished pieces, artist comparisons, and planned frame contents private. The neutral reserved frame is not a preview of a commission.
+
+## Interactive Mascot
+
+- [ ] After final assets and display permissions are available, build a draggable companion that can be closed and reopened, with a few expression changes and contextual or random text lines. This is a scripted character, not a chat interface.
+- Provide keyboard and touch alternatives, reduced-motion behavior, and a remembered visibility preference. Keep the companion out of navigation, galleries, and reading areas.
+- Begin with one useful placement and expand only after it works across desktop, compact desktop, mobile, and all four themes.
+
 ## Future Shrines
 
 - [x] Publish the Warframe shrine with personal Captura, favourite-frame notes, companions, profile highlights, and automatically gathered post links.
 - [ ] Finish and publish the draft Sanrio shrine with favourite-character notes, personal collection photography, a wishlist, and links to relevant posts; do not copy official character artwork into the room without permission.
 - [x] Publish the League of Legends shrine around Sona, Nami, Soraka, and Seraphine with public profile links, dated mastery and rank snapshots, personal notes, and complete owned/missing skin and chroma cabinets. Future personal media can be added without blocking the room.
 - [x] Publish the Splatoon shrine with October 2026 photo mode screenshots, Smallfry photos, plaza memories, and a growing Anarchy Series scrapbook. Gameplay favourites, soundtrack notes, and a future commissioned-art placement can join it as the room grows.
+- [ ] Start an owned-plush photo shelf inside the Pokemon shrine when personal photos are available; keep species and collection facts tied to the actual photos rather than placeholders.
 - [ ] Revisit a broader plush collection shrine after the collection is unpacked and can be photographed properly; include the MINISO PenPen penguins among its possible subjects.
 - Keep future shrine cards off the public shrine index until each room has enough material to feel intentional.
 
