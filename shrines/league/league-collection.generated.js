@@ -1,7 +1,7 @@
 window.me0wberryLeagueCollection = {
-  "snapshotDate": "2026-10-04",
+  "snapshotDate": "2026-11-05",
   "accountTotals": {
-    "skins": 465,
+    "skins": 466,
     "chromas": 345
   },
   "sources": {
@@ -918,13 +918,13 @@ window.me0wberryLeagueCollection = {
     "nami": {
       "name": "nami",
       "summary": {
-        "skins": "12 / 14 skins",
+        "skins": "13 / 14 skins",
         "chromas": "37 / 53 chromas",
-        "note": "2 old skins + 16 chromas are still waiting"
+        "note": "koi nami + 16 chromas are still waiting"
       },
       "counts": {
         "skins": 14,
-        "ownedSkins": 12,
+        "ownedSkins": 13,
         "chromas": 53,
         "ownedChromas": 37
       },
@@ -981,9 +981,9 @@ window.me0wberryLeagueCollection = {
           "number": 2,
           "name": "River Spirit Nami",
           "officialName": "River Spirit Nami",
-          "owned": false,
+          "owned": true,
           "image": "../../images/league/skins/nami-2.webp",
-          "note": "old skin waiting for a crafting shard",
+          "note": "",
           "chromas": []
         },
         {

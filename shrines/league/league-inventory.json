@@ -1,7 +1,7 @@
 {
-  "snapshotDate": "2026-10-04",
+  "snapshotDate": "2026-11-05",
   "accountTotals": {
-    "skins": 465,
+    "skins": 466,
     "chromas": 345
   },
   "champions": {
@@ -43,17 +43,17 @@
       "assetName": "Nami",
       "includeBase": false,
       "summary": {
-        "skins": "12 / 14 skins",
+        "skins": "13 / 14 skins",
         "chromas": "37 / 53 chromas",
-        "note": "2 old skins + 16 chromas are still waiting"
+        "note": "koi nami + 16 chromas are still waiting"
       },
       "expected": {
         "skins": 14,
-        "ownedSkins": 12,
+        "ownedSkins": 13,
         "chromas": 53,
         "ownedChromas": 37
       },
-      "missingSkins": ["Koi Nami", "River Spirit Nami"],
+      "missingSkins": ["Koi Nami"],
       "missingChromas": {
         "Bewitching Nami": ["Citrine", "Pearl", "Ruby", "Sapphire", "Turquoise"],
         "Mythmaker Nami": ["Catseye", "Obsidian", "Pearl", "Rose Quartz", "Ruby", "Sapphire", "Tanzanite", "Turquoise"]
@@ -64,7 +64,6 @@
         "Coven Nami": "full set owned · profane came from Worlds 2023 loot",
         "Koi Nami": "old skin waiting for a crafting shard · its three element chromas are missing too",
         "Mythmaker Nami": "all eight chromas are waiting for a return or essence emporium",
-        "River Spirit Nami": "old skin waiting for a crafting shard",
         "Space Groove Nami": "full eight-chroma set owned",
         "Splendid Staff Nami": "full set owned · heavenly crane came from 2019 loot & many others came through essence emporiums",
         "Sunken Shadows Nami": "rolled all the way to pity on this evil gacha skin . . . spent too much money on it"

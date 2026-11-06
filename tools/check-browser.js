@@ -1622,7 +1622,7 @@ async function run() {
       'League shrine profile notes did not use the refreshed personal copy',
     );
     assert(
-      (await league.locator('.league-account-collection').textContent()).includes('465 skins')
+      (await league.locator('.league-account-collection').textContent()).includes('466 skins')
         && (await league.locator('.league-account-collection').textContent()).includes('345 chromas'),
       'League shrine did not render the whole-account collection totals',
     );
@@ -1645,8 +1645,14 @@ async function run() {
       'League shrine did not use the verified Battle Dove chroma count',
     );
     assert(
-      await league.locator('[data-league-champion="nami"] .league-skin-card.is-missing').count() === 2,
-      'League shrine did not mark Nami\'s two missing skins',
+      await league.locator('[data-league-champion="nami"] .league-skin-card.is-missing').count() === 1
+        && await league.locator('[data-league-champion="nami"] .league-skin-card.is-missing').filter({ hasText: 'Koi Nami' }).count() === 1,
+      'League shrine did not retain Koi Nami as the only missing Nami skin',
+    );
+    assert(
+      await league.locator('[data-league-champion="nami"] .league-skin-card.is-owned').filter({ hasText: 'River Spirit Nami' }).count() === 1
+        && (await league.locator('[data-league-champion="nami"] [data-league-totals]').textContent()).includes('13 / 14 skins · 37 / 53 chromas'),
+      'League shrine did not reflect River Spirit Nami ownership with unchanged chroma totals',
     );
     assert(
       await league.locator('.league-honourable-grid article').count() === 3,
