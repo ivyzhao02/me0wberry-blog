@@ -40,6 +40,12 @@ Post pages share `post.css`; Post Studio links new posts to the same file so pos
 
 The maintainable shared styles live in `styles/`, and shared browser behavior lives in `scripts/`. The build joins them into the stable public files `style.css` and `script.js`, so existing page paths and loading order do not change. Category archive pages are generated from `tools/templates/archive-category.html` using `tools/site-config.js`; edit those sources rather than individual files under `archive/<category>/`.
 
+## Security maintenance
+
+`SECURITY.md` records the current review, threat boundaries, and follow-up work. `tools/site-security.js` generates per-page CSP hashes, no-referrer/noindex metadata, and robots.txt through the normal build; it runs after generated content is assembled. Do not edit those marked metadata blocks manually. The build also fingerprints the shared CSS/JavaScript and archive-script queries through `tools/public-assets.js`, so policy updates cannot be paired with stale pre-refactor bundles. `scripts/02-post-links.js` owns internal post-link validation. Post Studio's `content-safety.js` uses a maintained HTML sanitizer for future authoring content; basic Markdown/HTML remains supported, but executable content and unsafe URL schemes do not.
+
+Run `pnpm check:security` for security regressions and a current dependency audit, and keep running the complete `pnpm check` before publishing. Crawling preferences are cooperative only; public pages, media, feeds, and the public repository are not private. Development documentation and authoring tools are excluded from the Pages deployment.
+
 ## Persona artwork
 
 `persona/collection.json` contains only finished, approved, publicly displayable artwork. Add a work with a unique stable `id`, title, kind, view description, `YYYY-MM` date, description, local `images/persona/` file, real image dimensions, descriptive alt text, artist name, and optional HTTPS artist/showcase URLs. Set `featured` to the published work to highlight, then run `pnpm build` and `pnpm check`. The build writes the featured card and collection index into the marked region of `persona/index.html`; edit the manifest rather than that generated region. A new piece needs no new HTML or JavaScript.
@@ -54,4 +60,4 @@ The maintainable shared styles live in `styles/`, and shared browser behavior li
 
 `scripts/26-credits.js` owns the hoverable, dismissible credit bubble, including the existing cursor credits in System. Known makers and collection sources remain separate. Per Ivy's attribution, non-Luna kaomoji link to Emoji Combos; the faces themselves and their copy behavior are unchanged.
 
-Trinkets and System use matching versioned asset queries so cached shared files cannot break newly published controls. Advance those query versions together when changing this feature's scripts or styles, including when publishing multiple updates on the same day.
+Trinkets and System use matching versioned asset queries so cached shared files cannot break newly published controls. The build now updates shared bundle versions automatically. Continue advancing trinket-specific standalone-script queries together when those files change, including when publishing multiple updates on the same day.

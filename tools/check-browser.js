@@ -7,6 +7,8 @@ const { chromium } = require('playwright-core');
 const { listPublicHtmlFiles } = require('./google-tag');
 const { ARCHIVE_CATEGORIES } = require('./site-config');
 const { createStudioServer } = require('./post-studio/server');
+const { securePublicHtml } = require('./site-security');
+const { buildPostHtml } = require('./post-studio/post-generator');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONTENT_TYPES = new Map([
@@ -81,6 +83,12 @@ function browserOptions() {
 
 async function blockExternalRequests(page) {
   await page.route(/^https?:\/\/(?!127\.0\.0\.1(?::\d+)?(?:\/|$))/i, route => route.abort());
+  await page.addInitScript(() => {
+    window.sitePolicyViolations = [];
+    document.addEventListener('securitypolicyviolation', (event) => {
+      window.sitePolicyViolations.push(`${event.effectiveDirective}: ${event.blockedURI}`);
+    });
+  });
 }
 
 async function openCheckedPage(browser, url, viewport, setup) {
@@ -187,6 +195,7 @@ async function smokePublicPages(browser, baseUrl) {
             document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
           ));
           if (overflows) problems.push('page overflows horizontally');
+          problems.push(...await page.evaluate(() => window.sitePolicyViolations));
           const undersizedPixelText = await page.evaluate(() => Array.from(document.querySelectorAll('body *'))
             .filter((element) => {
               const style = getComputedStyle(element);
@@ -427,6 +436,75 @@ async function checkPostStudioAuthentication(browser) {
   }
 }
 
+async function checkSecurityBoundaries(browser, baseUrl) {
+  const postPath = JSON.parse(fs.readFileSync(path.join(ROOT, 'posts/games/index.json'), 'utf8'))[0].file;
+  const title = 'needle <img src=x onerror="window.injectedFromData=1">';
+  const records = [
+    { title, date: '<b>test date</b>', category: 'games', file: postPath, url: `/${postPath}`, text: 'needle' },
+    { title: 'needle unsafe destination', category: 'games', url: 'javascript:alert(1)', text: 'needle' },
+    { title: 'needle external destination', category: 'games', url: 'https://example.invalid/', text: 'needle' },
+  ];
+  const prepare = async (page) => {
+    await page.route('**/posts/games/index.json*', (route) => route.fulfill({ json: records }));
+    await page.route('**/data/search-index.json*', (route) => route.fulfill({ json: { posts: records } }));
+  };
+  const home = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 1280, height: 900 }, prepare);
+  try {
+    await home.waitForFunction((expected) => document.getElementById('latest-games').textContent.includes(expected), title);
+    assert(await home.locator('#latest-games img, #latest-games b').count() === 0, 'home interpreted post metadata as HTML');
+    assert(await home.locator('#latest-games a').evaluate((link, expected) => new URL(link.href).pathname === `/${expected}` && new URL(link.href).origin === location.origin, postPath), 'home accepted an unsafe post destination');
+    assert(await home.locator('#posts-games li').count() === 0, 'home rendered unsafe post destinations');
+    await home.evaluate(() => {
+      const script = document.createElement('script');
+      script.textContent = 'window.injectedUnexpectedScript=1';
+      document.body.appendChild(script);
+      const image = document.createElement('img');
+      image.setAttribute('onerror', 'window.injectedUnexpectedHandler=1');
+      document.body.appendChild(image);
+      image.dispatchEvent(new Event('error'));
+      const frame = document.createElement('iframe');
+      frame.src = 'https://example.invalid/unapproved-frame';
+      document.body.appendChild(frame);
+    });
+    await home.waitForTimeout(100);
+    assert(await home.evaluate(() => !window.injectedUnexpectedScript && !window.injectedUnexpectedHandler), 'CSP allowed arbitrary inline code');
+    const violations = await home.evaluate(() => window.sitePolicyViolations.join('\n'));
+    assert(violations.includes('script-src-elem: inline') && violations.includes('script-src-attr: inline'), 'browser did not enforce script and handler CSP');
+    assert(violations.includes('frame-src:'), 'browser allowed an unapproved frame');
+  } finally { await home.close(); }
+
+  const archive = await openCheckedPage(browser, `${baseUrl}/archive/games/`, { width: 1280, height: 900 }, prepare);
+  try {
+    await archive.waitForFunction((expected) => document.getElementById('archive-list').textContent.includes(expected), title);
+    assert(await archive.locator('#archive-list img, #archive-list b').count() === 0, 'archive interpreted metadata as HTML');
+    assert(await archive.locator('#archive-list a').count() === 1, 'archive accepted unsafe destinations');
+  } finally { await archive.close(); }
+
+  const search = await openCheckedPage(browser, `${baseUrl}/archive/`, { width: 1280, height: 900 }, prepare);
+  try {
+    await search.locator('#archive-search').fill('needle');
+    assert(await search.locator('.archive-search-result').count() === 1, 'search accepted unsafe destinations');
+    assert(await search.locator('.archive-search-result-title').textContent() === title, 'search changed literal metadata');
+    assert(await search.locator('.archive-search-result img').count() === 0, 'search interpreted metadata as HTML');
+    await search.locator('#archive-search').fill('<img src=x onerror="window.injectedFromSearch=1">');
+    assert(await search.locator('#archive-search-status').textContent().then((text) => text.includes('<img')), 'search query was not displayed literally');
+    assert(await search.evaluate(() => !window.injectedFromSearch && !window.injectedFromData), 'search query or metadata executed');
+  } finally { await search.close(); }
+
+  const authored = securePublicHtml(buildPostHtml({ category: 'games', title: 'Security fixture', date: 'test only',
+    content: '<p onclick="window.pastedScript=1">safe formatting <strong>stays</strong></p><script>window.pastedScript=1</script><img src="../../images/cat-avatar_2.png" onload="window.pastedScript=1" alt="test cat">',
+    images: [], imageUrl: '', lately: {} }));
+  const post = await openCheckedPage(browser, `${baseUrl}/posts/games/security-fixture.html`, { width: 1280, height: 900 }, async (page) => {
+    await page.route('**/posts/games/security-fixture.html', (route) => route.fulfill({ contentType: 'text/html', body: authored }));
+  });
+  try {
+    assert(await post.locator('.post-content strong').textContent() === 'stays', 'sanitizer removed ordinary formatting');
+    assert(await post.locator('.post-content [onclick], .post-content [onload], .post-content script').count() === 0, 'pasted code survived sanitization');
+    assert(await post.evaluate(() => !window.pastedScript), 'pasted code executed in a generated post');
+    assert((await post.evaluate(() => window.sitePolicyViolations)).length === 0, 'sanitized post violates its generated CSP');
+  } finally { await post.close(); }
+}
+
 async function run() {
   const server = await startServer();
   const address = server.address();
@@ -436,6 +514,7 @@ async function run() {
 
   try {
     await checkPostStudioAuthentication(browser);
+    await checkSecurityBoundaries(browser, baseUrl);
     const missing = await browser.newPage({ viewport: { width: 1000, height: 760 } });
     await blockExternalRequests(missing);
     const missingAssetProblems = [];

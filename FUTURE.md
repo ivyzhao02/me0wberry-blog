@@ -72,6 +72,15 @@ Borrow the varied artwork roles and connected character-page structure of [U-nee
 - [ ] Revisit a broader plush collection shrine after the collection is unpacked and can be photographed properly; include the MINISO PenPen penguins among its possible subjects.
 - Keep future shrine cards off the public shrine index until each room has enough material to feel intentional.
 
+## Maintenance and Security
+
+- [x] Complete a focused November 2026 security pass: text-safe post rendering, internal post-link validation, sanitized authoring content, generated browser policies, and regression tests. See `SECURITY.md` for scope and limitations.
+- [x] Request no crawling or indexing, including ordinary search engines, without claiming this prevents scraping or removes existing search listings.
+- [ ] Gradually consolidate repeated desktop chrome into shared static templates, keeping URLs, themes, and direct-file previews intact.
+- [ ] Migrate remaining inline event attributes to event listeners, then retire their hashed CSP exceptions.
+- [ ] Split the browser suite into focused feature groups as more tests are added; retain full pre-publish coverage.
+- [ ] Consider a separately approved hosting/proxy layer for rate limits, bot challenges, response headers, and stronger framing controls. This needs DNS/account setup and compatibility testing, not just repository edits.
+
 ## Copy Maintenance
 
 - Review evergreen and static copy once every three months; the next planned review is December 2026.

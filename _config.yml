@@ -3,3 +3,10 @@ exclude:
   - codex-notes/
   - scripts/
   - styles/
+  - node_modules/
+  - package.json
+  - pnpm-lock.yaml
+  - README.md
+  - FUTURE.md
+  - SECURITY.md
+  - persona/collection.json

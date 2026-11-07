@@ -1,6 +1,7 @@
 const path = require('path');
 const { CATEGORY_IDS } = require('../site-config');
 const { GOOGLE_TAG_SNIPPET } = require('../google-tag');
+const { safeImageUrl, sanitizePostContent } = require('./content-safety');
 
 const CATEGORIES = new Set(CATEGORY_IDS);
 const GALLERY_CATEGORIES = CATEGORIES;
@@ -66,12 +67,12 @@ function renderTextBlock(block) {
 }
 
 function markdownToHtml(markdown = '') {
-  return markdown.split('\n\n').map((block) => {
+  return sanitizePostContent(markdown.split('\n\n').map((block) => {
     const trimmed = block.trim();
     if (!trimmed) return '';
     if (trimmed.startsWith('<')) return trimmed;
     return renderTextBlock(trimmed);
-  }).join('\n');
+  }).join('\n'));
 }
 
 function toBullets(text = '') {
@@ -110,7 +111,7 @@ function toPostAssetPath(src) {
 
 function buildImageHtml(src, alt) {
   if (!src) return '';
-  return `    <img class="post-image" src="${toPostAssetPath(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
+  return `    <img class="post-image" src="${escapeHtml(toPostAssetPath(safeImageUrl(src)))}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async"/>`;
 }
 
 function buildPostGallery(images, category, alt, previewImage = '') {

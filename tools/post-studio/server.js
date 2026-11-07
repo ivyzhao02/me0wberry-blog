@@ -21,6 +21,7 @@ const MAX_IMAGE_DIMENSION = 1920;
 const WEBP_QUALITY = 84;
 const POST_PREVIEW_DIMENSION = 1280;
 const POST_PREVIEW_QUALITY = 80;
+const STUDIO_CSP = "default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'";
 const PUBLIC_FILES = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
@@ -129,9 +130,13 @@ async function convertHeicToWebp(buffer) {
 
 async function sanitizeUploadedImage(buffer, extension) {
   if (HEIC_EXTENSIONS.has(extension)) return convertHeicToWebp(buffer);
-  if (extension === '.gif') return buffer;
 
   const metadata = await sharp(buffer, { failOn: 'error' }).metadata();
+  const expectedFormat = { '.gif': 'gif', '.jpg': 'jpeg', '.jpeg': 'jpeg', '.png': 'png', '.webp': 'webp' }[extension];
+  if (!expectedFormat || metadata.format !== expectedFormat) {
+    throw new Error('The uploaded file does not match its supported image extension.');
+  }
+  if (extension === '.gif') return buffer;
   if (extension === '.webp' && (!metadata.orientation || metadata.orientation === 1)) {
     return stripWebpPrivateMetadata(buffer);
   }
@@ -312,11 +317,13 @@ function createStudioServer({ token = randomBytes(32).toString('hex'), createPos
     throw new Error('Post Studio requires a 32-byte authentication token.');
   }
   const expectedToken = Buffer.from(token, 'utf8');
+  let isWriting = false;
   const server = http.createServer(async (req, res) => {
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('Referrer-Policy', 'no-referrer');
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Content-Security-Policy', STUDIO_CSP);
 
     const port = server.address().port;
     const host = String(req.headers.host || '').toLowerCase();
@@ -354,7 +361,16 @@ function createStudioServer({ token = randomBytes(32).toString('hex'), createPos
         }
 
         const payload = JSON.parse(await readBody(req));
-        sendJson(res, 200, await createPostHandler(payload));
+        if (isWriting) {
+          sendJson(res, 409, { error: 'Another post is being created. Wait for it to finish before submitting again.' });
+          return;
+        }
+        isWriting = true;
+        try {
+          sendJson(res, 200, await createPostHandler(payload));
+        } finally {
+          isWriting = false;
+        }
         return;
       }
 

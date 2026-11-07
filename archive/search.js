@@ -36,7 +36,7 @@
 
     const link = document.createElement('a');
     link.className = 'archive-search-result-title';
-    link.href = siteUrl(post.url);
+    link.href = window.me0wberrySafePostHref(post.url);
     link.textContent = post.title;
 
     const meta = document.createElement('div');
@@ -83,7 +83,7 @@
         data = window.me0wberrySearchIndex;
         if (!data) throw fetchError;
       }
-      posts = Array.isArray(data.posts) ? data.posts : [];
+      posts = (Array.isArray(data.posts) ? data.posts : []).filter((post) => post && window.me0wberrySafePostHref(post.url));
       input.disabled = false;
       clearButton.disabled = false;
       status.textContent = 'searches titles , categories & the words inside posts';

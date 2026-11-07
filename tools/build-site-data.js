@@ -1,9 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
+const { createHash } = require('crypto');
 const { ARCHIVE_CATEGORIES, CATEGORY_IDS, PAGE_LAST_EDITED } = require('./site-config');
-const { tagPublicHtmlFiles } = require('./google-tag');
+const { tagPublicHtmlFiles, listPublicHtmlFiles } = require('./google-tag');
 const personaCollection = require('./persona-collection');
+const { securePublicHtml, ROBOTS_TXT } = require('./site-security');
+const { versionAssetLinks } = require('./public-assets');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_URL = 'https://me0wberry.com';
@@ -19,6 +22,7 @@ const STYLE_SOURCES = [
 ];
 const SCRIPT_SOURCES = [
   'scripts/00-core.js',
+  'scripts/02-post-links.js',
   'scripts/05-page-last-edited.js',
   'scripts/10-desktop.js',
   'scripts/15-player-catalog.js',
@@ -431,6 +435,22 @@ function buildSiteData({ write = true } = {}) {
       contents: buildArchiveCategoryPage(category, archiveTemplate),
     })),
   ];
+
+  outputs.push({ file: 'robots.txt', contents: ROBOTS_TXT });
+  // Keep a new browser policy from being paired with a cached pre-refactor bundle.
+  const versionedAssets = new Map(['script.js', 'style.css', 'archive/search.js', 'archive/archive-list.js'].map((file) => {
+    const contents = outputs.find((output) => output.file === file)?.contents || fs.readFileSync(path.join(ROOT, file), 'utf8');
+    return [file, createHash('sha256').update(contents.replace(/\r\n?/g, '\n')).digest('hex').slice(0, 12)];
+  }));
+  const generatedHtml = new Map(outputs.filter((output) => output.file.endsWith('.html')).map((output) => [output.file, output]));
+  for (const filePath of listPublicHtmlFiles(ROOT)) {
+    const file = path.relative(ROOT, filePath).split(path.sep).join('/');
+    const generated = generatedHtml.get(file);
+    const source = generated ? generated.contents : fs.readFileSync(filePath, 'utf8');
+    const contents = securePublicHtml(versionAssetLinks(source, file, versionedAssets));
+    if (generated) generated.contents = contents;
+    else outputs.push({ file, contents });
+  }
 
   if (write) {
     outputs.forEach((output) => writeAtomic(path.join(ROOT, output.file), output.contents));

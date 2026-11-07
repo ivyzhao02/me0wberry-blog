@@ -514,7 +514,7 @@
       });
 
       if (isMobileViewport()) {
-        openApps.innerHTML = '';
+        openApps.replaceChildren();
         return;
       }
 
@@ -522,10 +522,21 @@
         .filter(panel => TASKBAR_PANEL_META[panel.id])
         .sort((a, b) => TASKBAR_PANEL_META[a.id].order - TASKBAR_PANEL_META[b.id].order);
 
-      openApps.innerHTML = openPanels.map(panel => {
+      openApps.replaceChildren(...openPanels.map(panel => {
         const meta = TASKBAR_PANEL_META[panel.id];
-        return `<button class="taskbar-window" onclick="focusTaskbarPanel('${panel.id}')" title="${meta.label}"><img class="taskbar-window-icon" src="${meta.icon}" alt="" aria-hidden="true"></button>`;
-      }).join('');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'taskbar-window';
+        button.title = meta.label;
+        button.addEventListener('click', () => focusTaskbarPanel(panel.id));
+        const icon = document.createElement('img');
+        icon.className = 'taskbar-window-icon';
+        icon.src = meta.icon;
+        icon.alt = '';
+        icon.setAttribute('aria-hidden', 'true');
+        button.appendChild(icon);
+        return button;
+      }));
     }
 
     function openStubbyGifypet() {

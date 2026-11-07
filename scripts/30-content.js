@@ -118,9 +118,11 @@
 
     // ── Update category panel after post ──
     function updateCategoryPanel(category, posts) {
-      const linkedPosts = posts.map((post) => {
+      const linkedPosts = (Array.isArray(posts) ? posts : []).map((post) => {
+        if (!post || typeof post !== 'object') return null;
         const path = post.url || post.file;
-        return path ? { ...post, href: sitePath(path) } : null;
+        const href = safePostHref(path);
+        return href ? { ...post, href } : null;
       }).filter(Boolean);
       if (!linkedPosts.length) return;
 
@@ -129,18 +131,37 @@
       const postsEl  = document.getElementById(`posts-${category}`);
 
       if (latestEl) {
-        latestEl.innerHTML = `
-          <div class="panel-px-label" style="margin-bottom:6px;">latest ✦</div>
-          <div style="font-size:13px;font-weight:500;color:var(--heading);margin-bottom:2px;">${latest.title}</div>
-          <div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:10px;">${latest.date}</div>
-          <a href="${latest.href}" class="pixel-btn" style="font-size:11px;">read ↗</a>
-        `;
+        const label = document.createElement('div');
+        label.className = 'panel-px-label';
+        label.style.marginBottom = '6px';
+        label.textContent = 'latest ✦';
+        const title = document.createElement('div');
+        title.style.cssText = 'font-size:13px;font-weight:500;color:var(--heading);margin-bottom:2px;';
+        title.textContent = latest.title;
+        const date = document.createElement('div');
+        date.style.cssText = 'font-size:11px;color:var(--muted);font-style:italic;margin-bottom:10px;';
+        date.textContent = latest.date;
+        const read = document.createElement('a');
+        read.href = latest.href;
+        read.className = 'pixel-btn';
+        read.style.fontSize = '11px';
+        read.textContent = 'read ↗';
+        latestEl.replaceChildren(label, title, date, read);
       }
 
-      if (postsEl && linkedPosts.length > 1) {
-        postsEl.innerHTML = linkedPosts.slice(1).map(p =>
-          `<li><a href="${p.href}" style="color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);">${p.title}</a> <span style="color:var(--muted);font-size:11px;">· ${p.date}</span></li>`
-        ).join('');
+      if (postsEl) {
+        postsEl.replaceChildren(...linkedPosts.slice(1).map((post) => {
+          const item = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = post.href;
+          link.style.cssText = 'color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);';
+          link.textContent = post.title;
+          const date = document.createElement('span');
+          date.style.cssText = 'color:var(--muted);font-size:11px;';
+          date.textContent = `· ${post.date}`;
+          item.append(link, ' ', date);
+          return item;
+        }));
       }
     }
 

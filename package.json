@@ -4,7 +4,8 @@
   "scripts": {
     "build": "node tools/build-site-data.js",
     "build:league": "node tools/build-league-collection.js",
-    "check": "node tools/check-site.js && node --test tools/persona-collection.test.js tools/post-studio/auth.test.js && node tools/check-browser.js",
+    "check": "node tools/check-site.js && node --test tools/persona-collection.test.js tools/site-security.test.js tools/post-studio/auth.test.js && node tools/check-browser.js",
+    "check:security": "node --test tools/site-security.test.js tools/post-studio/auth.test.js && pnpm audit",
     "check:site": "node tools/check-site.js",
     "check:studio": "node --test tools/post-studio/auth.test.js",
     "check:browser": "node tools/check-browser.js"
@@ -14,6 +15,8 @@
   },
   "dependencies": {
     "heic-decode": "^2.1.0",
+    "htmlparser2": "12.0.0",
+    "sanitize-html": "2.18.1",
     "sharp": "^0.35.5"
   }
 }

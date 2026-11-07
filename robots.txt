@@ -1,0 +1,3 @@
+# Requests for cooperative crawlers only; this is not access control.
+User-agent: *
+Disallow: /

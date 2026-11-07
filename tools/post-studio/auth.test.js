@@ -80,6 +80,8 @@ test('Post Studio protects authoring requests without exposing its session token
       assert.equal(response.headers['cache-control'], 'no-store');
       assert.equal(response.headers['referrer-policy'], 'no-referrer');
       assert.equal(response.headers['x-frame-options'], 'DENY');
+      assert.match(response.headers['content-security-policy'], /script-src 'self'/);
+      assert.match(response.headers['content-security-policy'], /frame-ancestors 'none'/);
       assert.equal(response.headers['access-control-allow-origin'], undefined);
       assert.equal(response.headers['set-cookie'], undefined);
     }
@@ -180,4 +182,35 @@ test('Post Studio protects authoring requests without exposing its session token
       assert.equal(response.text.includes(TEST_TOKEN), false);
     }
   });
+});
+
+test('concurrent authenticated writes are rejected without losing the first submission', async () => {
+  let started;
+  let finish;
+  const writing = new Promise((resolve) => { started = resolve; });
+  const release = new Promise((resolve) => { finish = resolve; });
+  let calls = 0;
+  const server = createStudioServer({ token: TEST_TOKEN, createPostHandler: async () => {
+    calls += 1;
+    started();
+    await release;
+    return { post: 'test-only' };
+  } });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const url = `http://127.0.0.1:${server.address().port}`;
+  const send = () => fetch(`${url}/api/create-post`, { method: 'POST',
+    headers: { Origin: url, 'Content-Type': 'application/json', 'X-Post-Studio-Token': TEST_TOKEN },
+    body: JSON.stringify(PAYLOAD) });
+  try {
+    const first = send();
+    await writing;
+    const second = await send();
+    assert.equal(second.status, 409);
+    assert.equal(calls, 1);
+    finish();
+    assert.equal((await first).status, 200);
+  } finally {
+    finish();
+    await new Promise((resolve) => server.close(resolve));
+  }
 });

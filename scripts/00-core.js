@@ -17,9 +17,9 @@
         })
         .then((data) => {
           if (!Array.isArray(data.posts)) throw new Error('search index did not contain posts');
-          return data.posts;
+          return data.posts.filter((post) => post && safePostHref(post.url || post.file));
         })
-        .catch(() => (Array.isArray(bundledPosts) ? bundledPosts : []));
+        .catch(() => (Array.isArray(bundledPosts) ? bundledPosts.filter((post) => post && safePostHref(post.url || post.file)) : []));
 
       return freshSearchPostsRequest;
     }

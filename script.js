@@ -40,9 +40,9 @@ window.me0wberryPageLastEdited = Object.freeze({
         })
         .then((data) => {
           if (!Array.isArray(data.posts)) throw new Error('search index did not contain posts');
-          return data.posts;
+          return data.posts.filter((post) => post && safePostHref(post.url || post.file));
         })
-        .catch(() => (Array.isArray(bundledPosts) ? bundledPosts : []));
+        .catch(() => (Array.isArray(bundledPosts) ? bundledPosts.filter((post) => post && safePostHref(post.url || post.file)) : []));
 
       return freshSearchPostsRequest;
     }
@@ -298,6 +298,14 @@ window.me0wberryPageLastEdited = Object.freeze({
     }
 
     window.surpriseMe = surpriseMe;
+
+    // Post indexes are data, never markup or arbitrary navigation destinations.
+    function safePostHref(value) {
+      if (typeof value !== 'string' || !/^\/?posts\/(?:games|music|food|stubby|beauty|lately)\/[a-zA-Z0-9_-]+\.html$/.test(value)) return null;
+      return sitePath(`/${value.replace(/^\//, '')}`);
+    }
+
+    window.me0wberrySafePostHref = safePostHref;
 
 (() => {
   const pageDates = window.me0wberryPageLastEdited;
@@ -867,7 +875,7 @@ window.me0wberryPageLastEdited = Object.freeze({
       });
 
       if (isMobileViewport()) {
-        openApps.innerHTML = '';
+        openApps.replaceChildren();
         return;
       }
 
@@ -875,10 +883,21 @@ window.me0wberryPageLastEdited = Object.freeze({
         .filter(panel => TASKBAR_PANEL_META[panel.id])
         .sort((a, b) => TASKBAR_PANEL_META[a.id].order - TASKBAR_PANEL_META[b.id].order);
 
-      openApps.innerHTML = openPanels.map(panel => {
+      openApps.replaceChildren(...openPanels.map(panel => {
         const meta = TASKBAR_PANEL_META[panel.id];
-        return `<button class="taskbar-window" onclick="focusTaskbarPanel('${panel.id}')" title="${meta.label}"><img class="taskbar-window-icon" src="${meta.icon}" alt="" aria-hidden="true"></button>`;
-      }).join('');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'taskbar-window';
+        button.title = meta.label;
+        button.addEventListener('click', () => focusTaskbarPanel(panel.id));
+        const icon = document.createElement('img');
+        icon.className = 'taskbar-window-icon';
+        icon.src = meta.icon;
+        icon.alt = '';
+        icon.setAttribute('aria-hidden', 'true');
+        button.appendChild(icon);
+        return button;
+      }));
     }
 
     function openStubbyGifypet() {
@@ -1771,9 +1790,11 @@ window.me0wberryPageLastEdited = Object.freeze({
 
     // ── Update category panel after post ──
     function updateCategoryPanel(category, posts) {
-      const linkedPosts = posts.map((post) => {
+      const linkedPosts = (Array.isArray(posts) ? posts : []).map((post) => {
+        if (!post || typeof post !== 'object') return null;
         const path = post.url || post.file;
-        return path ? { ...post, href: sitePath(path) } : null;
+        const href = safePostHref(path);
+        return href ? { ...post, href } : null;
       }).filter(Boolean);
       if (!linkedPosts.length) return;
 
@@ -1782,18 +1803,37 @@ window.me0wberryPageLastEdited = Object.freeze({
       const postsEl  = document.getElementById(`posts-${category}`);
 
       if (latestEl) {
-        latestEl.innerHTML = `
-          <div class="panel-px-label" style="margin-bottom:6px;">latest ✦</div>
-          <div style="font-size:13px;font-weight:500;color:var(--heading);margin-bottom:2px;">${latest.title}</div>
-          <div style="font-size:11px;color:var(--muted);font-style:italic;margin-bottom:10px;">${latest.date}</div>
-          <a href="${latest.href}" class="pixel-btn" style="font-size:11px;">read ↗</a>
-        `;
+        const label = document.createElement('div');
+        label.className = 'panel-px-label';
+        label.style.marginBottom = '6px';
+        label.textContent = 'latest ✦';
+        const title = document.createElement('div');
+        title.style.cssText = 'font-size:13px;font-weight:500;color:var(--heading);margin-bottom:2px;';
+        title.textContent = latest.title;
+        const date = document.createElement('div');
+        date.style.cssText = 'font-size:11px;color:var(--muted);font-style:italic;margin-bottom:10px;';
+        date.textContent = latest.date;
+        const read = document.createElement('a');
+        read.href = latest.href;
+        read.className = 'pixel-btn';
+        read.style.fontSize = '11px';
+        read.textContent = 'read ↗';
+        latestEl.replaceChildren(label, title, date, read);
       }
 
-      if (postsEl && linkedPosts.length > 1) {
-        postsEl.innerHTML = linkedPosts.slice(1).map(p =>
-          `<li><a href="${p.href}" style="color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);">${p.title}</a> <span style="color:var(--muted);font-size:11px;">· ${p.date}</span></li>`
-        ).join('');
+      if (postsEl) {
+        postsEl.replaceChildren(...linkedPosts.slice(1).map((post) => {
+          const item = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = post.href;
+          link.style.cssText = 'color:var(--pink);font-size:13px;text-decoration:none;border-bottom:1px dotted rgba(224,112,144,0.4);';
+          link.textContent = post.title;
+          const date = document.createElement('span');
+          date.style.cssText = 'color:var(--muted);font-size:11px;';
+          date.textContent = `· ${post.date}`;
+          item.append(link, ' ', date);
+          return item;
+        }));
       }
     }
 
