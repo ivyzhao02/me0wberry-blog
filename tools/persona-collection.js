@@ -67,7 +67,7 @@ function renderCollection(collection, root) {
     START,
     '          <section class="persona-gallery" aria-labelledby="persona-gallery-title">',
     '            <h2 class="persona-section-title" id="persona-gallery-title">featured artwork <span aria-hidden="true">✧˖°</span></h2>',
-    '            <article class="persona-piece-card">',
+    `            <article class="persona-piece-card${featured.width / featured.height > 2.2 ? ' persona-piece-card--wide' : ''}">`,
     '              <div class="persona-art-window">',
     '                <div class="persona-window-bar"><span>image viewer</span><span aria-hidden="true">♡</span></div>',
     `                <a class="persona-piece-art" ${openLink} aria-label="enlarge ${escapeHtml(featured.title)}">${image(featured)}</a>`,

@@ -9,6 +9,7 @@ const { ARCHIVE_CATEGORIES } = require('./site-config');
 const { createStudioServer } = require('./post-studio/server');
 const { securePublicHtml } = require('./site-security');
 const { buildPostHtml } = require('./post-studio/post-generator');
+const personaCollection = require('../persona/collection.json');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONTENT_TYPES = new Map([
@@ -1979,16 +1980,30 @@ async function run() {
     await personaArt.click();
     const personaDialog = persona.locator('#persona-art-dialog');
     assert(await personaDialog.evaluate((element) => element.open), 'Persona artwork viewer did not open');
-    assert(await personaDialog.locator('.persona-dialog-credit').textContent() === 'art by yoursleepywitch ↗', 'Persona viewer lost artist credit');
-    assert(await personaDialog.locator('.persona-dialog-image').evaluate((element) => element.naturalWidth === 960), 'Persona viewer did not load original art');
+    const featuredPersona = personaCollection.works.find((work) => work.id === personaCollection.featured);
+    assert(await personaDialog.locator('.persona-dialog-credit').textContent() === `art by ${featuredPersona.artist.name} ↗`, 'Persona viewer lost artist credit');
+    assert(await personaDialog.locator('.persona-dialog-image').evaluate((element, width) => element.naturalWidth === width, featuredPersona.width), 'Persona viewer did not load the website export');
     await personaDialog.locator('.persona-dialog-zoom').click();
     assert(await personaDialog.locator('.persona-dialog-zoom').getAttribute('aria-pressed') === 'true', 'Persona actual-size toggle failed');
     await persona.keyboard.press('Escape');
     assert(!await personaDialog.evaluate((element) => element.open), 'Escape did not close the Persona viewer');
     assert(await personaArt.evaluate((element) => element === document.activeElement), 'Persona viewer did not restore focus');
-    await persona.locator('.persona-collection-open').click();
+    await persona.locator('.persona-collection-open').first().click();
     assert(await personaDialog.locator('.persona-dialog-zoom').getAttribute('aria-pressed') === 'false', 'Persona viewer did not reset zoom');
     await personaDialog.locator('.persona-dialog-close').click();
+    for (const work of personaCollection.works) {
+      await persona.locator(`#work-${work.id} .persona-collection-open`).click();
+      assert(await personaDialog.locator('.persona-dialog-credit').textContent() === `art by ${work.artist.name} ↗`, `Persona credit mismatch on ${work.id}`);
+      assert(await personaDialog.locator('.persona-dialog-original').getAttribute('href').then((href) => href.endsWith(work.image)), `Persona export link mismatch on ${work.id}`);
+      await persona.keyboard.press('Escape');
+    }
+    assert(await persona.locator('.persona-collection-item').count() === personaCollection.works.length, 'Persona collection count is wrong');
+    const privateShelf = persona.locator('.persona-private-shelf');
+    assert(await privateShelf.locator('[data-persona-open], a[href$=".webp"]').count() === 0, 'private reference can open in the artwork viewer');
+    assert(await privateShelf.locator('img').getAttribute('src') === '../images/persona/me0wberry-private-reference-frosted.webp', 'private reference loaded something other than its colour teaser');
+    assert(await privateShelf.locator('a.pixel-btn').getAttribute('href') === '../info/index.html#find-me-title', 'private reference should offer contact, not file access');
+    assert(!(await persona.locator('.persona-profile-notes').textContent()).includes('twin buns'), 'appearance notes still prescribe the first hairstyle');
+    assert((await persona.locator('.persona-profile-notes').textContent()).includes('slight wave'), 'general hair guidance is missing');
     await persona.close();
 
     const mobilePersona = await openCheckedPage(browser, `${baseUrl}/persona/`, { width: 390, height: 844 });

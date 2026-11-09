@@ -1,6 +1,6 @@
 # Future Layout and Commissioned Art Checklist
 
-Status: the shared memory-window foundation, its first deliberate placements, and the first Persona gallery pass are implemented; new commissioned artwork remains future work.
+Status: the shared memory-window foundation, its first deliberate placements, and the Persona gallery are implemented. The finished character sheet, full-body portrait, and bonus doodle are integrated; further artwork placements remain future work.
 
 ## Full-Sized Hello Window
 
@@ -51,7 +51,9 @@ Borrow the varied artwork roles and connected character-page structure of [U-nee
 - [x] Add a compact appearance file using already published visual details, alongside a larger featured-art window.
 - [x] Add an enlarged, keyboard-friendly viewer with artist credit and original/showcase links kept with the image. Preserve the whole artwork rather than cropping a reference sheet.
 - [x] Generate a collection index from published artwork records so future finished pieces can be added without rebuilding the layout. Keep direct-image links usable without JavaScript.
-- [ ] Add approved reference sheets, expressions, sprites, scenes, gifts, and other finished media when available. Add browsing filters only when the collection actually needs them; do not publish empty sections.
+- [x] Add the approved character reference sheet with adjacent artist credit, a persistent System credit, and an uncropped wide viewer.
+- [x] Add the approved full-body and bonus exports with adjacent credits, generalize the appearance notes for future artists, and keep the tattoo sheet private behind an abstract frosted teaser and contact invitation.
+- [ ] Add further approved reference sheets, expressions, sprites, scenes, gifts, and other finished media when available. Add browsing filters only when the collection actually needs them; do not publish empty sections.
 - [ ] Add game-specific Persona versions, including Pokemon and Splatoon, once finished artwork is available; connect each version to its relevant shrine and back to the Persona collection.
 - [ ] Choose a few final pieces for larger deliberate placements around the desktop instead of treating every image as a gallery thumbnail. Keep credits visible and follow the artist's display permissions.
 - Keep future commission briefs, unfinished pieces, artist comparisons, and planned frame contents private. The neutral reserved frame is not a preview of a commission.

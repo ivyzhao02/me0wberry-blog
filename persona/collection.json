@@ -1,6 +1,54 @@
 {
-  "featured": "minecraft-skin",
+  "featured": "character-reference",
   "works": [
+    {
+      "id": "character-reference",
+      "title": "character reference sheet",
+      "kind": "commission",
+      "view": "turnaround + close-ups",
+      "date": "2026-11",
+      "description": "me0wberry in pink + green , down to the heart cardigan & matching shoes ! my finished character sheet by kailynvrse ♡",
+      "image": "images/persona/me0wberry-character-reference-kailynvrse.webp",
+      "width": 3600,
+      "height": 1260,
+      "alt": "signed character reference sheet for me0wberry by kailynvrse, showing front, side and back views in a pink heart cardigan and green skirt, hair and face close-ups, jewellery and a colour palette",
+      "artist": {
+        "name": "kailynvrse",
+        "url": "https://www.instagram.com/kailynvrse"
+      }
+    },
+    {
+      "id": "full-body",
+      "title": "full-body portrait",
+      "kind": "commission",
+      "view": "transparent full-body export",
+      "date": "2026-11",
+      "description": "the full outfit gets its own picture too . . soft layers , pink + green & the matching shoes ♡",
+      "image": "images/persona/me0wberry-full-body-kailynvrse.webp",
+      "width": 1400,
+      "height": 1960,
+      "alt": "full-body illustration of me0wberry by kailynvrse, with black hair, glasses, a pink heart cardigan, a green skirt and matching trainers on a transparent background",
+      "artist": {
+        "name": "kailynvrse",
+        "url": "https://www.instagram.com/kailynvrse"
+      }
+    },
+    {
+      "id": "bonus-doodle",
+      "title": "bonus doodle",
+      "kind": "bonus",
+      "view": "transparent chibi doodle",
+      "date": "2026-11",
+      "description": "a bonus from kailynvrse ! tiny me giving a very enthusiastic thumbs up ♡",
+      "image": "images/persona/me0wberry-bonus-doodle-kailynvrse.webp",
+      "width": 900,
+      "height": 900,
+      "alt": "playful chibi doodle of me0wberry by kailynvrse giving a large thumbs up, wearing glasses and a shirt with the site's pink pixel cat",
+      "artist": {
+        "name": "kailynvrse",
+        "url": "https://www.instagram.com/kailynvrse"
+      }
+    },
     {
       "id": "minecraft-skin",
       "title": "minecraft skin",
