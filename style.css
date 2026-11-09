@@ -191,15 +191,28 @@
     .welcome-deco-dango { top: -54px; left: 7%; transform: rotate(-12deg); }
     .welcome-deco-strawberry { right: 4%; bottom: -26px; animation-delay: -1.4s; transform: rotate(9deg); }
 
-    .welcome-shell > .welcome-reserved-frame {
-      position: absolute;
-      top: 65px;
-      right: -180px;
-      z-index: 3;
+    .welcome-persona-sticker {
+      width: 116px;
+      margin: 16px auto 0;
+      text-align: center;
     }
 
-    @media (max-width: 1100px) {
-      .welcome-shell > .welcome-reserved-frame { display: none; }
+    .welcome-persona-sticker img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 6px 9px var(--theme-shadow, rgba(122,58,82,0.13)));
+    }
+
+    @media (min-width: 1180px) {
+      .welcome-persona-sticker {
+        position: absolute;
+        top: 65px;
+        right: -172px;
+        width: 148px;
+        margin: 0;
+      }
     }
 
     .welcome-passport[hidden],
@@ -2283,6 +2296,56 @@
       font-size: var(--font-micro);
     }
 
+    .commissioned-memory-frame {
+      margin: 0;
+      background: var(--theme-panel-bg, var(--frosted-bg));
+      pointer-events: auto;
+      user-select: auto;
+    }
+
+    .commissioned-memory-frame .reserved-memory-frame-bar {
+      background: var(--theme-titlebar-bg, var(--cream));
+    }
+
+    .commissioned-memory-frame .reserved-memory-frame-viewport {
+      grid-template-rows: minmax(0, 1fr);
+      border-color: var(--theme-border, rgba(192,112,144,0.23));
+      background:
+        radial-gradient(circle, var(--theme-border, rgba(192,112,144,0.22)) 1px, transparent 1.4px) 0 0 / 14px 14px,
+        var(--theme-surface-bg, linear-gradient(145deg, rgba(229,242,223,0.36), rgba(255,239,244,0.52)));
+    }
+
+    .commissioned-memory-frame .reserved-memory-frame-viewport img {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      object-fit: contain;
+      opacity: 1;
+      filter: none;
+    }
+
+    .commissioned-art-credit {
+      color: var(--pixel-label2);
+      font: 11px/1.6 var(--font-body);
+    }
+
+    .commissioned-art-credit a {
+      color: var(--pixel-label);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .commissioned-art-credit a:hover,
+    .commissioned-art-credit a:focus-visible {
+      color: var(--green-text, var(--green));
+    }
+
+    .commissioned-memory-frame .commissioned-art-credit {
+      justify-content: center;
+      gap: 4px;
+      padding: 5px 10px;
+    }
+
     /* ── Bio: reserved picture windows ── */
     .bio-secondary-stage {
       display: grid;
@@ -2312,7 +2375,6 @@
     }
 
     .bio-reserved-window-quiet { --reserved-frame-width: 250px; }
-    .bio-reserved-window-profile { --reserved-frame-width: 260px; }
 
     @media (min-width: 769px) and (max-width: 1050px) {
       .bio-secondary-stage {

@@ -216,6 +216,7 @@
 
 :root:is([data-theme="strawberry-milk"], [data-theme="matcha-cream"], [data-theme="cyberpunk"]) :is(
   .info-card,
+  .bio-secondary-stage-findme .bio-secondary-copy,
   .info-avatar-frame,
   .info-art-silhouette,
   .project-card,

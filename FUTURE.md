@@ -1,6 +1,6 @@
 # Future Layout and Commissioned Art Checklist
 
-Status: the shared memory-window foundation, its first deliberate placements, and the Persona gallery are implemented. The finished character sheet, full-body portrait, and bonus doodle are integrated; further artwork placements remain future work.
+Status: the shared memory-window foundation, its first deliberate placements, and the Persona gallery are implemented. The finished character sheet, full-body portrait, and bonus doodle are integrated, with the portrait in Hello's Find Me viewer and the doodle on Welcome. Further artwork placements remain selective future work.
 
 ## Full-Sized Hello Window
 
@@ -10,8 +10,8 @@ Status: the shared memory-window foundation, its first deliberate placements, an
 - [x] Add subtle frosted grouping without making the window visually heavy.
 - [x] Add a responsive memory-window layer that simplifies on mobile.
 - [x] Give Likes, DNI, and Find Me centered layouts with reserved picture windows instead of leaving each tab top-heavy.
-- [ ] Add selected commissioned artwork without blocking navigation, text, the player, or responsive layouts.
-- [ ] Replace or rebalance the current avatar only when final commissioned assets make that worthwhile.
+- [x] Add selected commissioned artwork without blocking navigation, text, the player, or responsive layouts: the full-body portrait has a credited Find Me viewer.
+- Keep the pixel-cat avatar alongside the Persona artwork; reconsider replacement only if a future design genuinely benefits from it.
 - Preserve useful negative space. Do not add copy solely to fill the window.
 
 ## Memory Windows and Commissioned Art
@@ -33,15 +33,15 @@ Status: the shared memory-window foundation, its first deliberate placements, an
 
 ## Possible Placement Areas
 
-- [x] Full-sized Hello workspace: About uses Stubby keepsakes; Likes, DNI, and Find Me have neutral reserved windows.
+- [x] Full-sized Hello workspace: About uses Stubby keepsakes; Likes and DNI have neutral reserved windows, and Find Me displays the credited full-body portrait.
 - [x] Favs panel: use a restrained right-side cluster where the text column naturally ends; hide the secondary tray on compact desktop and mobile.
 - [x] Info and Persona areas: add one small companion placement without competing with commissioned-art credits or the gallery itself.
 - [x] Individual shrine headers: prepare a restrained transparent-art placement only where the header has a real compositional gap.
 - [ ] Now or System: consider one small contextual helper placement after final mascot assets exist and only if the page still feels unbalanced.
-- [x] Welcome and 404 corners: keep to one restrained illustration each so the entry and error actions remain dominant.
+- [x] Welcome and 404 corners: Welcome displays the credited bonus doodle beside its window on wide screens and below it on smaller screens; 404 retains its neutral reserved frame. Keep the entry and error actions dominant.
 - Avoid mascot placeholders in monthly posts, archive results, RSS entries, and content-dense collection grids; those areas should remain focused on their changing content.
 
-These locations identify only possible frame placement. Planned artwork contents remain private.
+Unfilled reserved locations remain optional. Planned artwork contents stay private until final pieces are approved for display.
 
 ## Persona and Artwork Gallery
 
@@ -55,7 +55,7 @@ Borrow the varied artwork roles and connected character-page structure of [U-nee
 - [x] Add the approved full-body and bonus exports with adjacent credits, generalize the appearance notes for future artists, and keep the tattoo sheet private behind an abstract frosted teaser and contact invitation.
 - [ ] Add further approved reference sheets, expressions, sprites, scenes, gifts, and other finished media when available. Add browsing filters only when the collection actually needs them; do not publish empty sections.
 - [ ] Add game-specific Persona versions, including Pokemon and Splatoon, once finished artwork is available; connect each version to its relevant shrine and back to the Persona collection.
-- [ ] Choose a few final pieces for larger deliberate placements around the desktop instead of treating every image as a gallery thumbnail. Keep credits visible and follow the artist's display permissions.
+- [x] Choose the first final pieces for deliberate placements beyond the gallery: the full-body portrait in Hello's Find Me tab and the bonus doodle on Welcome, both with visible artist credits. Leave other reserved frames for future work rather than repeating these pieces everywhere.
 - Keep future commission briefs, unfinished pieces, artist comparisons, and planned frame contents private. The neutral reserved frame is not a preview of a commission.
 
 ## Interactive Mascot

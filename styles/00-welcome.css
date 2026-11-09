@@ -191,15 +191,28 @@
     .welcome-deco-dango { top: -54px; left: 7%; transform: rotate(-12deg); }
     .welcome-deco-strawberry { right: 4%; bottom: -26px; animation-delay: -1.4s; transform: rotate(9deg); }
 
-    .welcome-shell > .welcome-reserved-frame {
-      position: absolute;
-      top: 65px;
-      right: -180px;
-      z-index: 3;
+    .welcome-persona-sticker {
+      width: 116px;
+      margin: 16px auto 0;
+      text-align: center;
     }
 
-    @media (max-width: 1100px) {
-      .welcome-shell > .welcome-reserved-frame { display: none; }
+    .welcome-persona-sticker img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 6px 9px var(--theme-shadow, rgba(122,58,82,0.13)));
+    }
+
+    @media (min-width: 1180px) {
+      .welcome-persona-sticker {
+        position: absolute;
+        top: 65px;
+        right: -172px;
+        width: 148px;
+        margin: 0;
+      }
     }
 
     .welcome-passport[hidden],

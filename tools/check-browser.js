@@ -109,6 +109,30 @@ async function openCheckedPage(browser, url, viewport, setup) {
   return page;
 }
 
+async function checkCreditedPersona(page, selector, workId) {
+  const figure = page.locator(selector);
+  const work = personaCollection.works.find((entry) => entry.id === workId);
+  assert(await figure.isVisible(), `${selector} is hidden`);
+  const image = figure.locator('img');
+  await image.scrollIntoViewIfNeeded();
+  await image.evaluate((element) => element.decode());
+  assert(await image.getAttribute('src').then((src) => src.endsWith(work.image)), `${selector} uses the wrong artwork`);
+  assert(await image.getAttribute('alt').then(Boolean), `${selector} lost its image description`);
+  const credit = figure.locator('figcaption a');
+  assert(await credit.getAttribute('href') === work.artist.url, `${selector} lost its artist link`);
+  assert((await credit.textContent()).includes(work.artist.name), `${selector} lost its artist name`);
+  await credit.scrollIntoViewIfNeeded();
+  await credit.focus();
+  assert(await credit.evaluate((element) => element === document.activeElement), `${selector} credit is not keyboard reachable`);
+  await credit.click({ trial: true });
+  assert(await figure.evaluate((element) => {
+    const frame = element.getBoundingClientRect();
+    const caption = element.querySelector('figcaption').getBoundingClientRect();
+    const image = element.querySelector('img').getBoundingClientRect();
+    return [caption, image].every((bounds) => bounds.left >= frame.left && bounds.right <= frame.right);
+  }), `${selector} artwork or credit overflows its frame`);
+}
+
 async function installStaleSearchBundle(page) {
   await page.route('**/data/search-index.js', (route) => route.fulfill({
     contentType: 'application/javascript; charset=utf-8',
@@ -557,12 +581,12 @@ async function run() {
 
     const welcome = await openCheckedPage(browser, `${baseUrl}/`, { width: 1280, height: 800 });
     assert(new URL(welcome.url()).pathname === '/welcome/index.html', 'a fresh session did not begin on the welcome page');
-    assert(await welcome.locator('.welcome-reserved-frame').isVisible(), 'desktop welcome reserved artwork frame is hidden');
+    await checkCreditedPersona(welcome, '.welcome-persona-sticker', 'bonus-doodle');
     const welcomeWindowBox = await welcome.locator('.welcome-window').boundingBox();
-    const welcomeFrameBox = await welcome.locator('.welcome-reserved-frame').boundingBox();
+    const welcomeFrameBox = await welcome.locator('.welcome-persona-sticker').boundingBox();
     assert(
       welcomeWindowBox && welcomeFrameBox && welcomeFrameBox.x >= welcomeWindowBox.x + welcomeWindowBox.width,
-      'desktop welcome reserved artwork frame overlaps the entrance window',
+      'desktop welcome doodle overlaps the entrance window',
     );
     await welcome.evaluate(() => {
       localStorage.setItem('me0wberry_passport_v1', JSON.stringify({
@@ -593,7 +617,11 @@ async function run() {
     await welcome.close();
 
     const mobileWelcome = await openCheckedPage(browser, `${baseUrl}/welcome/`, { width: 390, height: 844 });
-    assert(await mobileWelcome.locator('.welcome-reserved-frame').isHidden(), 'mobile welcome kept its secondary reserved artwork frame');
+    await checkCreditedPersona(mobileWelcome, '.welcome-persona-sticker', 'bonus-doodle');
+    const mobileWelcomeBox = await mobileWelcome.locator('.welcome-window').boundingBox();
+    const mobileStickerBox = await mobileWelcome.locator('.welcome-persona-sticker').boundingBox();
+    assert(mobileStickerBox.y >= mobileWelcomeBox.y + mobileWelcomeBox.height, 'mobile welcome doodle overlaps the entry actions');
+    assert(await mobileWelcome.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'mobile welcome artwork causes horizontal scrolling');
     await mobileWelcome.close();
 
     const searchPosts = JSON.parse(
@@ -698,7 +726,8 @@ async function run() {
     assert(await desktop.locator('#bio-dni .reserved-memory-frame').isVisible(), 'DNI tab is missing its reserved picture window');
     await desktop.locator('#bio-tab-findme').click();
     assert(await desktop.locator('#bio-findme').isVisible(), 'Hello window tab did not switch');
-    assert(await desktop.locator('#bio-findme .reserved-memory-frame').isVisible(), 'Find Me tab is missing its reserved picture window');
+    await checkCreditedPersona(desktop, '#bio-findme .bio-persona-portrait', 'full-body');
+    assert(await desktop.locator('.bio-persona-portrait img').evaluate((image) => getComputedStyle(image).objectFit === 'contain'), 'Find Me portrait is cropped');
     await desktop.waitForFunction(() => Array.from(document.querySelectorAll('.bio-secondary-stage .reserved-memory-frame img'))
       .every((image) => image.complete && image.naturalWidth > 0));
     const discordTrigger = desktop.locator('#bio-findme button').filter({ hasText: 'discord' });
@@ -903,6 +932,8 @@ async function run() {
       return { copyRight: copyRect.right, windowLeft: windowRect.left };
     });
     assert(compactBioLayout.copyRight <= compactBioLayout.windowLeft, 'compact Hello picture window overlaps its copy');
+    await compactFavs.locator('#bio-tab-findme').click();
+    await checkCreditedPersona(compactFavs, '#bio-findme .bio-persona-portrait', 'full-body');
     await compactFavs.locator('#sidebar [data-opens="panel-favs"]').click();
     assert(await compactFavs.locator('.favs-keepsake-captura').isVisible(), 'compact Favs layout hid its primary keepsake');
     assert(!await compactFavs.locator('.favs-keepsake-tray').isVisible(), 'compact Favs layout showed its secondary keepsake tray');
@@ -910,6 +941,11 @@ async function run() {
     await compactFavs.close();
 
     const mobile = await openCheckedPage(browser, `${baseUrl}/?entered=1`, { width: 390, height: 844 });
+    await mobile.locator('#sidebar [data-opens="panel-bio"]').click();
+    await mobile.locator('#bio-tab-findme').click();
+    await checkCreditedPersona(mobile, '#bio-findme .bio-persona-portrait', 'full-body');
+    assert(await mobile.locator('#panel-bio .panel-body').evaluate((element) => element.scrollWidth <= element.clientWidth), 'mobile Find Me portrait causes horizontal scrolling');
+    await mobile.locator('#mobile-back').click();
     await mobile.locator('#sidebar [data-opens="panel-favs"]').click();
     assert(await mobile.locator('.favs-keepsake-captura').isVisible(), 'mobile Favs layout hid its primary keepsake');
     assert(!await mobile.locator('.favs-keepsake-tray').isVisible(), 'mobile Favs layout showed its secondary keepsake tray');
