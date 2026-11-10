@@ -6,7 +6,7 @@ window.me0wberryPageLastEdited = Object.freeze({
   "archive/lately/index.html": "2026-08-29T16:34:46-04:00",
   "archive/music/index.html": "2026-08-29T16:34:46-04:00",
   "archive/stubby/index.html": "2026-08-29T16:34:46-04:00",
-  "info/index.html": "2026-11-08T19:03:42-05:00",
+  "info/index.html": "2026-11-10T09:28:07-05:00",
   "now/index.html": "2026-11-01T03:59:46-05:00",
   "persona/index.html": "2026-11-08T19:16:24-05:00",
   "rss/index.html": "2026-10-08T23:27:19-04:00",
