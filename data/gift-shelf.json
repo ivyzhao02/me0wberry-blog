@@ -1,0 +1,14 @@
+{
+  "batches": [
+    {
+      "id": "holiday-2026-12-24",
+      "state": "sealed",
+      "revealAt": "2026-12-24T00:05:00-05:00",
+      "summary": [
+        { "kind": "plush", "quantity": 2 },
+        { "kind": "keychain", "quantity": 1 },
+        { "kind": "pin", "quantity": 4 }
+      ]
+    }
+  ]
+}

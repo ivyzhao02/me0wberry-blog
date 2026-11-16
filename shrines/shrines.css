@@ -1560,8 +1560,98 @@ a.shrine-cabinet-card:hover {
 
 .pokemon-merch-wishlist .pokemon-section-heading h2 {
   font-size: 21px;
-  white-space: nowrap;
+  white-space: normal;
 }
+
+.pokemon-merch-additions .pokemon-merch-card header {
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 0;
+}
+
+.pokemon-merch-additions .pokemon-merch-card header h4 {
+  margin: 0;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 17px;
+}
+
+.pokemon-merch-additions .pokemon-merch-group li {
+  font-size: 10px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.pokemon-merch-at-home { margin-bottom: 20px; }
+
+.gift-shelf {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--theme-border, rgba(150,180,135,0.4));
+}
+
+.gift-batch {
+  margin-top: 10px;
+  padding: 15px;
+  border: 1px solid var(--theme-border, rgba(192,112,144,0.32));
+  border-radius: 15px;
+  background: var(--theme-surface-bg, linear-gradient(135deg, rgba(255,216,228,0.4), rgba(219,239,209,0.24)));
+}
+
+.gift-batch h4 {
+  margin: 7px 0 12px;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 17px;
+}
+
+.gift-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.gift-summary > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px;
+  border: 1px dashed var(--theme-border, rgba(150,180,135,0.38));
+  border-radius: 10px;
+  background: var(--theme-control-bg, rgba(255,255,255,0.4));
+}
+
+.gift-summary dt,
+.gift-note,
+.gift-items span { font-size: 10px; line-height: 1.6; color: var(--body); }
+.gift-summary dd { margin: 0; color: var(--heading); font-family: var(--font-heading); font-size: 18px; }
+.gift-note { margin: 10px 0 0; color: var(--muted); }
+.gift-items { display: grid; gap: 10px; margin: 14px 0 0; padding: 0; list-style: none; }
+.gift-items li { display: grid; gap: 3px; }
+.gift-items strong { color: var(--heading); font-size: 12px; }
+
+.pokemon-merch-wishlist-drawer {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--theme-border, rgba(150,180,135,0.4));
+}
+
+.pokemon-merch-wishlist-drawer > summary {
+  padding: 8px 0;
+  color: var(--heading);
+  font-family: var(--font-pixel);
+  font-size: var(--font-compact);
+  line-height: 1.8;
+  cursor: pointer;
+}
+
+.pokemon-merch-wishlist-drawer > summary:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
+.pokemon-merch-wishlist-drawer[open] > summary { margin-bottom: 10px; }
 
 .pokemon-merch-dream-card,
 .pokemon-merch-note {
@@ -1625,6 +1715,8 @@ a.shrine-cabinet-card:hover {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
 }
+
+.pokemon-merch-inventory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 .pokemon-merch-card {
   position: relative;

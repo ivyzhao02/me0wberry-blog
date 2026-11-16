@@ -5,6 +5,7 @@ const { createHash } = require('crypto');
 const { ARCHIVE_CATEGORIES, CATEGORY_IDS, PAGE_LAST_EDITED } = require('./site-config');
 const { tagPublicHtmlFiles, listPublicHtmlFiles } = require('./google-tag');
 const personaCollection = require('./persona-collection');
+const giftShelf = require('./gift-shelf');
 const { securePublicHtml, ROBOTS_TXT } = require('./site-security');
 const { versionAssetLinks } = require('./public-assets');
 
@@ -383,6 +384,8 @@ function buildSiteData({ write = true } = {}) {
   const systemSource = fs.readFileSync(systemPath, 'utf8');
   const personaSource = fs.readFileSync(path.join(ROOT, 'persona', 'index.html'), 'utf8');
   const personaData = JSON.parse(fs.readFileSync(path.join(ROOT, 'persona', 'collection.json'), 'utf8'));
+  const pokemonSource = fs.readFileSync(path.join(ROOT, 'shrines', 'pokemon', 'index.html'), 'utf8');
+  const giftData = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'gift-shelf.json'), 'utf8'));
   const archiveTemplate = fs.readFileSync(ARCHIVE_TEMPLATE, 'utf8');
   const nowWithEntry = replaceMarkedContent(nowSource, NOW_START, NOW_END, buildNowEntry(latestNow), 'now/index.html');
   const builtNowPage = replaceMarkedContent(
@@ -425,6 +428,11 @@ function buildSiteData({ write = true } = {}) {
       file: 'persona/index.html',
       contents: replaceMarkedContent(personaSource, personaCollection.START, personaCollection.END,
         personaCollection.renderCollection(personaData, ROOT), 'persona/index.html'),
+    },
+    {
+      file: 'shrines/pokemon/index.html',
+      contents: replaceMarkedContent(pokemonSource, giftShelf.START, giftShelf.END,
+        giftShelf.renderGiftShelf(giftData), 'shrines/pokemon/index.html'),
     },
     {
       file: 'system/index.html',

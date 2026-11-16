@@ -2,6 +2,12 @@
 
 Personal static site and blog for [me0wberry.com](https://me0wberry.com).
 
+## Planning and handover
+
+The private `me0wberry` Google Drive folder holds the ongoing `me0wberry - Living Roadmap & Decisions` and `me0wberry - Independent Maintenance & Recovery Handbook` documents. The roadmap is the primary home for priorities, future ideas, and decisions; the handbook covers independent editing, testing, publishing, troubleshooting, and recovery. Keep the private gift ledger separate. `FUTURE.md` is a short pointer, not a second active checklist.
+
+Update those existing documents as plans or procedures change rather than adding local-only planning files. Keep the technical instructions in this README, `SECURITY.md`, and the Post Studio README current with the code; update the handbook when those procedures change. Drive and Git do not synchronize automatically. Do not add private document links, unreleased plans, or gift details to this public repository.
+
 ## Local tools
 
 - Create monthly posts with `tools/post-studio/server.js`.
@@ -46,11 +52,17 @@ The maintainable shared styles live in `styles/`, and shared browser behavior li
 
 Run `pnpm check:security` for security regressions and a current dependency audit, and keep running the complete `pnpm check` before publishing. Crawling preferences are cooperative only; public pages, media, feeds, and the public repository are not private. Development documentation and authoring tools are excluded from the Pages deployment.
 
+## Gift drawer
+
+`data/gift-shelf.json` contains only public gift batches. A sealed batch accepts only an opaque id, state, reveal timestamp and anonymous item-type quantities. Keep all recipients, identities, product codes, links and media in private notes outside the repository until publication is approved. `tools/gift-shelf.js` generates the marked gift drawer in the Pokemon shrine during the normal build; it rejects identity-bearing fields in sealed batches and rejects revealed batches before their approved instant.
+
+A passing date never reveals browser data. A separately confirmed publication task must retrieve the private record on or after the chosen time, add the approved recipient and items to the public batch, and run the build, checks and deployment. A planned reveal date is not proof that a publication task is active or that a gift has been delivered. Future sealed batches use the same anonymous schema; do not put private details into fixtures, HTML comments, generated files or public history.
+
 ## Persona artwork
 
 `persona/collection.json` contains only finished, approved, publicly displayable artwork. Add a work with a unique stable `id`, title, kind, view description, `YYYY-MM` date, description, local `images/persona/` file, real image dimensions, descriptive alt text, artist name, and optional HTTPS artist/showcase URLs. Set `featured` to the published work to highlight, then run `pnpm build` and `pnpm check`. The build writes the featured card and collection index into the marked region of `persona/index.html`; edit the manifest rather than that generated region. A new piece needs no new HTML or JavaScript.
 
-`persona/persona.js` enhances the generated image links with a native dialog, fit/actual-size controls, keyboard dismissal, and focus restoration. The full image and artist credit remain available without JavaScript and in direct-file previews. Keep originals intact and never place commission briefs, pending artwork, or private planning details in the manifest. `FUTURE.md` tracks asset-dependent gallery and mascot work.
+`persona/persona.js` enhances the generated image links with a native dialog, fit/actual-size controls, keyboard dismissal, and focus restoration. The full image and artist credit remain available without JavaScript and in direct-file previews. Keep originals intact and never place commission briefs, pending artwork, or private planning details in the manifest. The private living roadmap tracks asset-dependent gallery and mascot work.
 
 ## Trinket credits
 

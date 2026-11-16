@@ -10,6 +10,7 @@ const { createStudioServer } = require('./post-studio/server');
 const { securePublicHtml } = require('./site-security');
 const { buildPostHtml } = require('./post-studio/post-generator');
 const personaCollection = require('../persona/collection.json');
+const giftShelfData = require('../data/gift-shelf.json');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONTENT_TYPES = new Map([
@@ -131,6 +132,63 @@ async function checkCreditedPersona(page, selector, workId) {
     const image = element.querySelector('img').getBoundingClientRect();
     return [caption, image].every((bounds) => bounds.left >= frame.left && bounds.right <= frame.right);
   }), `${selector} artwork or credit overflows its frame`);
+}
+
+async function checkPokemonMerch(page) {
+  const owned = page.locator('#pokemon-merch-owned');
+  const ownedIds = await owned.locator('[data-pokemon-merch-item]').evaluateAll((items) => (
+    items.map((item) => item.dataset.pokemonMerchItem)
+  ));
+  const expectedOwned = [
+    '8809644509670', '8809644503258', '8809644504989',
+    '8809644504101', '8800305760874', '8800305760997',
+  ];
+  assert(expectedOwned.every((id) => ownedIds.includes(id)), 'Pokémon shelf lost a tag-identified plush');
+  assert(await owned.getAttribute('data-merch-status') === 'at-home', 'Owned Pokémon plushies were incorrectly marked as incoming');
+  assert(await owned.locator('img').count() === 0, 'Pokémon collection should stay a text-only inventory');
+
+  const additions = page.locator('#pokemon-merch-additions');
+  const productIds = await additions.locator('[data-pokemon-merch-item]').evaluateAll((items) => (
+    items.map((item) => item.dataset.pokemonMerchItem)
+  ));
+  const expectedProducts = [
+    '701E13307', '701E13508', '73-10138-101', '701E12644', '701E12216',
+    '701-97065', '72-10020-101', '72-10896-101', '72-10169-101', '701E13737',
+  ];
+  assert(expectedProducts.every((id) => productIds.includes(id)), 'Pokémon shelf lost an ordered item');
+  assert(new Set(productIds).size === productIds.length, 'Pokémon shelf duplicates an ordered item');
+  const allIds = [...ownedIds, ...productIds];
+  assert(new Set(allIds).size === allIds.length, 'Pokémon shelf duplicates an item across owned and ordered groups');
+  assert(await additions.getAttribute('data-merch-status') === 'on-the-way', 'Pokémon order was incorrectly marked as at home');
+  assert(!/C\$|\$\d|shopping cart|SKU:/i.test(await additions.innerText()), 'Pokémon shelf exposes shopping-cart or price details');
+  assert(!/photo|picture/i.test(await page.locator('#plush-shelf').innerText()), 'Pokémon inventory still promises collection photos');
+  const gifts = page.locator('#pokemon-gifts .gift-batch');
+  assert(await gifts.count() === giftShelfData.batches.length, 'Pokémon gift drawer lost a parcel');
+  for (const batch of giftShelfData.batches) {
+    const parcel = page.locator(`#pokemon-gifts [data-gift-batch-id="${batch.id}"]`);
+    assert(await parcel.getAttribute('data-gift-state') === batch.state, 'Gift state does not match the public manifest');
+    for (const count of batch.summary) {
+      assert((await parcel.locator(`[data-gift-kind="${count.kind}"] dd`).textContent()).trim() === String(count.quantity), 'Gift quantity does not match the public manifest');
+    }
+    if (batch.state === 'sealed') {
+      assert(await parcel.locator('[data-pokemon-merch-item], img, a, script, template, [hidden]').count() === 0, 'Sealed gifts include identity-bearing content');
+    } else {
+      assert((await parcel.locator('h4').textContent()) === `gifts for ${batch.recipient}`, 'Revealed gift recipient is incorrect');
+      assert(await parcel.locator('[data-pokemon-merch-item]').count() === batch.items.length, 'Revealed gift items are incomplete');
+    }
+  }
+
+  const wishlist = page.locator('#pokemon-merch-wishlist');
+  assert(!(await wishlist.evaluate((element) => element.open)), 'Pokémon wishlist should start collapsed');
+  const summary = wishlist.locator('summary');
+  await summary.scrollIntoViewIfNeeded();
+  await summary.focus();
+  await summary.press('Enter');
+  assert(await wishlist.evaluate((element) => element.open), 'Pokémon wishlist did not open with the keyboard');
+  assert(await wishlist.locator('.pokemon-merch-card').count() === 3, 'Pokémon wishlist lost an existing collection goal');
+  await summary.press('Enter');
+  assert(!(await wishlist.evaluate((element) => element.open)), 'Pokémon wishlist did not close with the keyboard');
+  assert(await page.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth), 'Pokémon merch shelf overflows horizontally');
 }
 
 async function installStaleSearchBundle(page) {
@@ -1132,6 +1190,7 @@ async function run() {
       installStaleSearchBundle,
     );
     assert(await pokemonShrine.locator('.shrine-header-reservation').isVisible(), 'desktop Pokémon shrine reserved artwork frame is hidden');
+    await checkPokemonMerch(pokemonShrine);
     const octoberShinyFiles = [
       'img-7184.webp',
       'img-7185.webp',
@@ -1216,6 +1275,7 @@ async function run() {
 
     const mobilePokemonShrine = await openCheckedPage(browser, `${baseUrl}/shrines/pokemon/`, { width: 390, height: 844 });
     assert(await mobilePokemonShrine.locator('.shrine-header-reservation').isHidden(), 'mobile Pokémon shrine kept its secondary reserved artwork frame');
+    await checkPokemonMerch(mobilePokemonShrine);
     await mobilePokemonShrine.close();
 
     const stubbyShrine = await openCheckedPage(browser, `${baseUrl}/shrines/stubby/`, { width: 1280, height: 900 });
