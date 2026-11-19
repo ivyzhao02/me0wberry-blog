@@ -263,6 +263,7 @@
         '/toybox/index.html',
         '/shrines/index.html',
         '/shrines/stubby/index.html',
+        '/shrines/stuffies/index.html',
         '/shrines/pokemon/index.html',
       ];
       const destinations = places.concat(Array.isArray(posts) ? posts.map((post) => post.url) : []);

@@ -169,6 +169,33 @@ body > #mobile-back {
   transform: scale(1.012);
 }
 
+.stuffies-door-preview { padding: 12px; }
+
+.stuffies-packed-label {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 8px;
+  text-align: center;
+  border: 1px dashed var(--theme-border, rgba(150,180,135,0.6));
+  border-radius: 4px 4px 14px 4px;
+  background: var(--theme-surface-bg, rgba(255,255,255,0.55));
+}
+
+.stuffies-packed-label span {
+  color: var(--pixel-label2);
+  font-family: var(--font-pixel);
+  font-size: var(--font-compact);
+  line-height: 1.8;
+}
+
+.stuffies-packed-label strong {
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 26px;
+  line-height: 1.2;
+}
+
 .shrine-door-label-row {
   display: flex;
   align-items: baseline;

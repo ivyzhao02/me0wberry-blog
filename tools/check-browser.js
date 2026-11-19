@@ -141,9 +141,12 @@ async function checkPokemonMerch(page) {
   ));
   const expectedOwned = [
     '8809644509670', '8809644503258', '8809644504989',
-    '8809644504101', '8800305760874', '8800305760997',
+    '8809644504101', '8800305760874', '8800305760997', '196566198340',
   ];
   assert(expectedOwned.every((id) => ownedIds.includes(id)), 'Pokémon shelf lost a tag-identified plush');
+  assert(ownedIds.length === expectedOwned.length, 'Pokémon owned plush total does not match the inventory');
+  assert((await owned.locator('.pokemon-collection-preview-heading p').textContent()).startsWith(`${ownedIds.length} plush friends`), 'Pokémon shelf count is stale');
+  assert((await owned.locator('[data-pokemon-merch-item="196566198340"]').textContent()).includes('14 in.'), 'Sprigatito Squishmallow lost its tag size');
   assert(await owned.getAttribute('data-merch-status') === 'at-home', 'Owned Pokémon plushies were incorrectly marked as incoming');
   assert(await owned.locator('img').count() === 0, 'Pokémon collection should stay a text-only inventory');
 
@@ -1145,7 +1148,10 @@ async function run() {
     await archive.close();
 
     const shrineHallway = await openCheckedPage(browser, `${baseUrl}/shrines/`, { width: 1280, height: 900 });
-    assert(await shrineHallway.locator('.shrine-door').count() === 5, 'shrine hallway did not render all public rooms');
+    assert(await shrineHallway.locator('.shrine-door').count() === 6, 'shrine hallway did not render all public rooms');
+    const stuffiesDoor = shrineHallway.locator('.shrine-door-stuffies');
+    assert(await stuffiesDoor.count() === 1, 'shrine hallway did not render the public Stuffies room');
+    assert(await stuffiesDoor.evaluate((link) => new URL(link.href).pathname === '/shrines/stuffies/index.html'), 'Stuffies room link did not resolve to its shrine');
     const warframeDoor = shrineHallway.locator('.shrine-door-warframe');
     assert(await warframeDoor.count() === 1, 'shrine hallway did not render the Warframe room');
     assert(
@@ -1182,6 +1188,32 @@ async function run() {
       'shrine hallway overflowed horizontally after adding the Warframe room',
     );
     await shrineHallway.close();
+
+    for (const width of [1280, 390]) {
+      const stuffies = await openCheckedPage(browser, `${baseUrl}/shrines/stuffies/`, { width, height: 900 });
+      assert((await stuffies.locator('h1').textContent()).includes('just not unpacked yet'), 'Stuffies room lost its intentional work-in-progress introduction');
+      assert(await stuffies.locator('.stuffies-letter p').count() === 3, 'Stuffies room lost its whole-collection story');
+      assert(await stuffies.locator('.stuffies-story img, [data-shrine-carousel]').count() === 0, 'Stuffies room should not show a partial gallery or sample collection photos');
+      assert((await stuffies.locator('.stuffies-parcel-notes').textContent()).includes('everyone , all at once'), 'Stuffies room no longer describes a whole-collection first photo day');
+      assert(await stuffies.locator('.page-last-edited time[datetime]').count() === 1, 'Stuffies room has no last-edited date');
+      for (const theme of ['main', 'strawberry-milk', 'matcha-cream', 'cyberpunk']) {
+        await stuffies.evaluate((value) => { document.documentElement.dataset.theme = value; }, theme);
+        assert(await stuffies.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth), `Stuffies room overflows at ${width}px in ${theme}`);
+      }
+      const inventoryLink = stuffies.locator('.stuffies-inventory-link a');
+      await inventoryLink.scrollIntoViewIfNeeded();
+      assert(await inventoryLink.isVisible(), 'Stuffies inventory link cannot be reached');
+      await inventoryLink.click({ trial: true });
+      assert(await inventoryLink.evaluate((link) => new URL(link.href).pathname === '/shrines/pokemon/index.html' && link.hash === '#plush-shelf'), 'Stuffies inventory link lost the separate Pokemon shelf');
+      await stuffies.close();
+    }
+
+    const plainStuffies = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+    await blockExternalRequests(plainStuffies);
+    await plainStuffies.goto(`${baseUrl}/shrines/stuffies/`, { waitUntil: 'domcontentloaded' });
+    assert(await plainStuffies.locator('.stuffies-letter p').count() === 3, 'Stuffies room is unreadable without JavaScript');
+    assert(await plainStuffies.locator('.stuffies-inventory-link a[href]').count() === 1, 'Stuffies navigation depends on JavaScript');
+    await plainStuffies.close();
 
     const pokemonShrine = await openCheckedPage(
       browser,
@@ -2311,6 +2343,11 @@ async function run() {
       'direct-file homepage generated an invalid post link',
     );
     await directFile.close();
+
+    const directStuffies = await openCheckedPage(browser, pathToFileURL(path.join(ROOT, 'shrines', 'stuffies', 'index.html')).href, { width: 1000, height: 760 });
+    assert(await directStuffies.locator('.stuffies-letter p').count() === 3, 'direct-file Stuffies room lost its story');
+    assert(await directStuffies.locator('.stuffies-inventory-link a').evaluate((link) => link.href.startsWith('file:') && link.href.endsWith('/shrines/pokemon/index.html#plush-shelf')), 'direct-file Stuffies inventory link leaves the local site');
+    await directStuffies.close();
 
     const directToybox = await openCheckedPage(
       browser,
