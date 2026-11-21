@@ -4068,6 +4068,48 @@ a.shrine-cabinet-card:hover {
   min-height: 280px;
 }
 
+.splatoon-loadout-drawer {
+  margin-top: 16px;
+  overflow: hidden;
+  border: 1px solid var(--theme-border, rgba(90,143,128,0.38));
+  border-radius: 14px;
+  background: var(--theme-surface-bg, rgba(255,255,255,0.42));
+}
+
+.splatoon-loadout-drawer > summary {
+  padding: 14px 16px;
+  color: var(--heading);
+  font-family: var(--font-pixel);
+  font-size: var(--font-compact);
+  line-height: 1.8;
+  cursor: var(--cursor-link);
+}
+
+.splatoon-loadout-drawer > .splatoon-ranked-layout {
+  align-items: start;
+  padding: 0 14px 14px;
+}
+
+.splatoon-loadout-shot {
+  align-self: start;
+  justify-self: center;
+  width: min(100%, 340px);
+}
+
+.splatoon-loadout-drawer .splatoon-loadout-shot img {
+  aspect-ratio: 825 / 1280;
+  object-fit: contain;
+}
+
+.splatoon-loadout-drawer .splatoon-match-receipt h3 {
+  position: relative;
+  margin: 12px 0;
+  color: var(--heading);
+  font-family: var(--font-heading);
+  font-size: 22px;
+  line-height: 1.3;
+}
+
 .splatoon-ranked-panel.is-active {
   animation: splatoon-ranked-arrive 0.18s ease both;
 }
@@ -4179,7 +4221,7 @@ a.shrine-cabinet-card:hover {
   border-radius: 4px 18px 4px 18px;
   background:
     repeating-linear-gradient(0deg, transparent 0 25px, rgba(72,89,68,0.045) 26px),
-    rgba(255,255,245,0.72);
+    var(--theme-surface-bg, rgba(255,255,245,0.72));
   box-shadow: 0 8px 22px rgba(68,68,57,0.08);
 }
 

@@ -26,7 +26,7 @@ const PAGE_LAST_EDITED = Object.freeze({
   'shrines/league/index.html': '2026-11-05T22:42:00-05:00',
   'shrines/pokemon/index.html': '2026-11-18T19:53:45-05:00',
   'shrines/sanrio/index.html': '2026-10-20T18:36:43-04:00',
-  'shrines/splatoon/index.html': '2026-11-04T01:01:43-05:00',
+  'shrines/splatoon/index.html': '2026-11-21T16:10:26-05:00',
   'shrines/stubby/index.html': '2026-10-20T18:36:43-04:00',
   'shrines/stuffies/index.html': '2026-11-18T19:53:45-05:00',
   'shrines/warframe/index.html': '2026-10-20T18:36:43-04:00',

@@ -26,7 +26,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Press+Start+2P&amp;family=Quicksand:wght@500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../style.css?v=d8d68b2daaae">
   <link rel="stylesheet" href="../../themes.css" data-site-themes>
-  <link rel="stylesheet" href="../shrines.css">
+  <link rel="stylesheet" href="../shrines.css?v=20261121">
   <style>
     #main { overflow-y: auto; min-height: 0; padding-bottom: calc(var(--taskbar-height) + 90px); }
     @media (max-width: 768px) {
@@ -89,8 +89,8 @@
               <p class="shrine-room-copy">anarchy games , smallfry photos + all the corners where we stopped to pose <span class="copy-kaomoji" aria-hidden="true">(≧ヮ≦)</span></p>
               <div class="splatoon-profile-strip" aria-label="Splatoon shrine overview">
                 <span class="splatoon-profile-games"><small>games</small><strong>splatoon 3 + dlc . splatoon raiders , splatoon 2 + dlc</strong></span>
-                <span><small>photo mode</small><strong id="splatoon-photo-count">31 pictures</strong></span>
-                <span><small>anarchy</small><strong>ongoing</strong></span>
+                <span><small>photo mode</small><strong id="splatoon-photo-count">33 pictures</strong></span>
+                <span><small>anarchy</small><strong id="splatoon-current-rank">s rank / ongoing</strong></span>
                 <span><small>start date</small><strong>september 2026</strong></span>
               </div>
             </div>
@@ -133,7 +133,7 @@
           <section class="splatoon-room-section" id="ranked-receipts" aria-labelledby="splatoon-ranked-title">
             <div class="splatoon-section-heading">
               <div><div class="pixel-tag">／ anarchy games</div><h2 id="splatoon-ranked-title">bloblobber &amp; aerospray rg gaming <span class="heading-flourish" aria-hidden="true">✦₊˚</span></h2></div>
-              <p>snapshots of my sweaty learning pains</p>
+              <p>s rank as of <time datetime="2026-11-20">november 20 , 2026</time> / still learning ♡</p>
             </div>
             <div class="splatoon-ranked-gallery" data-ranked-gallery aria-roledescription="carousel" aria-label="Anarchy Series scrapbook">
               <div class="splatoon-ranked-viewport" aria-live="polite">
@@ -191,16 +191,21 @@
                     </article>
                   </div>
                 </div>
-                <div class="splatoon-ranked-panel" data-ranked-panel role="group" aria-roledescription="slide" aria-label="4 of 4" hidden>
-                  <div class="splatoon-ranked-layout is-text-only">
+                <div class="splatoon-ranked-panel" id="splatoon-rank-up-s" data-ranked-panel role="group" aria-roledescription="slide" aria-label="4 of 4" hidden>
+                  <div class="splatoon-ranked-layout">
+                    <button class="splatoon-ranked-shot" type="button" data-splatoon-full="../../images/splatoon/anarchy-rank-up-s-2026-11-20.webp" data-splatoon-caption="S-rank promotion notification · november 20 , 2026 · the final series card was not screenshotted">
+                      <img data-deferred-src="../../images/splatoon/anarchy-rank-up-s-2026-11-20.webp" alt="Splatoon 3 rank-up notification announcing S rank and showing my Bloblobber kit" width="1280" height="720" loading="lazy" decoding="async">
+                      <span>rank_up_s_2026-11-20.webp · open ↗</span>
+                    </button>
                     <article class="splatoon-match-receipt">
-                      <div class="splatoon-receipt-top"><span>N/A</span><b>N/A</b></div>
-                      <p>more updates to come !</p>
+                      <div class="splatoon-receipt-top"><span>rank-up cleared / <time datetime="2026-11-20">nov. 20</time></span><b>s !</b></div>
+                      <p>finally made it from a+ to s :D the matchmaking timer kept refusing to end for me , and i felt off my game for the first two full series attempts . they both ended at 1 win / 3 losses <span class="copy-kaomoji" aria-hidden="true">(╥﹏╥)</span></p>
+                      <p>third try : 3 wins / 1 loss !! i forgot to screenshot the final series card because i was too busy staring at the rank-up . . notification saved instead ♡ <span class="copy-kaomoji" aria-hidden="true">ᕙ( •̀ ᗜ •́ )ᕗ</span></p>
                       <dl>
-                        <div><dt>result</dt><dd>N/A</dd></div>
-                        <div><dt>starting rank</dt><dd>N/A</dd></div>
-                        <div><dt>next stop</dt><dd>N/A</dd></div>
-                        <div><dt>future plans</dt><dd>N/A</dd></div>
+                        <div><dt>final series</dt><dd>3 wins / 1 loss</dd></div>
+                        <div><dt>first two attempts</dt><dd>1 win / 3 losses each</dd></div>
+                        <div><dt>rank-up</dt><dd>a+ to s</dd></div>
+                        <div><dt>attempts</dt><dd>three full series</dd></div>
                       </dl>
                     </article>
                   </div>
@@ -218,6 +223,21 @@
                 <button type="button" data-ranked-next aria-label="next anarchy game">→</button>
               </div>
             </div>
+            <details class="splatoon-loadout-drawer" id="splatoon-freshest-fits">
+              <summary>freshest fits / three saved sets ♡</summary>
+              <div class="splatoon-ranked-layout">
+                <button class="splatoon-ranked-shot splatoon-loadout-shot" type="button" data-splatoon-full="../../images/splatoon/freshest-fits-november-2026.webp" data-splatoon-caption="Freshest Fits · my saved Bloblobber + gold Aerospray RG sets · november 2026">
+                  <img data-deferred-src="../../images/splatoon/freshest-fits-november-2026.webp" alt="Freshest Fits screenshot with three saved Splatoon 3 loadouts: two Bloblobber sets and one gold Aerospray RG set, showing their gear and abilities" width="825" height="1280" loading="lazy" decoding="async">
+                  <span>freshest_fits.webp · open ↗</span>
+                </button>
+                <article class="splatoon-match-receipt">
+                  <div class="splatoon-receipt-top"><span>saved fits</span><b>3 sets</b></div>
+                  <h3>the current rotation</h3>
+                  <p>my saved bloblobber + gold aerospray rg fits , tucked beside the rank-up memory ♡</p>
+                  <p>two bloblobber sets + one aerospray rg set , with the gear + ability lineups saved here <span class="copy-kaomoji" aria-hidden="true">(˶ᵔ ᵕ ᵔ˶)</span></p>
+                </article>
+              </div>
+            </details>
             <section class="splatoon-proud-matches" aria-labelledby="splatoon-proud-title">
               <div class="splatoon-amiibo-subheading">
                 <div><small>games worth keeping</small><h3 id="splatoon-proud-title">had to screenshot this one <span class="heading-flourish" aria-hidden="true">˖⁺‧₊˚</span></h3></div>
@@ -423,7 +443,7 @@
   </dialog>
 
   <script src="../../data/search-index.js"></script>
-  <script src="../../script.js?v=c19dbdb983ef" data-site-root="../.."></script>
+  <script src="../../script.js?v=8a7c1bf4944d" data-site-root="../.."></script>
   <script src="splatoon-shrine.js"></script>
 </body>
 </html>

@@ -1495,7 +1495,18 @@ async function run() {
     assert(await splatoon.locator('#splatoon-plaza-rolls .splatoon-photo-roll').count() === 4, 'Splatoon shrine did not render all plaza photo rolls');
     assert(await splatoon.locator('#splatoon-plaza-rolls .splatoon-roll-grid .splatoon-shot').count() === 13, 'Splatoon shrine did not preserve all plaza screenshots');
     assert(await splatoon.locator('#splatoon-festival-rolls .splatoon-roll-grid .splatoon-shot').count() === 3, 'Splatoon shrine did not render all Splatoween screenshots');
-    assert(await splatoon.locator('#splatoon-photo-count').textContent() === '31 pictures', 'Splatoon shrine overview did not count every unique screenshot');
+    assert(await splatoon.locator('#splatoon-photo-count').textContent() === '33 pictures', 'Splatoon shrine overview did not count every unique screenshot');
+    assert(await splatoon.locator('#splatoon-current-rank').textContent() === 's rank / ongoing', 'Splatoon shrine overview did not show the current S rank');
+    assert(
+      await splatoon.locator('#splatoon-rank-up-s time').getAttribute('datetime') === '2026-11-20'
+        && await splatoon.locator('#ranked-receipts > .splatoon-section-heading time').getAttribute('datetime') === '2026-11-20',
+      'Splatoon S-rank milestone did not preserve the November 20 achievement date',
+    );
+    assert(
+      await splatoon.locator('#splatoon-freshest-fits').evaluate((element) => !element.open)
+        && await splatoon.locator('#splatoon-freshest-fits img[src]').count() === 0,
+      'Freshest Fits drawer did not start closed with its portrait deferred',
+    );
     assert(
       await splatoon.locator('.splatoon-proud-matches > .splatoon-ranked-layout').count() === 2
         && await splatoon.locator('#splatoon-museum-defeat').textContent().then((text) => (
@@ -1676,12 +1687,58 @@ async function run() {
     );
     await splatoon.locator('[data-ranked-next]').click();
     assert(
-      await splatoon.locator('[data-ranked-panel]:not([hidden])').textContent().then((text) => text.includes('more updates to come !') && text.match(/N\/A/g)?.length === 6),
-      'Splatoon ranked scrapbook did not show the text-only upcoming panel',
+      await splatoon.locator('[data-ranked-panel]:not([hidden])').textContent().then((text) => (
+        text.includes('a+ to s') && text.includes('1 win / 3 losses each')
+          && text.includes('3 wins / 1 loss') && text.includes('three full series')
+          && text.includes('forgot to screenshot the final series card')
+          && text.includes('the matchmaking timer kept refusing to end for me')
+      )),
+      'Splatoon ranked scrapbook did not preserve the S-rank promotion and its three distinct series attempts',
     );
-    assert(await splatoon.locator('[data-ranked-status]').textContent() === '04 / 04', 'Splatoon ranked scrapbook counter did not advance to the upcoming panel');
+    assert(await splatoon.locator('[data-ranked-status]').textContent() === '04 / 04', 'Splatoon ranked scrapbook counter did not advance to the S-rank promotion');
+    await splatoon.locator('#splatoon-rank-up-s [data-splatoon-full]').click();
+    await splatoon.waitForFunction(() => {
+      const image = document.getElementById('splatoon-photo-large');
+      return image.src.endsWith('anarchy-rank-up-s-2026-11-20.webp')
+        && image.complete && image.naturalWidth === 1280 && image.naturalHeight === 720;
+    });
+    assert(
+      await splatoon.locator('#splatoon-photo-dialog').isVisible()
+        && await splatoon.locator('#splatoon-photo-caption').textContent().then((text) => (
+          text.includes('promotion notification') && text.includes('the final series card was not screenshotted')
+        )),
+      'Splatoon S-rank image viewer did not distinguish the promotion notification from the missing final series card',
+    );
+    await splatoon.locator('#splatoon-photo-dialog .stubby-memory-close').click();
     await splatoon.locator('[data-ranked-next]').click();
     assert(await splatoon.locator('[data-ranked-status]').textContent() === '01 / 04', 'Splatoon ranked scrapbook did not loop back to the first panel');
+    const freshestFits = splatoon.locator('#splatoon-freshest-fits');
+    await freshestFits.locator('summary').focus();
+    await splatoon.keyboard.press('Enter');
+    assert(await freshestFits.evaluate((element) => element.open), 'Freshest Fits drawer did not open with the keyboard');
+    await freshestFits.locator('img').scrollIntoViewIfNeeded();
+    await splatoon.waitForFunction(() => {
+      const image = document.querySelector('#splatoon-freshest-fits img');
+      return image.complete && image.naturalWidth === 825 && image.naturalHeight === 1280;
+    });
+    assert(
+      await freshestFits.locator('img').evaluate((image) => {
+        const bounds = image.getBoundingClientRect();
+        return Math.abs(bounds.width / bounds.height - 825 / 1280) < 0.01
+          && getComputedStyle(image).objectFit === 'contain';
+      }),
+      'Freshest Fits portrait was cropped or displayed at the wrong aspect ratio',
+    );
+    await freshestFits.locator('[data-splatoon-full]').click();
+    await splatoon.waitForFunction(() => {
+      const image = document.getElementById('splatoon-photo-large');
+      return image.src.endsWith('freshest-fits-november-2026.webp')
+        && image.complete && image.naturalWidth === 825 && image.naturalHeight === 1280;
+    });
+    assert(await splatoon.locator('#splatoon-photo-dialog').isVisible(), 'Freshest Fits portrait did not open in the screenshot viewer');
+    await splatoon.keyboard.press('Escape');
+    assert(await splatoon.locator('#splatoon-photo-dialog').isHidden(), 'Freshest Fits viewer did not close with Escape');
+    await freshestFits.locator('summary').click();
     assert(
       await splatoon.locator('.splatoon-roll-grid img[src]').count() === 0,
       'closed Splatoon photo rolls loaded full images too early',
@@ -1749,9 +1806,24 @@ async function run() {
     );
     await mobileSplatoon.locator('[data-ranked-prev]').click();
     assert(await mobileSplatoon.locator('[data-ranked-status]').textContent() === '04 / 04', 'Splatoon ranked scrapbook did not loop backward on mobile');
+    assert(await mobileSplatoon.locator('#splatoon-rank-up-s').isVisible(), 'Splatoon S-rank promotion was not reachable on mobile');
     assert(
       await mobileSplatoon.locator('.splatoon-ranked-gallery').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'Splatoon ranked scrapbook overflowed horizontally on mobile',
+    );
+    await mobileSplatoon.locator('#splatoon-freshest-fits > summary').click();
+    await mobileSplatoon.locator('#splatoon-freshest-fits img').scrollIntoViewIfNeeded();
+    await mobileSplatoon.waitForFunction(() => {
+      const image = document.querySelector('#splatoon-freshest-fits img');
+      return image.complete && image.naturalWidth === 825 && image.naturalHeight === 1280;
+    });
+    assert(
+      await mobileSplatoon.locator('#splatoon-freshest-fits').evaluate((element) => element.scrollWidth <= element.clientWidth)
+        && await mobileSplatoon.locator('#splatoon-freshest-fits img').evaluate((image) => {
+          const bounds = image.getBoundingClientRect();
+          return Math.abs(bounds.width / bounds.height - 825 / 1280) < 0.01;
+        }),
+      'Freshest Fits drawer overflowed or cropped its portrait on mobile',
     );
     await mobileSplatoon.locator('[data-amiibo-era="splatoon-2"] > summary').click();
     assert(
