@@ -1,3 +1,30 @@
+/* Shared by the desktop and post bundles. Sizes scale with browser preferences. */
+:root {
+  --font-body: 'Nunito Sans', system-ui, sans-serif;
+  --font-heading: 'Quicksand', 'Nunito Sans', sans-serif;
+  --font-pixel: 'Press Start 2P', monospace;
+  --text-body: 0.875rem;
+  --text-ui: 0.8125rem;
+  --text-small: 0.75rem;
+  --text-meta: 0.6875rem;
+  --text-heading: 1.25rem;
+  --text-subheading: 1rem;
+  --leading-body: 1.75;
+  --leading-small: 1.6;
+  --leading-ui: 1.5;
+  --leading-heading: 1.35;
+  /* Pixel-font chrome has its own scale, not a prose-size override. */
+  --font-micro: 7px;
+  --font-tiny: 8px;
+  --font-compact: 9px;
+}
+
+html { font-size: 100%; }
+
+.text-body { font-size: var(--text-body); line-height: var(--leading-body); }
+.text-small { font-size: var(--text-small); line-height: var(--leading-small); }
+.text-meta { font-size: var(--text-meta); line-height: var(--leading-small); }
+
 :root {
   --pink: #e07090;
   --pink-light: #f4a8b8;
@@ -15,12 +42,6 @@
   --pixel-label2: #c07090;
   --frosted-bg: rgba(255, 255, 255, 0.42);
   --frosted-border: rgba(255, 255, 255, 0.68);
-  --font-body: 'Nunito Sans', system-ui, sans-serif;
-  --font-heading: 'Quicksand', 'Nunito Sans', sans-serif;
-  --font-pixel: 'Press Start 2P', monospace;
-  --font-micro: 7px;
-  --font-tiny: 8px;
-  --font-compact: 9px;
   --cursor-default: url("images/cursors/luna-heart.gif") 0 0, auto;
   --cursor-pointer: url("images/cursors/luna-cake-slice.gif") 0 0, pointer;
   --chrome-highlight: rgba(255, 255, 255, 0.82);
@@ -40,11 +61,11 @@ body {
   min-height: 100%;
   color: var(--body);
   font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 1.7;
+  line-height: var(--leading-body);
 }
 
 body {
+  font-size: var(--text-body);
   position: relative;
   padding: 24px 340px 86px 24px;
   background: var(--theme-desktop-bg, linear-gradient(135deg, #a8e6a3 0%, #c9e8c5 25%, #e8ddd5 50%, #f2c4ce 75%, #f4a8b8 100%));
@@ -141,13 +162,14 @@ body::before {
 .post-date {
   margin-bottom: 18px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--text-meta);
   font-style: italic;
+  line-height: var(--leading-small);
 }
 
 .post-content {
-  font-size: 14px;
-  line-height: 1.75;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .post-content p { margin-bottom: 12px; }
@@ -174,7 +196,7 @@ body::before {
   list-style: none;
 }
 
-.post-list li { margin-bottom: 4px; }
+.post-list li { margin-bottom: 4px; font-size: var(--text-body); line-height: var(--leading-body); }
 
 .post-list-lately {
   font-size: 14px;

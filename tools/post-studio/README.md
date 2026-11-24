@@ -20,6 +20,8 @@ After pulling a dependency update, run `pnpm install` in that checkout and resta
 
 The tool writes post HTML into `posts/<category>/`, updates the matching `index.json`, and copies selected images into the right local image folder.
 
+Published posts use the site's shared reading-text scale through the generated `post.css` bundle. To change typography, edit `styles/05-typography.css` (shared sizes) or `styles/60-post.css` (post layout), then run `pnpm build` and `pnpm check`. Avoid inline font sizes in post content; ordinary paragraphs and lists already inherit the standard.
+
 Image behavior:
 
 - Selected images become gallery images in `images/<category>/`.

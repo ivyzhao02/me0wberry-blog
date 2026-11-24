@@ -132,8 +132,8 @@
     .welcome-copy {
       max-width: 380px;
       color: var(--body);
-      font-size: 13px;
-      line-height: 1.7;
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
     }
 
     .welcome-enter {
@@ -244,7 +244,8 @@
     .welcome-passport-copy p {
       margin-top: 3px;
       color: var(--muted);
-      font-size: 9px;
+      font-size: var(--text-small);
+      line-height: var(--leading-small);
     }
 
     .passport-stamp-row { display: flex; gap: 6px; }
@@ -345,9 +346,9 @@
       padding: 0 8px;
       color: var(--heading);
       font-family: var(--font-heading);
-      font-size: 15px;
+      font-size: var(--text-small);
       font-weight: 700;
-      line-height: 1.55;
+      line-height: var(--leading-small);
     }
 
     .passport-envelope-button {
@@ -513,9 +514,9 @@
     .passport-postcard-message {
       align-self: center;
       font-family: var(--font-heading);
-      font-size: 14px;
+      font-size: var(--text-small);
       font-weight: 700;
-      line-height: 1.55;
+      line-height: var(--leading-small);
     }
 
     .passport-postcard-stamp {
@@ -606,15 +607,15 @@
       body.welcome-page { padding: 22px 16px; }
       .welcome-content { grid-template-columns: 1fr; gap: 20px; padding: 32px 24px 34px; text-align: center; }
       .welcome-avatar-well { width: 136px; margin: 0 auto; }
-      .welcome-copy { margin: 0 auto; }
+      .welcome-copy { margin: 0 auto; font-size: var(--text-body); line-height: var(--leading-body); }
       .welcome-passport { grid-template-columns: 1fr; justify-items: center; text-align: center; }
       .welcome-deco-icon { width: 46px; height: 46px; }
       .welcome-deco-dango { top: -44px; }
       .welcome-deco-strawberry { bottom: -18px; }
       .passport-reward-body { padding: 20px 16px 22px; }
-      .passport-rest-message { font-size: 13px; }
+      .passport-rest-message { font-size: var(--text-small); line-height: var(--leading-small); }
       .passport-postcard-back { padding: 16px; }
-      .passport-postcard-message { font-size: 11px; }
+      .passport-postcard-message { font-size: var(--text-small); line-height: var(--leading-small); }
     }
 
     @media (prefers-reduced-motion: reduce) {

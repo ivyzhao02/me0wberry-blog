@@ -14,6 +14,7 @@ const SITE_URL = 'https://me0wberry.com';
 const CATEGORIES = CATEGORY_IDS;
 const ARCHIVE_TEMPLATE = path.join(ROOT, 'tools', 'templates', 'archive-category.html');
 const STYLE_SOURCES = [
+  'styles/05-typography.css',
   'styles/00-welcome.css',
   'styles/10-shell.css',
   'styles/20-panels.css',
@@ -407,6 +408,10 @@ function buildSiteData({ write = true } = {}) {
       contents: buildSourceBundle(STYLE_SOURCES, 'stylesheet'),
     },
     {
+      file: 'post.css',
+      contents: buildSourceBundle(['styles/05-typography.css', 'styles/60-post.css'], 'post stylesheet'),
+    },
+    {
       file: 'script.js',
       contents: buildScriptBundle(),
     },
@@ -452,7 +457,7 @@ function buildSiteData({ write = true } = {}) {
 
   outputs.push({ file: 'robots.txt', contents: ROBOTS_TXT });
   // Keep a new browser policy from being paired with a cached pre-refactor bundle.
-  const versionedAssets = new Map(['script.js', 'style.css', 'archive/search.js', 'archive/archive-list.js'].map((file) => {
+  const versionedAssets = new Map(['script.js', 'style.css', 'post.css', 'shrines/shrines.css', 'shrines/stuffies/stuffies.css', 'archive/search.js', 'archive/archive-list.js'].map((file) => {
     const contents = outputs.find((output) => output.file === file)?.contents || fs.readFileSync(path.join(ROOT, file), 'utf8');
     return [file, createHash('sha256').update(contents.replace(/\r\n?/g, '\n')).digest('hex').slice(0, 12)];
   }));

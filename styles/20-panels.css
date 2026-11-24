@@ -3,17 +3,18 @@
       font-family: var(--font-heading);
       font-weight: 600;
       letter-spacing: 0.01em;
-      font-size: 20px;
+      font-size: var(--text-heading);
       color: var(--heading);
       margin-bottom: 3px;
-      line-height: 1.3;
+      line-height: var(--leading-heading);
     }
     .panel-updated {
       font-style: italic;
-      font-size: 12px;
+      font-size: var(--text-meta);
       color: var(--muted);
       margin-bottom: 12px;
       opacity: 0.85;
+      line-height: var(--leading-small);
     }
     .panel-px-label {
       font-family: var(--font-pixel);
@@ -22,7 +23,7 @@
       margin: 14px 0 7px;
       letter-spacing: 0.5px;
     }
-    .panel-section-body { font-size: 14px; line-height: 1.7; }
+    .panel-section-body { font-size: var(--text-body); line-height: var(--leading-body); }
     .copy-kaomoji {
       display: inline-block;
       font-family: var(--font-heading);
@@ -123,11 +124,11 @@
     }
 
     .posts-list { list-style: none; padding: 0; }
-    .posts-list li { font-size: 13px; padding: 3px 0; }
+    .posts-list li { font-size: var(--text-body); padding: 3px 0; line-height: var(--leading-body); }
     .posts-list a { color: var(--pink); text-decoration: none; }
     .posts-list a:hover { text-decoration: underline; }
-    .posts-list .post-date { color: var(--muted); font-size: 11px; margin-left: 5px; }
-    .posts-empty { font-style: italic; color: var(--muted); font-size: 12px; }
+    .posts-list .post-date { color: var(--muted); font-size: var(--text-meta); margin-left: 5px; line-height: var(--leading-small); }
+    .posts-empty { font-style: italic; color: var(--muted); font-size: var(--text-body); line-height: var(--leading-body); }
 
     .embed-container { margin: 10px 0; }
 
@@ -244,7 +245,7 @@
       justify-content: center;
     }
 
-    .stat-block { font-size: 14px; line-height: 1.9; color: var(--body); }
+    .stat-block { font-size: var(--text-body); line-height: var(--leading-body); color: var(--body); }
     .stat-flags { font-size: 18px; line-height: 1.6; margin: 2px 0; }
 
     .currently-header {
@@ -256,9 +257,9 @@
     .currently-row {
       display: flex;
       align-items: baseline;
-      font-size: 13px;
+      font-size: var(--text-body);
       margin-bottom: 5px;
-      line-height: 1.5;
+      line-height: var(--leading-body);
       color: var(--body);
     }
     .currently-label {
@@ -613,7 +614,7 @@
     }
 
     /* ── Bio: Likes ── */
-    .likes-cols { display: flex; font-size: 13px; }
+    .likes-cols { display: flex; font-size: var(--text-body); line-height: var(--leading-body); }
     .likes-col { flex: 1; }
     .likes-col-title {
       font-family: var(--font-pixel);
@@ -622,7 +623,7 @@
       margin-bottom: 7px;
     }
     .likes-col ul { list-style: none; }
-    .likes-col li { padding: 2px 0; line-height: 1.55; }
+    .likes-col li { padding: 2px 0; line-height: var(--leading-body); }
     .likes-col .bio-topic-link { width: 100%; }
     .likes-divider {
       width: 1px;
@@ -634,15 +635,15 @@
     }
     .fit-right-in {
       font-style: italic;
-      font-size: 12px;
+      font-size: var(--text-small);
       color: var(--muted);
-      line-height: 1.55;
+      line-height: var(--leading-small);
     }
 
     /* ── Bio: DNI ── */
-    .dni-list { list-style: none; font-size: 12px; line-height: 1.85; }
+    .dni-list { list-style: none; font-size: var(--text-body); line-height: var(--leading-body); }
     .dni-list li::before { content: '– '; color: var(--pink); }
-    .dni-soft { font-size: 11px; color: var(--muted); }
+    .dni-soft { font-size: var(--text-body); color: var(--muted); line-height: var(--leading-body); }
     .dni-soft li::before { content: '– '; color: var(--muted); }
 
     /* ── Bio: Find Me / pixel-btn (reference style) ── */
@@ -684,10 +685,10 @@
     .find-me-grid .pixel-btn { margin: 0; text-align: center; }
     .find-me-note {
       font-style: italic;
-      font-size: 12px;
+      font-size: var(--text-small);
       color: var(--muted);
       margin-top: 6px;
-      line-height: 1.55;
+      line-height: var(--leading-small);
     }
 
     /* ── Reserved artwork viewers ── */
@@ -971,8 +972,8 @@
     .project-card-copy {
       margin: 0 0 10px;
       color: var(--body);
-      font-size: 13px;
-      line-height: 1.7;
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
     }
     .project-card-link { margin-top: 0; }
     /* ── Discord Popup ── */
@@ -1021,7 +1022,7 @@
       color: var(--heading);
     }
     .discord-body { padding: 18px 14px 16px; text-align: center; }
-    .discord-body p { font-size: 14px; color: var(--body); margin-bottom: 14px; }
+    .discord-body p { font-size: var(--text-body); color: var(--body); margin-bottom: 14px; line-height: var(--leading-body); }
     .discord-ok {
       font-family: var(--font-pixel);
       font-size: 7px;
@@ -1057,16 +1058,17 @@
       letter-spacing: 0.5px;
     }
     .favs-entry {
-      font-size: 13px;
-      line-height: 1.7;
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
       margin-bottom: 3px;
       color: var(--body);
     }
     .favs-subnote {
       font-style: italic;
-      font-size: 11px;
+      font-size: var(--text-small);
       color: var(--muted);
       padding-left: 12px;
+      line-height: var(--leading-small);
     }
 
     .favs-layout {
@@ -1659,7 +1661,7 @@
       #sidebar-header { padding: 12px 14px 10px; }
       #topbar-tag { display: none; }
       #topbar-title { font-size: 8px; }
-      .panel-heading { font-size: 17px; }
+      .panel-heading { font-size: var(--text-heading); line-height: var(--leading-heading); }
       .slide-img { max-height: 260px; }
       #bottom-taskbar { display: none !important; }
       #cat-strip { display: none !important; }
@@ -1729,8 +1731,9 @@
       border: 0;
       background: none;
       font: inherit;
-      font-size: 13px;
+      font-size: var(--text-body);
       text-align: center;
+      line-height: var(--leading-body);
     }
 
     /* ── Stubby Slideshow ── */

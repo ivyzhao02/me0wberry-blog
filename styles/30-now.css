@@ -15,8 +15,9 @@
 
 .now-fixed-note {
   color: var(--muted);
-  font-size: 13px;
+  font-size: var(--text-body);
   font-style: italic;
+  line-height: var(--leading-body);
 }
 
 .now-summary-actions,
@@ -47,8 +48,8 @@
 
 .now-post-content {
   margin-top: 16px;
-  font-size: 14px;
-  line-height: 1.75;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .now-post-content p {
@@ -144,7 +145,8 @@
 
 .monthly-poll-question {
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .monthly-poll-options {
@@ -227,7 +229,8 @@
 
 .monthly-poll-note {
   color: var(--muted);
-  font-size: 8px;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .monthly-poll-note a {

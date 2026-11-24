@@ -28,10 +28,12 @@
         row.style.cssText = 'margin-bottom:14px;padding-bottom:14px;border-bottom:1px dashed rgba(160,144,152,0.3);';
         const link = document.createElement('a');
         link.href = window.me0wberrySafePostHref(post.url || post.file);
-        link.style.cssText = 'font-size:14px;color:var(--heading);text-decoration:none;border-bottom:1px dotted rgba(139,58,90,0.4);';
+        link.className = 'text-body';
+        link.style.cssText = 'color:var(--heading);text-decoration:none;border-bottom:1px dotted rgba(139,58,90,0.4);';
         link.textContent = post.title;
         const date = document.createElement('span');
-        date.style.cssText = 'font-size:11px;color:var(--muted);margin-left:8px;';
+        date.className = 'text-meta';
+        date.style.cssText = 'color:var(--muted);margin-left:8px;';
         date.textContent = `· ${post.date}`;
         row.append(link, date);
         return row;

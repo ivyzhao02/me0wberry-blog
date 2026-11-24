@@ -169,7 +169,7 @@ for (const file of publicHtmlFiles) {
   }
 
   if (file.startsWith('posts/')) {
-    const postStyleLinks = [...source.matchAll(/<link\b[^>]*href=["']\.\.\/\.\.\/post\.css["'][^>]*>/gi)];
+    const postStyleLinks = [...source.matchAll(/<link\b[^>]*href=["']\.\.\/\.\.\/post\.css(?:\?v=[a-f0-9]{12})?["'][^>]*>/gi)];
     if (postStyleLinks.length !== 1) errors.push(`${file}: expected exactly one shared post.css link`);
     if (source.includes(':root{--pink:#e07090;')) errors.push(`${file}: still contains the copied legacy post stylesheet`);
     if (source.includes('<div id="panel-player" style="position:fixed;')) errors.push(`${file}: still contains the legacy inline player`);

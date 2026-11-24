@@ -21,11 +21,12 @@
   padding: 9px 11px;
   color: var(--body);
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--text-ui);
   border: 1px solid rgba(192,112,144,0.42);
   border-radius: 9px;
   background: rgba(255,255,255,0.66);
   box-shadow: inset 0 1px 3px rgba(116,78,92,0.08);
+  line-height: var(--leading-ui);
 }
 
 .archive-search-input::placeholder {
@@ -41,7 +42,8 @@
   min-height: 18px;
   margin-top: 7px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--text-meta);
+  line-height: var(--leading-small);
 }
 
 .archive-search-results {
@@ -73,8 +75,8 @@
 .archive-search-result-summary {
   margin-top: 6px;
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.55;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 @media (max-width: 520px) {

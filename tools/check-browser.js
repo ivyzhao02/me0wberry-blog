@@ -11,6 +11,7 @@ const { securePublicHtml } = require('./site-security');
 const { buildPostHtml } = require('./post-studio/post-generator');
 const personaCollection = require('../persona/collection.json');
 const giftShelfData = require('../data/gift-shelf.json');
+const { TYPOGRAPHY_ROLES } = require('./typography-contract');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONTENT_TYPES = new Map([
@@ -252,6 +253,28 @@ function publicPathForFile(filePath) {
   return `/${relative}`;
 }
 
+async function checkTypography(page, label, scale = 1) {
+  const problems = await page.evaluate(({ roles, scale }) => {
+    const problems = [];
+    const close = (actual, expected) => Math.abs(Number.parseFloat(actual) - expected) < 0.05;
+    const bodyStyle = getComputedStyle(document.body);
+    if (!close(bodyStyle.fontSize, 14 * scale)) problems.push(`page body is ${bodyStyle.fontSize}`);
+    for (const role of roles) {
+      for (const selector of role.selectors) {
+        for (const element of document.querySelectorAll(selector)) {
+          const style = getComputedStyle(element);
+          if (style.fontFamily.includes('Press Start 2P')) continue;
+          if (!close(style.fontSize, role.size * scale) || !close(style.lineHeight, role.size * role.leading * scale)) {
+            problems.push(`${selector}: ${style.fontSize}/${style.lineHeight}, expected ${role.name}`);
+          }
+        }
+      }
+    }
+    return [...new Set(problems)].slice(0, 12);
+  }, { roles: TYPOGRAPHY_ROLES, scale });
+  assert(!problems.length, `${label} typography drift:\n${problems.join('\n')}`);
+}
+
 async function smokePublicPages(browser, baseUrl) {
   const publicPaths = listPublicHtmlFiles(ROOT).map(publicPathForFile);
   const batchSize = 4;
@@ -277,6 +300,7 @@ async function smokePublicPages(browser, baseUrl) {
         try {
           await page.goto(`${baseUrl}${publicPath}`, { waitUntil: 'domcontentloaded' });
           await page.waitForTimeout(100);
+          if (publicPath !== '/gifypet/pet.html') await checkTypography(page, `${publicPath} (${mode.label})`);
           const overflows = await page.evaluate(() => (
             document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
           ));
@@ -1144,6 +1168,8 @@ async function run() {
       await rightsEntry.locator('#questions a').first().scrollIntoViewIfNeeded();
       await rightsEntry.locator('#questions a').first().click({ trial: true });
       assert(await rightsEntry.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth), 'rights page overflowed horizontally');
+      await rightsEntry.evaluate(() => { document.documentElement.style.fontSize = '125%'; });
+      await checkTypography(rightsEntry, 'rights page with larger preferred text', 1.25);
       await rightsEntry.close();
     }
     const rightsWithoutScripts = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
@@ -2176,7 +2202,7 @@ async function run() {
       `${baseUrl}/posts/beauty/2026-07-29-july-update.html`,
       { width: 1280, height: 900 },
     );
-    assert(await post.locator('link[href="../../post.css"]').count() === 1, 'post.css is not linked once');
+    assert(await post.locator('link[href^="../../post.css"]').count() === 1, 'post.css is not linked once');
     assert(await post.locator('.page-last-edited').count() === 0, 'dated post received a redundant last-edited label');
     assert(await post.locator('#panel-player .player-controls').isVisible(), 'modern post player controls are not visible');
     assert(

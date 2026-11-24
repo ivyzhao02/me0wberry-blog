@@ -23,12 +23,6 @@
       --control-radius: 10px;
       --bow-pink:       #e07090;
       --stem-green:     #5aaa6a;
-      --font-body:      'Nunito Sans', system-ui, sans-serif;
-      --font-heading:   'Quicksand', 'Nunito Sans', sans-serif;
-      --font-pixel:     'Press Start 2P', monospace;
-      --font-micro:     7px;
-      --font-tiny:      8px;
-      --font-compact:   9px;
       --cursor-default: url("images/cursors/luna-heart.gif") 0 0, auto;
       --cursor-pointer: url("images/cursors/luna-cake-slice.gif") 0 0, pointer;
       --chrome-highlight: rgba(255, 255, 255, 0.82);
@@ -44,12 +38,12 @@
       height: 100%;
       overflow: hidden;
       font-family: var(--font-body);
-      font-size: 14px;
       color: var(--body);
-      line-height: 1.7;
+      line-height: var(--leading-body);
     }
 
     body {
+      font-size: var(--text-body);
       background: linear-gradient(135deg,
         #a8e6a3 0%, #c9e8c5 25%, #e8ddd5 50%, #f2c4ce 75%, #f4a8b8 100%
       );

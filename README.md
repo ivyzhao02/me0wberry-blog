@@ -42,9 +42,28 @@ The four-stamp desktop passport stores progress only in the visitor's browser un
 
 Shared JavaScript adds skip navigation, page landmarks, keyboard-operable tabs and window controls, focus restoration, dialog behavior, and accessible player labels to the desktop shell and historical posts. `tools/check-site.js` also guards image descriptions and embedded-frame titles.
 
-Post pages share `post.css`; Post Studio links new posts to the same file so post formatting stays consistent without copying the stylesheet into every page.
+Post pages share `post.css`; Post Studio links new posts to the same file so post formatting stays consistent without copying the stylesheet into every page. This file is generated from `styles/05-typography.css` and `styles/60-post.css`; edit those sources, not the generated bundle.
 
 The maintainable shared styles live in `styles/`, and shared browser behavior lives in `scripts/`. The build joins them into the stable public files `style.css` and `script.js`, so existing page paths and loading order do not change. Category archive pages are generated from `tools/templates/archive-category.html` using `tools/site-config.js`; edit those sources rather than individual files under `archive/<category>/`.
+
+## Typography standard
+
+`styles/05-typography.css` is the single type-scale source, included in both `style.css` and `post.css`. Font families remain Nunito Sans for reading text, Quicksand for headings, and Press Start 2P for pixel chrome. At the usual 16px browser default:
+
+| Role | Token | Size | Line Height |
+| --- | --- | --- | --- |
+| Prose and ordinary lists | `--text-body` | 14px | `--leading-body`: 1.75 |
+| Captions, credits, compact inventory details and short supporting notes | `--text-small` | 12px | `--leading-small`: 1.6 |
+| Dates and compact metadata | `--text-meta` | 11px | `--leading-small`: 1.6 |
+| Non-pixel controls | `--text-ui` | 13px | `--leading-ui`: 1.5 |
+| Standard panel title | `--text-heading` | 20px | `--leading-heading`: 1.35 |
+| Standard reading-page section title | `--text-subheading` | 16px | `--leading-heading`: 1.35 |
+
+The sizes use `rem` and the root stays at `100%`, so browser font preferences scale reading text. Do not shrink prose on mobile to fit a fixed box: allow wrapping, scrolling or a responsive layout instead. Descriptive card copy is still prose; dates and captions are intentionally smaller. Decorative kaomoji, hero/display headings, item titles and pixel-interface labels have separate visual roles and need not all share the same size. The existing 7/8/9px pixel-label scale is not a body-text scale.
+
+Use the tokens in each component's source rule, for example `font-size: var(--text-body); line-height: var(--leading-body);`. Plain new blocks can use `text-body`, `text-small` or `text-meta`. Avoid new inline font sizes or page-specific prose sizes. Preserve semantic heading tags even when changing their visual size.
+
+Run `pnpm build` after source edits. The build fingerprints the shared, post and shrine stylesheets so returning readers receive updated styles. `pnpm check` checks that the two bundles share one scale and compares representative reading text, captions and metadata across public pages at desktop/mobile widths. Extend `tools/typography-contract.js` when adding a new reading component. If intentionally changing the approved scale itself, update the expected sizes in that contract and `tools/typography.test.js`, plus this table, after visual review. Review all four themes, larger browser text, wrapping and the bottom of scrollable panels after typography changes.
 
 ## Security maintenance
 

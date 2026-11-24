@@ -14,8 +14,8 @@ body > #mobile-back {
   max-width: 760px;
   margin: 4px 0 20px;
   color: var(--body);
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .shrine-hallway-grid {
@@ -221,8 +221,8 @@ body > #mobile-back {
 .shrine-door-copy {
   margin-top: 6px;
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.55;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .shrine-room-hero {
@@ -300,8 +300,8 @@ button.shrine-room-emblem.passport-stamp-trigger:focus-visible {
 .shrine-room-copy {
   max-width: 600px;
   color: var(--body);
-  font-size: 13px;
-  line-height: 1.65;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .shrine-cabinet-heading {
@@ -354,8 +354,8 @@ a.shrine-cabinet-card:hover {
 .shrine-cabinet-card p {
   margin-top: 7px;
   color: var(--muted);
-  font-size: 11px;
-  line-height: 1.55;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .shrine-cabinet-card-with-icon {
@@ -435,7 +435,8 @@ a.shrine-cabinet-card:hover {
   display: block;
   margin-top: 3px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .shrine-room-footer {
@@ -522,8 +523,8 @@ a.shrine-cabinet-card:hover {
 .stubby-timeline-heading-row > p {
   max-width: 390px;
   color: var(--muted);
-  font-size: 11px;
-  line-height: 1.55;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
   text-align: right;
 }
 
@@ -597,8 +598,8 @@ a.shrine-cabinet-card:hover {
   min-height: 56px;
   margin: 10px 1px 9px;
   color: var(--body);
-  font-size: 11px;
-  line-height: 1.58;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .stubby-year-details summary {
@@ -673,8 +674,8 @@ a.shrine-cabinet-card:hover {
 .stubby-facts-grid dd {
   margin: 0;
   color: var(--body);
-  font-size: 10px;
-  line-height: 1.62;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .stubby-everyday-closing {
@@ -682,7 +683,8 @@ a.shrine-cabinet-card:hover {
   padding: 11px 13px;
   color: var(--heading);
   font-family: var(--font-heading);
-  font-size: 13px;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
   font-weight: 700;
   text-align: center;
   border: 1px dashed var(--theme-border, rgba(192,112,144,0.36));
@@ -728,7 +730,8 @@ a.shrine-cabinet-card:hover {
 .stubby-memory-dialog p {
   margin: 8px 42px 0 3px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .stubby-memory-close {
@@ -769,8 +772,8 @@ a.shrine-cabinet-card:hover {
 .pokemon-section-heading > p {
   max-width: 390px;
   color: var(--muted);
-  font-size: 11px;
-  line-height: 1.55;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
   text-align: right;
 }
 
@@ -916,8 +919,9 @@ a.shrine-cabinet-card:hover {
 .pokemon-collection-note {
   margin: 0 0 10px;
   color: var(--muted);
-  font-size: 8px;
+  font-size: var(--text-small);
   text-align: right;
+  line-height: var(--leading-small);
 }
 
 .pokemon-owned-card {
@@ -960,8 +964,8 @@ a.shrine-cabinet-card:hover {
 
 .pokemon-owned-card p {
   color: var(--muted);
-  font-size: 10px;
-  line-height: 1.55;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .pokemon-owned-card .pokemon-owned-note {
@@ -975,8 +979,9 @@ a.shrine-cabinet-card:hover {
   display: inline-block;
   margin-top: 8px;
   color: var(--pink);
-  font-size: 10px;
+  font-size: var(--text-small);
   text-decoration: underline dotted;
+  line-height: var(--leading-small);
 }
 
 .pokemon-wishlist {
@@ -1028,7 +1033,8 @@ a.shrine-cabinet-card:hover {
 
 .pokemon-collection-preview-heading p {
   color: var(--muted);
-  font-size: 8px;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .pokemon-card-preview-grid {
@@ -1114,8 +1120,9 @@ a.shrine-cabinet-card:hover {
 
 .pokemon-honourable-heading p {
   color: var(--muted);
-  font-size: 9px;
+  font-size: var(--text-body);
   text-align: right;
+  line-height: var(--leading-body);
 }
 
 .pokemon-honourable-grid {
@@ -1142,7 +1149,8 @@ a.shrine-cabinet-card:hover {
 .pokemon-honourable-card > p {
   margin-top: 4px;
   color: var(--muted);
-  font-size: 8px;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .pokemon-honourable-sprite-row {
@@ -1170,7 +1178,8 @@ a.shrine-cabinet-card:hover {
 
 .pokemon-honourable-sprite-row figcaption {
   color: var(--muted);
-  font-size: 7px;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .pokemon-sprite-row {
@@ -1191,8 +1200,9 @@ a.shrine-cabinet-card:hover {
 
 .pokemon-lookbook-heading p {
   color: var(--muted);
-  font-size: 9px;
+  font-size: var(--text-body);
   text-align: right;
+  line-height: var(--leading-body);
 }
 
 .pokemon-lookbook-grid {
@@ -1213,8 +1223,9 @@ a.shrine-cabinet-card:hover {
 
 .pokemon-history-heading p {
   color: var(--muted);
-  font-size: 9px;
+  font-size: var(--text-body);
   text-align: right;
+  line-height: var(--leading-body);
 }
 
 .pokemon-history-list {
@@ -1465,8 +1476,8 @@ a.shrine-cabinet-card:hover {
 .pokemon-music-card p {
   max-width: 430px;
   color: var(--muted);
-  font-size: 10px;
-  line-height: 1.55;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .pokemon-music-actions {
@@ -1485,8 +1496,9 @@ a.shrine-cabinet-card:hover {
 .pokemon-music-note {
   margin-top: 8px;
   color: var(--muted);
-  font-size: 8px;
+  font-size: var(--text-small);
   text-align: right;
+  line-height: var(--leading-small);
 }
 
 .pokemon-lookbook-card {
@@ -1572,9 +1584,10 @@ a.shrine-cabinet-card:hover {
 .pokemon-sprite-row figcaption {
   overflow: hidden;
   color: var(--muted);
-  font-size: 7px;
+  font-size: var(--text-small);
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: var(--leading-small);
 }
 
 .pokemon-merch-overview {
@@ -1603,8 +1616,8 @@ a.shrine-cabinet-card:hover {
 }
 
 .pokemon-merch-additions .pokemon-merch-group li {
-  font-size: 10px;
-  line-height: 1.6;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
   overflow-wrap: anywhere;
 }
 
@@ -1651,7 +1664,7 @@ a.shrine-cabinet-card:hover {
 
 .gift-summary dt,
 .gift-note,
-.gift-items span { font-size: 10px; line-height: 1.6; color: var(--body); }
+.gift-items span { font-size: var(--text-small); line-height: var(--leading-small); color: var(--body); }
 .gift-summary dd { margin: 0; color: var(--heading); font-family: var(--font-heading); font-size: 18px; }
 .gift-note { margin: 10px 0 0; color: var(--muted); }
 .gift-items { display: grid; gap: 10px; margin: 14px 0 0; padding: 0; list-style: none; }
@@ -1722,8 +1735,8 @@ a.shrine-cabinet-card:hover {
 .pokemon-merch-card header p,
 .pokemon-merch-spontaneous p {
   color: var(--muted);
-  font-size: 9px;
-  line-height: 1.5;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .pokemon-merch-note {
@@ -1732,9 +1745,9 @@ a.shrine-cabinet-card:hover {
   margin: 0;
   padding: 13px 15px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: var(--text-small);
   font-style: italic;
-  line-height: 1.65;
+  line-height: var(--leading-small);
 }
 
 .pokemon-merch-shelf-grid {
@@ -1816,8 +1829,8 @@ a.shrine-cabinet-card:hover {
   position: relative;
   padding-left: 12px;
   color: var(--body);
-  font-size: 8px;
-  line-height: 1.45;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .pokemon-merch-group li::before {
@@ -1914,6 +1927,8 @@ a.shrine-cabinet-card:hover {
 
   .shrine-room-copy {
     margin-inline: auto;
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
   }
 
   .stubby-timeline-heading-row {
@@ -1922,9 +1937,9 @@ a.shrine-cabinet-card:hover {
     gap: 6px;
   }
 
-  .stubby-timeline-heading-row > p { text-align: left; }
+  .stubby-timeline-heading-row > p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
 
-  .stubby-year-copy { min-height: 0; }
+  .stubby-year-copy { min-height: 0; font-size: var(--text-body); line-height: var(--leading-body); }
 
   .pokemon-section-heading {
     align-items: start;
@@ -1932,9 +1947,9 @@ a.shrine-cabinet-card:hover {
     gap: 6px;
   }
 
-  .pokemon-section-heading > p { text-align: left; }
+  .pokemon-section-heading > p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
   .pokemon-honourable-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
-  .pokemon-honourable-heading p { text-align: left; }
+  .pokemon-honourable-heading p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
   .pokemon-shiny-grid,
   .pokemon-shiny-grid-featured { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .pokemon-binder-layout,
@@ -1947,7 +1962,7 @@ a.shrine-cabinet-card:hover {
   .pokemon-card-preview-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .pokemon-lookbook-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pokemon-history-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
-  .pokemon-history-heading p { text-align: left; }
+  .pokemon-history-heading p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
   .pokemon-history-row.is-short .pokemon-history-card {
     display: block;
   }
@@ -1976,11 +1991,11 @@ a.shrine-cabinet-card:hover {
   .pokemon-collection-stats { grid-template-columns: 1fr 1fr; }
   .pokemon-collection-stats a { align-items: center; flex-direction: column; gap: 2px; text-align: center; }
   .pokemon-collection-stats .pokemon-collection-total { grid-column: 1 / -1; }
-  .pokemon-collection-note { text-align: left; }
+  .pokemon-collection-note { text-align: left; font-size: var(--text-small); line-height: var(--leading-small); }
   .pokemon-collection-preview-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
   .pokemon-card-preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pokemon-lookbook-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
-  .pokemon-lookbook-heading p { text-align: left; }
+  .pokemon-lookbook-heading p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
   .pokemon-lookbook-grid { grid-template-columns: 1fr; }
   .pokemon-history-row-heading { align-items: flex-start; flex-direction: column; gap: 2px; }
   .pokemon-history-track { grid-auto-columns: minmax(148px, 70vw); }
@@ -2214,16 +2229,16 @@ a.shrine-cabinet-card:hover {
 .warframe-frame-look {
   margin-top: 5px;
   color: var(--green-text);
-  font-size: 9px;
+  font-size: var(--text-small);
   font-weight: 700;
-  line-height: 1.4;
+  line-height: var(--leading-small);
 }
 
 .warframe-frame-source {
   margin-top: 5px;
   color: var(--muted);
-  font-size: 8px;
-  line-height: 1.45;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .warframe-frame-look + .warframe-frame-source {
@@ -2273,8 +2288,8 @@ a.shrine-cabinet-card:hover {
 .warframe-section-heading > p {
   max-width: 390px;
   color: var(--muted);
-  font-size: 10px;
-  line-height: 1.55;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
   text-align: right;
 }
 
@@ -2390,7 +2405,8 @@ a.shrine-cabinet-card:hover {
 .warframe-shot-caption small {
   flex: 0 0 auto;
   color: var(--muted);
-  font-size: 7px;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .warframe-post-shelf {
@@ -2424,7 +2440,7 @@ a.shrine-cabinet-card:hover {
   .warframe-hero-viewer img { min-height: 0; }
   .warframe-room-copy { margin-inline: 0; }
   .warframe-section-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
-  .warframe-section-heading > p { text-align: left; }
+  .warframe-section-heading > p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
 }
 
 @media (max-width: 520px) {
@@ -2549,9 +2565,9 @@ a.shrine-cabinet-card:hover {
   max-width: 390px;
   margin: 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: var(--text-body);
   font-style: italic;
-  line-height: 1.55;
+  line-height: var(--leading-body);
   text-align: right;
 }
 
@@ -2630,8 +2646,8 @@ a.shrine-cabinet-card:hover {
 .sanrio-character-card p,
 .sanrio-shelf-note p {
   color: var(--body);
-  font-size: 10px;
-  line-height: 1.55;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .sanrio-character-card a {
@@ -2772,7 +2788,8 @@ a.shrine-cabinet-card:hover {
 
 .sanrio-shelf-note dd {
   color: var(--body);
-  font-size: 10px;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .sanrio-wishlist-grid {
@@ -2812,8 +2829,8 @@ a.shrine-cabinet-card:hover {
 .sanrio-wishlist-grid p {
   margin: 7px 0 10px;
   color: var(--body);
-  font-size: 9px;
-  line-height: 1.5;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .sanrio-wishlist-grid i {
@@ -2845,8 +2862,8 @@ a.shrine-cabinet-card:hover {
 .sanrio-credit-note p {
   margin: 0;
   color: var(--muted);
-  font-size: 8px;
-  line-height: 1.5;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 @media (max-width: 900px) {
@@ -2856,7 +2873,7 @@ a.shrine-cabinet-card:hover {
 
 @media (max-width: 760px) {
   .sanrio-section-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
-  .sanrio-section-heading > p { text-align: left; }
+  .sanrio-section-heading > p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
   .sanrio-character-grid,
   .sanrio-collection-layout { grid-template-columns: 1fr; }
   .sanrio-wishlist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -3020,9 +3037,9 @@ a.shrine-cabinet-card:hover {
   max-width: 390px;
   margin: 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: var(--text-body);
   font-style: italic;
-  line-height: 1.55;
+  line-height: var(--leading-body);
   text-align: right;
 }
 
@@ -3064,8 +3081,8 @@ a.shrine-cabinet-card:hover {
 
 .league-champion-card p {
   color: var(--body);
-  font-size: 10px;
-  line-height: 1.5;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .league-champion-notes {
@@ -3074,8 +3091,8 @@ a.shrine-cabinet-card:hover {
   margin: 7px 0 0;
   padding: 0;
   color: var(--body);
-  font-size: 9px;
-  line-height: 1.5;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
   list-style: none;
 }
 
@@ -3334,9 +3351,9 @@ a.shrine-cabinet-card:hover {
   max-width: 520px;
   margin: 0;
   color: var(--muted);
-  font-size: 8px;
+  font-size: var(--text-body);
   font-style: italic;
-  line-height: 1.45;
+  line-height: var(--leading-body);
   text-align: right;
 }
 
@@ -3446,9 +3463,9 @@ a.shrine-cabinet-card:hover {
 .league-skin-note {
   margin: 7px 0 0;
   color: var(--muted);
-  font-size: 8px;
+  font-size: var(--text-small);
   font-style: italic;
-  line-height: 1.45;
+  line-height: var(--leading-small);
 }
 
 .league-chroma-grid {
@@ -3556,15 +3573,15 @@ a.shrine-cabinet-card:hover {
 .league-chroma-card figcaption strong {
   overflow-wrap: anywhere;
   color: var(--body);
-  font-size: 7px;
-  line-height: 1.35;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .league-chroma-card figcaption small {
   margin-top: 2px;
   color: var(--muted);
-  font-size: var(--font-compact);
-  line-height: 1.35;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .league-no-chromas {
@@ -3574,16 +3591,17 @@ a.shrine-cabinet-card:hover {
   border: 1px dashed rgba(150,180,135,0.36);
   border-radius: 9px;
   background: rgba(255,255,255,0.28);
-  font-size: 8px;
+  font-size: var(--text-small);
   font-style: italic;
   text-align: center;
+  line-height: var(--leading-small);
 }
 
 .league-collection-source {
   margin: 11px 3px 0;
   color: var(--muted);
-  font-size: 7px;
-  line-height: 1.5;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
   text-align: center;
 }
 
@@ -3641,7 +3659,8 @@ a.shrine-cabinet-card:hover {
 
 .league-terminal dd {
   color: var(--body);
-  font-size: 9px;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .league-profile-links {
@@ -3691,8 +3710,8 @@ a.shrine-cabinet-card:hover {
 .league-source-notes p {
   margin-top: 5px;
   color: var(--muted);
-  font-size: 8px;
-  line-height: 1.45;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .league-honourable-heading {
@@ -3714,9 +3733,9 @@ a.shrine-cabinet-card:hover {
   max-width: 430px;
   margin: 0;
   color: var(--muted);
-  font-size: 8px;
+  font-size: var(--text-body);
   font-style: italic;
-  line-height: 1.45;
+  line-height: var(--leading-body);
   text-align: right;
 }
 
@@ -3768,7 +3787,8 @@ a.shrine-cabinet-card:hover {
 .league-honourable-grid p {
   margin-top: 4px;
   color: var(--muted);
-  font-size: 8px;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .league-credit-note {
@@ -3793,8 +3813,8 @@ a.shrine-cabinet-card:hover {
 .league-credit-note p {
   margin: 0;
   color: var(--muted);
-  font-size: 8px;
-  line-height: 1.5;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 @media (max-width: 980px) {
@@ -3819,7 +3839,7 @@ a.shrine-cabinet-card:hover {
   .league-account-collection { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .league-rank-history { grid-column: 1 / -1; }
   .league-wardrobe-overview { align-items: flex-start; flex-direction: column; }
-  .league-wardrobe-overview > p { text-align: left; }
+  .league-wardrobe-overview > p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
   .league-credit-note { grid-template-columns: 1fr; gap: 6px; }
 }
 
@@ -4042,9 +4062,9 @@ a.shrine-cabinet-card:hover {
   max-width: 480px;
   margin: 0;
   color: var(--muted);
-  font-size: 9px;
+  font-size: var(--text-body);
   font-style: italic;
-  line-height: 1.5;
+  line-height: var(--leading-body);
   text-align: right;
 }
 
@@ -4261,8 +4281,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-match-receipt > p {
   margin: 14px 0;
   color: var(--body);
-  font-size: 10px;
-  line-height: 1.65;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .splatoon-match-receipt dl {
@@ -4286,8 +4306,9 @@ a.shrine-cabinet-card:hover {
 .splatoon-match-receipt dd {
   margin: 0;
   color: var(--body);
-  font-size: 9px;
+  font-size: var(--text-small);
   font-weight: 700;
+  line-height: var(--leading-small);
 }
 
 .splatoon-smallfry-intro {
@@ -4314,8 +4335,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-smallfry-intro p {
   margin: 0;
   color: var(--body);
-  font-size: 10px;
-  line-height: 1.6;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .splatoon-amiibo-section {
@@ -4424,8 +4445,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-amiibo-note p {
   margin: 0;
   color: var(--muted);
-  font-size: 9px;
-  line-height: 1.55;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .splatoon-gear-showcase {
@@ -4472,8 +4493,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-gear-showcase-copy p {
   margin: 0;
   color: var(--text);
-  font-size: 10px;
-  line-height: 1.65;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .splatoon-gear-showcase-copy ul {
@@ -4523,9 +4544,9 @@ a.shrine-cabinet-card:hover {
   max-width: 390px;
   margin: 0;
   color: var(--muted);
-  font-size: 9px;
+  font-size: var(--text-body);
   font-style: italic;
-  line-height: 1.45;
+  line-height: var(--leading-body);
   text-align: right;
 }
 
@@ -4781,8 +4802,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-collection-meter p {
   margin: 8px 0 0;
   color: rgba(248,255,230,0.72);
-  font-size: 9px;
-  line-height: 1.45;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .splatoon-gear-grid {
@@ -4834,8 +4855,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-gear-card > p {
   margin: 5px 0 10px;
   color: var(--muted);
-  font-size: 9px;
-  line-height: 1.45;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .splatoon-gear-pieces {
@@ -4969,8 +4990,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-raiders-outfit p {
   margin: 6px 0 12px;
   color: rgba(248,255,230,0.7);
-  font-size: 9px;
-  line-height: 1.45;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .splatoon-raiders-outfit > span {
@@ -5002,8 +5023,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-amiibo-optional p {
   margin: 0;
   color: var(--muted);
-  font-size: 9px;
-  line-height: 1.5;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
 }
 
 .splatoon-contact-sheet,
@@ -5076,8 +5097,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-shot-caption small {
   margin-top: 4px;
   color: var(--muted);
-  font-size: 8px;
-  line-height: 1.45;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .splatoon-photo-rolls {
@@ -5167,8 +5188,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-roll-info > span:not(.splatoon-roll-action) {
   margin-top: 5px;
   color: var(--muted);
-  font-size: 9px;
-  line-height: 1.45;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .splatoon-roll-action {
@@ -5218,8 +5239,8 @@ a.shrine-cabinet-card:hover {
 .splatoon-credit-note p {
   margin: 0;
   color: var(--muted);
-  font-size: 8px;
-  line-height: 1.5;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
 }
 
 .splatoon-credit-note > div {
@@ -5249,7 +5270,7 @@ a.shrine-cabinet-card:hover {
   .splatoon-hero-copy { padding: 19px 17px; }
   .splatoon-hero-copy .shrine-room-copy { margin-inline: 0; }
   .splatoon-section-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
-  .splatoon-section-heading > p { text-align: left; }
+  .splatoon-section-heading > p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
   .splatoon-contact-sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .splatoon-photo-rolls { grid-template-columns: 1fr; }
   .splatoon-photo-roll[open] { grid-column: auto; }
@@ -5260,7 +5281,7 @@ a.shrine-cabinet-card:hover {
   .splatoon-amiibo-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .splatoon-amiibo-summary > div.is-gear { grid-column: 1 / -1; }
   .splatoon-amiibo-subheading { align-items: flex-start; flex-direction: column; gap: 4px; }
-  .splatoon-amiibo-subheading > p { text-align: left; }
+  .splatoon-amiibo-subheading > p { text-align: left; font-size: var(--text-body); line-height: var(--leading-body); }
   .splatoon-gear-showcase { grid-template-columns: minmax(0, 1fr); }
   .splatoon-gear-overview { grid-template-columns: 1fr; }
 }
