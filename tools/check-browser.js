@@ -1661,6 +1661,19 @@ async function run() {
       !/A&C Games|PlayAsia|Microplay|Newmarket|C\$|shipping|import charge/i.test(amiiboPublicCopy),
       'Splatoon amiibo cabinet exposed private purchase or shipping details',
     );
+    assert(
+      await splatoon.locator('#splatoon-rank-up-s').isVisible()
+        && await splatoon.locator('[data-ranked-status]').textContent() === '04 / 04'
+        && await splatoon.locator('[data-ranked-dot="3"]').getAttribute('aria-current') === 'true'
+        && await splatoon.locator('[data-ranked-panel][hidden]').count() === 3,
+      'Splatoon ranked scrapbook did not open on its newest entry with matching controls',
+    );
+    await splatoon.locator('[data-ranked-next]').click();
+    assert(
+      await splatoon.locator('[data-ranked-status]').textContent() === '01 / 04'
+        && await splatoon.locator('[data-ranked-panel]:not([hidden])').textContent().then((text) => text.includes('+200p')),
+      'Splatoon ranked scrapbook did not wrap from the newest entry to its oldest entry',
+    );
     const splatoonRankedImage = splatoon.locator('[data-ranked-panel]:not([hidden]) .splatoon-ranked-shot img');
     await splatoonRankedImage.scrollIntoViewIfNeeded();
     await splatoon.waitForFunction(() => {
@@ -1804,9 +1817,20 @@ async function run() {
       await mobileSplatoon.locator('.splatoon-profile-strip').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(' ').length === 1),
       'Splatoon profile strip did not collapse to one column on mobile',
     );
+    assert(
+      await mobileSplatoon.locator('#splatoon-rank-up-s').isVisible()
+        && await mobileSplatoon.locator('[data-ranked-status]').textContent() === '04 / 04',
+      'Splatoon ranked scrapbook did not open on its newest entry on mobile',
+    );
     await mobileSplatoon.locator('[data-ranked-prev]').click();
-    assert(await mobileSplatoon.locator('[data-ranked-status]').textContent() === '04 / 04', 'Splatoon ranked scrapbook did not loop backward on mobile');
-    assert(await mobileSplatoon.locator('#splatoon-rank-up-s').isVisible(), 'Splatoon S-rank promotion was not reachable on mobile');
+    assert(
+      await mobileSplatoon.locator('[data-ranked-status]').textContent() === '03 / 04'
+        && await mobileSplatoon.locator('[data-ranked-panel]:not([hidden])').textContent().then((text) => text.includes('+295p')),
+      'Splatoon ranked scrapbook did not keep the older entry reachable on mobile',
+    );
+    await mobileSplatoon.locator('[data-ranked-next]').focus();
+    await mobileSplatoon.keyboard.press('ArrowRight');
+    assert(await mobileSplatoon.locator('#splatoon-rank-up-s').isVisible(), 'Splatoon S-rank promotion was not reachable with the keyboard on mobile');
     assert(
       await mobileSplatoon.locator('.splatoon-ranked-gallery').evaluate((element) => element.scrollWidth <= element.clientWidth),
       'Splatoon ranked scrapbook overflowed horizontally on mobile',

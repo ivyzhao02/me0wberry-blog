@@ -591,7 +591,8 @@
     const panels = Array.from(rankedGallery.querySelectorAll('[data-ranked-panel]'));
     const dots = Array.from(rankedGallery.querySelectorAll('[data-ranked-dot]'));
     const status = rankedGallery.querySelector('[data-ranked-status]');
-    let currentPanel = 0;
+    // Entries stay oldest-to-newest; open on the latest update.
+    let currentPanel = panels.length - 1;
 
     function showRankedPanel(index) {
       currentPanel = ((index % panels.length) + panels.length) % panels.length;
@@ -615,7 +616,7 @@
       event.preventDefault();
       showRankedPanel(currentPanel + (event.key === 'ArrowRight' ? 1 : -1));
     });
-    showRankedPanel(0);
+    showRankedPanel(currentPanel);
   }
 
   const list = document.getElementById('splatoon-post-list');
