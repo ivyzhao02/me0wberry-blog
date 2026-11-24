@@ -6,6 +6,18 @@ const { sanitizePostContent, safeImageUrl } = require('./post-studio/content-saf
 const { buildPostHtml } = require('./post-studio/post-generator');
 const { sanitizeUploadedImage } = require('./post-studio/server');
 const { versionAssetLinks } = require('./public-assets');
+const { linkCopyrightNotice } = require('./build-site-data');
+
+test('copyright notices link to the rights page at every depth without changing their wording', () => {
+  const source = '<span id="topbar-title">© me0wberry 2026</span>';
+  for (const [file, href] of [['index.html', 'rights/index.html'], ['rights/index.html', 'index.html'], ['posts/games/example.html', '../../rights/index.html']]) {
+    const linked = linkCopyrightNotice(source, file);
+    assert.ok(linked.includes(`href="${href}"`));
+    assert.ok(linked.includes('>© me0wberry 2026</a>'));
+    assert.equal(linkCopyrightNotice(linked, file), linked);
+  }
+  assert.equal(linkCopyrightNotice('<span id="topbar-title">another title</span>', 'index.html'), '<span id="topbar-title">another title</span>');
+});
 
 test('security metadata is first, idempotent and preserves a UTF-8 declaration', () => {
   const source = '<!doctype html>\r\n<html><head>\r\n<meta charset="UTF-8">\r\n<script>window.test = 1;</script></head><body></body></html>';

@@ -331,6 +331,12 @@ function buildScriptBundle() {
   return `${lastEditedConfig}\n\n${buildSourceBundle(SCRIPT_SOURCES, 'script')}`;
 }
 
+function linkCopyrightNotice(source, file) {
+  const href = path.posix.relative(path.posix.dirname(file), 'rights/index.html');
+  return source.replace(/<span id="topbar-title">(© me0wberry \d{4})<\/span>/g,
+    `<span id="topbar-title"><a class="rights-notice-link" href="${href}" aria-label="rights, credits and site use">$1</a></span>`);
+}
+
 function buildArchiveCategoryPage(category, template) {
   const replacements = {
     PAGE_TITLE: category.label,
@@ -455,7 +461,7 @@ function buildSiteData({ write = true } = {}) {
     const file = path.relative(ROOT, filePath).split(path.sep).join('/');
     const generated = generatedHtml.get(file);
     const source = generated ? generated.contents : fs.readFileSync(filePath, 'utf8');
-    const contents = securePublicHtml(versionAssetLinks(source, file, versionedAssets));
+    const contents = securePublicHtml(versionAssetLinks(linkCopyrightNotice(source, file), file, versionedAssets));
     if (generated) generated.contents = contents;
     else outputs.push({ file, contents });
   }
@@ -477,5 +483,6 @@ module.exports = {
   displayCategory,
   extractDivInnerHtml,
   htmlToText,
+  linkCopyrightNotice,
   repositoryBuildLabel,
 };

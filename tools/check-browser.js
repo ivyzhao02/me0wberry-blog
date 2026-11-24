@@ -1121,6 +1121,39 @@ async function run() {
     );
     await mobileSystem.close();
 
+    for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 }]) {
+      const rightsEntry = await openCheckedPage(browser, `${baseUrl}/info/`, viewport);
+      await rightsEntry.locator('#topbar-title .rights-notice-link').focus();
+      await rightsEntry.keyboard.press('Enter');
+      await rightsEntry.waitForURL('**/rights/index.html');
+      assert(await rightsEntry.locator('#panel-rights h1').isVisible(), 'copyright notice did not open the rights page with the keyboard');
+      assert(
+        await rightsEntry.locator('#artist-rights').textContent().then((text) => text.includes('remains copyrighted by its respective artist'))
+          && await rightsEntry.locator('.rights-credit-links a').count() === 3,
+        'rights page lost artist ownership or the three credit destinations',
+      );
+      assert(
+        await rightsEntry.locator('#canadian-copyright a[href*="guide-copyright"]').count() === 1
+          && await rightsEntry.locator('#us-copyright a[href*="copyright.gov"]').count() === 4
+          && await rightsEntry.locator('#international-copyright a[href*="wipo.int"]').count() === 2,
+        'rights page lost its Canadian, US or international primary-source references',
+      );
+      const rightsCopy = await rightsEntry.locator('#panel-rights').textContent();
+      assert(!/\bAI\b|artificial intelligence|all content is owned|all rights reserved/i.test(rightsCopy), 'rights page added an unapproved asset-ownership claim or category');
+      assert(rightsCopy.includes('fair dealing') && rightsCopy.includes('fair use') && rightsCopy.includes('not a claim of us registration'), 'rights page lost its exceptions or registration limits');
+      await rightsEntry.locator('#questions a').first().scrollIntoViewIfNeeded();
+      await rightsEntry.locator('#questions a').first().click({ trial: true });
+      assert(await rightsEntry.locator('#main').evaluate((element) => element.scrollWidth <= element.clientWidth), 'rights page overflowed horizontally');
+      await rightsEntry.close();
+    }
+    const rightsWithoutScripts = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+    await blockExternalRequests(rightsWithoutScripts);
+    await rightsWithoutScripts.goto(`${baseUrl}/rights/`, { waitUntil: 'load' });
+    assert(await rightsWithoutScripts.locator('#copyright-basics').isVisible(), 'rights page depends on scripts to show its copyright explanation');
+    await rightsWithoutScripts.locator('#questions a').first().scrollIntoViewIfNeeded();
+    await rightsWithoutScripts.locator('#questions a').first().click({ trial: true });
+    await rightsWithoutScripts.close();
+
     const archive = await openCheckedPage(
       browser,
       `${baseUrl}/archive/`,

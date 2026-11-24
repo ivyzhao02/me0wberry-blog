@@ -121,6 +121,9 @@ for (const file of publicHtmlFiles) {
   const rawSource = publicHtmlSources.get(file);
   for (const error of googleTagErrors(rawSource)) errors.push(`${file}: ${error}`);
   const source = rawSource.replace(/<!--[\s\S]*?-->/g, '');
+  if (/<span id="topbar-title">© me0wberry \d{4}<\/span>/.test(source)) {
+    errors.push(`${file}: copyright notice does not link to the rights page`);
+  }
   const ids = [...source.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]);
   const seenIds = new Set();
 
@@ -195,6 +198,7 @@ const requiredPages = new Map([
   ['shrines/league/index.html', 'League of Legends shrine'],
   ['shrines/splatoon/index.html', 'Splatoon shrine'],
   ['persona/index.html', 'persona gallery'],
+  ['rights/index.html', 'rights, credits and site use page'],
   ['rss/index.html', 'browser-friendly RSS reader'],
   ['rss/rss-reader.js', 'browser-friendly RSS reader script'],
   ['post.css', 'shared post stylesheet'],
@@ -214,6 +218,7 @@ const pageNavigationRequirements = new Map([
   ['info/index.html', 1],
   ['now/index.html', 1],
   ['persona/index.html', 1],
+  ['rights/index.html', 1],
   ['rss/index.html', 2],
   ['shrines/index.html', 1],
   ['shrines/pokemon/index.html', 1],

@@ -6,10 +6,11 @@ window.me0wberryPageLastEdited = Object.freeze({
   "archive/lately/index.html": "2026-08-29T16:34:46-04:00",
   "archive/music/index.html": "2026-08-29T16:34:46-04:00",
   "archive/stubby/index.html": "2026-08-29T16:34:46-04:00",
-  "info/index.html": "2026-11-10T09:28:07-05:00",
+  "info/index.html": "2026-11-24T01:08:12-05:00",
   "now/index.html": "2026-11-01T03:59:46-05:00",
   "persona/index.html": "2026-11-08T19:16:24-05:00",
   "rss/index.html": "2026-10-08T23:27:19-04:00",
+  "rights/index.html": "2026-11-24T01:08:12-05:00",
   "shrines/index.html": "2026-11-18T19:53:45-05:00",
   "shrines/league/index.html": "2026-11-05T22:42:00-05:00",
   "shrines/pokemon/index.html": "2026-11-18T19:53:45-05:00",
@@ -1328,61 +1329,64 @@ window.me0wberryPageLastEdited = Object.freeze({
       tryPlay();
     }
 
-    window.playerPlayTrack = playerPlayTrack;
-    window.me0wberryPlayer = {
-      applyState: applyPlayerState,
-      getState: getPlayerState,
-      pause: function() {
-        audio.pause();
-        setPlayPauseState(false);
-      },
-    };
+    // Reading-only pages can omit the player entirely.
+    if (tracks.length && [audio, progressEl, titleSpan, marqueeWrap, counterEl, playPauseBtn, currentTimeEl, totalTimeEl, volumeEl].every(Boolean)) {
+      window.playerPlayTrack = playerPlayTrack;
+      window.me0wberryPlayer = {
+        applyState: applyPlayerState,
+        getState: getPlayerState,
+        pause: function() {
+          audio.pause();
+          setPlayPauseState(false);
+        },
+      };
 
-    audio.addEventListener('timeupdate', function() {
-      if (!audio.duration) return;
-      progressEl.value = (audio.currentTime / audio.duration) * 100;
-      currentTimeEl.textContent = fmtTime(audio.currentTime);
-    });
+      audio.addEventListener('timeupdate', function() {
+        if (!audio.duration) return;
+        progressEl.value = (audio.currentTime / audio.duration) * 100;
+        currentTimeEl.textContent = fmtTime(audio.currentTime);
+      });
 
-    audio.addEventListener('loadedmetadata', function() {
-      totalTimeEl.textContent = fmtTime(audio.duration);
-    });
+      audio.addEventListener('loadedmetadata', function() {
+        totalTimeEl.textContent = fmtTime(audio.duration);
+      });
 
-    audio.addEventListener('play', function() { setPlayPauseState(true); });
-    audio.addEventListener('pause', function() { setPlayPauseState(false); });
-    audio.addEventListener('error', function() { setPlayPauseState(false); });
-    audio.addEventListener('ended', playerNext);
+      audio.addEventListener('play', function() { setPlayPauseState(true); });
+      audio.addEventListener('pause', function() { setPlayPauseState(false); });
+      audio.addEventListener('error', function() { setPlayPauseState(false); });
+      audio.addEventListener('ended', playerNext);
 
-    progressEl.addEventListener('input', function() {
-      if (audio.duration) audio.currentTime = (progressEl.value / 100) * audio.duration;
-    });
+      progressEl.addEventListener('input', function() {
+        if (audio.duration) audio.currentTime = (progressEl.value / 100) * audio.duration;
+      });
 
-    volumeEl.addEventListener('input', function() {
-      audio.volume = parseFloat(volumeEl.value);
-    });
+      volumeEl.addEventListener('input', function() {
+        audio.volume = parseFloat(volumeEl.value);
+      });
 
-    audio.volume = 0.75;
+      audio.volume = 0.75;
 
-    (function() {
-      const savedTrackValue = parseInt(sessionStorage.getItem('player_track') || '0');
-      const savedTrack = Number.isInteger(savedTrackValue) && savedTrackValue >= 0 && savedTrackValue < tracks.length ? savedTrackValue : 0;
-      const savedTime    = parseFloat(sessionStorage.getItem('player_time') || '0');
+      (function() {
+        const savedTrackValue = parseInt(sessionStorage.getItem('player_track') || '0');
+        const savedTrack = Number.isInteger(savedTrackValue) && savedTrackValue >= 0 && savedTrackValue < tracks.length ? savedTrackValue : 0;
+        const savedTime    = parseFloat(sessionStorage.getItem('player_time') || '0');
 
-      loadTrack(savedTrack);
+        loadTrack(savedTrack);
 
-      if (savedTime > 0) {
-        audio.addEventListener('canplay', function seekOnce() {
-          audio.currentTime = savedTime;
-          audio.removeEventListener('canplay', seekOnce);
-        });
-      }
-    })();
+        if (savedTime > 0) {
+          audio.addEventListener('canplay', function seekOnce() {
+            audio.currentTime = savedTime;
+            audio.removeEventListener('canplay', seekOnce);
+          });
+        }
+      })();
 
-    window.addEventListener('beforeunload', function() {
-      sessionStorage.setItem('player_track', currentTrack);
-      sessionStorage.setItem('player_time', audio.currentTime);
-      sessionStorage.removeItem('player_playing');
-    });
+      window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('player_track', currentTrack);
+        sessionStorage.setItem('player_time', audio.currentTime);
+        sessionStorage.removeItem('player_playing');
+      });
+    }
 
     const shrineCarousels = new WeakMap();
 

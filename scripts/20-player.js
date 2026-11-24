@@ -147,58 +147,61 @@
       tryPlay();
     }
 
-    window.playerPlayTrack = playerPlayTrack;
-    window.me0wberryPlayer = {
-      applyState: applyPlayerState,
-      getState: getPlayerState,
-      pause: function() {
-        audio.pause();
-        setPlayPauseState(false);
-      },
-    };
+    // Reading-only pages can omit the player entirely.
+    if (tracks.length && [audio, progressEl, titleSpan, marqueeWrap, counterEl, playPauseBtn, currentTimeEl, totalTimeEl, volumeEl].every(Boolean)) {
+      window.playerPlayTrack = playerPlayTrack;
+      window.me0wberryPlayer = {
+        applyState: applyPlayerState,
+        getState: getPlayerState,
+        pause: function() {
+          audio.pause();
+          setPlayPauseState(false);
+        },
+      };
 
-    audio.addEventListener('timeupdate', function() {
-      if (!audio.duration) return;
-      progressEl.value = (audio.currentTime / audio.duration) * 100;
-      currentTimeEl.textContent = fmtTime(audio.currentTime);
-    });
+      audio.addEventListener('timeupdate', function() {
+        if (!audio.duration) return;
+        progressEl.value = (audio.currentTime / audio.duration) * 100;
+        currentTimeEl.textContent = fmtTime(audio.currentTime);
+      });
 
-    audio.addEventListener('loadedmetadata', function() {
-      totalTimeEl.textContent = fmtTime(audio.duration);
-    });
+      audio.addEventListener('loadedmetadata', function() {
+        totalTimeEl.textContent = fmtTime(audio.duration);
+      });
 
-    audio.addEventListener('play', function() { setPlayPauseState(true); });
-    audio.addEventListener('pause', function() { setPlayPauseState(false); });
-    audio.addEventListener('error', function() { setPlayPauseState(false); });
-    audio.addEventListener('ended', playerNext);
+      audio.addEventListener('play', function() { setPlayPauseState(true); });
+      audio.addEventListener('pause', function() { setPlayPauseState(false); });
+      audio.addEventListener('error', function() { setPlayPauseState(false); });
+      audio.addEventListener('ended', playerNext);
 
-    progressEl.addEventListener('input', function() {
-      if (audio.duration) audio.currentTime = (progressEl.value / 100) * audio.duration;
-    });
+      progressEl.addEventListener('input', function() {
+        if (audio.duration) audio.currentTime = (progressEl.value / 100) * audio.duration;
+      });
 
-    volumeEl.addEventListener('input', function() {
-      audio.volume = parseFloat(volumeEl.value);
-    });
+      volumeEl.addEventListener('input', function() {
+        audio.volume = parseFloat(volumeEl.value);
+      });
 
-    audio.volume = 0.75;
+      audio.volume = 0.75;
 
-    (function() {
-      const savedTrackValue = parseInt(sessionStorage.getItem('player_track') || '0');
-      const savedTrack = Number.isInteger(savedTrackValue) && savedTrackValue >= 0 && savedTrackValue < tracks.length ? savedTrackValue : 0;
-      const savedTime    = parseFloat(sessionStorage.getItem('player_time') || '0');
+      (function() {
+        const savedTrackValue = parseInt(sessionStorage.getItem('player_track') || '0');
+        const savedTrack = Number.isInteger(savedTrackValue) && savedTrackValue >= 0 && savedTrackValue < tracks.length ? savedTrackValue : 0;
+        const savedTime    = parseFloat(sessionStorage.getItem('player_time') || '0');
 
-      loadTrack(savedTrack);
+        loadTrack(savedTrack);
 
-      if (savedTime > 0) {
-        audio.addEventListener('canplay', function seekOnce() {
-          audio.currentTime = savedTime;
-          audio.removeEventListener('canplay', seekOnce);
-        });
-      }
-    })();
+        if (savedTime > 0) {
+          audio.addEventListener('canplay', function seekOnce() {
+            audio.currentTime = savedTime;
+            audio.removeEventListener('canplay', seekOnce);
+          });
+        }
+      })();
 
-    window.addEventListener('beforeunload', function() {
-      sessionStorage.setItem('player_track', currentTrack);
-      sessionStorage.setItem('player_time', audio.currentTime);
-      sessionStorage.removeItem('player_playing');
-    });
+      window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('player_track', currentTrack);
+        sessionStorage.setItem('player_time', audio.currentTime);
+        sessionStorage.removeItem('player_playing');
+      });
+    }
